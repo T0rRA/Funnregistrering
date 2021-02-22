@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Funnregistrering</string>
+    <string name="bruker_navn">Navn</string>
 </resources>
