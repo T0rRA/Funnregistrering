@@ -2,10 +2,12 @@ package com.bachelor_group54.funnregistrering;
 
 import android.graphics.Bitmap;
 
-public class Funn {
-    private String grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
+import java.io.Serializable;
+
+public class Funn implements Serializable {
+    private String tittel, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, funnsted, kommune, fylke, gjenstand, gjenstandMerking,
-            datum, arealType, andreOpplysninger, funndato;
+            datum, arealType, beskrivelse, funndato;
 
     private double longitude, latitude, funndybde;
 
@@ -17,6 +19,14 @@ public class Funn {
 
     public void setBilde(Bitmap bilde) {
         this.bilde = bilde;
+    }
+
+    public String getTittel() {
+        return tittel;
+    }
+
+    public void setTittel(String tittel) {
+        this.tittel = tittel;
     }
 
     public String getGrunneierNavn() {
@@ -123,12 +133,12 @@ public class Funn {
         this.arealType = arealType;
     }
 
-    public String getAndreOpplysninger() {
-        return andreOpplysninger;
+    public String getBeskrivelse() {
+        return beskrivelse;
     }
 
-    public void setAndreOpplysninger(String andreOpplysninger) {
-        this.andreOpplysninger = andreOpplysninger;
+    public void setBeskrivelse(String beskrivelse) {
+        this.beskrivelse = beskrivelse;
     }
 
     public String getFunndato() {

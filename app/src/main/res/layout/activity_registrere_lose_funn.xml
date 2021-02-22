@@ -15,6 +15,7 @@
         android:layout_gravity="center_horizontal"/>
 
     <EditText
+        android:id="@+id/nytt_funn_tittel_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Tittel"
@@ -25,16 +26,19 @@
         android:layout_height="0dp"
         android:layout_margin="20dp"
         android:text="Legg til bilde"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:onClick="bildeBtn"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
         android:text="Legg til GPS koordinater"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:onClick="gpsBtn"/>
 
     <EditText
+        android:id="@+id/nytt_funn_beskrivelse_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Beskrivelse"
@@ -65,7 +69,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Lagre"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:onClick="registrerFunnBtn"/>
 
     </LinearLayout>
 

@@ -24,7 +24,10 @@ public class ObjektLagrer {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(data);
             oos.close();
-        }catch (Exception ignored){}
+            System.out.println("--------------------------------------\nData saved");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<Object> loadData(){
@@ -37,6 +40,10 @@ public class ObjektLagrer {
             ois.close();
         }catch (Exception ignored){}
 
+        if(data == null){
+            data = new ArrayList<>();
+            System.out.println("--------------------------------------\nArray empty");
+        }
         return data;
     }
 }
