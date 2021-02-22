@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    tools:context=".brukerRegistreringActiviry"
+    android:layout_marginTop="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="25dp">
+        <TextView
+            android:id="@+id/fff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/ffffffff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Navn"/>
+
+        <EditText
+            android:id="@+id/ffff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Adresse"/>
+
+        <EditText
+            android:id="@+id/fffff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Telefonnummer"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Lag profil"
+            android:onClick="fff"
+
+            android:paddingLeft="10dp"
+            android:paddingRight="30dp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
