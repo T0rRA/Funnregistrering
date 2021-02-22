@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 //Klasse for lagring og lasting av hele objekter
+//VIKTIG klassen som ligger i Arraylisten må implimentere Serializable
 public class ObjektLagrer {
     private Context context;
     private String fileName;
