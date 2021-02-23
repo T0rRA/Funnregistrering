@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Knappene under hører til FragmentMain
     public void nyeFunnBtn(View view) {
         fragmentRegistrereFunn = new FragmentRegistrereFunn();
 
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //RegistrereFunn knapper under
+    //FragmentRegistrereFunn knapper under
     public void bildeBtn(View view) {
        fragmentRegistrereFunn.bildeBtn(this);
     }
