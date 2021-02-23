@@ -8,29 +8,29 @@ import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-    private RegistrereFunnFragment registrereFunnFragment;
-    private MainFragment mainFragment;
+    private FragmentRegistrereFunn fragmentRegistrereFunn;
+    private FragmentMain fragmentMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_holder);
 
-        mainFragment = new MainFragment();
+        fragmentMain = new FragmentMain();
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.layout, mainFragment);
+        fragmentTransaction.replace(R.id.layout, fragmentMain);
         fragmentTransaction.commit();
 
     }
 
     public void nyeFunnBtn(View view) {
-        registrereFunnFragment = new RegistrereFunnFragment();
+        fragmentRegistrereFunn = new FragmentRegistrereFunn();
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
-        fragmentTransaction.replace(R.id.layout, registrereFunnFragment); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
+        fragmentTransaction.replace(R.id.layout, fragmentRegistrereFunn); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
         fragmentTransaction.addToBackStack(""); //Legger Fragmentet på stack så back knappen fungerer
         fragmentTransaction.commit();
     }
@@ -44,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
 
     //RegistrereFunn knapper under
     public void bildeBtn(View view) {
-       registrereFunnFragment.bildeBtn(this);
+       fragmentRegistrereFunn.bildeBtn(this);
     }
 
     public void gpsBtn(View view) {
-        registrereFunnFragment.gpsBtn(this);
+        fragmentRegistrereFunn.gpsBtn(this);
     }
 
     public void registrerFunnBtn(View view) {
-        registrereFunnFragment.registrerFunnBtn(this);
+        fragmentRegistrereFunn.registrerFunnBtn(this);
     }
 }

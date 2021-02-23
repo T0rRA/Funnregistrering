@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class RegistrereFunnFragment extends Fragment {
+public class FragmentRegistrereFunn extends Fragment {
     private View view;
 
     @Override
@@ -23,7 +23,7 @@ public class RegistrereFunnFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_registrere_lose_funn, container, false);
+        view = inflater.inflate(R.layout.fragment_registrere_lose_funn, container, false);
         //Legg til settup kode her
         return view;
     }
