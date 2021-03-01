@@ -18,7 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class FragmentRegistrereFunn extends Fragment {
-    private View view; //View'et til siden trengs om man vil kalle på underelementer i view'et (eks hente tekst fra en editText)
+    private View view; //This view wil be used to access elements contained inside the fragment page (like getting text from an editText)
+    private Bitmap picture;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,8 +29,8 @@ public class FragmentRegistrereFunn extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_registrere_lose_funn, container, false); //Laster inn skjermutsenet fra XML filen
-        //Legg til settup kode her
+        view = inflater.inflate(R.layout.fragment_registrere_lose_funn, container, false); //Loads the page from the XML file
+        //Add setup code here later
         return view;
     }
 
@@ -50,7 +51,6 @@ public class FragmentRegistrereFunn extends Fragment {
     //This method receives the image from the camera app and setts the ImageView to that image.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == CAMERA_PIC_REQUEST) { //If the requestCode matches that of the startActivityForResult of the cameraIntent we know it is the camera app that is returning it's data.
-            Bitmap picture; //Initializing the bitmap
             try { //May produce null pointers if the picture is not taken
                 picture = (Bitmap) data.getExtras().get("data"); //Gets the picture from the camera app and saves it as a Bitmap
             }catch (NullPointerException e){
@@ -68,17 +68,19 @@ public class FragmentRegistrereFunn extends Fragment {
     public void registrerFunnBtn() {
         Funn funn = new Funn();
 
-        EditText tittel = view.findViewById(R.id.nytt_funn_tittel_et); //Finner editText som holder tittelen
-        funn.setTittel(tittel.getText().toString()); //Legger tittelen fra editText'en til i funnet
+        EditText title = view.findViewById(R.id.nytt_funn_tittel_et); //Finds the editText that contains the title
+        funn.setTittel(title.getText().toString()); //Puts the title in the finds object
 
-        EditText beskrivelse = view.findViewById(R.id.nytt_funn_beskrivelse_et); //Finner beskrivelse editText'en
-        funn.setBeskrivelse(beskrivelse.getText().toString());//Legger beskrivelsen til i funnet
+        EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et); //Finds the editText that contains the description
+        funn.setBeskrivelse(description.getText().toString());//Adds the description to the find
 
-        ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn"); //Initialiserer objektLagret med context og filNavnet
-        ArrayList<Object> arrayList = objektLagrer.loadData(); //Henter arrayet som alerede er lagret på filNavnet
-        arrayList.add(funn); //Legger det nye funnet til i listen
+        funn.setBilde(picture); //Adds the picture to the find
 
-        objektLagrer.saveData(arrayList); //Lagrer den nye listen og overskriver den gamle listen
+        ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn"); //Initialises the class that saves the finds
+        ArrayList<Object> arrayList = objektLagrer.loadData(); //Gets the already saved ArrayList with all the previous finds
+        arrayList.add(funn); //Adds the new find to the list
+
+        objektLagrer.saveData(arrayList); //Saves the new list, overwriting the old list
     }
 }
 
