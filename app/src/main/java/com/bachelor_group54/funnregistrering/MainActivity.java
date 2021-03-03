@@ -45,14 +45,14 @@ public class MainActivity extends AppCompatActivity {
 
     //FragmentRegistrereFunn knapper under
     public void bildeBtn(View view) {
-       fragmentRegistrereFunn.bildeBtn(this);
+       fragmentRegistrereFunn.bildeBtn();
     }
 
     public void gpsBtn(View view) {
-        fragmentRegistrereFunn.gpsBtn(this);
+        fragmentRegistrereFunn.gpsBtn();
     }
 
     public void registrerFunnBtn(View view) {
-        fragmentRegistrereFunn.registrerFunnBtn(this);
+        fragmentRegistrereFunn.registrerFunnBtn();
     }
 }
