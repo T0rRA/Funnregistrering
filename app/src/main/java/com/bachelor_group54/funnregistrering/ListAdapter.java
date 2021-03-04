@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -76,6 +78,16 @@ public class ListAdapter extends BaseAdapter{
         viewHolder.picture = convertView.findViewById(R.id.image_mine_funn_liste_item); //Gets the image View of the list item
         viewHolder.picture.setImageBitmap(ImageSaver.loadImage(context,itemList.get(position).getBilde())); //Sets the image of the list item
 
+        viewHolder.linearLayout = convertView.findViewById(R.id.linear_layout_mine_funn_item);
+        viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Du klikket på " + itemList.get(position).getTittel() + " ,men du kan ikke gå inn på funn enda", Toast.LENGTH_LONG).show();
+                //TODO legge til kode for å gå inn på lagret funn
+            }
+        });
+
+
         //Creates empty elements to maintain scroll for larger lists
         if(itemList.get(position) == null){
             viewHolder.textViewTitel.setVisibility(View.GONE);
@@ -88,6 +100,7 @@ public class ListAdapter extends BaseAdapter{
 
     //The ViewHolder is a class that holds the views that are contained within each list entry
     private static class ViewHolder {
+        private LinearLayout linearLayout;
         private ImageView picture;
         private TextView textViewTitel;
         private TextView textViewDato;

@@ -78,6 +78,20 @@ public class FragmentRegistrereFunn extends Fragment {
         EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et); //Finds the editText that contains the description
         funn.setBeskrivelse(description.getText().toString());//Adds the description to the find
 
+        //If the a picture has been added save it
+        if(picture != null) {
+            savePicture(funn);
+        }
+
+        ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn"); //Initialises the class that saves the finds
+        ArrayList<Object> arrayList = objektLagrer.loadData(); //Gets the already saved ArrayList with all the previous finds
+        //Toast.makeText(getContext(), ((Funn)arrayList.get(0)).getTittel(), Toast.LENGTH_SHORT).show();
+        arrayList.add(funn); //Adds the new find to the list
+
+        objektLagrer.saveData(arrayList); //Saves the new list, overwriting the old list
+    }
+
+    public void savePicture(Funn funn){
         //Gets the current picture ID for shared preferences (locally saved)
         SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
         int pictureID = sharedpreferences.getInt("pictureID", 0) + 1;
@@ -90,13 +104,6 @@ public class FragmentRegistrereFunn extends Fragment {
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putInt("pictureID", pictureID);
         editor.apply();
-
-        ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn"); //Initialises the class that saves the finds
-        ArrayList<Object> arrayList = objektLagrer.loadData(); //Gets the already saved ArrayList with all the previous finds
-        //Toast.makeText(getContext(), ((Funn)arrayList.get(0)).getTittel(), Toast.LENGTH_SHORT).show();
-        arrayList.add(funn); //Adds the new find to the list
-
-        objektLagrer.saveData(arrayList); //Saves the new list, overwriting the old list
     }
 }
 
