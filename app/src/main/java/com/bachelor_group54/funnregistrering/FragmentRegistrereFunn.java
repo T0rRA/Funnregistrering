@@ -26,6 +26,8 @@ import androidx.fragment.app.Fragment;
 public class FragmentRegistrereFunn extends Fragment {
     private View view; //This view will be used to access elements contained inside the fragment page (like getting text from an editText)
     private Bitmap picture;
+    private double latitude = 0; //Initializing latitude variable
+    private double longitude = 0; //Initializing longitude variable
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,9 +43,6 @@ public class FragmentRegistrereFunn extends Fragment {
     }
 
     public void gpsBtn() {
-        double latitude = 0; //Initializing latitude variable
-        double longitude = 0; //Initializing longitude variable
-
         LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE); //Gets the location manager from the system
 
         Location gps_loc = null;
@@ -124,6 +123,10 @@ public class FragmentRegistrereFunn extends Fragment {
         funn.setBeskrivelse(description.getText().toString());//Adds the description to the find
 
         funn.setBilde(picture); //Adds the picture to the find
+
+        //Sets latitude and longitude, NOTE default values for both are 0
+        funn.setLatitude(latitude);
+        funn.setLongitude(longitude);
 
         ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn"); //Initialises the class that saves the finds
         ArrayList<Object> arrayList = objektLagrer.loadData(); //Gets the already saved ArrayList with all the previous finds
