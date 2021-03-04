@@ -33,7 +33,8 @@
             android:layout_margin="20dp"
             android:text="Legg til bilde"
             android:layout_weight="1"
-            android:onClick="bildeBtn"/>
+            android:onClick="bildeBtn"
+            android:background="@color/colorPrimary"/>
 
         <ImageView
             android:id="@+id/preview_bilde_nytt_funn"
@@ -49,14 +50,15 @@
         android:layout_margin="20dp"
         android:text="Legg til GPS koordinater"
         android:layout_weight="1"
-        android:onClick="gpsBtn"/>
+        android:onClick="gpsBtn"
+        android:background="@color/colorPrimary"/>
 
     <EditText
         android:id="@+id/nytt_funn_beskrivelse_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Beskrivelse"
-        android:layout_margin="20dp"/>
+        android:layout_margin="20dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,14 +71,16 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Til funnskjema"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"/>
 
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Send funnmelding"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"/>
 
         <Button
             android:layout_width="0dp"
@@ -84,7 +88,8 @@
             android:layout_weight="1"
             android:text="Lagre"
             android:layout_margin="10dp"
-            android:onClick="registrerFunnBtn"/>
+            android:onClick="registrerFunnBtn"
+            android:background="@color/colorPrimary"/>
 
     </LinearLayout>
 

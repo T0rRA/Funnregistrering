@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    tools:context=".brukerRegistreringActivity"
+    tools:context=".FragmentRegistrereBruker"
     android:layout_marginTop="20dp">
 
     <LinearLayout
@@ -16,29 +16,39 @@
             android:layout_height="wrap_content"/>
 
         <EditText
-            android:id="@+id/ffffffff"
+            android:id="@+id/name_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/bruker_navn"/>
+            android:hint="@string/name"/>
 
         <EditText
-            android:id="@+id/ffff"
+            android:id="@+id/address_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Adresse"/>
+            android:hint="@string/address"/>
+        <EditText
+            android:id="@+id/postal_code_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/postal_code"/>
 
         <EditText
-            android:id="@+id/fffff"
+            android:id="@+id/phone_num_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Telefonnummer"/>
+            android:hint="@string/phone_num"/>
+        <EditText
+            android:id="@+id/email_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="Lag profil"
-            android:onClick="fff"
+            android:text="@string/create_profile"
+            android:onClick="saveUserBtn"
 
             android:paddingLeft="10dp"
             android:paddingRight="30dp"/>

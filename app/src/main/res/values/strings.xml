@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Funnregistrering</string>
-    <string name="bruker_navn">Navn</string>
+    <string name="name">Navn</string>
+    <string name="address">Adresse</string>
+    <string name="postal_code">Postnummer</string>
+    <string name="phone_num">Telefonnummer</string>
+    <string name="email">Epost</string>
+    <string name="create_profile">Opprett profil</string>
 </resources>
