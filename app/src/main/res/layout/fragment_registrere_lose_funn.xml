@@ -43,13 +43,28 @@
 
     </LinearLayout>
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
-        android:text="Legg til GPS koordinater"
         android:layout_weight="1"
-        android:onClick="gpsBtn"/>
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:text="Legg til GPS koordinater"
+            android:layout_weight="1"
+            android:onClick="gpsBtn"/>
+
+        <TextView
+            android:id="@+id/gps_tv_nytt_funn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/nytt_funn_beskrivelse_et"
