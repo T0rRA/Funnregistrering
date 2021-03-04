@@ -6,10 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -61,44 +58,36 @@ public class ListAdapter extends BaseAdapter{
             return textView;
         }
 
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder = new ViewHolder();
         LayoutInflater inflator = ((Activity) context).getLayoutInflater();
-        if (viewHolder == null) {
-            viewHolder = new ViewHolder();
 
-            convertView = inflator.inflate(R.layout.mine_funn_liste_item, null);
+        convertView = inflator.inflate(R.layout.mine_funn_liste_item, null);
 
 
-            viewHolder.textViewTitel = convertView.findViewById(R.id.titel_mine_funn_liste_item);
-            viewHolder.textViewTitel.setText(itemList.get(position).getTittel());
+        viewHolder.textViewTitel = convertView.findViewById(R.id.titel_mine_funn_liste_item); //Gets the title textView of the list item
+        viewHolder.textViewTitel.setText(itemList.get(position).getTittel()); //Sets the title of the list item
 
-            viewHolder.textViewDato = convertView.findViewById(R.id.dato_mine_funn_liste_item);
-            viewHolder.textViewDato.setText(itemList.get(position).getDato());
+        viewHolder.textViewDato = convertView.findViewById(R.id.dato_mine_funn_liste_item); //Gets the date textView of the list item
+        viewHolder.textViewDato.setText(itemList.get(position).getDato()); //Sets the date of the list item
 
-            viewHolder.textViewSted = convertView.findViewById(R.id.sted_mine_funn_liste_item);
-            viewHolder.textViewSted.setText(itemList.get(position).getKommune());
+        viewHolder.textViewSted = convertView.findViewById(R.id.sted_mine_funn_liste_item); //Gets the location textView of the list item
+        viewHolder.textViewSted.setText(itemList.get(position).getKommune()); //Sets the location of the list item
 
-            viewHolder.picture = convertView.findViewById(R.id.image_mine_funn_liste_item);
-            viewHolder.picture.setImageBitmap(ImageSaver.loadImage(context,itemList.get(position).getBilde()));
+        viewHolder.picture = convertView.findViewById(R.id.image_mine_funn_liste_item); //Gets the image View of the list item
+        viewHolder.picture.setImageBitmap(ImageSaver.loadImage(context,itemList.get(position).getBilde())); //Sets the image of the list item
 
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-
-        //Legger til filler elementer, om elementet er tomt er det et filler element;
+        //Creates empty elements to maintain scroll for larger lists
         if(itemList.get(position) == null){
             viewHolder.textViewTitel.setVisibility(View.GONE);
             viewHolder.textViewDato.setVisibility(View.GONE);
             viewHolder.textViewSted.setVisibility(View.INVISIBLE);
-
-            return convertView;
         }
 
-        return convertView;
+        return convertView; //Returns the view
     }
 
-    private class ViewHolder {
+    //The ViewHolder is a class that holds the views that are contained within each list entry
+    private static class ViewHolder {
         private ImageView picture;
         private TextView textViewTitel;
         private TextView textViewDato;

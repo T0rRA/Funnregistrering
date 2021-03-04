@@ -1,6 +1,7 @@
 package com.bachelor_group54.funnregistrering;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -25,7 +26,7 @@ public class ObjektLagrer {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(data);
             oos.close();
-            System.out.println("--------------------------------------\nData saved");
+            Toast.makeText(context, "Lagrer data..." , Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             e.printStackTrace();
         }

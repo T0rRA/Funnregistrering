@@ -10,11 +10,11 @@ public class ImageSaver {
 
     public static void saveImage(Bitmap bitmap, Context context, int pictureNr) {
 
-        String path =  context.getFilesDir().getPath();
-        String filename = "Image-" + pictureNr +".jpg";
-        File file = new File (path + filename);
+        String path =  context.getFilesDir().getPath(); //Gets the path to the program
+        String filename = "Image-" + pictureNr +".jpg"; //Sets the iamge name
+        File file = new File (path + filename); // Combines the program path and the filename
 
-        try (FileOutputStream out = new FileOutputStream(file)) {
+        try (FileOutputStream out = new FileOutputStream(file)) { //Opens the filoutputstream
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
             // PNG is a lossless format, the compression factor (100) is ignored
         } catch (IOException e) {
@@ -23,9 +23,9 @@ public class ImageSaver {
     }
 
     public static Bitmap loadImage(Context context, int pictureNr){
-        String path = context.getFilesDir().getPath();
-        String filename = "Image-" + pictureNr +".jpg";
-        String file = path + filename;
+        String path = context.getFilesDir().getPath(); //Gets the path to the program
+        String filename = "Image-" + pictureNr +".jpg"; //Sets the iamge name
+        String file = path + filename; // Combines the program path and the filename
 
         return BitmapFactory.decodeFile(file);
     }
