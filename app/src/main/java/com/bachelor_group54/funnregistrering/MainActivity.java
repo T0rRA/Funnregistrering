@@ -10,6 +10,7 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
     private FragmentRegistrereFunn fragmentRegistrereFunn;
     private FragmentMain fragmentMain;
+    private FragmentMineFunn fragmentMineFunn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void mineFunnBtn(View view) {
+        fragmentMineFunn = new FragmentMineFunn();
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
+        fragmentTransaction.replace(R.id.layout, fragmentMineFunn); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
+        fragmentTransaction.addToBackStack(""); //Legger Fragmentet på stack så back knappen fungerer
+        fragmentTransaction.commit();
     }
 
     public void infoBtn(View view) {
