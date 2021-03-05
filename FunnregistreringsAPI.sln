@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunnregistreringsAPI", "FunnregistreringsAPI.csproj", "{F93A3F88-3BE5-453F-BCDA-D51516B570DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F93A3F88-3BE5-453F-BCDA-D51516B570DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F93A3F88-3BE5-453F-BCDA-D51516B570DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F93A3F88-3BE5-453F-BCDA-D51516B570DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F93A3F88-3BE5-453F-BCDA-D51516B570DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6358256E-0C61-4408-B1D5-F0176F765E26}
+	EndGlobalSection
+EndGlobal
