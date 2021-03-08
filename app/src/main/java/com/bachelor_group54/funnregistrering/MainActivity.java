@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentMain = new FragmentMain();
 
+        //Sets the homepage fragment to the view
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.layout, fragmentMain);
@@ -26,14 +27,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //Knappene under hører til FragmentMain
+    //Buttons for nyeFunnFragment
     public void nyeFunnBtn(View view) {
         fragmentRegistrereFunn = new FragmentRegistrereFunn();
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
         fragmentTransaction.replace(R.id.layout, fragmentRegistrereFunn); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
-        fragmentTransaction.addToBackStack(""); //Legger Fragmentet på stack så back knappen fungerer
+        fragmentTransaction.addToBackStack(""); //Puts the fragment on the stack, so back button will work
         fragmentTransaction.commit();
     }
 
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
         fragmentTransaction.replace(R.id.layout, fragmentMineFunn); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
-        fragmentTransaction.addToBackStack(""); //Legger Fragmentet på stack så back knappen fungerer
+        fragmentTransaction.addToBackStack(""); //Puts the fragment on the stack, so back button will work
         fragmentTransaction.commit();
     }
 
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //FragmentRegistrereFunn knapper under
+    //Buttons for FragmentRegistrereFunn
     public void bildeBtn(View view) {
        fragmentRegistrereFunn.bildeBtn();
     }
