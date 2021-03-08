@@ -4,20 +4,28 @@ import android.graphics.Bitmap;
 
 import java.io.Serializable;
 
-public class Funn implements Serializable {
+public class Funn implements Serializable { //Klasse med attributter, getters og setters for funn.
     private String tittel, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, funnsted, kommune, fylke, gjenstand, gjenstandMerking,
-            datum, arealType, beskrivelse, funndato;
+            datum, arealType, beskrivelse, funndato, dato;
 
     private double longitude, latitude, funndybde;
 
-    private Bitmap bilde;
+    private int bilde;
 
-    public Bitmap getBilde() {
+    public String getDato() {
+        return dato;
+    }
+
+    public void setDato(String dato) {
+        this.dato = dato;
+    }
+
+    public int getBilde() {
         return bilde;
     }
 
-    public void setBilde(Bitmap bilde) {
+    public void setBilde(int bilde) {
         this.bilde = bilde;
     }
 

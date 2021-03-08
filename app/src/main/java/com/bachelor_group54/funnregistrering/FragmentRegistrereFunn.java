@@ -3,6 +3,7 @@ package com.bachelor_group54.funnregistrering;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -18,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -124,7 +128,10 @@ public class FragmentRegistrereFunn extends Fragment {
         EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et); //Finds the editText containing the description
         funn.setBeskrivelse(description.getText().toString());//Adds the description to the find
 
-        funn.setBilde(picture); //Adds the picture to the find
+        //If the a picture has been added save it
+        if(picture != null) {
+            savePicture(funn);
+        }
 
         //Sets latitude and longitude, NOTE default values for both are 0
         funn.setLatitude(latitude);
@@ -132,9 +139,25 @@ public class FragmentRegistrereFunn extends Fragment {
 
         ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn"); //Initialises the class that saves the finds
         ArrayList<Object> arrayList = objektLagrer.loadData(); //Gets the already saved ArrayList with all the previous finds
+        //Toast.makeText(getContext(), ((Funn)arrayList.get(0)).getTittel(), Toast.LENGTH_SHORT).show();
         arrayList.add(funn); //Adds the new find to the list
 
         objektLagrer.saveData(arrayList); //Saves the new list, overwriting the old list
+    }
+
+    public void savePicture(Funn funn){
+        //Gets the current picture ID for shared preferences (locally saved)
+        SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
+        int pictureID = sharedpreferences.getInt("pictureID", 0) + 1;
+
+        //Saves the image and saves the ID of the picture to the find
+        ImageSaver.saveImage(picture, getContext(), pictureID);
+        funn.setBilde(pictureID);
+
+        //Updates the picture ID in shared preferences
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putInt("pictureID", pictureID);
+        editor.apply();
     }
 }
 
