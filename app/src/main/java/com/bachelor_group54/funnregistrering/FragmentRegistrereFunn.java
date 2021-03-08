@@ -81,8 +81,10 @@ public class FragmentRegistrereFunn extends Fragment {
     }
 
     @Override
+    //This method is called when the users accepts or denies the permission request from the gps button.
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if(requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){ //If the requestCode is 1 then the request comes from the gpsBtn.
+            //If the request comes from the requestBtn and permission is granted by the user, then we need to call the gpsBtn metode to get the GPS coordinates.
             gpsBtn();
         }
     }
