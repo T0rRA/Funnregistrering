@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--Template class for an item contained within the listView of fragment_mine_funn -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/linear_layout_mine_funn_item"
     android:layout_width="match_parent"
