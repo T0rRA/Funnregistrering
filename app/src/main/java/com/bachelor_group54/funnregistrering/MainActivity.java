@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     public void registrerFunnBtn(View view) {
         fragmentRegistrereFunn.registrerFunnBtn();
     }
+
     public void regUserBtn(View view){
         fragmentRegistrereBruker = new FragmentRegistrereBruker();
 

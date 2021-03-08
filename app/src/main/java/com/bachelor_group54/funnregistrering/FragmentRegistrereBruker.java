@@ -45,6 +45,7 @@ public class FragmentRegistrereBruker extends Fragment {
         EditText email = view.findViewById(R.id.email_new); //finds the editText containing the email
         user.setEmail(email.getText().toString()); //adds the content (the email) to the user object
 
+
         ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "user");
         ArrayList<Object> alist = objektLagrer.loadData();
         alist.add(user);

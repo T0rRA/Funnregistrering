@@ -1,7 +1,7 @@
 package com.bachelor_group54.funnregistrering;
 
 import java.io.Serializable;
-
+// Attributter, Getters and Setters
 public class User implements Serializable {
     private String name, address, postal_code, phone_num, email;
 
