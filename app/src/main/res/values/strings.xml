@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Funnregistrering</string>
     <string name="ingenting_i_listen">Ingenting i listen</string>
+    <string name="registrere_lose_funn_tittel">Nytt funn</string>
+    <string name="registrere_lose_funn_et_tittel">Tittel</string>
+    <string name="registrere_lose_funn_btn_bilde">Legg til bilde</string>
+    <string name="registrere_lose_funn_btn_gps">Legg til GPS koordinater</string>
+    <string name="registrere_lose_funn_et_beskrivelse">Beskrivelse</string>
+    <string name="registrere_lose_funn_btn_funnskjema">Til funnskjema</string>
+    <string name="registrere_lose_funn_btn_funnmelding">Send funnmelding</string>
+    <string name="registrere_lose_funn_btn_lagre">Lagre</string>
 </resources>
