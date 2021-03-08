@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+//Handles the list with all the finds in FragmentMineFunn.
 public class ListAdapter extends BaseAdapter{
     private Context context;
     private ArrayList<Funn> itemList;
@@ -25,7 +26,7 @@ public class ListAdapter extends BaseAdapter{
     @Override
     //How many items are in the data set represented by the Adapter
     public int getCount() {
-        if(itemList.size() == 0){
+        if(itemList.size() == 0){ //Returns 1 at size 0, just so we can add a message for empty list
             return 1;
         }
         return itemList.size();
