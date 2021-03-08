@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+//This class is used to save and load images form local device storage
 public class ImageSaver {
 
     public static void saveImage(Bitmap bitmap, Context context, int pictureNr) {
