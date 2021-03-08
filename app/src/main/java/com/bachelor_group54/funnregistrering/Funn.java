@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import java.io.Serializable;
 
-public class Funn implements Serializable {
+public class Funn implements Serializable { //Klasse med attributter, getters og setters for funn.
     private String tittel, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, funnsted, kommune, fylke, gjenstand, gjenstandMerking,
             datum, arealType, beskrivelse, funndato, dato;
