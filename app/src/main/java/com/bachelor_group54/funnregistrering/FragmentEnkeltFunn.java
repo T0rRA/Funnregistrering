@@ -36,42 +36,46 @@ public class FragmentEnkeltFunn extends Fragment {
         imageView.setImageBitmap(imageSaver.loadImage(getContext(), funn.getBilde()));
 
         TextView title = view.findViewById(R.id.fragment_enkelt_funn_tv_tittel);
-        title.setText("Tittel: " + funn.getTittel());
+        title.setText("Tittel: " + (funn.getTittel() == null ? "ikke fylt ut enda" : funn.getTittel()));
 
         TextView date = view.findViewById(R.id.fragment_enkelt_funn_tv_dato);
         date.setText("Dato: " + (funn.getDato() == null ? "ikke fylt ut enda" : funn.getDato()));
 
         TextView location = view.findViewById(R.id.fragment_enkelt_funn_tv_sted);
-        location.setText("Sted: " + funn.getFunnsted());
+        location.setText("Sted: " + (funn.getFunnsted() == null ? "ikke fylt ut enda" : funn.getFunnsted()));
 
         TextView coordinates = view.findViewById(R.id.fragment_enkelt_funn_tv_koordinater);
-        coordinates.setText("Koordinater: " + funn.getLongitude() + " " +funn.getLatitude());
+        String coords = "Koordinater: " + funn.getLongitude() + " " +funn.getLatitude();
+        if(funn.getLatitude() == 0.0 && funn.getLongitude() == 0.0){
+            coords = "Koordinater: ikke fylt ut enda";
+        }
+        coordinates.setText(coords);
 
         TextView owner = view.findViewById(R.id.fragment_enkelt_funn_tv_grunneier);
-        owner.setText("Grunneier: " + funn.getGrunneierNavn());
+        owner.setText("Grunneier: " + (funn.getGrunneierNavn() == null ? "ikke fylt ut enda" : funn.getGrunneierNavn()));
 
         TextView status = view.findViewById(R.id.fragment_enkelt_funn_tv_status);
         status.setText("Status: vi har ikke noe status");
 
         TextView description = view.findViewById(R.id.fragment_enkelt_funn_tv_beskrivelse);
-        description.setText("Beskrivelse: " + funn.getBeskrivelse());
+        description.setText("Beskrivelse: " + (funn.getBeskrivelse() == null ? "ikke fylt ut enda" : funn.getBeskrivelse()));
 
         TextView item = view.findViewById(R.id.fragment_enkelt_funn_tv_gjenstand);
-        item.setText("Gjenstand: " + funn.getGjenstand());
+        item.setText("Gjenstand: " + (funn.getGjenstand() == null ? "ikke fylt ut enda" : funn.getGjenstand()));
 
         TextView depth = view.findViewById(R.id.fragment_enkelt_funn_tv_funndybde);
-        depth.setText("Funndybde" + funn.getFunndybde());
+        depth.setText("Funndybde" + (funn.getFunndybde() == 0 ? "ikke fylt ut enda" : funn.getFunndybde()));
 
         TextView itemMarking = view.findViewById(R.id.fragment_enkelt_funn_tv_gjenstand_merket);
-        itemMarking.setText("Gjenstand merket med: " + funn.getGjenstandMerking());
+        itemMarking.setText("Gjenstand merket med: " + (funn.getGjenstandMerking() == null ? "ikke fylt ut enda" : funn.getGjenstandMerking()));
 
         TextView age = view.findViewById(R.id.fragment_enkelt_funn_tv_datum);
-        age.setText("Datum: "+ funn.getDatum());
+        age.setText("Datum: "+ (funn.getDatum() == null ? "ikke fylt ut enda" : funn.getDatum()));
 
         TextView areaType = view.findViewById(R.id.fragment_enkelt_funn_tv_arealtype);
-        areaType.setText("Arealtype: " + funn.getArealType());
+        areaType.setText("Arealtype: " + (funn.getArealType() == null ? "ikke fylt ut enda" : funn.getArealType()));
 
         TextView moreInfo = view.findViewById(R.id.fragment_enkelt_funn_tv_annet);
-        moreInfo.setText("Andre opplysninger: " + funn.getOpplysninger());
+        moreInfo.setText("Andre opplysninger: " + (funn.getOpplysninger() == null ? "ikke fylt ut enda" : funn.getOpplysninger()));
     }
 }
