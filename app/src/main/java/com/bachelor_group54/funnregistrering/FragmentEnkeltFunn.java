@@ -89,6 +89,24 @@ public class FragmentEnkeltFunn extends Fragment {
 
         EditText moreInfo = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
         setText(funn.getOpplysninger(), moreInfo);
+
+        EditText postnr = view.findViewById(R.id.fragment_enkelt_funn_et_postnr);
+        setText(funn.getPostnr(), postnr);
+
+        EditText find_location = view.findViewById(R.id.fragment_enkelt_funn_et_funnsted);
+        setText(funn.getFunnsted(), find_location);
+
+        EditText farm = view.findViewById(R.id.fragment_enkelt_funn_et_gaard);
+        setText(funn.getGaard(), farm);
+
+        EditText farmnumber = view.findViewById(R.id.fragment_enkelt_funn_et_gbnr);
+        setText(funn.getGbnr(), farmnumber);
+
+        EditText kommune = view.findViewById(R.id.fragment_enkelt_funn_et_kommune);
+        setText(funn.getKommune(), kommune);
+
+        EditText fylke = view.findViewById(R.id.fragment_enkelt_funn_et_fylke);
+        setText(funn.getFylke(), fylke);
     }
 
     //Checks if strings are filled put or not

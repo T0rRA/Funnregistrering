@@ -10,4 +10,10 @@
     <string name="registrere_lose_funn_btn_funnmelding">Send funnmelding</string>
     <string name="registrere_lose_funn_btn_lagre">Lagre</string>
     <string name="enkelt_funn_tom_et">ikke fylt ut</string>
+    <string name="postnr">Postnr:</string>
+    <string name="funnsted">Funnsted:</string>
+    <string name="gaard">Gård:</string>
+    <string name="gbnr">Gbnr:</string>
+    <string name="kommune">Kommune:</string>
+    <string name="fylke">Fylke:</string>
 </resources>

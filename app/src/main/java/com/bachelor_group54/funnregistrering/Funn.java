@@ -8,11 +8,35 @@ import java.io.Serializable;
 public class Funn implements Serializable {
     private String tittel, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, funnsted, kommune, fylke, gjenstand, gjenstandMerking,
-            datum, arealType, beskrivelse, funndato, dato, opplysninger;
+            datum, arealType, beskrivelse, funndato, dato, opplysninger, postnr, gaard, gbnr;
 
     private double longitude, latitude, funndybde;
 
     private int bilde;
+
+    public String getPostnr() {
+        return postnr;
+    }
+
+    public void setPostnr(String postnr) {
+        this.postnr = postnr;
+    }
+
+    public String getGaard() {
+        return gaard;
+    }
+
+    public void setGaard(String gaard) {
+        this.gaard = gaard;
+    }
+
+    public String getGbnr() {
+        return gbnr;
+    }
+
+    public void setGbnr(String gbnr) {
+        this.gbnr = gbnr;
+    }
 
     public String getOpplysninger() {
         return opplysninger;
