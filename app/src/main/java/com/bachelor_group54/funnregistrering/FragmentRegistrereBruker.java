@@ -8,9 +8,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import java.util.ArrayList;
-
 
 public class FragmentRegistrereBruker extends Fragment {
     private View view;
@@ -28,10 +26,13 @@ public class FragmentRegistrereBruker extends Fragment {
     }
     public void saveUserBtn() {
 
-        User user = new User(); //new userobject
+        User user = new User(); //new user object
 
         EditText name = view.findViewById(R.id.name_new); //finds the editText containing the name
         user.setName(name.getText().toString()); //adds the content (the name) to the user object
+
+        EditText lastName = view.findViewById(R.id.last_name_new); //finds the editText containing the last name
+        user.setLast_name(lastName.getText().toString());
 
         EditText address = view.findViewById(R.id.address_new); //finds the editText containing the address
         user.setAddress(address.getText().toString()); //adds the content (the address) to the user object
@@ -45,12 +46,15 @@ public class FragmentRegistrereBruker extends Fragment {
         EditText email = view.findViewById(R.id.email_new); //finds the editText containing the email
         user.setEmail(email.getText().toString()); //adds the content (the email) to the user object
 
+        EditText password = view.findViewById(R.id.password_new); //finde the editText containing the password
+        user.setPassword(email.getText().toString()); // adds the content (the password) to the user object
 
-        ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "user");
-        ArrayList<Object> alist = objektLagrer.loadData();
-        alist.add(user);
 
-        objektLagrer.saveData(alist);
+        ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "user"); // initializes the object saving class
+        ArrayList<Object> alist = objektLagrer.loadData(); // Fills arraylist with previous user info
+        alist.add(user); //Adds new the new user object to the list
+
+        objektLagrer.saveData(alist); // Saves the list
 
     }
 }

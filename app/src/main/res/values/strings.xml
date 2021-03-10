@@ -6,4 +6,8 @@
     <string name="phone_num">Telefonnummer</string>
     <string name="email">Epost</string>
     <string name="create_profile">Opprett profil</string>
+    <string name="last_name">Etternavn</string>
+    <string name="passwd">Ønsket Passord</string>
+    <string name="home">Home</string>
+    <string name="profil_oppretting">Profil Oppretting</string>
 </resources>

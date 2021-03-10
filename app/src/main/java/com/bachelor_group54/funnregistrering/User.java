@@ -3,7 +3,23 @@ package com.bachelor_group54.funnregistrering;
 import java.io.Serializable;
 // Attributter, Getters and Setters
 public class User implements Serializable {
-    private String name, address, postal_code, phone_num, email;
+    private String name,last_name, address, postal_code, phone_num, email, password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
 
     public String getName() {
         return name;

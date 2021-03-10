@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    tools:context=".FragmentRegistrereBruker"
-    android:layout_marginTop="20dp">
+<!--    Contains the registration screen where you can fill in info and create a profile    -->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="25dp">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
         
         <TextView
             android:id="@+id/fff"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
+            android:layout_height="wrap_content"
+            android:text="@string/profil_oppretting"
+            android:textSize="45sp"
+            android:layout_marginBottom="20dp"/>
+<!--    TODO: add input type?   -->
         <EditText
             android:id="@+id/name_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name"/>
+        <EditText
+            android:id="@+id/last_name_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/last_name"/>
 
         <EditText
             android:id="@+id/address_new"
@@ -46,6 +50,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"/>
+        <EditText
+            android:id="@+id/password_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/passwd"/>
 
         <Button
             android:layout_width="match_parent"
@@ -53,9 +62,9 @@
             android:layout_marginTop="40dp"
             android:text="@string/create_profile"
             android:onClick="saveUserBtn"
-            android:paddingLeft="10dp"
-            android:paddingRight="30dp"/>
+            android:paddingStart="10dp"
+            android:paddingEnd="30dp"/>
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+ 
