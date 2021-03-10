@@ -64,4 +64,13 @@ public class MainActivity extends AppCompatActivity {
     public void registrerFunnBtn(View view) {
         fragmentRegistrereFunn.registrerFunnBtn();
     }
+
+    public void openEnkeltFunn(Funn funn){
+        FragmentEnkeltFunn fragmentEnkeltFunn = new FragmentEnkeltFunn(funn);
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
+        fragmentTransaction.replace(R.id.layout, fragmentEnkeltFunn); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
+        fragmentTransaction.addToBackStack(""); //Puts the fragment on the stack, so back button will work
+        fragmentTransaction.commit();
+    }
 }

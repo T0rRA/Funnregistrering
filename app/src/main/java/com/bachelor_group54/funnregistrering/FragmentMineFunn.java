@@ -29,7 +29,7 @@ public class FragmentMineFunn extends Fragment {
         ListView listView = view.findViewById(R.id.list_view_mine_funn); //Finds the listView
         ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn");
         ArrayList funnListe = objektLagrer.loadData(); //Gets the ArrayList containing all the finds
-        ListAdapter listAdapter = new ListAdapter(getContext(), funnListe); //Creates the listAdapter, the listAdapter is used to handle the elements within the listView
+        ListAdapter listAdapter = new ListAdapter(getContext(), funnListe, (MainActivity)getActivity()); //Creates the listAdapter, the listAdapter is used to handle the elements within the listView
         listView.setAdapter(listAdapter); //Sets the ListAdapter
     }
 }

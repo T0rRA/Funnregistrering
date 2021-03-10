@@ -13,14 +13,20 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 //Handles the list with all the finds in FragmentMineFunn.
 public class ListAdapter extends BaseAdapter{
     private Context context;
     private ArrayList<Funn> itemList;
+    private MainActivity mainActivity;
 
-    public ListAdapter(Context context, ArrayList<Funn> itemList) {
+    public ListAdapter(Context context, ArrayList<Funn> itemList, MainActivity mainActivity) {
         this.context = context;
         this.itemList = itemList;
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -83,8 +89,7 @@ public class ListAdapter extends BaseAdapter{
         viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Du klikket på " + itemList.get(position).getTittel() + " ,men du kan ikke gå inn på funn enda", Toast.LENGTH_LONG).show();
-                //TODO legge til kode for å gå inn på lagret funn
+                mainActivity.openEnkeltFunn(itemList.get(position));
             }
         });
 

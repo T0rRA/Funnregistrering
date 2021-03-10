@@ -148,7 +148,7 @@ public class FragmentRegistrereFunn extends Fragment {
     public void savePicture(Funn funn){
         //Gets the current picture ID for shared preferences (locally saved)
         SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
-        int pictureID = sharedpreferences.getInt("pictureID", 0) + 1;
+        int pictureID = sharedpreferences.getInt("pictureID", 1) + 1;
 
         //Saves the image and saves the ID of the picture to the find
         ImageSaver.saveImage(picture, getContext(), pictureID);
