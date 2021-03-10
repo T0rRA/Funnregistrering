@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Fragment for displaying and editing a find-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,12 +13,15 @@
         android:layout_height="0dp"
         android:layout_weight="2"/>
 
+    <!--The scrollView contains all of the text fields needed for the find-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:padding="20dp">
+        android:padding="20dp"
+        android:fadeScrollbars="false">
 
+        <!--This linear layout is only for holding the textViews as the scrollView can only hold 1 view-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -24,30 +29,21 @@
             android:showDividers="middle"
             android:divider="@drawable/empty_divider">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/fragment_enkelt_funn_tv_tittel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:text="Tittel: "
+                android:textColor="#000000"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/fragment_enkelt_funn_tv_tittel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Tittel: "
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/fragment_enkelt_funn_tv_dato"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Dato: "
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/fragment_enkelt_funn_tv_dato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dato: "
+                android:textColor="#000000"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/fragment_enkelt_funn_tv_sted"
