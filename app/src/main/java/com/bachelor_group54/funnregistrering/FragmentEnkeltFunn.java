@@ -30,10 +30,8 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public void loadFunn(){
-        ImageSaver imageSaver = new ImageSaver();
-
         ImageView imageView = view.findViewById(R.id.fragment_enkelt_funn_bilde);
-        imageView.setImageBitmap(imageSaver.loadImage(getContext(), funn.getBilde()));
+        imageView.setImageBitmap(ImageSaver.loadImage(getContext(), funn.getBilde()));
 
         TextView title = view.findViewById(R.id.fragment_enkelt_funn_tv_tittel);
         title.setText("Tittel: " + (funn.getTittel() == null ? "ikke fylt ut enda" : funn.getTittel()));
@@ -45,7 +43,7 @@ public class FragmentEnkeltFunn extends Fragment {
         location.setText("Sted: " + (funn.getFunnsted() == null ? "ikke fylt ut enda" : funn.getFunnsted()));
 
         TextView coordinates = view.findViewById(R.id.fragment_enkelt_funn_tv_koordinater);
-        String coords = "Koordinater: " + funn.getLongitude() + " " +funn.getLatitude();
+        String coords = "Koordinater: " + funn.getLongitude() + " " + funn.getLatitude();
         if(funn.getLatitude() == 0.0 && funn.getLongitude() == 0.0){
             coords = "Koordinater: ikke fylt ut enda";
         }
@@ -64,7 +62,7 @@ public class FragmentEnkeltFunn extends Fragment {
         item.setText("Gjenstand: " + (funn.getGjenstand() == null ? "ikke fylt ut enda" : funn.getGjenstand()));
 
         TextView depth = view.findViewById(R.id.fragment_enkelt_funn_tv_funndybde);
-        depth.setText("Funndybde" + (funn.getFunndybde() == 0 ? "ikke fylt ut enda" : funn.getFunndybde()));
+        depth.setText("Funndybde: " + (funn.getFunndybde() == 0 ? "ikke fylt ut enda" : funn.getFunndybde()));
 
         TextView itemMarking = view.findViewById(R.id.fragment_enkelt_funn_tv_gjenstand_merket);
         itemMarking.setText("Gjenstand merket med: " + (funn.getGjenstandMerking() == null ? "ikke fylt ut enda" : funn.getGjenstandMerking()));
