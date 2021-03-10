@@ -128,11 +128,6 @@ public class FragmentRegistrereFunn extends Fragment {
         EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et); //Finds the editText containing the description
         funn.setBeskrivelse(description.getText().toString());//Adds the description to the find
 
-        //If the a picture has been added save it
-        if(picture != null) {
-            savePicture(funn);
-        }
-
         //Sets latitude and longitude, NOTE default values for both are 0
         funn.setLatitude(latitude);
         funn.setLongitude(longitude);
@@ -141,9 +136,17 @@ public class FragmentRegistrereFunn extends Fragment {
         String date = currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + (currentTime.getYear() + 1900);
         funn.setDato(date);
 
+        saveFind(funn);
+    }
+
+    public void saveFind(Funn funn){
+        //If the a picture has been added save it
+        if(picture != null) {
+            savePicture(funn);
+        }
+
         ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn"); //Initialises the class that saves the finds
         ArrayList<Object> arrayList = objektLagrer.loadData(); //Gets the already saved ArrayList with all the previous finds
-        //Toast.makeText(getContext(), ((Funn)arrayList.get(0)).getTittel(), Toast.LENGTH_SHORT).show();
         arrayList.add(funn); //Adds the new find to the list
 
         objektLagrer.saveData(arrayList); //Saves the new list, overwriting the old list

@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+    private FragmentManager fm;
     private FragmentRegistrereFunn fragmentRegistrereFunn;
     private FragmentMain fragmentMain;
     private FragmentMineFunn fragmentMineFunn;
+    private FragmentEnkeltFunn fragmentEnkeltFunn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentMain = new FragmentMain();
 
         //Sets the homepage fragment to the view
-        FragmentManager fm = getSupportFragmentManager();
+        fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.layout, fragmentMain);
         fragmentTransaction.commit();
@@ -31,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     public void nyeFunnBtn(View view) {
         fragmentRegistrereFunn = new FragmentRegistrereFunn();
 
-        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
         fragmentTransaction.replace(R.id.layout, fragmentRegistrereFunn); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
         fragmentTransaction.addToBackStack(""); //Puts the fragment on the stack, so back button will work
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     public void mineFunnBtn(View view) {
         fragmentMineFunn = new FragmentMineFunn();
 
-        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
         fragmentTransaction.replace(R.id.layout, fragmentMineFunn); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
         fragmentTransaction.addToBackStack(""); //Puts the fragment on the stack, so back button will work
@@ -63,15 +63,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void registrerFunnBtn(View view) {
         fragmentRegistrereFunn.registrerFunnBtn();
+        fm.popBackStack();
     }
 
-    //This method is used by the ListAdapter to open a find
-    public void openEnkeltFunn(Funn funn){
-        FragmentEnkeltFunn fragmentEnkeltFunn = new FragmentEnkeltFunn(funn);
-        FragmentManager fm = getSupportFragmentManager();
+    //Opens found from list
+    public void openEnkeltFunn(Funn funn, int position){
+        fragmentEnkeltFunn = new FragmentEnkeltFunn(funn, position);
         FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
         fragmentTransaction.replace(R.id.layout, fragmentEnkeltFunn); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
         fragmentTransaction.addToBackStack(""); //Puts the fragment on the stack, so back button will work
         fragmentTransaction.commit();
+    }
+
+    public void fragmentEnkeltFunnLagreEndring(View view) {
+        fragmentEnkeltFunn.saveFind();
+        fm.popBackStack();
     }
 }

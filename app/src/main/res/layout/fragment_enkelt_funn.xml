@@ -289,6 +289,12 @@
 
             </LinearLayout>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/registrere_lose_funn_btn_lagre"
+                android:onClick="fragmentEnkeltFunnLagreEndring"/>
+
         </LinearLayout>
 
     </ScrollView>

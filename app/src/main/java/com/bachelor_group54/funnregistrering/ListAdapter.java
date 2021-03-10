@@ -89,7 +89,7 @@ public class ListAdapter extends BaseAdapter{
         viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainActivity.openEnkeltFunn(itemList.get(position));
+                mainActivity.openEnkeltFunn(itemList.get(position), position);
             }
         });
 
