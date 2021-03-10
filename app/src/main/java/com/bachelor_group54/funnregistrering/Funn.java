@@ -7,11 +7,19 @@ import java.io.Serializable;
 public class Funn implements Serializable { //Klasse med attributter, getters og setters for funn.
     private String tittel, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, funnsted, kommune, fylke, gjenstand, gjenstandMerking,
-            datum, arealType, beskrivelse, funndato, dato;
+            datum, arealType, beskrivelse, funndato, dato, opplysninger;
 
     private double longitude, latitude, funndybde;
 
     private int bilde;
+
+    public String getOpplysninger() {
+        return opplysninger;
+    }
+
+    public void setOpplysninger(String opplysninger) {
+        this.opplysninger = opplysninger;
+    }
 
     public String getDato() {
         return dato;

@@ -137,6 +137,10 @@ public class FragmentRegistrereFunn extends Fragment {
         funn.setLatitude(latitude);
         funn.setLongitude(longitude);
 
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + (currentTime.getYear() + 1900);
+        funn.setDato(date);
+
         ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn"); //Initialises the class that saves the finds
         ArrayList<Object> arrayList = objektLagrer.loadData(); //Gets the already saved ArrayList with all the previous finds
         //Toast.makeText(getContext(), ((Funn)arrayList.get(0)).getTittel(), Toast.LENGTH_SHORT).show();

@@ -39,24 +39,39 @@ public class FragmentEnkeltFunn extends Fragment {
         title.setText("Tittel: " + funn.getTittel());
 
         TextView date = view.findViewById(R.id.fragment_enkelt_funn_tv_dato);
-        date.setText("Dato: " + funn.getDato());
+        date.setText("Dato: " + (funn.getDato() == null ? "ikke fylt ut enda" : funn.getDato()));
 
         TextView location = view.findViewById(R.id.fragment_enkelt_funn_tv_sted);
         location.setText("Sted: " + funn.getFunnsted());
 
         TextView coordinates = view.findViewById(R.id.fragment_enkelt_funn_tv_koordinater);
-        coordinates.setText(funn.getLongitude() + " " +funn.getLatitude());
+        coordinates.setText("Koordinater: " + funn.getLongitude() + " " +funn.getLatitude());
 
         TextView owner = view.findViewById(R.id.fragment_enkelt_funn_tv_grunneier);
         owner.setText("Grunneier: " + funn.getGrunneierNavn());
 
         TextView status = view.findViewById(R.id.fragment_enkelt_funn_tv_status);
+        status.setText("Status: vi har ikke noe status");
+
         TextView description = view.findViewById(R.id.fragment_enkelt_funn_tv_beskrivelse);
+        description.setText("Beskrivelse: " + funn.getBeskrivelse());
+
         TextView item = view.findViewById(R.id.fragment_enkelt_funn_tv_gjenstand);
+        item.setText("Gjenstand: " + funn.getGjenstand());
+
         TextView depth = view.findViewById(R.id.fragment_enkelt_funn_tv_funndybde);
+        depth.setText("Funndybde" + funn.getFunndybde());
+
         TextView itemMarking = view.findViewById(R.id.fragment_enkelt_funn_tv_gjenstand_merket);
+        itemMarking.setText("Gjenstand merket med: " + funn.getGjenstandMerking());
+
         TextView age = view.findViewById(R.id.fragment_enkelt_funn_tv_datum);
+        age.setText("Datum: "+ funn.getDatum());
+
         TextView areaType = view.findViewById(R.id.fragment_enkelt_funn_tv_arealtype);
+        areaType.setText("Arealtype: " + funn.getArealType());
+
         TextView moreInfo = view.findViewById(R.id.fragment_enkelt_funn_tv_annet);
+        moreInfo.setText("Andre opplysninger: " + funn.getOpplysninger());
     }
 }
