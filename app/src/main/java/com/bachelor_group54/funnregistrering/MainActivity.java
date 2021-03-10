@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentRegistrereFunn.registrerFunnBtn();
     }
 
+    //This method is used by the ListAdapter to open a find
     public void openEnkeltFunn(Funn funn){
         FragmentEnkeltFunn fragmentEnkeltFunn = new FragmentEnkeltFunn(funn);
         FragmentManager fm = getSupportFragmentManager();
