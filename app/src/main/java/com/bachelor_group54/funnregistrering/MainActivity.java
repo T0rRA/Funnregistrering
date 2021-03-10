@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     public void infoBtn(View view) {
     }
 
-
     //Buttons for FragmentRegistrereFunn
     public void bildeBtn(View view) {
        fragmentRegistrereFunn.bildeBtn();
@@ -63,10 +62,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void registrerFunnBtn(View view) {
         fragmentRegistrereFunn.registrerFunnBtn();
-        fm.popBackStack();
+        fm.popBackStack(); //Popps the fragment of the fragment stack so the view returns to FragmentMain
     }
 
-    //Opens found from list
+    //Opens find from list
     public void openEnkeltFunn(Funn funn, int position){
         fragmentEnkeltFunn = new FragmentEnkeltFunn(funn, position);
         FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
@@ -75,8 +74,9 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    //Saves the changes made to the find
     public void fragmentEnkeltFunnLagreEndring(View view) {
         fragmentEnkeltFunn.saveFind();
-        fm.popBackStack();
+        fm.popBackStack(); //Popps the fragment of the fragment stack so the view returns to FragmentMain
     }
 }
