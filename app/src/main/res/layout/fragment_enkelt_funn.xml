@@ -29,45 +29,110 @@
             android:showDividers="middle"
             android:divider="@drawable/empty_divider">
 
-            <TextView
-                android:id="@+id/fragment_enkelt_funn_tv_tittel"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tittel: "
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/fragment_enkelt_funn_tv_dato"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Dato: "
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tittel: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/fragment_enkelt_funn_tv_sted"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sted: "
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_tittel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:minWidth="70dp" />
 
-            <TextView
-                android:id="@+id/fragment_enkelt_funn_tv_koordinater"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Koordinater: "
-                android:textColor="#000000"
-                android:textSize="18sp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/fragment_enkelt_funn_tv_grunneier"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Grunneier: (klikke for å se mer info)"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dato: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_dato"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:minWidth="70dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sted: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_sted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:minWidth="70dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Koordinater: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_koordinater"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:minWidth="70dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grunneier: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_grunneier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:minWidth="70dp" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/fragment_enkelt_funn_tv_status"
@@ -77,61 +142,152 @@
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/fragment_enkelt_funn_tv_beskrivelse"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Beskrivelse: "
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/fragment_enkelt_funn_tv_gjenstand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Gjenstand: "
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Beskrivelse: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/fragment_enkelt_funn_tv_funndybde"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Funndybde: "
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_beskrivelse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:minWidth="70dp" />
 
-            <TextView
-                android:id="@+id/fragment_enkelt_funn_tv_gjenstand_merket"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Gjenstand merket med: "
-                android:textColor="#000000"
-                android:textSize="18sp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/fragment_enkelt_funn_tv_datum"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Datum: "
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/fragment_enkelt_funn_tv_arealtype"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Arealtype: (Options?)"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gjenstand: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/fragment_enkelt_funn_tv_annet"
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_gjenstand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:minWidth="70dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Andre opplysninger: "
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Funndybde: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_funndybde"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:minWidth="70dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gjenstand merket med: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_gjenstand_merke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:minWidth="70dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Datum: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_datum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:minWidth="70dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Arealtype: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_arealtype"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:minWidth="70dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Andre opplysninger: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_annet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:minWidth="70dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

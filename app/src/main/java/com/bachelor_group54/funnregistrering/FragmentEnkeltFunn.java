@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,54 +33,62 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public void loadFunn(){
+        String tomtFelt = "ikke fylt ut";
         ImageView imageView = view.findViewById(R.id.fragment_enkelt_funn_bilde); //Finds the image view
         imageView.setImageBitmap(ImageSaver.loadImage(getContext(), funn.getBilde())); //Sets the image view to the finds image
 
         //FIXME hva om funndybden er 0 eller at man befinner seg på koordinatene 0.0, 0.0
 
-        TextView coordinates = view.findViewById(R.id.fragment_enkelt_funn_tv_koordinater); //Finds the coordinates textView
-        String coords = "Koordinater: " + funn.getLongitude() + " " + funn.getLatitude();
+        EditText coordinates = view.findViewById(R.id.fragment_enkelt_funn_et_koordinater); //Finds the coordinates textView
+        String coords = "" + funn.getLongitude() + " " + funn.getLatitude();
         if(funn.getLatitude() == 0.0 && funn.getLongitude() == 0.0){ //If both latitude and longitude == 0.0 then the coordinates are probably not set
-            coords = "Koordinater: ikke fylt ut enda";
+            coords = tomtFelt;
+            coordinates.setHint(coords); //Hint is preview text, makes it easier to edit.
+        }else {
+            coordinates.setText(coords);
         }
-        coordinates.setText(coords);
 
-        TextView depth = view.findViewById(R.id.fragment_enkelt_funn_tv_funndybde);
-        depth.setText("Funndybde: " + (funn.getFunndybde() == 0 ? "ikke fylt ut enda" : funn.getFunndybde())); //If funndybde == 0 then its probably not set
+        EditText depth = view.findViewById(R.id.fragment_enkelt_funn_et_funndybde);
+        if(funn.getFunndybde() == 0){//If funndybde == 0 then its probably not set
+            depth.setHint(tomtFelt);
+        }else{
+            depth.setText("" + funn.getFunndybde());
+        }
 
-        TextView title = view.findViewById(R.id.fragment_enkelt_funn_tv_tittel); //Finds the textView of the title
-        title.setText("Tittel: " + checkString(funn.getTittel())); //Checks and sets the title
+        EditText title = view.findViewById(R.id.fragment_enkelt_funn_et_tittel); //Finds the textView of the title
+        setText(funn.getTittel(), title); //Checks and sets the title
 
         //The same for all the other textViews, finding, checking and setting the text.
-        TextView date = view.findViewById(R.id.fragment_enkelt_funn_tv_dato);
-        date.setText("Dato: " + checkString(funn.getDato()));
+        EditText date = view.findViewById(R.id.fragment_enkelt_funn_et_dato);
+        setText(funn.getDato(), date);
 
-        TextView location = view.findViewById(R.id.fragment_enkelt_funn_tv_sted);
-        location.setText("Sted: " + checkString(funn.getFunnsted()));
+        EditText location = view.findViewById(R.id.fragment_enkelt_funn_et_sted);
+        setText(funn.getFunnsted(), location);
 
-        TextView owner = view.findViewById(R.id.fragment_enkelt_funn_tv_grunneier);
-        owner.setText("Grunneier: " + checkString(funn.getGrunneierNavn()));
+        EditText owner = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
+        setText(funn.getGrunneierNavn(), owner);
 
+        //TODO legge til status
         TextView status = view.findViewById(R.id.fragment_enkelt_funn_tv_status);
         status.setText("Status: vi har ikke noe status");
 
-        TextView description = view.findViewById(R.id.fragment_enkelt_funn_tv_beskrivelse);
-        description.setText("Beskrivelse: " + checkString(funn.getBeskrivelse()));
+        EditText description = view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse);
+        setText(funn.getBeskrivelse(), description);
 
-        TextView item = view.findViewById(R.id.fragment_enkelt_funn_tv_gjenstand);
-        item.setText("Gjenstand: " + checkString(funn.getGjenstand()));
+        EditText item = view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand);
+        setText(funn.getGjenstand(), item);
 
-        TextView itemMarking = view.findViewById(R.id.fragment_enkelt_funn_tv_gjenstand_merket);
-        itemMarking.setText("Gjenstand merket med: " + checkString(funn.getGjenstandMerking()));
+        EditText itemMarking = view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke);
+        setText(funn.getGjenstandMerking(), itemMarking);
 
-        TextView age = view.findViewById(R.id.fragment_enkelt_funn_tv_datum);
-        age.setText("Datum: "+ checkString(funn.getDatum()));
+        EditText age = view.findViewById(R.id.fragment_enkelt_funn_et_datum);
+        setText(funn.getDatum(), age);
 
-        TextView areaType = view.findViewById(R.id.fragment_enkelt_funn_tv_arealtype);
-        areaType.setText("Arealtype: " + checkString(funn.getArealType()));
+        EditText areaType = view.findViewById(R.id.fragment_enkelt_funn_et_arealtype);
+        setText(funn.getArealType(), areaType);
 
-        TextView moreInfo = view.findViewById(R.id.fragment_enkelt_funn_tv_annet);
-        moreInfo.setText("Andre opplysninger: " + checkString(funn.getOpplysninger()));
+        EditText moreInfo = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
+        setText(funn.getOpplysninger(), moreInfo);
     }
 
     //Checks if strings are filled put or not
@@ -88,5 +97,12 @@ public class FragmentEnkeltFunn extends Fragment {
             return "ikke fylt ut";
         }
         return string; //Returns the input string by default
+    }
+
+    public void setText(String text, EditText editText){
+        text = checkString(text);
+        if (!text.equals("ikke fylt ut")) {
+            editText.setText(text);
+        }
     }
 }

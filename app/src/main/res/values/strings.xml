@@ -9,4 +9,5 @@
     <string name="registrere_lose_funn_btn_funnskjema">Til funnskjema</string>
     <string name="registrere_lose_funn_btn_funnmelding">Send funnmelding</string>
     <string name="registrere_lose_funn_btn_lagre">Lagre</string>
+    <string name="enkelt_funn_tom_et">ikke fylt ut</string>
 </resources>
