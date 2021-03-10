@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.View;
-
+//test
 public class MainActivity extends AppCompatActivity {
     private FragmentRegistrereFunn fragmentRegistrereFunn;
     private FragmentMain fragmentMain;
