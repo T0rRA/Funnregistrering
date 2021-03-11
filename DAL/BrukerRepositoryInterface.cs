@@ -12,6 +12,6 @@ namespace FunnregistreringsAPI.DAL
 
         public Task<bool> CreateUser(InnBruker bruker);
 
-        public Task<bool> ChangePassword(InnBruker bruker, string new_password);
+        public Task<bool> ChangePassword(InnBruker bruker, string nytt_passord);
     }
 }

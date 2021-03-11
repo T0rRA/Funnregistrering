@@ -2,10 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FunnregistreringsAPI.DAL;
+using FunnregistreringsAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FunnregistreringsAPI.Controllers
 {
-    public class BrukerController
+
+
+    [Route("[controller]/[action]")]
+    public class BrukerController : ControllerBase
     {
+
+        private readonly BrukerRepositoryInterface _db;
+
+        public BrukerController(BrukerRepositoryInterface db)
+        {
+            _db = db;
+        }
+        public async Task<bool> ChangePassword(InnBruker bruker, string nytt_passord)
+        {
+            return await _db.ChangePassword(bruker, nytt_passord);
+        }
     }
 }
