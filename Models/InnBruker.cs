@@ -12,11 +12,12 @@ namespace FunnregistreringsAPI.Models
         public String Brukernavn { get; set; }
         [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$")]
         public String Passord { get; set; }
-        public string navn { get; set; }
-        public string adresse { get; set; }
-        public string postnr { get; set; }
-        public string poststed { get; set; }
-        public string tlf { get; set; }
-        public string epost { get; set; }
+        public string Fornavn { get; set; }
+        public string Etternavn { get; set; }
+        public string Adresse { get; set; }
+        public string Postnr { get; set; }
+        public string Poststed { get; set; }
+        public string Tlf { get; set; }
+        public string Epost { get; set; }
     }
 }

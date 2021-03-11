@@ -14,18 +14,19 @@ namespace FunnregistreringsAPI.Models
         public int UserID { get; set; }
         //Might be that username = Email
         [Required]
-        public string brukernavn { get; set; }
-        public byte[] passord { get; set; }
+        public string Brukernavn { get; set; }
+        public byte[] Passord { get; set; }
         //Salt is used to hash passwords with unique functions
         public byte[] Salt { get; set; }
-        public string navn { get; set; }
-        public string adresse { get; set; }
-        public string postnr { get; set; }
+        public string Fornavn { get; set; }
+        public string Etternavn { get; set; }
+        public string Adresse { get; set; }
+        public string Postnr { get; set; }
         
         //OIDA DENNE MÅ KANSKJE HA SIN EGEN DB
-        public string poststed { get; set; }
-        public string tlf { get; set; }
-        public string epost { get; set; }
+        public string Poststed { get; set; }
+        public string Tlf { get; set; }
+        public string Epost { get; set; }
 
     }
 }
