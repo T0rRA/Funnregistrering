@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void registrerFunnBtn(View view) {
         fragmentRegistrereFunn.registrerFunnBtn();
-        fm.popBackStack(); //Popps the fragment of the fragment stack so the view returns to FragmentMain
+        fm.popBackStack(); //Pops the fragment of the fragment stack so the view returns to FragmentMain
     }
 
     //Opens find from list
@@ -77,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
     //Saves the changes made to the find
     public void fragmentEnkeltFunnLagreEndring(View view) {
         fragmentEnkeltFunn.saveFind();
-        fm.popBackStack(); //Popps the fragment of the fragment stack so the view returns to FragmentMain
+        fm.popBackStack(); //Pops the fragment of the fragment stack so the view returns to FragmentMain
+    }
+
+    public void fragmentEnkeltFunnUpdatePicture(View view){
+        fragmentEnkeltFunn.bildeBtn();
     }
 }

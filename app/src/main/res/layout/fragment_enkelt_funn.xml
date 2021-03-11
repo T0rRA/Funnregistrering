@@ -29,6 +29,14 @@
             android:showDividers="middle"
             android:divider="@drawable/empty_divider">
 
+            <Button
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fragment_enkelt_funn_btn_endre_bilde"
+                android:onClick="fragmentEnkeltFunnUpdatePicture"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

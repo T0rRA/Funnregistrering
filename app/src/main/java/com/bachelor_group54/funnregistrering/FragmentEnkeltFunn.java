@@ -1,12 +1,17 @@
 package com.bachelor_group54.funnregistrering;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,8 +22,9 @@ import androidx.fragment.app.Fragment;
 //This fragment displays one selected find at the time. The find can also be edited here.
 public class FragmentEnkeltFunn extends Fragment {
     private View view;
-    private Funn funn;
+    private Funn funn; //The find the view is displaying
     private int position; //The finds position in the saved list
+    private Bitmap picture;
 
     //Simple constructor for getting the find that the fragment should display
     public FragmentEnkeltFunn(Funn funn, int position) {
@@ -42,7 +48,6 @@ public class FragmentEnkeltFunn extends Fragment {
 
         //TODO finne ut hvilke felter brukeren skal kunne endre selv
 
-        //FIXME splitte lat og long i to ediText'er for å minimere brukerfeil
         EditText latitude = view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad); //Finds the latitude textView
         //Latitude cannot be more than 90 or less than -90
         if(funn.getLatitude() >= -90 && funn.getLatitude() <= 90){
@@ -116,12 +121,13 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public void saveFind(){
+        //Updates the find with the changed information
         updateFind();
-        //If the a picture has been added save it
 
-        /*if(picture != null) {
+        //If the a picture has been added save it
+        if(picture != null) {
             savePicture();
-        }*/
+        }
 
         ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn"); //Initialises the class that saves the finds
         ArrayList<Object> arrayList = objektLagrer.loadData(); //Gets the already saved ArrayList with all the previous finds
@@ -189,13 +195,54 @@ public class FragmentEnkeltFunn extends Fragment {
         //TODO legg til resten av feltene
     }
 
-   /*
-    public void savePicture(){
-        //Gets the current picture ID for shared preferences (locally saved)
-        int pictureID = funn.getBilde();
 
-        //Saves the image and saves the ID of the picture to the find
+    public void savePicture(){
+        //Gets the image ID
+        int pictureID = funn.getBildeID();
+
+        //If no picture has been set get a new picture ID
+        if(pictureID == 0){
+            //Gets the next available pictureID
+            SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
+            pictureID = sharedpreferences.getInt("pictureID", 0) + 1;
+
+            //Updates the picture ID in shared preferences
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putInt("pictureID", pictureID);
+            editor.apply();
+
+            funn.setBildeID(pictureID);
+        }
+
+        //Saves the image
         ImageSaver.saveImage(picture, getContext(), pictureID);
-        funn.setBilde(pictureID);
-    } */
+
+    }
+
+    int CAMERA_PIC_REQUEST = 1337; //Setting the request code for the camera intent, this is used to identify the result when it is returned after taking the picture in onActivityResult.
+
+    //This method opens the camera app when clicking the "Take image" button
+    public void bildeBtn(){
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); //Makes an intent of the image capture type
+        startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST); //Starts the camera app and waits for the result
+    }
+
+    @Override
+    //This method receives the image from the camera app and setts the ImageView to that image.
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == CAMERA_PIC_REQUEST) { //If the requestCode matches that of the startActivityForResult of the cameraIntent we know it is the camera app that is returning it's data.
+            try { //May produce null pointers if the picture is not taken
+                picture = (Bitmap) data.getExtras().get("data"); //Gets the picture from the camera app and saves it as a Bitmap
+            }catch (NullPointerException e){
+                Toast.makeText(getContext(), "Picture not taken", Toast.LENGTH_LONG).show(); //Prints a message to the user, explaining that no picture was taken
+                return; //Return if there is no picture
+            }
+
+            ImageView imageView = view.findViewById(R.id.fragment_enkelt_funn_bilde); //Finds the ImageView
+            imageView.setImageBitmap(picture); //Sets the ImageView to the picture taken from the camera app
+        }
+
+        super.onActivityResult(requestCode, resultCode, data); //Calls the super's onActivityResult (Required by Android)
+    }
+
 }
