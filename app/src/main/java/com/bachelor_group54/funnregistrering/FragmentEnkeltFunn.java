@@ -42,18 +42,21 @@ public class FragmentEnkeltFunn extends Fragment {
 
         //TODO finne ut hvilke felter brukeren skal kunne endre selv
 
-        EditText coordinates = view.findViewById(R.id.fragment_enkelt_funn_et_koordinater); //Finds the coordinates textView
-        String coords = "" + funn.getLongitude() + " " + funn.getLatitude();
-        //Nether latitude nor longitude can have 200 as a value, but these are the default values. This tells us that they have not been set jet
-        if(funn.getLatitude() == 200 && funn.getLongitude() == 200){
-            coords = tomtFelt;
-            coordinates.setHint(coords); //Hint is preview text, makes it easier to edit.
-        }else {
-            coordinates.setText(coords);
+        //FIXME splitte lat og long i to ediText'er for å minimere brukerfeil
+        EditText latitude = view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad); //Finds the latitude textView
+        //Latitude cannot be more than 90 or less than -90
+        if(funn.getLatitude() >= -90 && funn.getLatitude() <= 90){
+            latitude.setText("" + funn.getLatitude());
+        }
+
+        EditText longitude = view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad); //Finds the longitude textView
+        //Longitude cannot be more than 180 or less than -180
+        if(funn.getLongitude() >= -180 && funn.getLongitude() <= 180){
+            longitude.setText("" + funn.getLongitude());
         }
 
         EditText depth = view.findViewById(R.id.fragment_enkelt_funn_et_funndybde);
-        if(funn.getFunndybde() == -1){//-1 is the default value, FIXME should not be able to set negative value for depth
+        if(funn.getFunndybde() == -1){//-1 is the default value
             depth.setHint(tomtFelt);
         }else{
             depth.setText("" + funn.getFunndybde());
@@ -130,20 +133,25 @@ public class FragmentEnkeltFunn extends Fragment {
     //This method is used for updating the find before saving it
     public void updateFind(){
         //TODO endre bilde
-        EditText coordinates = view.findViewById(R.id.fragment_enkelt_funn_et_koordinater); //Finds the coordinates textView
-        String coords = "" + funn.getLongitude() + " " + funn.getLatitude();
-        if(!coordinates.getText().toString().equals("")) {
-            //Finds the coordinates, splits them in lat and long (" " in between) and parses them to double
-            funn.setLatitude(Double.parseDouble((coordinates.getText().toString()).split(" ")[0]));
-            funn.setLongitude(Double.parseDouble((coordinates.getText().toString()).split(" ")[1]));
+
+        //FIXME legge til sjekk for om latitude er over 90 eller under -90
+        EditText latitude = view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad); //Finds the latitude editText
+        if(!latitude.getText().toString().equals("")) {
+            funn.setLatitude(Double.parseDouble(latitude.getText().toString()));//Updates the latitude in the find
+        }
+
+        //FIXME legge til sjekk for om longitude er over 180 eller under -180
+        EditText longitude = view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad); //Finds the longitude editText
+        if(!latitude.getText().toString().equals("")) {
+            funn.setLongitude(Double.parseDouble(longitude.getText().toString())); //Updates the longitude in the find
         }
 
         EditText depth = view.findViewById(R.id.fragment_enkelt_funn_et_funndybde); //Finds the text field
         if(!depth.getText().toString().equals("")) {
-            funn.setFunndybde(Integer.parseInt(depth.getText().toString())); //Changes the info inn the find
+            funn.setFunndybde(Double.parseDouble(depth.getText().toString())); //Changes the info inn the find
         }
 
-        //Just the same all the way, find and update the text fields
+        //Just the same all the way, find the text fields and updates the find
         EditText title = view.findViewById(R.id.fragment_enkelt_funn_et_tittel);
         funn.setTittel(title.getText().toString());
 

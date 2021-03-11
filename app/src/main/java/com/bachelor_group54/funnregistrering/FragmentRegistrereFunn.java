@@ -20,7 +20,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -29,8 +28,8 @@ import androidx.fragment.app.Fragment;
 public class FragmentRegistrereFunn extends Fragment {
     private View view; //This view will be used to access elements contained inside the fragment page (like getting text from an editText)
     private Bitmap picture;
-    private double latitude = 0; //Initializing latitude variable
-    private double longitude = 0; //Initializing longitude variable
+    private double latitude = 200; //Initializing latitude variable
+    private double longitude = 200; //Initializing longitude variable
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,7 +126,7 @@ public class FragmentRegistrereFunn extends Fragment {
         EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et); //Finds the editText containing the description
         funn.setBeskrivelse(description.getText().toString());//Adds the description to the find
 
-        //Sets latitude and longitude, NOTE default values for both are 0
+        //Sets latitude and longitude, NOTE default values for both are 200
         funn.setLatitude(latitude);
         funn.setLongitude(longitude);
 
