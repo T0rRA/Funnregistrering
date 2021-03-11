@@ -6,26 +6,17 @@ using System.Threading.Tasks;
 
 namespace FunnregistreringsAPI.Models
 {
-    //HER ER DET MYE BTW
-    public class Bruker
+    public class InnBruker
     {
-        [Required]
-        [Key]
-        public int UserID { get; set; }
-        //Might be that username = Email
-        [Required]
-        public string brukernavn { get; set; }
-        public byte[] passord { get; set; }
-        //Salt is used to hash passwords with unique functions
-        public byte[] Salt { get; set; }
+        [RegularExpression(@"^[a-zA-ZæøåÆØÅ. \-]{2,20}$")]
+        public String Brukernavn { get; set; }
+        [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$")]
+        public String Passord { get; set; }
         public string navn { get; set; }
         public string adresse { get; set; }
         public string postnr { get; set; }
-        
-        //OIDA DENNE MÅ KANSKJE HA SIN EGEN DB
         public string poststed { get; set; }
         public string tlf { get; set; }
         public string epost { get; set; }
-
     }
 }

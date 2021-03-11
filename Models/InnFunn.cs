@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FunnregistreringsAPI.Models
 {
-    public class Funn : FunnInterface
+    public class InnFunn : FunnInterface
     {
-        [Key]
-        public int FunnID { get; set; }
-        
+
         //MORE DATA HERE
 
-        //public byte[] image must be here
+        //JSON CAN'T SEND IMAGES, NEEDS TO BE CONVERTED TO A STRING WITH BASE64 AND THEN REVERT
+        //public string image 
         public string funndato { get; set; }
         public string kommune { get; set; }
         public string fylke { get; set; }

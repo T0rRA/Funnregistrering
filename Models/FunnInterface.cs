@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FunnregistreringsAPI.Models
 {
-    public class Funn : FunnInterface
+    interface FunnInterface
     {
-        [Key]
-        public int FunnID { get; set; }
-        
-        //MORE DATA HERE
-
-        //public byte[] image must be here
         public string funndato { get; set; }
         public string kommune { get; set; }
         public string fylke { get; set; }

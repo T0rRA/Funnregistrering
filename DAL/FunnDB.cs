@@ -14,7 +14,12 @@ namespace FunnregistreringsAPI.DAL
             Database.EnsureCreated();
         }
 
-        public DbSet<Bruker> bruker { get; set; }
+        public DbSet<Bruker> brukere { get; set; }
         public DbSet<Funn> funn { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
     }
 }
