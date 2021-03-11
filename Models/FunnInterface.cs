@@ -7,13 +7,16 @@ namespace FunnregistreringsAPI.Models
 {
     interface FunnInterface
     {
-        public string Funndato { get; set; }
-        public string Kommune { get; set; }
-        public string Fylke { get; set; }
-        public string Funndybde { get; set; }
-        public string Gjenstand_markert_med { get; set; }
-        public string Koordinat { get; set; }
-        public string Datum { get; set; }
-        public string Areal_type { get; set; }
+
+        //GRUNNEIER GOES HERE?? Potentially a DB for Grunneiere - or previously registered grunneiere for each G/Bnr
+        public string image { get; set; }
+        public string funndato { get; set; }
+        public string kommune { get; set; }
+        public string fylke { get; set; }
+        public string funndybde { get; set; }
+        public string gjenstand_markert_med { get; set; }
+        public string koordinat { get; set; }
+        public string datum { get; set; }
+        public string areal_type { get; set; }
     }
 }

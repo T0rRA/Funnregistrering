@@ -13,6 +13,7 @@ namespace FunnregistreringsAPI.DAL
         public Task<bool> RegistrerFunn(Funn nyttFunn)
         {
             throw new NotImplementedException();
+
         }
     }
 }
