@@ -29,6 +29,8 @@ namespace FunnregistreringsAPI
         {
             services.AddControllers();
             services.AddDbContext<FunnDB>(options => options.UseSqlite("Data Source=Funn.db"));
+            services.AddScoped<BrukerRepositoryInterface, BrukerRepository>();
+            services.AddScoped<FunnRepositoryInterface, FunnRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
