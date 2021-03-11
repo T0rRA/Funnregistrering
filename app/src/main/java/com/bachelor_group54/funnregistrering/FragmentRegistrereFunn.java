@@ -13,7 +13,6 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -159,7 +158,7 @@ public class FragmentRegistrereFunn extends Fragment {
 
         //Saves the image and saves the ID of the picture to the find
         ImageSaver.saveImage(picture, getContext(), pictureID);
-        funn.setBilde(pictureID);
+        funn.setBildeID(pictureID);
 
         //Updates the picture ID in shared preferences
         SharedPreferences.Editor editor = sharedpreferences.edit();

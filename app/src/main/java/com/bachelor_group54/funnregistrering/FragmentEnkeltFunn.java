@@ -1,7 +1,5 @@
 package com.bachelor_group54.funnregistrering;
 
-import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,13 +38,14 @@ public class FragmentEnkeltFunn extends Fragment {
     public void loadFunn(){
         String tomtFelt = "ikke fylt ut";
         ImageView imageView = view.findViewById(R.id.fragment_enkelt_funn_bilde); //Finds the image view
-        imageView.setImageBitmap(ImageSaver.loadImage(getContext(), funn.getBilde())); //Sets the image view to the finds image
+        imageView.setImageBitmap(ImageSaver.loadImage(getContext(), funn.getBildeID())); //Sets the image view to the finds image
 
-        //FIXME hva om funndybden er 0 eller at man befinner seg på koordinatene 0.0, 0.0
+        //TODO finne ut hvilke felter brukeren skal kunne endre selv
 
         EditText coordinates = view.findViewById(R.id.fragment_enkelt_funn_et_koordinater); //Finds the coordinates textView
         String coords = "" + funn.getLongitude() + " " + funn.getLatitude();
-        if(funn.getLatitude() == 0.0 && funn.getLongitude() == 0.0){ //If both latitude and longitude == 0.0 then the coordinates are probably not set
+        //Nether latitude nor longitude can have 200 as a value, but these are the default values. This tells us that they have not been set jet
+        if(funn.getLatitude() == 200 && funn.getLongitude() == 200){
             coords = tomtFelt;
             coordinates.setHint(coords); //Hint is preview text, makes it easier to edit.
         }else {
@@ -54,7 +53,7 @@ public class FragmentEnkeltFunn extends Fragment {
         }
 
         EditText depth = view.findViewById(R.id.fragment_enkelt_funn_et_funndybde);
-        if(funn.getFunndybde() == 0){//If funndybde == 0 then its probably not set
+        if(funn.getFunndybde() == -1){//-1 is the default value, FIXME should not be able to set negative value for depth
             depth.setHint(tomtFelt);
         }else{
             depth.setText("" + funn.getFunndybde());
@@ -178,6 +177,8 @@ public class FragmentEnkeltFunn extends Fragment {
 
         EditText moreInfo = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
         funn.setOpplysninger(moreInfo.getText().toString());
+
+        //TODO legg til resten av feltene
     }
 
    /*

@@ -9,13 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 //Handles the list with all the finds in FragmentMineFunn.
 public class ListAdapter extends BaseAdapter{
@@ -83,7 +78,7 @@ public class ListAdapter extends BaseAdapter{
         viewHolder.textViewSted.setText(itemList.get(position).getKommune()); //Sets the location of the list item
 
         viewHolder.picture = convertView.findViewById(R.id.image_mine_funn_liste_item); //Gets the image View of the list item
-        viewHolder.picture.setImageBitmap(ImageSaver.loadImage(context,itemList.get(position).getBilde())); //Sets the image of the list item
+        viewHolder.picture.setImageBitmap(ImageSaver.loadImage(context,itemList.get(position).getBildeID())); //Sets the image of the list item
 
         viewHolder.linearLayout = convertView.findViewById(R.id.linear_layout_mine_funn_item);
         viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
