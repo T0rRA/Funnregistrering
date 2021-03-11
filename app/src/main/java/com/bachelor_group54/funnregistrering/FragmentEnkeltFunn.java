@@ -138,8 +138,6 @@ public class FragmentEnkeltFunn extends Fragment {
 
     //This method is used for updating the find before saving it
     public void updateFind(){
-        //TODO endre bilde
-
         //FIXME legge til sjekk for om latitude er over 90 eller under -90
         EditText latitude = view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad); //Finds the latitude editText
         if(!latitude.getText().toString().equals("")) {
