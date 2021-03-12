@@ -50,7 +50,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:onClick="gpsBtn"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorPrimary"
         android:orientation="horizontal">
 
         <Button
@@ -73,7 +73,6 @@
         android:id="@+id/nytt_funn_beskrivelse_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:hint="@string/registrere_lose_funn_et_beskrivelse"
         android:layout_margin="20dp"/>
 
@@ -107,6 +106,4 @@
             android:onClick="registrerFunnBtn"
             android:background="@color/colorPrimary"/>
     </LinearLayout>
-
-
 </LinearLayout>
