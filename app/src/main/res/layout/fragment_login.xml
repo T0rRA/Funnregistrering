@@ -9,10 +9,12 @@
     android:paddingTop="20dp"
     android:orientation="vertical">
     <EditText
+        android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/login_user_name" />
     <EditText
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/login_password" />

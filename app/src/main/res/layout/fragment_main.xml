@@ -49,5 +49,12 @@
         android:text="Registrer bruker"
         android:layout_weight="1"
         android:onClick="regUserBtn"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:text="Logg inn"
+        android:layout_weight="1"
+        android:onClick="toLoginPageBtn"/>
 
 </LinearLayout>
