@@ -13,6 +13,39 @@
         android:layout_marginBottom="100dp"
         android:focusableInTouchMode="true" >
 
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:text="@string/registrere_lose_funn_btn_bilde"
+            android:layout_weight="1"
+            android:onClick="bildeBtn"
+            android:background="@color/colorPrimary"/>
+
+        <ImageView
+            android:id="@+id/preview_bilde_nytt_funn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:onClick="gpsBtn"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:text="@string/registrere_lose_funn_btn_gps"
+            android:layout_weight="1"
+            android:onClick="gpsBtn"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,6 +86,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/nytt_funn_beskrivelse_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/registrere_lose_funn_et_beskrivelse"
+        android:layout_margin="20dp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
 

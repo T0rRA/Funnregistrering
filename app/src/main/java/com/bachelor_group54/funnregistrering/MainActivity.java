@@ -22,12 +22,14 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fm;
     private FragmentRegistrereFunn fragmentRegistrereFunn;
+    private FragmentRegistrereBruker fragmentRegistrereBruker;
     private FragmentMineFunn fragmentMineFunn;
     private FragmentEnkeltFunn fragmentEnkeltFunn;
     private ViewPager mPager;
     private ScreenSlidePagerAdapter pagerAdapter;
 
     private boolean isEkeltFunnOpen = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,5 +167,19 @@ public class MainActivity extends AppCompatActivity {
         if(isEkeltFunnOpen){return;}
         mPager.setCurrentItem(2); //Går til forsiden for nå
         Toast.makeText(this, "Har ikke hjelpside enda", Toast.LENGTH_LONG).show();
+    }
+
+    public void regUserBtn(View view){
+        fragmentRegistrereBruker = new FragmentRegistrereBruker();
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
+        fragmentTransaction.replace(R.id.layout, fragmentRegistrereBruker); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
+        fragmentTransaction.addToBackStack(""); //Legger Fragmentet på stack så back knappen fungerer
+        fragmentTransaction.commit();
+
+    }
+    public void saveUserBtn(View view){
+        fragmentRegistrereBruker.saveUserBtn();
     }
 }

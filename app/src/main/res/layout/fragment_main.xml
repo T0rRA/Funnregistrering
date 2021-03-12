@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Contains the front page with buttons to navigate   -->
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -44,6 +45,22 @@
             android:layout_weight="1"
             android:onClick="infoBtn"
             android:text="Info og regler" />
+      
+        <Button
+            android:layout_with="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            android:text="Info og regler"
+            android:layout_weight="1"
+            android:onClick="infoBtn"/>
+
+       <Button
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           android:layout_margin="20dp"
+           android:text="Registrer bruker"
+           android:layout_weight="1"
+           android:onClick="regUserBtn"/>
 
     </LinearLayout>
 
@@ -53,5 +70,5 @@
         android:layout_height="100dp"
         android:layout_gravity="bottom" />
 
-
 </FrameLayout>
+
