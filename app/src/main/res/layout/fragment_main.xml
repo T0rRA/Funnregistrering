@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- Contains the front page with buttons to navigate   -->
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,11 +10,10 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:padding="40dp">
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home"
+        android:text="@string/home"
         android:textSize="30sp"
         android:textColor="#000"
         android:layout_gravity="center_horizontal"/>
@@ -39,6 +41,13 @@
         android:text="Info og regler"
         android:layout_weight="1"
         android:onClick="infoBtn"/>
-
+        
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:text="Registrer bruker"
+        android:layout_weight="1"
+        android:onClick="regUserBtn"/>
 
 </LinearLayout>

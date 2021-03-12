@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">Funnregistrering</string>
+    <string name="name">Navn</string>
+    <string name="address">Adresse</string>
+    <string name="postal_code">Postnummer</string>
+    <string name="phone_num">Telefonnummer</string>
+    <string name="email">Epost</string>
+    <string name="create_profile">Opprett profil</string>
+    <string name="last_name">Etternavn</string>
+    <string name="passwd">Ønsket Passord</string>
+    <string name="home">Home</string>
+    <string name="profil_oppretting">Profil Oppretting</string>
     <string name="ingenting_i_listen">Ingenting i listen</string>
     <string name="registrere_lose_funn_tittel">Nytt funn</string>
     <string name="registrere_lose_funn_et_tittel">Tittel</string>
@@ -9,4 +19,5 @@
     <string name="registrere_lose_funn_btn_funnskjema">Til funnskjema</string>
     <string name="registrere_lose_funn_btn_funnmelding">Send funnmelding</string>
     <string name="registrere_lose_funn_btn_lagre">Lagre</string>
+
 </resources>
