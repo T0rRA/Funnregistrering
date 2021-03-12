@@ -19,8 +19,10 @@
     <string name="registrere_lose_funn_btn_funnskjema">Til funnskjema</string>
     <string name="registrere_lose_funn_btn_funnmelding">Send funnmelding</string>
     <string name="registrere_lose_funn_btn_lagre">Lagre</string>
-    <string name="user_name">user_name</string>
-    <string name="pass_word">pass_word</string>
-    <string name="login">login</string>
+    <string name="login_user_name">Brukernavn</string>
+    <string name="login_login">Logg inn</string>
+    <string name="login_password">Passord</string>
+    <string name="login_not_a_user">Ikke en bruker?</string>
+    <string name="login_Reg_here">Registrer deg her</string>
 
 </resources>
