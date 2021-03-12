@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ public class FragmentMineFunn extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_mine_funn, container, false); //Inflates the view
         makeList();
+        LinearLayout navbarMineFunn = view.findViewById(R.id.navbar_mine_funn); //Gets the navbar layout for this view
+        navbarMineFunn.setBackground(getContext().getDrawable(R.drawable.navbar_btn_selected_background)); //Setts color on the navbar indicating what page you are on
         return view; //Returns the this fragment's view
     }
 

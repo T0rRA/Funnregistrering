@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         public ScreenSlidePagerAdapter(@NonNull FragmentManager fm) {
             super(fm);
             //Adds the fragments to the slider
-            fragmentListe.add(new FragmentMain());
             fragmentListe.add(fragmentRegistrereFunn);
             fragmentListe.add(fragmentMineFunn);
             //TODO legge til resten av fragmentene
@@ -89,11 +89,11 @@ public class MainActivity extends AppCompatActivity {
 
     //Buttons for nyeFunnFragment
     public void nyeFunnBtn(View view) {
-        mPager.setCurrentItem(2);
+        mPager.setCurrentItem(1);
     }
 
     public void mineFunnBtn(View view) {
-        mPager.setCurrentItem(1);
+        mPager.setCurrentItem(0);
     }
 
     public void infoBtn(View view) {
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void navbarRegistrereFunn(View view) {
         if(isEkeltFunnOpen){return;}
-        mPager.setCurrentItem(1);
+        mPager.setCurrentItem(0);
     }
 
     public void navbarKart(View view) {
@@ -147,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void navbarMineFunn(View view) {
         if(isEkeltFunnOpen){return;}
-        mPager.setCurrentItem(2);
+        mPager.setCurrentItem(1);
+
     }
 
     public void navbarProfil(View view) {

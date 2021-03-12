@@ -10,6 +10,7 @@
     android:showDividers="middle">
 
     <LinearLayout
+        android:id="@+id/navbar_registrere_funn"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
@@ -33,6 +34,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/navbar_kart"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
@@ -56,6 +58,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/navbar_mine_funn"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
@@ -79,6 +82,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/navbar_profil"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
@@ -102,6 +106,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/navbar_hjelp"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
