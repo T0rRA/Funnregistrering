@@ -20,9 +20,9 @@ namespace FunnregistreringsAPI.Controllers
         {
             _db = db;
         }
-        public async Task<bool> ChangePassword(InnBruker bruker, string nytt_passord)
+        public async Task<bool> ChangePassword()
         {
-            return await _db.ChangePassword(bruker, nytt_passord);
+            return await _db.ChangePassword();
         }
     }
 }
