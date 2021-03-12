@@ -11,8 +11,10 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fm;
     private FragmentRegistrereFunn fragmentRegistrereFunn;
     private FragmentMain fragmentMain;
+    private FragmentRegistrereBruker fragmentRegistrereBruker;
     private FragmentMineFunn fragmentMineFunn;
     private FragmentEnkeltFunn fragmentEnkeltFunn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,5 +84,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void fragmentEnkeltFunnUpdatePicture(View view){
         fragmentEnkeltFunn.bildeBtn();
+    }
+
+    public void regUserBtn(View view){
+        fragmentRegistrereBruker = new FragmentRegistrereBruker();
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
+        fragmentTransaction.replace(R.id.layout, fragmentRegistrereBruker); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
+        fragmentTransaction.addToBackStack(""); //Legger Fragmentet på stack så back knappen fungerer
+        fragmentTransaction.commit();
+
+    }
+    public void saveUserBtn(View view){
+        fragmentRegistrereBruker.saveUserBtn();
     }
 }

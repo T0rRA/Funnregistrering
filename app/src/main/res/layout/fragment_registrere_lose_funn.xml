@@ -34,7 +34,8 @@
             android:layout_margin="20dp"
             android:text="@string/registrere_lose_funn_btn_bilde"
             android:layout_weight="1"
-            android:onClick="bildeBtn"/>
+            android:onClick="bildeBtn"
+            android:background="@color/colorPrimary"/>
 
         <ImageView
             android:id="@+id/preview_bilde_nytt_funn"
@@ -48,6 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:onClick="gpsBtn"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal">
 
         <Button
@@ -64,7 +67,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"/>
-
     </LinearLayout>
 
     <EditText
@@ -73,6 +75,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/registrere_lose_funn_et_beskrivelse"
         android:layout_margin="20dp"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -100,9 +103,7 @@
             android:layout_weight="1"
             android:text="@string/registrere_lose_funn_btn_lagre"
             android:layout_margin="10dp"
-            android:onClick="registrerFunnBtn"/>
-
+            android:onClick="registrerFunnBtn"
+            android:background="@color/colorPrimary"/>
     </LinearLayout>
-
-
 </LinearLayout>
