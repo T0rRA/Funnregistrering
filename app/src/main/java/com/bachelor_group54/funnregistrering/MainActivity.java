@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             //Adds the fragments to the slider
             fragmentListe.add(fragmentRegistrereFunn);
             fragmentListe.add(fragmentMineFunn);
+            fragmentListe.add(new FragmentMain());
             //TODO legge til resten av fragmentene
         }
 
@@ -162,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void navbarHjelp(View view) {
         if(isEkeltFunnOpen){return;}
+        mPager.setCurrentItem(2); //Går til forsiden for nå
         Toast.makeText(this, "Har ikke hjelpside enda", Toast.LENGTH_LONG).show();
     }
 }
