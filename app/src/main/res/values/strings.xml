@@ -19,5 +19,8 @@
     <string name="registrere_lose_funn_btn_funnskjema">Til funnskjema</string>
     <string name="registrere_lose_funn_btn_funnmelding">Send funnmelding</string>
     <string name="registrere_lose_funn_btn_lagre">Lagre</string>
+    <string name="user_name">user_name</string>
+    <string name="pass_word">pass_word</string>
+    <string name="login">login</string>
 
 </resources>
