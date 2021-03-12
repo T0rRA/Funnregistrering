@@ -1,51 +1,93 @@
 package com.bachelor_group54.funnregistrering;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fm;
     private FragmentRegistrereFunn fragmentRegistrereFunn;
-    private FragmentMain fragmentMain;
     private FragmentMineFunn fragmentMineFunn;
     private FragmentEnkeltFunn fragmentEnkeltFunn;
+    private ViewPager mPager;
+    private ScreenSlidePagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_holder);
 
-        fragmentMain = new FragmentMain();
+        //Initializing the fragments needed inn the app
+        fragmentRegistrereFunn = new FragmentRegistrereFunn();
+        fragmentMineFunn = new FragmentMineFunn();
 
-        //Sets the homepage fragment to the view
-        fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.layout, fragmentMain);
-        fragmentTransaction.commit();
+        // Instantiate a ViewPager and a PagerAdapter.
+        mPager = (ViewPager) findViewById(R.id.pager);
+        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(pagerAdapter);
+
+        //Only if you want to start on element 1 in the list, no need if starting at 0
+        mPager.setCurrentItem(0);
 
     }
+
+    //The ScreenSlidePagerAdapter holds the fragment from the navigation bar and makes sliding between them possible.
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        ArrayList<Fragment> fragmentListe = new ArrayList<>();
+
+        public ScreenSlidePagerAdapter(@NonNull FragmentManager fm) {
+            super(fm);
+            //Adds the fragments to the slider
+            fragmentListe.add(new FragmentMain());
+            fragmentListe.add(fragmentRegistrereFunn);
+            fragmentListe.add(fragmentMineFunn);
+            //TODO legge til resten av fragmentene
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentListe.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentListe.size();
+        }
+    }
+
+    @Override
+    //Makes the back button work as expected
+    public void onBackPressed() {
+        if(mPager.getCurrentItem() == 0){
+            finish(); //If the main page is the current page exit the app
+        }else {
+            mPager.setCurrentItem(0); //Goes back to the main page
+        }
+
+    }
+
+
+
 
     //Buttons for nyeFunnFragment
     public void nyeFunnBtn(View view) {
-        fragmentRegistrereFunn = new FragmentRegistrereFunn();
-
-        FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
-        fragmentTransaction.replace(R.id.layout, fragmentRegistrereFunn); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
-        fragmentTransaction.addToBackStack(""); //Puts the fragment on the stack, so back button will work
-        fragmentTransaction.commit();
+        mPager.setCurrentItem(2);
     }
 
     public void mineFunnBtn(View view) {
-        fragmentMineFunn = new FragmentMineFunn();
-
-        FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
-        fragmentTransaction.replace(R.id.layout, fragmentMineFunn); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
-        fragmentTransaction.addToBackStack(""); //Puts the fragment on the stack, so back button will work
-        fragmentTransaction.commit();
+        mPager.setCurrentItem(1);
     }
 
     public void infoBtn(View view) {
@@ -62,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void registrerFunnBtn(View view) {
         fragmentRegistrereFunn.registrerFunnBtn();
-        fm.popBackStack(); //Pops the fragment of the fragment stack so the view returns to FragmentMain
+        mPager.setCurrentItem(0); //Returns to the mainPage
     }
 
     //Opens find from list
@@ -77,10 +119,30 @@ public class MainActivity extends AppCompatActivity {
     //Saves the changes made to the find
     public void fragmentEnkeltFunnLagreEndring(View view) {
         fragmentEnkeltFunn.saveFind();
-        fm.popBackStack(); //Pops the fragment of the fragment stack so the view returns to FragmentMain
+        mPager.setCurrentItem(0); //Returns to the mainPage
     }
 
     public void fragmentEnkeltFunnUpdatePicture(View view){
         fragmentEnkeltFunn.bildeBtn();
+    }
+
+    public void navbarRegistrereFunn(View view) {
+        mPager.setCurrentItem(1);
+    }
+
+    public void navbarKart(View view) {
+        Toast.makeText(this, "Har ikke kartside enda", Toast.LENGTH_LONG).show();
+    }
+
+    public void navbarMineFunn(View view) {
+        mPager.setCurrentItem(2);
+    }
+
+    public void navbarProfil(View view) {
+        Toast.makeText(this, "Har ikke profilside enda", Toast.LENGTH_LONG).show();
+    }
+
+    public void navbarHjelp(View view) {
+        Toast.makeText(this, "Har ikke hjelpside enda", Toast.LENGTH_LONG).show();
     }
 }
