@@ -71,7 +71,8 @@ namespace FunnregistreringsAPI.DAL
 
         }
 
-        public async Task<bool> ChangePassword()
+        // Kanskje kalle denne for sendPwResetLink ellerno og en annen for change password
+        public async Task<bool> SendPwResetLink(String epost)
         {
 
             // click change password
@@ -82,18 +83,7 @@ namespace FunnregistreringsAPI.DAL
             * create a table with username (epost), tokenHash, token, expiration date
             * create random token with rngcryptoserviceprovider, hash it and add to db (also add date)
             * append token value to url to send to user
-            * ON PASSWORD RESET PAGE:
-            * take email and token input
-            * hash token and compare to hashed token in db
-            * check date and if the link has expired
-            * take them to page to input new password
-            * mark token as used
-             */
-
-            // skriv nytt passord to ganger
-            // sammenlign de to nye passordene
-            // finn bruker i db
-            // overskriv passord
+           */
             try
             {
                 /*
@@ -118,18 +108,22 @@ namespace FunnregistreringsAPI.DAL
                 DateTime date = DateTime.Now;
                 DateTime expDate = new DateTime(date.Year, date.Month, date.Day, (date.Hour + 1), date.Minute, date.Second);
 
+                // Creates a string with the hashed token to be used in the link
+                StringBuilder hT = new StringBuilder();
+                foreach (byte b in hashedToken) hT.Append(b);
+
                 // Add to db
-                PwReset pwReset = new PwReset();
-                pwReset.Username = "epost";
-                pwReset.TokenHash = hashedToken;
-                pwReset.BestFor = expDate;
-                pwReset.TokenBrukt = false;
+                PwReset pwReset = new PwReset
+                {
+                    Username = "epost",
+                    //pwReset.Username = enBruker.Epost
+                    TokenHash = hT.ToString(),
+                    BestFor = expDate,
+                    TokenBrukt = false
+                };
                 //_db.passordReset.Add(pwReset);
                 //_db.SaveChanges();
 
-                // Creates a string with the hashed token to be used in the link
-                StringBuilder hT = new StringBuilder();
-                foreach(byte b in hashedToken) hT.Append(b);
 
                 // Connect to the SMTP-setup in appsettings.json
                 var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
@@ -160,7 +154,7 @@ namespace FunnregistreringsAPI.DAL
                     IsBodyHtml = true,
                 };
 
-                //string mottaker = enBruker.Brukernavn;
+                //string mottaker = enBruker.Brukernavn/epost;
                 string mottaker = "s333752@oslomet.no";
                 epostMelding.To.Add(mottaker); 
                 await smtpClient.SendMailAsync(epostMelding); // sends mail
@@ -174,6 +168,89 @@ namespace FunnregistreringsAPI.DAL
                 return false;
             }
 
+        }
+
+        public async Task<bool> ChangePassword(InnBruker bruker, String token, string newPassword, string newPassword2)
+        {
+            /* Trykker på lenken
+                 * ON PASSWORD RESET PAGE:
+            * take email and token input
+            *   get email and token from clicked link?
+            *   get email from user info - get token from unique link
+            * hash token and compare to hashed token in db
+            * check date and if the link has expired
+            * take them to page to input new password
+            * mark token as used
+             */
+            try
+            {
+                
+                PwReset enToken = await _db.passordReset.FirstOrDefaultAsync(t => t.TokenHash == token.ToString());
+                if(enToken == null)
+                {
+                    // token does not exist/is used
+                    return false;
+                } 
+                else
+                {
+                    // token exists
+
+                    // check if token is overdue
+                    DateTime rightNow = DateTime.Now;
+                    if (DateTime.Compare(enToken.BestFor, rightNow) < 0)
+                    {
+                        // Token is not overdue
+                        // check if token is used
+                        if (enToken.TokenBrukt)
+                        {
+                            //token is used 
+                            return false;
+                        }
+                        else
+                        {
+                            // token is not used
+                            enToken.TokenBrukt = true; // set it to used
+                            Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == enToken.Username); // find user
+                            if (enBruker == null)
+                            {
+                                // user is not found
+                                return false;
+                            }
+                            else
+                            {
+                                // user is found, compare the password inputs
+                                if (newPassword.Equals(newPassword2))
+                                {
+                                    // the passwords are the same, so hash and overwrite
+                                    byte[] salt = CreateSalt();
+                                    byte[] hash = CreateHash(newPassword, salt);
+                                    enBruker.Passord = hash;
+                                    enBruker.Salt = salt;
+                                    await _db.SaveChangesAsync();
+                                    return true;
+                                }
+                                else
+                                {
+                                    // the passwords are not the same, try again.
+                                    return false;
+                                }
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // token is overdue
+                        enToken.TokenBrukt = true;
+                        await _db.SaveChangesAsync();
+                        return false;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
         }
 
         //Might want to change this to return string? Ask frontend boys

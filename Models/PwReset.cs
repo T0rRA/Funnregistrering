@@ -12,7 +12,7 @@ namespace FunnregistreringsAPI.Models
         [Key]
         public int Id { get; set; }
         public string Username { get; set; }
-        public byte[] TokenHash { get; set; }
+        public string TokenHash { get; set; }
         public DateTime BestFor { get; set; }
         public bool TokenBrukt { get; set; }
 
