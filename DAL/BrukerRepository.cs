@@ -86,7 +86,7 @@ namespace FunnregistreringsAPI.DAL
            */
             try
             {
-                /*
+                
                 // Input e-mail addres
                 Bruker enBruker = new Bruker();
                 enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == epost);
@@ -96,7 +96,7 @@ namespace FunnregistreringsAPI.DAL
                     return false;
                 }
                 else // If user exists, send mail with a link to change password
-                { */
+                { 
 
                 // Generate random token
                 var rngCsp = new RNGCryptoServiceProvider();
@@ -115,14 +115,14 @@ namespace FunnregistreringsAPI.DAL
                 // Add to db
                 PwReset pwReset = new PwReset
                 {
-                    Username = "epost",
-                    //pwReset.Username = enBruker.Epost
+                    //Username = "epost",
+                    Username = enBruker.Epost,
                     TokenHash = hT.ToString(),
                     BestFor = expDate,
                     TokenBrukt = false
                 };
-                //_db.passordReset.Add(pwReset);
-                //_db.SaveChanges();
+                _db.passordReset.Add(pwReset);
+                _db.SaveChanges();
 
 
                 // Connect to the SMTP-setup in appsettings.json
@@ -154,14 +154,14 @@ namespace FunnregistreringsAPI.DAL
                     IsBodyHtml = true,
                 };
 
-                //string mottaker = enBruker.Brukernavn/epost;
-                string mottaker = "s333752@oslomet.no";
+                string mottaker = enBruker.Epost;
+                //string mottaker = "s333752@oslomet.no";
                 epostMelding.To.Add(mottaker); 
                 await smtpClient.SendMailAsync(epostMelding); // sends mail
                  
                 return true;
 
-               // }
+                }
             }
             catch (Exception e)
             {

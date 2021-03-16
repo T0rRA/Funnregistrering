@@ -39,6 +39,7 @@ namespace FunnregistreringsAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                DBInit.Initialize(app);
             }
 
             app.UseHttpsRedirection();
