@@ -13,8 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/profil_oppretting"
-            android:textSize="45sp"
-            android:layout_marginBottom="20dp"/>
+            android:textSize="24sp"
+            android:layout_marginBottom="5sp"/>
 <!--    TODO: add input type?   -->
         <EditText
             android:id="@+id/name_new"
@@ -50,19 +50,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"/>
+
         <EditText
             android:id="@+id/password_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/passwd"/>
 
+        <EditText
+            android:id="@+id/confirmation_pw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/confirm_pw"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="15dp"
             android:text="@string/create_profile"
-            android:onClick="saveUserBtn"
-            android:paddingStart="10dp"
-            android:paddingEnd="30dp"/>
+            android:onClick="saveUserBtn" />
 
     </LinearLayout>

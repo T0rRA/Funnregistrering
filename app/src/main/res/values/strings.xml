@@ -24,5 +24,6 @@
     <string name="login_password">Passord</string>
     <string name="login_not_a_user">Ikke en bruker?</string>
     <string name="login_Reg_here">Registrer deg her</string>
+    <string name="confirm_pw">Gjenta passord</string>
 
 </resources>

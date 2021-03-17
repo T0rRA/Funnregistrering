@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,6 +27,7 @@ public class FragmentRegistrereBruker extends Fragment {
         return view;
     }
     public void saveUserBtn() {
+        String confirmation_pw;
 
         User user = new User(); //new user object
 
@@ -47,14 +50,20 @@ public class FragmentRegistrereBruker extends Fragment {
         user.setEmail(email.getText().toString()); //adds the content (the email) to the user object
 
         EditText password = view.findViewById(R.id.password_new); //finde the editText containing the password
-        user.setPassword(email.getText().toString()); // adds the content (the password) to the user object
+        user.setPassword(password.getText().toString()); // adds the content (the password) to the user object
 
+        EditText confirmation_pw2 = view.findViewById(R.id.confirmation_pw); //finde the editText containing the password
+        confirmation_pw = (confirmation_pw2.getText().toString()); // adds the content (the password) to the user object
 
-        ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "user"); // initializes the object saving class
-        ArrayList<Object> alist = objektLagrer.loadData(); // Fills arraylist with previous user info
-        alist.add(user); //Adds new the new user object to the list
-
-        objektLagrer.saveData(alist); // Saves the list
+        if (user.getPassword().equals(confirmation_pw) ) {
+            ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "user"); // initializes the object saving class
+            ArrayList<Object> alist = objektLagrer.loadData(); // Fills arraylist with previous user info
+            alist.add(user); //Adds new the new user object to the list
+            objektLagrer.saveData(alist); // Saves the list
+        }
+        else {
+            Toast.makeText(getContext(),"Passordene matcher ikke!", Toast.LENGTH_LONG);
+        }
 
     }
 }
