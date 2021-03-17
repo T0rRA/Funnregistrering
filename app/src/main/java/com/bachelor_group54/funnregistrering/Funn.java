@@ -15,6 +15,10 @@ public class Funn implements Serializable {
     //The picture int is the number that needs to be given to the ImageSaver class to load the correct image
     private int bildeID;
 
+    public String getFunnmelding(){
+        return tittel + "\n" + "Lengdegrad: " + longitude + "\nBreddegrad: " + latitude;
+    }
+
     public String getOpplysninger() {
         return opplysninger;
     }

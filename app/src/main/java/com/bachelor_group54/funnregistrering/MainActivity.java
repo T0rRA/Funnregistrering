@@ -126,6 +126,10 @@ public class MainActivity extends AppCompatActivity {
         mPager.setCurrentItem(0); //Returns to the mainPage
     }
 
+    public void sendFunnmeldingFragmentRegistrereLoseFunnBtn(View view) {
+        fragmentRegistrereFunn.sendFunnmelding();
+    }
+
     //Opens find from list
     public void openEnkeltFunn(Funn funn, int position){
         if(!isEkeltFunnOpen) {

@@ -18,9 +18,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -53,22 +55,22 @@ public class FragmentRegistrereFunn extends Fragment {
         Location network_loc = null;
 
         //Checks for the necessary permissions for getting GPS Location form the system
-        if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER); //Gets location from the GPS
-        }else{
+        } else {
             //No permission ask for it
-            requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION } ,1);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return;
         }
 
         //Checks for the necessary permissions for getting Network Location form the system
-        if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             network_loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER); //Gets location from the network (can be used as a backup)
-        }else{
+        } else {
             //No permission ask for it
-            requestPermissions(new String[] { Manifest.permission.ACCESS_NETWORK_STATE} ,1);
-            requestPermissions(new String[] { Manifest.permission.ACCESS_COARSE_LOCATION} ,1);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, 1);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             return;
         }
 
@@ -87,7 +89,7 @@ public class FragmentRegistrereFunn extends Fragment {
     @Override
     //This method is called when the users accepts or denies the permission request from the gps button.
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){ //If the requestCode is 1 then the request comes from the gpsBtn.
+        if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) { //If the requestCode is 1 then the request comes from the gpsBtn.
             //If the request comes from the requestBtn and permission is granted by the user, then we need to call the gpsBtn metode to get the GPS coordinates.
             gpsBtn();
         }
@@ -96,7 +98,7 @@ public class FragmentRegistrereFunn extends Fragment {
     int CAMERA_PIC_REQUEST = 1337; //Setting the request code for the camera intent, this is used to identify the result when it is returned after taking the picture in onActivityResult.
 
     //This method opens the camera app when clicking the "Take image" button
-    public void bildeBtn(){
+    public void bildeBtn() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); //Makes an intent of the image capture type
         startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST); //Starts the camera app and waits for the result
     }
@@ -104,10 +106,10 @@ public class FragmentRegistrereFunn extends Fragment {
     @Override
     //This method receives the image from the camera app and setts the ImageView to that image.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == CAMERA_PIC_REQUEST) { //If the requestCode matches that of the startActivityForResult of the cameraIntent we know it is the camera app that is returning it's data.
+        if (requestCode == CAMERA_PIC_REQUEST) { //If the requestCode matches that of the startActivityForResult of the cameraIntent we know it is the camera app that is returning it's data.
             try { //May produce null pointers if the picture is not taken
                 picture = (Bitmap) data.getExtras().get("data"); //Gets the picture from the camera app and saves it as a Bitmap
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 Toast.makeText(getContext(), "Picture not taken", Toast.LENGTH_LONG).show(); //Prints a message to the user, explaining that no picture was taken
                 return; //Return if there is no picture
             }
@@ -139,9 +141,9 @@ public class FragmentRegistrereFunn extends Fragment {
         saveFind(funn);
     }
 
-    public void saveFind(Funn funn){
+    public void saveFind(Funn funn) {
         //If the a picture has been added save it
-        if(picture != null) {
+        if (picture != null) {
             savePicture(funn);
         }
 
@@ -152,7 +154,7 @@ public class FragmentRegistrereFunn extends Fragment {
         objektLagrer.saveData(arrayList); //Saves the new list, overwriting the old list
     }
 
-    public void savePicture(Funn funn){
+    public void savePicture(Funn funn) {
         //Gets the current picture ID for shared preferences (locally saved)
         SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
         int pictureID = sharedpreferences.getInt("pictureID", 0) + 1;
@@ -165,6 +167,26 @@ public class FragmentRegistrereFunn extends Fragment {
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putInt("pictureID", pictureID);
         editor.apply();
+    }
+
+    public void sendFunnmelding() {
+        Funn funn = new Funn();
+
+        EditText title = view.findViewById(R.id.nytt_funn_tittel_et); //Finds the editText containing the title
+        funn.setTittel(title.getText().toString()); //Puts the title in the finds object
+
+        EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et); //Finds the editText containing the description
+        funn.setBeskrivelse(description.getText().toString());//Adds the description to the find
+
+        //Sets latitude and longitude, NOTE default values for both are 200
+        funn.setLatitude(latitude);
+        funn.setLongitude(longitude);
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + (currentTime.getYear() + 1900);
+        funn.setDato(date);
+
+        EmailIntent.sendEmail("helghelland@gmail.com"/*FIXME fjern emailen min etter testing*/, "Funn funnet", funn.getFunnmelding(), getContext());
     }
 }
 
