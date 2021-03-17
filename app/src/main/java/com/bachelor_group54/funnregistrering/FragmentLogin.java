@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,7 +27,7 @@ public class FragmentLogin extends Fragment {
         return view;
     }
 
-    public void logInBtn(){
+    public void logInBtn() {
         //Creates loginInfo object, reads the inputs and adds them to the object
         LoginInfo loginInfo = new LoginInfo();
         EditText userName = view.findViewById(R.id.user_name);

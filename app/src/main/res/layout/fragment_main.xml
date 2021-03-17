@@ -2,59 +2,60 @@
 
 <!-- Contains the front page with buttons to navigate   -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:orientation="vertical"
-    android:padding="40dp">
+    android:padding="40dp"
+    tools:context=".MainActivity">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="@string/home"
-        android:textSize="30sp"
         android:textColor="#000"
-        android:layout_gravity="center_horizontal"/>
+        android:textSize="30sp" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
-        android:text="Nye funn"
         android:layout_weight="1"
-        android:onClick="nyeFunnBtn"/>
+        android:onClick="nyeFunnBtn"
+        android:text="Nye funn" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
-        android:text="Mine funn"
         android:layout_weight="1"
-        android:onClick="mineFunnBtn"/>
+        android:onClick="mineFunnBtn"
+        android:text="Mine funn" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
-        android:text="Info og regler"
         android:layout_weight="1"
-        android:onClick="infoBtn"/>
-        
+        android:onClick="infoBtn"
+        android:text="Info og regler" />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
-        android:text="Registrer bruker"
         android:layout_weight="1"
-        android:onClick="regUserBtn"/>
+        android:onClick="regUserBtn"
+        android:text="Registrer bruker" />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
-        android:text="Logg inn"
         android:layout_weight="1"
-        android:onClick="toLoginPageBtn"/>
+        android:onClick="toLoginPageBtn"
+        android:text="Logg inn" />
 
 </LinearLayout>

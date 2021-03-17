@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 
 public class FragmentRegistrereBruker extends Fragment {
@@ -26,6 +27,7 @@ public class FragmentRegistrereBruker extends Fragment {
         view = inflater.inflate(R.layout.fragment_registrer_bruker, container, false); //Loads the page from the XML file
         return view;
     }
+
     public void saveUserBtn() {
         String confirmation_pw;
 
@@ -55,14 +57,13 @@ public class FragmentRegistrereBruker extends Fragment {
         EditText confirmation_pw2 = view.findViewById(R.id.confirmation_pw); //finde the editText containing the password
         confirmation_pw = (confirmation_pw2.getText().toString()); // adds the content (the password) to the user object
 
-        if (user.getPassword().equals(confirmation_pw) ) {
+        if (user.getPassword().equals(confirmation_pw)) {
             ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "user"); // initializes the object saving class
             ArrayList<Object> alist = objektLagrer.loadData(); // Fills arraylist with previous user info
             alist.add(user); //Adds new the new user object to the list
             objektLagrer.saveData(alist); // Saves the list
-        }
-        else {
-            Toast.makeText(getContext(),"Passordene matcher ikke!", Toast.LENGTH_LONG);
+        } else {
+            Toast.makeText(getContext(), "Passordene matcher ikke!", Toast.LENGTH_LONG);
         }
 
     }
