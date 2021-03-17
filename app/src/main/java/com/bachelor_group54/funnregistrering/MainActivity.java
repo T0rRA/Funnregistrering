@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void loginBtn(View view){
+        fragmentLogin.logInBtn();
 
     }
 
@@ -97,4 +98,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(""); //Legger Fragmentet på stack så back knappen fungerer
         fragmentTransaction.commit();
     }
+
+
 }

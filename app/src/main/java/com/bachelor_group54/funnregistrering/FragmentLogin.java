@@ -5,11 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import java.util.ArrayList;
 
 public class FragmentLogin extends Fragment {
@@ -42,7 +40,8 @@ public class FragmentLogin extends Fragment {
 
         objektLagrer.saveData(list); // Saves the list
 
-
+    }
+    public void fragment_login_reg_btn(){
 
     }
 }
