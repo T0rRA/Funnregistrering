@@ -102,7 +102,17 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText moreInfo = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
         setText(funn.getOpplysninger(), moreInfo);
 
-        //FIXME legge til gårdnr, bruksnr, kommune og fylke
+        EditText gårdNr = view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr);
+        setText(funn.getGårdNr(), gårdNr);
+
+        EditText gbnr = view.findViewById(R.id.fragment_enkelt_funn_et_gbnr);
+        setText(funn.getGbnr(), gbnr);
+
+        EditText kommune = view.findViewById(R.id.fragment_enkelt_funn_et_kommune);
+        setText(funn.getKommune(), kommune);
+
+        EditText fylke = view.findViewById(R.id.fragment_enkelt_funn_et_fylke);
+        setText(funn.getFylke(), fylke);
     }
 
     //Checks if strings are filled put or not
@@ -190,7 +200,17 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText moreInfo = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
         funn.setOpplysninger(moreInfo.getText().toString());
 
-        //TODO legg til resten av feltene
+        EditText gårdNr = view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr);
+        funn.setGårdNr(gårdNr.getText().toString());
+
+        EditText gbnr = view.findViewById(R.id.fragment_enkelt_funn_et_gbnr);
+        funn.setGbnr(gbnr.getText().toString());
+
+        EditText kommune = view.findViewById(R.id.fragment_enkelt_funn_et_kommune);
+        funn.setKommune(kommune.getText().toString());
+
+        EditText fylke = view.findViewById(R.id.fragment_enkelt_funn_et_fylke);
+        funn.setFylke(fylke.getText().toString());
     }
 
 

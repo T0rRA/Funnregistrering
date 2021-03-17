@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class Funn implements Serializable {
     private String tittel, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, funnsted, kommune, fylke, gjenstand, gjenstandMerking,
-            datum, arealType, beskrivelse, funndato, dato, opplysninger;
+            datum, arealType, beskrivelse, funndato, dato, opplysninger, gårdNr, gbnr;
 
     //Sets the depth to -1, then we can check if its not set later, as negative values should not be a valid input
     //The maximum latitude value is 90 and the maximum longitude value is 180. Setting both to 200 means we can later check if the value has been set or not
@@ -189,5 +189,21 @@ public class Funn implements Serializable {
 
     public void setFunndybde(double funndybde) {
         this.funndybde = funndybde;
+    }
+
+    public String getGårdNr() {
+        return gårdNr;
+    }
+
+    public void setGårdNr(String gårdNr) {
+        this.gårdNr = gårdNr;
+    }
+
+    public String getGbnr() {
+        return gbnr;
+    }
+
+    public void setGbnr(String gbnr) {
+        this.gbnr = gbnr;
     }
 }

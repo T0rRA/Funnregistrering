@@ -27,7 +27,7 @@ public class ImageSaver {
         if(pictureNr == 0){new BitmapFactory();} //Returns empty bitmap if the pictureNr is not set
 
         String path = context.getFilesDir().getPath(); //Gets the path to the program
-        String filename = "Image-" + pictureNr +".jpg"; //Sets the iamge name
+        String filename = "Image-" + pictureNr +".jpg"; //Sets the image name
         String file = path + filename; // Combines the program path and the filename
 
         return BitmapFactory.decodeFile(file);
