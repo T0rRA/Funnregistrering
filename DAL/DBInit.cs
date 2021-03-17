@@ -12,15 +12,17 @@ namespace FunnregistreringsAPI.DAL
 {
     public class DBInit
     {
-        public static void Initialize(IApplicationBuilder app)
+        public static Boolean Initialize(IApplicationBuilder app)
         {
-            using (var serviceScope =
-                app.ApplicationServices.CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetService<FunnDB>();
+            var serviceScope = app.ApplicationServices.CreateScope();
+            var context = serviceScope.ServiceProvider.GetService<FunnDB>();
+            var result = context.brukere.Where(b => b.UserID.Equals(1));
 
-                context.Database.EnsureCreated();
+            if (!result.Any())
+            {
                 context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
 
                 // BRUKERE
                 var bruker1 = new Bruker();
@@ -36,9 +38,10 @@ namespace FunnregistreringsAPI.DAL
                 bruker1.Poststed = "Oslo";
                 bruker1.Tlf = "75849384";
                 bruker1.Epost = "s333752@oslomet.no";
+                bruker1.mineFunn = new List<Funn>();
 
-                context.brukere.Add(bruker1);
-                context.SaveChanges();
+
+                Console.WriteLine("USER HAS BEEN ADDED");
 
                 // FUNN
                 var funn1 = new Funn();
@@ -52,8 +55,16 @@ namespace FunnregistreringsAPI.DAL
                 funn1.datum = "???";
                 funn1.areal_type = "...sirkel";
 
-                context.funn.Add(funn1);
+                bruker1.mineFunn.Add(funn1);
+
+                context.brukere.Add(bruker1);
                 context.SaveChanges();
+                Console.WriteLine("Funn added");
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }
