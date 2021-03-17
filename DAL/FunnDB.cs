@@ -16,6 +16,7 @@ namespace FunnregistreringsAPI.DAL
 
         public DbSet<Bruker> brukere { get; set; }
         public DbSet<Funn> funn { get; set; }
+        public DbSet<PwReset> passordReset { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
