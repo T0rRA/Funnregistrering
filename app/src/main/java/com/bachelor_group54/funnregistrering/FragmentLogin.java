@@ -32,7 +32,7 @@ public class FragmentLogin extends Fragment {
         LoginInfo loginInfo = new LoginInfo();
         EditText userName = view.findViewById(R.id.user_name);
         EditText password = view.findViewById(R.id.password);
-        loginInfo.setUser_name(userName.getText().toString());
+        loginInfo.setUserName(userName.getText().toString());
         loginInfo.setPassword(password.getText().toString());
 
         //Saves the data to a list, TODO: use the info in backend
