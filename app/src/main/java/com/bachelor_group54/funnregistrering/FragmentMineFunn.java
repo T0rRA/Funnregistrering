@@ -27,6 +27,12 @@ public class FragmentMineFunn extends Fragment {
         return view; //Returns the this fragment's view
     }
 
+    @Override
+    public void onResume() {
+        makeList();
+        super.onResume();
+    }
+
     //This method creates and sets a list containing all the finds.
     public void makeList(){
         ListView listView = view.findViewById(R.id.list_view_mine_funn); //Finds the listView

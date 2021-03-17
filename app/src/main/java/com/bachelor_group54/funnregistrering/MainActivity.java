@@ -76,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             return fragmentListe.size();
         }
+
+        @Override
+        public void startUpdate(@NonNull ViewGroup container) {
+            super.startUpdate(container);
+            pagerAdapter.getItem(mPager.getCurrentItem()).onResume(); //Makes it so that we can update a fragment with its onResume method
+        }
     }
 
     @Override
