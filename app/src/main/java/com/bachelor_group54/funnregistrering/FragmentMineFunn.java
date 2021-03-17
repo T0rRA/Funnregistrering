@@ -28,6 +28,7 @@ public class FragmentMineFunn extends Fragment {
     }
 
     @Override
+    //Updates the page
     public void onResume() {
         makeList();
         super.onResume();
