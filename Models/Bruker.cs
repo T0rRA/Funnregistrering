@@ -8,12 +8,10 @@ namespace FunnregistreringsAPI.Models
 {
     //HER ER DET MYE BTW
     public class Bruker
-    {
-        [Required]
+    { 
         [Key]
         public int UserID { get; set; }
         //Might be that username = Email
-        [Required]
         public string Brukernavn { get; set; }
         public byte[] Passord { get; set; }
         //Salt is used to hash passwords with unique functions
@@ -27,6 +25,8 @@ namespace FunnregistreringsAPI.Models
         public string Poststed { get; set; }
         public string Tlf { get; set; }
         public string Epost { get; set; }
+        //denne har egen db
+        public virtual List<Funn> mineFunn { get; set; }
 
     }
 }
