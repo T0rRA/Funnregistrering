@@ -1,17 +1,27 @@
 package com.bachelor_group54.funnregistrering;
 
-import android.graphics.Bitmap;
-
 import java.io.Serializable;
 
-public class Funn implements Serializable { //Klasse med attributter, getters og setters for funn.
+//Class for holding info about each found (Contains variables with getters and setters )
+public class Funn implements Serializable {
     private String tittel, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, funnsted, kommune, fylke, gjenstand, gjenstandMerking,
-            datum, arealType, beskrivelse, funndato, dato;
+            datum, arealType, beskrivelse, funndato, dato, opplysninger, gårdNr, gbnr;
 
-    private double longitude, latitude, funndybde;
+    //Sets the depth to -1, then we can check if its not set later, as negative values should not be a valid input
+    //The maximum latitude value is 90 and the maximum longitude value is 180. Setting both to 200 means we can later check if the value has been set or not
+    private double longitude = 200, latitude = 200, funndybde = -1;
 
-    private int bilde;
+    //The picture int is the number that needs to be given to the ImageSaver class to load the correct image
+    private int bildeID;
+
+    public String getOpplysninger() {
+        return opplysninger;
+    }
+
+    public void setOpplysninger(String opplysninger) {
+        this.opplysninger = opplysninger;
+    }
 
     public String getDato() {
         return dato;
@@ -21,12 +31,12 @@ public class Funn implements Serializable { //Klasse med attributter, getters og
         this.dato = dato;
     }
 
-    public int getBilde() {
-        return bilde;
+    public int getBildeID() {
+        return bildeID;
     }
 
-    public void setBilde(int bilde) {
-        this.bilde = bilde;
+    public void setBildeID(int bildeID) {
+        this.bildeID = bildeID;
     }
 
     public String getTittel() {
@@ -179,5 +189,21 @@ public class Funn implements Serializable { //Klasse med attributter, getters og
 
     public void setFunndybde(double funndybde) {
         this.funndybde = funndybde;
+    }
+
+    public String getGårdNr() {
+        return gårdNr;
+    }
+
+    public void setGårdNr(String gårdNr) {
+        this.gårdNr = gårdNr;
+    }
+
+    public String getGbnr() {
+        return gbnr;
+    }
+
+    public void setGbnr(String gbnr) {
+        this.gbnr = gbnr;
     }
 }

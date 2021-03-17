@@ -13,7 +13,6 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -30,8 +28,8 @@ import androidx.fragment.app.Fragment;
 public class FragmentRegistrereFunn extends Fragment {
     private View view; //This view will be used to access elements contained inside the fragment page (like getting text from an editText)
     private Bitmap picture;
-    private double latitude = 0; //Initializing latitude variable
-    private double longitude = 0; //Initializing longitude variable
+    private double latitude = 200; //Initializing latitude variable
+    private double longitude = 200; //Initializing longitude variable
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -128,18 +126,25 @@ public class FragmentRegistrereFunn extends Fragment {
         EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et); //Finds the editText containing the description
         funn.setBeskrivelse(description.getText().toString());//Adds the description to the find
 
+        //Sets latitude and longitude, NOTE default values for both are 200
+        funn.setLatitude(latitude);
+        funn.setLongitude(longitude);
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + (currentTime.getYear() + 1900);
+        funn.setDato(date);
+
+        saveFind(funn);
+    }
+
+    public void saveFind(Funn funn){
         //If the a picture has been added save it
         if(picture != null) {
             savePicture(funn);
         }
 
-        //Sets latitude and longitude, NOTE default values for both are 0
-        funn.setLatitude(latitude);
-        funn.setLongitude(longitude);
-
         ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn"); //Initialises the class that saves the finds
         ArrayList<Object> arrayList = objektLagrer.loadData(); //Gets the already saved ArrayList with all the previous finds
-        //Toast.makeText(getContext(), ((Funn)arrayList.get(0)).getTittel(), Toast.LENGTH_SHORT).show();
         arrayList.add(funn); //Adds the new find to the list
 
         objektLagrer.saveData(arrayList); //Saves the new list, overwriting the old list
@@ -152,7 +157,7 @@ public class FragmentRegistrereFunn extends Fragment {
 
         //Saves the image and saves the ID of the picture to the find
         ImageSaver.saveImage(picture, getContext(), pictureID);
-        funn.setBilde(pictureID);
+        funn.setBildeID(pictureID);
 
         //Updates the picture ID in shared preferences
         SharedPreferences.Editor editor = sharedpreferences.edit();

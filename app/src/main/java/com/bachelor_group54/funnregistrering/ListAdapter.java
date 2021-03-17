@@ -9,7 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,10 +16,12 @@ import java.util.ArrayList;
 public class ListAdapter extends BaseAdapter{
     private Context context;
     private ArrayList<Funn> itemList;
+    private MainActivity mainActivity;
 
-    public ListAdapter(Context context, ArrayList<Funn> itemList) {
+    public ListAdapter(Context context, ArrayList<Funn> itemList, MainActivity mainActivity) {
         this.context = context;
         this.itemList = itemList;
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -77,14 +78,13 @@ public class ListAdapter extends BaseAdapter{
         viewHolder.textViewSted.setText(itemList.get(position).getKommune()); //Sets the location of the list item
 
         viewHolder.picture = convertView.findViewById(R.id.image_mine_funn_liste_item); //Gets the image View of the list item
-        viewHolder.picture.setImageBitmap(ImageSaver.loadImage(context,itemList.get(position).getBilde())); //Sets the image of the list item
+        viewHolder.picture.setImageBitmap(ImageSaver.loadImage(context,itemList.get(position).getBildeID())); //Sets the image of the list item
 
         viewHolder.linearLayout = convertView.findViewById(R.id.linear_layout_mine_funn_item);
         viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Du klikket på " + itemList.get(position).getTittel() + " ,men du kan ikke gå inn på funn enda", Toast.LENGTH_LONG).show();
-                //TODO legge til kode for å gå inn på lagret funn
+                mainActivity.openEnkeltFunn(itemList.get(position), position);
             }
         });
 
