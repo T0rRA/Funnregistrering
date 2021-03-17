@@ -8,6 +8,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 
 public class FragmentLogin extends Fragment {
@@ -37,11 +38,7 @@ public class FragmentLogin extends Fragment {
         ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "user"); // initializes the object saving class
         ArrayList<Object> list = objektLagrer.loadData(); // Fills arraylist with previous login info
         list.add(loginInfo); //Adds new the new user object to the list
-
         objektLagrer.saveData(list); // Saves the list
-
-    }
-    public void fragment_login_reg_btn(){
 
     }
 }

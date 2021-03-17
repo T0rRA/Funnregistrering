@@ -44,7 +44,7 @@
                 android:text="@string/login_not_a_user" />
 
             <Button
-                android:onClick="fragment_login_reg_btn"
+                android:onClick="fragmentLoginRegBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_Reg_here" />
