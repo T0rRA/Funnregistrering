@@ -20,6 +20,12 @@ namespace FunnregistreringsAPI.Controllers
         {
             _db = db;
         }
+
+        public async Task<bool> CreateUser(InnBruker bruker)
+        {
+            return await _db.CreateUser(bruker);
+        }
+
         public async Task<bool> SendResetPwLink(string epost)
         {
             return await _db.SendPwResetLink(epost);

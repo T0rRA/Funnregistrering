@@ -319,5 +319,23 @@ namespace FunnregistreringsAPI.DAL
                 return false;
             }
         }
+        
+        public async Task<bool> EditUser(InnBruker bruker)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> DeleteUser(InnBruker bruker)
+        {
+            // Delete user and all their info + funns
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> LogOut(InnBruker bruker)
+        {
+            // Delete user and all their info + funns
+            throw new NotImplementedException();
+        }
+
     }
 }
