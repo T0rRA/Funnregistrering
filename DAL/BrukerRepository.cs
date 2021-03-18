@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -256,29 +257,67 @@ namespace FunnregistreringsAPI.DAL
         //Might want to change this to return string? Ask frontend boys
         public async Task<bool> CreateUser(InnBruker bruker)
         {
-            var ny_bruker = new Bruker();
-
-            //checks db for usernames that are the same
-            Bruker potentiallyOldUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
-            if (potentiallyOldUser.Equals(null))
+            try
             {
-                ny_bruker.Brukernavn = bruker.Brukernavn;
+                var ny_bruker = new Bruker();
+
+                //checks db for usernames that are the same
+                Bruker potentiallyOldUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
+                if (potentiallyOldUser == null)
+                {
+                    // create new user
+                    ny_bruker.Brukernavn = bruker.Brukernavn;
+
+                    // password
+                    string passord = bruker.Passord;
+                    byte[] salt = BrukerRepository.CreateSalt();
+                    byte[] hash = BrukerRepository.CreateHash(passord, salt);
+                    ny_bruker.Passord = hash;
+                    ny_bruker.Salt = salt;
+
+                    ny_bruker.Fornavn = bruker.Fornavn;
+                    ny_bruker.Etternavn = bruker.Etternavn;
+                    ny_bruker.Adresse = bruker.Adresse;
+
+                    // find postal address
+                    var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
+                    if(finnPostadr == null)
+                    {
+                        // Post code is not in the database
+                        var ny_postadresse = new Postadresse();
+                        ny_postadresse.Postnr = bruker.Postnr;
+                        ny_postadresse.Poststed = bruker.Poststed;
+                        _db.postadresser.Add(ny_postadresse); // add postal code to db
+
+                        ny_bruker.Poststed = bruker.Poststed;
+                        ny_bruker.Postnr = bruker.Postnr;
+                    } else
+                    {
+                        // Post code is found
+                        ny_bruker.Postnr = finnPostadr.Postnr;
+                        ny_bruker.Poststed = finnPostadr.Poststed;
+
+                    }
+                    ny_bruker.Tlf = bruker.Tlf;
+                    ny_bruker.Epost = bruker.Epost;
+                    ny_bruker.MineFunn = new List<Funn>();
+
+                    _db.brukere.Add(ny_bruker);
+                    _db.SaveChanges();
+
+                    return true;
+                }
+                else
+                {
+                    // User already exists
+                    return false;
+                }
+
             }
-            else
+            catch (Exception e)
             {
                 return false;
             }
-
-
-            string passord = bruker.Passord;
-            byte[] salt = BrukerRepository.CreateSalt();
-            byte[] hash = BrukerRepository.CreateHash(passord, salt);
-            ny_bruker.Passord = hash;
-            ny_bruker.Salt = salt;
-            _db.brukere.Add(ny_bruker);
-            _db.SaveChanges();
-
-            return true;
         }
     }
 }
