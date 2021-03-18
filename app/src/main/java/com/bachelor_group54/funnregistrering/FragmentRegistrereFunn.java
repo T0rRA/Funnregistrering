@@ -185,13 +185,13 @@ public class FragmentRegistrereFunn extends Fragment {
 
         SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
         int pictureID = sharedpreferences.getInt("pictureID", 0);
-        funn.setBildeID(pictureID);
+        funn.setBildeID(pictureID); //FIXME tar bare siste bilde id (gjør at man må klikke lagreknappen får man kan sende meldig, popup for lagre?)
 
         Date currentTime = Calendar.getInstance().getTime();
         String date = currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + (currentTime.getYear() + 1900);
         funn.setDato(date);
 
-        EmailIntent.sendEmail("helghelland@gmail.com"/*FIXME fjern emailen min etter testing*/, "Funn funnet", funn.getFunnmelding(), funn.getBildeID(), getContext());
+        EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), funn.getBildeID(), getContext());
     }
 }
 
