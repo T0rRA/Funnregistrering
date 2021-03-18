@@ -19,8 +19,7 @@ namespace FunnregistreringsAPI.Models
         public string Fornavn { get; set; }
         public string Etternavn { get; set; }
         public string Adresse { get; set; }
-        public string Postnr { get; set; } // egen klasse
-        public string Poststed { get; set; }
+        public virtual Postadresse Postnr { get; set; }// egen klasse
         public string Tlf { get; set; }
         public string Epost { get; set; }
         //denne har egen db

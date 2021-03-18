@@ -11,7 +11,6 @@ namespace FunnregistreringsAPI.Models
     { 
         [Key]
         public string Postnr { get; set; }
-        //Might be that username = Email
         public string Poststed { get; set; }
        
     }

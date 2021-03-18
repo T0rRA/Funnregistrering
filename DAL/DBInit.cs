@@ -40,11 +40,12 @@ namespace FunnregistreringsAPI.DAL
                 poststed.Poststed = "Oslo";
                 context.postadresser.Add(poststed);
 
-                bruker1.Postnr = poststed.Postnr;
-                bruker1.Poststed = poststed.Poststed;
+                bruker1.Postnr = poststed; // blir postnr1 i db idk why:(
+                
+
                 bruker1.Tlf = "75849384";
                 bruker1.Epost = "s333752@oslomet.no";
-                bruker1.mineFunn = new List<Funn>();
+                bruker1.MineFunn = new List<Funn>();
 
                 Console.WriteLine("USER HAS BEEN ADDED");
 
@@ -60,7 +61,7 @@ namespace FunnregistreringsAPI.DAL
                 funn1.datum = "???";
                 funn1.areal_type = "...sirkel";
 
-                bruker1.mineFunn.Add(funn1);
+                bruker1.MineFunn.Add(funn1);
 
                 context.brukere.Add(bruker1);
                 context.SaveChanges();

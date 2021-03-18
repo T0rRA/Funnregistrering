@@ -35,5 +35,20 @@ namespace FunnregistreringsAPI.Controllers
         {
             return await _db.ChangePassword(bruker, token, newPassword, newPassword2);
         }
+
+        public async Task<bool> EditUser(InnBruker bruker)
+        {
+            return await _db.EditUser(bruker);
+        }
+
+        public async Task<bool> DeleteUser(InnBruker bruker)
+        {
+            return await _db.DeleteUser(bruker);
+        }
+
+        public async Task<InnBruker> GetUser(InnBruker bruker)
+        {
+            return await _db.GetUser(bruker);
+        }
     }
 }

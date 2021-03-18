@@ -289,13 +289,15 @@ namespace FunnregistreringsAPI.DAL
                         ny_postadresse.Poststed = bruker.Poststed;
                         _db.postadresser.Add(ny_postadresse); // add postal code to db
 
-                        ny_bruker.Poststed = bruker.Poststed;
-                        ny_bruker.Postnr = bruker.Postnr;
+                        //ny_bruker.Poststed = bruker.Poststed;
+                        //ny_bruker.Postnr = bruker.Postnr;
+                        ny_bruker.Postnr = ny_postadresse;
                     } else
                     {
                         // Post code is found
-                        ny_bruker.Postnr = finnPostadr.Postnr;
-                        ny_bruker.Poststed = finnPostadr.Poststed;
+                        //ny_bruker.Postnr = finnPostadr.Postnr;
+                        //ny_bruker.Poststed = finnPostadr.Poststed;
+                        ny_bruker.Postnr.Postnr = finnPostadr.Postnr;
 
                     }
                     ny_bruker.Tlf = bruker.Tlf;
@@ -303,7 +305,7 @@ namespace FunnregistreringsAPI.DAL
                     ny_bruker.MineFunn = new List<Funn>();
 
                     _db.brukere.Add(ny_bruker);
-                    _db.SaveChanges();
+                    await _db.SaveChangesAsync();
 
                     return true;
                 }
@@ -322,18 +324,130 @@ namespace FunnregistreringsAPI.DAL
         
         public async Task<bool> EditUser(InnBruker bruker)
         {
-            throw new NotImplementedException();
+            // InnBruker bruker contains edited user information
+            try
+            {
+                var enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
+                if(enBruker != null)
+                {
+                    // bruker exists
+                    // check if new postnr has changed
+                    if(enBruker.Postnr.Postnr != bruker.Postnr)
+                    {
+                        // postnr has changed
+                        // does it exist in our db?
+                        var postNr = await _db.postadresser.FindAsync(bruker.Postnr);
+                        if(postNr == null)
+                        {
+                            // it does not exist and will be added
+                            var nyPostadr = new Postadresse();
+                            nyPostadr.Postnr = bruker.Postnr;
+                            nyPostadr.Poststed = bruker.Poststed;
+
+                            //enBruker.Postnr = bruker.Postnr;
+                            //enBruker.Poststed = bruker.Poststed;
+                            enBruker.Postnr = nyPostadr;
+                        }
+                        else
+                        {
+                            // it exists in our db
+                            //enBruker.Postnr = bruker.Postnr;
+                            //enBruker.Poststed = bruker.Poststed;
+                            enBruker.Postnr.Postnr = bruker.Postnr;
+                        }
+                    }
+                    enBruker.Fornavn = bruker.Fornavn;
+                    enBruker.Etternavn = bruker.Etternavn;
+                    enBruker.Adresse = bruker.Adresse;
+                    enBruker.Tlf = bruker.Tlf;
+                    enBruker.Epost = bruker.Epost;
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                else
+                {
+                    // bruker does not exist
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public async Task<bool> DeleteUser(InnBruker bruker)
         {
-            // Delete user and all their info + funns
-            throw new NotImplementedException();
+
+            try
+            {
+                var enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
+                if(enBruker != null)
+                {
+                    // user exists, so delete it.
+                    List<Funn> funnListe = enBruker.MineFunn;
+                    foreach(Funn f in funnListe)
+                    {
+                        // delete each funn
+                        var etFunn = await _db.funn.FindAsync(f.FunnID);
+                        _db.funn.Remove(etFunn);
+                    }
+                    // delete user
+                    _db.brukere.Remove(enBruker);
+                    await _db.SaveChangesAsync();
+
+                    return true;
+                }
+                else
+                {
+                    // user does not exist
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        public async Task<InnBruker> GetUser(InnBruker bruker)
+        {
+            // Get one user's information
+
+            try
+            {
+                Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
+                if(enBruker != null)
+                {
+                    // user exists
+                    var hentetBruker = new InnBruker()
+                    {
+                        Brukernavn = enBruker.Brukernavn,
+                        Fornavn = enBruker.Fornavn,
+                        Etternavn = enBruker.Etternavn,
+                        Adresse = enBruker.Adresse,
+                        Postnr = enBruker.Postnr.Postnr,
+                        Poststed = enBruker.Postnr.Poststed,
+                        Tlf = enBruker.Tlf,
+                        Epost = enBruker.Epost
+                    };
+                    return hentetBruker;
+                }
+                else
+                {
+                    // user does not exist
+                    return null;
+                }
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
         }
 
         public async Task<bool> LogOut(InnBruker bruker)
         {
-            // Delete user and all their info + funns
+           
+
             throw new NotImplementedException();
         }
 
