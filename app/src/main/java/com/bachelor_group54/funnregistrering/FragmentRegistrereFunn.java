@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -182,11 +183,15 @@ public class FragmentRegistrereFunn extends Fragment {
         funn.setLatitude(latitude);
         funn.setLongitude(longitude);
 
+        SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
+        int pictureID = sharedpreferences.getInt("pictureID", 0);
+        funn.setBildeID(pictureID);
+
         Date currentTime = Calendar.getInstance().getTime();
         String date = currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + (currentTime.getYear() + 1900);
         funn.setDato(date);
 
-        EmailIntent.sendEmail("helghelland@gmail.com"/*FIXME fjern emailen min etter testing*/, "Funn funnet", funn.getFunnmelding(), getContext());
+        EmailIntent.sendEmail("helghelland@gmail.com"/*FIXME fjern emailen min etter testing*/, "Funn funnet", funn.getFunnmelding(), funn.getBildeID(), getContext());
     }
 }
 
