@@ -21,4 +21,10 @@
     <string name="registrere_lose_funn_btn_lagre">Lagre</string>
     <string name="enkelt_funn_tom_et">ikke fylt ut</string>
     <string name="fragment_enkelt_funn_btn_endre_bilde">Endre bilde</string>
+    <string name="login_user_name">Brukernavn</string>
+    <string name="login_login">Logg inn</string>
+    <string name="login_password">Passord</string>
+    <string name="login_not_a_user">Ikke en bruker?</string>
+    <string name="login_Reg_here">Registrer deg her</string>
+    <string name="confirm_pw">Gjenta passord</string>
 </resources>
