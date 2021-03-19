@@ -172,11 +172,6 @@ public class FragmentRegistrereFunn extends Fragment {
         editor.apply();
     }
 
-    public void sendFunnmelding() {
-        registrerFunnBtn();
-        EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), funn.getBildeID(), getContext());
-    }
-
     public void clearFields(){
         EditText titleEt = view.findViewById(R.id.nytt_funn_tittel_et);
         titleEt.setText("");

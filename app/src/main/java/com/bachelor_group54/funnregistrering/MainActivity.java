@@ -125,10 +125,6 @@ public class MainActivity extends AppCompatActivity {
         openEnkeltFunn(funn, fragmentMineFunn.getListSize() - 1); //Opens the find in the find list
     }
 
-    public void sendFunnmeldingFragmentRegistrereLoseFunnBtn(View view) {
-        fragmentRegistrereFunn.sendFunnmelding();
-    }
-
     //Opens find from list
     public void openEnkeltFunn(Funn funn, int position) {
         mPager.setVisibility(View.GONE);
