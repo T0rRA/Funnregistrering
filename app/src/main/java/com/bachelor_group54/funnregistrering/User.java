@@ -3,7 +3,7 @@ package com.bachelor_group54.funnregistrering;
 import java.io.Serializable;
 // Attributter, Getters and Setters
 public class User implements Serializable {
-    private String name,last_name, address, postal_code, phone_num, email, password;
+    private String name, lastName, address, postalCode, phoneNum, email, password;
 
     public String getPassword() {
         return password;
@@ -13,12 +13,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getName() {
@@ -37,20 +37,20 @@ public class User implements Serializable {
         this.address = address;
     }
 
-    public String getPostal_code() {
-        return postal_code;
+    public String getPostalCode() {
+        return postalCode;
     }
 
-    public void setPostal_code(String postal_code) {
-        this.postal_code = postal_code;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
-    public String getPhone_num() {
-        return phone_num;
+    public String getPhoneNum() {
+        return phoneNum;
     }
 
-    public void setPhone_num(String phone_num) {
-        this.phone_num = phone_num;
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
     }
 
     public String getEmail() {
