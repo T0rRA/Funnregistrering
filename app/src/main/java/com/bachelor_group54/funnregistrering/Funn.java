@@ -1,6 +1,8 @@
 package com.bachelor_group54.funnregistrering;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 
 //Class for holding info about each found (Contains variables with getters and setters )
 public class Funn implements Serializable {
@@ -15,8 +17,34 @@ public class Funn implements Serializable {
     //The picture int is the number that needs to be given to the ImageSaver class to load the correct image
     private int bildeID;
 
+    private boolean funnmeldingSendt = false, funnskjemaSendt = false;
+
     public String getFunnmelding(){
-        return tittel + "\n" + "Lengdegrad: " + longitude + "\nBreddegrad: " + latitude;
+        return tittel + "\n" + "Lengdegrad: " + longitude + "\nBreddegrad: " + latitude + "\n" + beskrivelse;
+    }
+
+    public boolean isFunnmeldingKlar(){
+        if(tittel.equals("")){
+            return false;
+        }
+        if(bildeID == 0){
+            return false;
+        }
+        if(latitude == 200) {
+            return false;
+        }
+        return longitude != 200;
+    }
+
+    public boolean isFunnskjemaKlart(){
+        Field[] fields = getClass().getDeclaredFields();
+        for(Field f : fields){
+            if(f == null || f.toString().equals("")){
+                return false;
+            }
+        }
+
+        return longitude != 200 && latitude != 200 && funndybde != -1 && bildeID != 0;
     }
 
     public String getOpplysninger() {
@@ -209,5 +237,21 @@ public class Funn implements Serializable {
 
     public void setGbnr(String gbnr) {
         this.gbnr = gbnr;
+    }
+
+    public boolean isFunnmeldingSendt() {
+        return funnmeldingSendt;
+    }
+
+    public void setFunnmeldingSendt(boolean funnmeldingSendt) {
+        this.funnmeldingSendt = funnmeldingSendt;
+    }
+
+    public boolean isFunnskjemaSendt() {
+        return funnskjemaSendt;
+    }
+
+    public void setFunnskjemaSendt(boolean funnskjemaSendt) {
+        this.funnskjemaSendt = funnskjemaSendt;
     }
 }

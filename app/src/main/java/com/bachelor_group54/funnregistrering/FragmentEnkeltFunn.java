@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class FragmentEnkeltFunn extends Fragment {
         view = inflater.inflate(R.layout.fragment_enkelt_funn, container, false); //Loads the page from the XML file
         //Add setup code here later
         loadFunn();
+        updateStatusBtn();
         return view;
     }
 
@@ -263,4 +265,33 @@ public class FragmentEnkeltFunn extends Fragment {
         super.onActivityResult(requestCode, resultCode, data); //Calls the super's onActivityResult (Required by Android)
     }
 
+    //Fixme endre må kjøres ved endring av titel, bilde, langitude og latitude.
+    //This method color codes the status buttons (red = missing info, yellow = ready to send, green = sent)
+    public void updateStatusBtn() {
+        Button findMessageBtn = view.findViewById(R.id.fragment_enkelt_funn_funnmelding_btn);
+        if (!funn.isFunnmeldingSendt()) { //Checks if the find message is sent or not
+            if (funn.isFunnmeldingKlar()) {
+                findMessageBtn.setBackgroundColor(getResources().getColor(R.color.colorYellow)); //If the right info is entered the the button is yellow
+            } else {
+                findMessageBtn.setBackgroundColor(getResources().getColor(R.color.colorRed)); //If the right info is not entered then the buttons is red
+            }
+        }else {
+            findMessageBtn.setBackgroundColor(getResources().getColor(R.color.colorGreen)); //If the message is sent then the button is green
+        }
+
+        Button findFormBtn = view.findViewById(R.id.fragment_enkelt_funnskjema_btn);
+        if (!funn.isFunnskjemaSendt()) {
+            if (funn.isFunnskjemaKlart()) {
+                findFormBtn.setBackgroundColor(getResources().getColor(R.color.colorYellow)); //If the right info is entered the the button is yellow
+            } else {
+                findFormBtn.setBackgroundColor(getResources().getColor(R.color.colorRed)); //If the right info is not entered then the buttons is red
+            }
+        }else {
+            findFormBtn.setBackgroundColor(getResources().getColor(R.color.colorGreen)); //If the for is sent then the button is green
+        }
+    }
+
+    public void sendFunnMelding(){
+        EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), funn.getBildeID(), getContext());
+    }
 }

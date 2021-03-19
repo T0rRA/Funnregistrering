@@ -34,6 +34,7 @@ public class FragmentRegistrereFunn extends Fragment {
     private Bitmap picture;
     private double latitude = 200; //Initializing latitude variable
     private double longitude = 200; //Initializing longitude variable
+    private Funn funn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,7 +124,7 @@ public class FragmentRegistrereFunn extends Fragment {
     }
 
     public void registrerFunnBtn() {
-        Funn funn = new Funn();
+        funn = new Funn();
 
         EditText title = view.findViewById(R.id.nytt_funn_tittel_et); //Finds the editText containing the title
         funn.setTittel(title.getText().toString()); //Puts the title in the finds object
@@ -171,26 +172,7 @@ public class FragmentRegistrereFunn extends Fragment {
     }
 
     public void sendFunnmelding() {
-        Funn funn = new Funn();
-
-        EditText title = view.findViewById(R.id.nytt_funn_tittel_et); //Finds the editText containing the title
-        funn.setTittel(title.getText().toString()); //Puts the title in the finds object
-
-        EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et); //Finds the editText containing the description
-        funn.setBeskrivelse(description.getText().toString());//Adds the description to the find
-
-        //Sets latitude and longitude, NOTE default values for both are 200
-        funn.setLatitude(latitude);
-        funn.setLongitude(longitude);
-
-        SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
-        int pictureID = sharedpreferences.getInt("pictureID", 0);
-        funn.setBildeID(pictureID); //FIXME tar bare siste bilde id (gjør at man må klikke lagreknappen får man kan sende meldig, popup for lagre?)
-
-        Date currentTime = Calendar.getInstance().getTime();
-        String date = currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + (currentTime.getYear() + 1900);
-        funn.setDato(date);
-
+        registrerFunnBtn();
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), funn.getBildeID(), getContext());
     }
 }

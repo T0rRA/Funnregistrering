@@ -28,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mPager;
     private ScreenSlidePagerAdapter pagerAdapter;
 
-    private boolean isEkeltFunnOpen = false;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     //Makes the back button work as expected
     public void onBackPressed() {
-        if(isEkeltFunnOpen){
+        if(mPager.getVisibility() == View.GONE){
             fm.popBackStack();
-            isEkeltFunnOpen = false;
+            mPager.setVisibility(View.VISIBLE);
             return;
         }
         if(mPager.getCurrentItem() == 0){
@@ -132,49 +129,48 @@ public class MainActivity extends AppCompatActivity {
 
     //Opens find from list
     public void openEnkeltFunn(Funn funn, int position){
-        if(!isEkeltFunnOpen) {
-            isEkeltFunnOpen = true;
-            fragmentEnkeltFunn = new FragmentEnkeltFunn(funn, position);
-            FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
-            fragmentTransaction.replace(R.id.layout, fragmentEnkeltFunn); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
-            fragmentTransaction.addToBackStack(""); //Puts the fragment on the stack, so back button will work
-            fragmentTransaction.commit();
-        }
+        mPager.setVisibility(View.GONE);
+        fragmentEnkeltFunn = new FragmentEnkeltFunn(funn, position);
+        FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
+        fragmentTransaction.replace(R.id.layout, fragmentEnkeltFunn); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
+        fragmentTransaction.addToBackStack(""); //Puts the fragment on the stack, so back button will work
+        fragmentTransaction.commit();
     }
 
     //Saves the changes made to the find
     public void fragmentEnkeltFunnLagreEndring(View view) {
         fragmentEnkeltFunn.saveFind();
         fm.popBackStack();//Goes back to the slide fragments
+        mPager.setVisibility(View.VISIBLE);
+        fragmentMineFunn.makeList();
     }
 
     public void fragmentEnkeltFunnUpdatePicture(View view){
         fragmentEnkeltFunn.bildeBtn();
     }
 
+    public void fragmentEnkeltFunnStatusBtn(View view) {
+        fragmentEnkeltFunn.sendFunnMelding();
+    }
+
     public void navbarRegistrereFunn(View view) {
-        if(isEkeltFunnOpen){return;}
         mPager.setCurrentItem(0);
     }
 
     public void navbarKart(View view) {
-        if(isEkeltFunnOpen){return;}
         Toast.makeText(this, "Har ikke kartside enda", Toast.LENGTH_LONG).show();
     }
 
     public void navbarMineFunn(View view) {
-        if(isEkeltFunnOpen){return;}
         mPager.setCurrentItem(1);
 
     }
 
     public void navbarProfil(View view) {
-        if(isEkeltFunnOpen){return;}
         Toast.makeText(this, "Har ikke profilside enda", Toast.LENGTH_LONG).show();
     }
 
     public void navbarHjelp(View view) {
-        if(isEkeltFunnOpen){return;}
         mPager.setCurrentItem(2); //Går til forsiden for nå
         Toast.makeText(this, "Har ikke hjelpside enda", Toast.LENGTH_LONG).show();
     }
