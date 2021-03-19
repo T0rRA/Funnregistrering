@@ -30,12 +30,13 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:layout_margin="10dp"
             android:orientation="horizontal">
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
                 android:onClick="bildeBtn"
@@ -55,12 +56,13 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:onClick="gpsBtn"
+            android:layout_margin="10dp"
             android:orientation="horizontal">
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:onClick="gpsBtn"
                 android:text="@string/registrere_lose_funn_btn_gps" />
@@ -80,37 +82,15 @@
             android:layout_margin="20dp"
             android:hint="@string/registrere_lose_funn_et_beskrivelse" />
 
-
-        <LinearLayout
+        <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"
+            android:onClick="registrerFunnBtn"
+            android:text="@string/registrere_lose_funn_btn_lagre" />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="@string/registrere_lose_funn_btn_funnskjema" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:onClick="sendFunnmeldingFragmentRegistrereLoseFunnBtn"
-                android:text="@string/registrere_lose_funn_btn_funnmelding" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:onClick="registrerFunnBtn"
-                android:text="@string/registrere_lose_funn_btn_lagre" />
-        </LinearLayout>
     </LinearLayout>
 
     <include

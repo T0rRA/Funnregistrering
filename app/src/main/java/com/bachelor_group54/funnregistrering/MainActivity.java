@@ -84,14 +84,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     //Makes the back button work as expected
     public void onBackPressed() {
-        if(mPager.getVisibility() == View.GONE){
+        if (mPager.getVisibility() == View.GONE) {
             fm.popBackStack();
             mPager.setVisibility(View.VISIBLE);
             return;
         }
-        if(mPager.getCurrentItem() == 0){
+        if (mPager.getCurrentItem() == 0) {
             finish(); //If the main page is the current page exit the app
-        }else {
+        } else {
             mPager.setCurrentItem(0); //Goes back to the main page
         }
     }
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Buttons for FragmentRegistrereFunn
     public void bildeBtn(View view) {
-       fragmentRegistrereFunn.bildeBtn();
+        fragmentRegistrereFunn.bildeBtn();
     }
 
     public void gpsBtn(View view) {
@@ -119,8 +119,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void registrerFunnBtn(View view) {
-        fragmentRegistrereFunn.registrerFunnBtn();
-        mPager.setCurrentItem(0); //Returns to the mainPage
+        Funn funn = fragmentRegistrereFunn.registrerFunnBtn(); //Registers the find, and gets the find object back
+        ((FragmentRegistrereFunn) pagerAdapter.getItem(mPager.getCurrentItem())).clearFields(); //Clears the fields in the register new find fragment
+        mPager.setCurrentItem(1); //Goes to the found overview
+        openEnkeltFunn(funn, fragmentMineFunn.getListSize() - 1); //Opens the find in the find list
     }
 
     public void sendFunnmeldingFragmentRegistrereLoseFunnBtn(View view) {
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Opens find from list
-    public void openEnkeltFunn(Funn funn, int position){
+    public void openEnkeltFunn(Funn funn, int position) {
         mPager.setVisibility(View.GONE);
         fragmentEnkeltFunn = new FragmentEnkeltFunn(funn, position);
         FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
@@ -137,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    //Buttons for the single found fragment
     //Saves the changes made to the find
     public void fragmentEnkeltFunnLagreEndring(View view) {
         fragmentEnkeltFunn.saveFind();
@@ -145,14 +148,20 @@ public class MainActivity extends AppCompatActivity {
         fragmentMineFunn.makeList();
     }
 
-    public void fragmentEnkeltFunnUpdatePicture(View view){
+    public void fragmentEnkeltFunnUpdatePicture(View view) {
         fragmentEnkeltFunn.bildeBtn();
     }
 
-    public void fragmentEnkeltFunnStatusBtn(View view) {
-        fragmentEnkeltFunn.sendFunnMelding();
+    public void fragmentEnkeltFunnSendFunnmeldingBtn(View view) {
+        fragmentEnkeltFunn.sendFunnmelding();
     }
 
+    public void fragmentEnkeltFunnSendFunnskjemaBtn(View view) {
+        fragmentEnkeltFunn.sendFunnskjema();
+    }
+
+
+    //Navigation bar buttons
     public void navbarRegistrereFunn(View view) {
         mPager.setCurrentItem(0);
     }
@@ -175,7 +184,8 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Har ikke hjelpside enda", Toast.LENGTH_LONG).show();
     }
 
-    public void regUserBtn(View view){
+    //User fragment buttons
+    public void regUserBtn(View view) {
         fragmentRegistrereBruker = new FragmentRegistrereBruker();
 
         FragmentManager fm = getSupportFragmentManager();
@@ -185,7 +195,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
     }
-    public void saveUserBtn(View view){
+
+    public void saveUserBtn(View view) {
         fragmentRegistrereBruker.saveUserBtn();
     }
 }

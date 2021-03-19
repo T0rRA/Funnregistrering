@@ -23,6 +23,33 @@ public class Funn implements Serializable {
         return tittel + "\n" + "Lengdegrad: " + longitude + "\nBreddegrad: " + latitude + "\n" + beskrivelse;
     }
 
+    public String getFunnskjema(){
+        return "Tittel= " + tittel + '\n' +
+                "GrunneierNavn= " + grunneierNavn + '\n' +
+                "GrunneierAdresse= " + grunneierAdresse + '\n' +
+                "GrunneierPostNr= " + grunneierPostNr + '\n' +
+                "GrunneierPostSted= " + grunneierPostSted + '\n' +
+                "GrunneierTlf= " + grunneierTlf + '\n' +
+                "GrunneierEpost= " + grunneierEpost + '\n' +
+                "Funnsted= " + funnsted + '\n' +
+                "Kommune= " + kommune + '\n' +
+                "Fylke= " + fylke + '\n' +
+                "Gjenstand= " + gjenstand + '\n' +
+                "GjenstandMerking= " + gjenstandMerking + '\n' +
+                "Datum= " + datum + '\n' +
+                "ArealType= " + arealType + '\n' +
+                "Beskrivelse= " + beskrivelse + '\n' +
+                "Funndato= " + funndato + '\n' +
+                "Dato= " + dato + '\n' +
+                "Opplysninger= " + opplysninger + '\n' +
+                "GårdNr= " + gårdNr + '\n' +
+                "Gbnr= " + gbnr + '\n' +
+                "Lengdegrad= " + longitude + "\n" +
+                "Breddegrad= " + latitude + "\n" +
+                "Funndybde= " + funndybde + "\n" +
+                "BildeID= " + bildeID ;
+    }
+
     public boolean isFunnmeldingKlar(){
         if(tittel.equals("")){
             return false;
@@ -36,14 +63,17 @@ public class Funn implements Serializable {
         return longitude != 200;
     }
 
+    //FIXME kan hende dette ikke funker
     public boolean isFunnskjemaKlart(){
-        Field[] fields = getClass().getDeclaredFields();
-        for(Field f : fields){
-            if(f == null || f.toString().equals("")){
+        String[] allTheStrings = new String[]{tittel, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
+                grunneierTlf, grunneierEpost, funnsted, kommune, fylke, gjenstand, gjenstandMerking,
+                datum, arealType, beskrivelse, funndato, dato, opplysninger, gårdNr, gbnr};
+
+        for (String s : allTheStrings){
+            if(s == null || s.equals("")){
                 return false;
             }
         }
-
         return longitude != 200 && latitude != 200 && funndybde != -1 && bildeID != 0;
     }
 

@@ -50,7 +50,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="@string/fragment_enkelt_funn_status_btn_funnmelding"
-                    android:onClick="fragmentEnkeltFunnStatusBtn"/>
+                    android:onClick="fragmentEnkeltFunnSendFunnmeldingBtn"/>
 
                 <Button
                     android:id="@+id/fragment_enkelt_funnskjema_btn"
@@ -59,7 +59,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="@string/enkelt_funn_status_btn_funnskjema"
-                    android:onClick="fragmentEnkeltFunnStatusBtn"/>
+                    android:onClick="fragmentEnkeltFunnSendFunnskjemaBtn"/>
 
             </LinearLayout>
 

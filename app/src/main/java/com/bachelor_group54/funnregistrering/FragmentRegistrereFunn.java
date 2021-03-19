@@ -123,7 +123,7 @@ public class FragmentRegistrereFunn extends Fragment {
         super.onActivityResult(requestCode, resultCode, data); //Calls the super's onActivityResult (Required by Android)
     }
 
-    public void registrerFunnBtn() {
+    public Funn registrerFunnBtn() {
         funn = new Funn();
 
         EditText title = view.findViewById(R.id.nytt_funn_tittel_et); //Finds the editText containing the title
@@ -141,6 +141,7 @@ public class FragmentRegistrereFunn extends Fragment {
         funn.setDato(date);
 
         saveFind(funn);
+        return funn;
     }
 
     public void saveFind(Funn funn) {
@@ -174,6 +175,17 @@ public class FragmentRegistrereFunn extends Fragment {
     public void sendFunnmelding() {
         registrerFunnBtn();
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), funn.getBildeID(), getContext());
+    }
+
+    public void clearFields(){
+        EditText titleEt = view.findViewById(R.id.nytt_funn_tittel_et);
+        titleEt.setText("");
+        EditText descriptionEt = view.findViewById(R.id.nytt_funn_beskrivelse_et);
+        descriptionEt.setText("");
+        TextView gpsTv = view.findViewById(R.id.gps_tv_nytt_funn);
+        gpsTv.setText("");
+        ImageView imageView = view.findViewById(R.id.preview_bilde_nytt_funn);
+        imageView.setImageBitmap(null);
     }
 }
 
