@@ -21,7 +21,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
         android:layout_weight="1"
         android:onClick="nyeFunnBtn"
         android:text="Nye funn" />
@@ -29,7 +28,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
         android:layout_weight="1"
         android:onClick="mineFunnBtn"
         android:text="Mine funn" />
@@ -37,7 +35,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
         android:layout_weight="1"
         android:onClick="infoBtn"
         android:text="Info og regler" />
@@ -45,7 +42,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
         android:layout_weight="1"
         android:onClick="regUserBtn"
         android:text="Registrer bruker" />
@@ -53,7 +49,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
         android:layout_weight="1"
         android:onClick="toLoginPageBtn"
         android:text="Logg inn" />
