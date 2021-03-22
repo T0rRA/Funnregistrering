@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fragment displaying the Settings-page-->
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <PreferenceCategory android:title="Kategori 1">
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Kategori 2">
+    <CheckBoxPreference android:title= "Dark mode"
+        android:defaultValue="false"
+        android:summary="Darkmode off/on"
+        android:key="checkbox_preference"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Kategori 3">
+    </PreferenceCategory>
+
+</PreferenceScreen>

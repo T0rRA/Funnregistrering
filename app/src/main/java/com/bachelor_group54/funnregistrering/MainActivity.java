@@ -8,13 +8,11 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -214,5 +212,9 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.layout, fragmentLogin); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
         fragmentTransaction.addToBackStack(""); //Legger Fragmentet på stack så back knappen fungerer
         fragmentTransaction.commit();
+    }
+    public void showPreferences(View veiw){
+        Intent intent = new Intent(this, SetPreferenceActivity.class);
+        startActivity(intent);
     }
 }
