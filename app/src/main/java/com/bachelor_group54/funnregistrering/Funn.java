@@ -47,7 +47,7 @@ public class Funn implements Serializable {
                 "Lengdegrad= " + longitude + "\n" +
                 "Breddegrad= " + latitude + "\n" +
                 "Funndybde= " + funndybde + "\n" +
-                "BildeID= " + bildeID ;
+                "BildeID= " + bildeID;
     }
 
     public boolean isFunnmeldingKlar(){
