@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,7 @@ public class FragmentEnkeltFunn extends Fragment {
         //Add setup code here later
         loadFunn();
         updateStatusBtn();
+        setTextWatchers();
         return view;
     }
 
@@ -47,6 +50,30 @@ public class FragmentEnkeltFunn extends Fragment {
     public void onResume() {
         super.onResume();
         updateStatusBtn();
+    }
+
+    public void setTextWatchers(){
+        EditText[] editTexts = {view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_funndybde)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_tittel)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_dato)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_sted)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneier)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_datum)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_arealtype)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_annet)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_gbnr)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_kommune)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_fylke)};
+
+        for (EditText et : editTexts){
+            et.addTextChangedListener(new StatusUpdater());
+        }
     }
 
     public void loadFunn() {
@@ -159,13 +186,17 @@ public class FragmentEnkeltFunn extends Fragment {
         //FIXME legge til sjekk for om latitude er over 90 eller under -90
         EditText latitude = view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad); //Finds the latitude editText
         if (!latitude.getText().toString().equals("")) {
-            funn.setLatitude(Double.parseDouble(latitude.getText().toString()));//Updates the latitude in the find
+            try {
+                funn.setLatitude(Double.parseDouble(latitude.getText().toString()));//Updates the latitude in the find
+            }catch (NumberFormatException e){/*Do noting*/}
         }
 
         //FIXME legge til sjekk for om longitude er over 180 eller under -180
         EditText longitude = view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad); //Finds the longitude editText
         if (!latitude.getText().toString().equals("")) {
+            try {
             funn.setLongitude(Double.parseDouble(longitude.getText().toString())); //Updates the longitude in the find
+            }catch (NumberFormatException e){/*Do noting*/}
         }
 
         EditText depth = view.findViewById(R.id.fragment_enkelt_funn_et_funndybde); //Finds the text field
@@ -228,10 +259,9 @@ public class FragmentEnkeltFunn extends Fragment {
 
         //If no picture has been set get a new picture ID
         if (pictureID == 0) {
-            //Gets the next available pictureID
-            SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
-            pictureID = sharedpreferences.getInt("pictureID", 0) + 1;
 
+            pictureID = getNextPictureID();
+            SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
             //Updates the picture ID in shared preferences
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putInt("pictureID", pictureID);
@@ -243,6 +273,12 @@ public class FragmentEnkeltFunn extends Fragment {
         //Saves the image
         ImageSaver.saveImage(picture, getContext(), pictureID);
 
+    }
+
+    public int getNextPictureID(){
+        //Gets the next available pictureID
+        SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
+        return sharedpreferences.getInt("pictureID", 0) + 1;
     }
 
     int CAMERA_PIC_REQUEST = 1337; //Setting the request code for the camera intent, this is used to identify the result when it is returned after taking the picture in onActivityResult.
@@ -259,6 +295,9 @@ public class FragmentEnkeltFunn extends Fragment {
         if (requestCode == CAMERA_PIC_REQUEST) { //If the requestCode matches that of the startActivityForResult of the cameraIntent we know it is the camera app that is returning it's data.
             try { //May produce null pointers if the picture is not taken
                 picture = (Bitmap) data.getExtras().get("data"); //Gets the picture from the camera app and saves it as a Bitmap
+                if(funn.getBildeID() == 0){
+                    funn.setBildeID(getNextPictureID());
+                }
             } catch (NullPointerException e) {
                 Toast.makeText(getContext(), "Picture not taken", Toast.LENGTH_LONG).show(); //Prints a message to the user, explaining that no picture was taken
                 return; //Return if there is no picture
@@ -308,5 +347,25 @@ public class FragmentEnkeltFunn extends Fragment {
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, funn.getBildeID(), getContext());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
         saveFind();
+    }
+
+    //Updates the status buttons when editText are changed
+    public class StatusUpdater implements TextWatcher{
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            updateFind();
+            updateStatusBtn();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
     }
 }

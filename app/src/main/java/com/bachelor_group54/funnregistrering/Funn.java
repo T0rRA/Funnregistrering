@@ -63,7 +63,6 @@ public class Funn implements Serializable {
         return longitude != 200;
     }
 
-    //FIXME kan hende dette ikke funker
     public boolean isFunnskjemaKlart(){
         String[] allTheStrings = new String[]{tittel, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
                 grunneierTlf, grunneierEpost, funnsted, kommune, fylke, gjenstand, gjenstandMerking,
