@@ -8,7 +8,7 @@ namespace FunnregistreringsAPI.DAL
 {
     public interface FunnRepositoryInterface
     {
-        public Task<bool> RegistrerFunn(Funn nyttFunn);
+        public Task<bool> RegistrerFunn(InnFunn nyttFunn, InnBruker ib);
         
         //A method to get all finds for a user.
         //remember change this to task
