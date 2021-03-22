@@ -24,6 +24,7 @@ namespace FunnregistreringsAPI.Models
         public string Epost { get; set; }
         //denne har egen db
         public virtual List<Funn> MineFunn { get; set; }
+        public bool LoggetInn { get; set; } // log-in check 
 
     }
 }

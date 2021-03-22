@@ -72,8 +72,7 @@ namespace FunnregistreringsAPI.DAL
 
         }
 
-        // Kanskje kalle denne for sendPwResetLink ellerno og en annen for change password
-        public async Task<bool> SendPwResetLink(String epost)
+        public async Task<bool> SendPwResetLink(InnBruker bruker)
         {
 
             // click change password
@@ -88,9 +87,9 @@ namespace FunnregistreringsAPI.DAL
             try
             {
                 
-                // Input e-mail addres
+                // Input e-mail address
                 Bruker enBruker = new Bruker();
-                enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == epost);
+                enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
                 if(enBruker.Equals(null)) // If user does NOT exist
                 {
                     // Error message saying this user does not exist
@@ -269,6 +268,7 @@ namespace FunnregistreringsAPI.DAL
                     ny_bruker.Brukernavn = bruker.Brukernavn;
 
                     // password
+                    // TAKE TWO PASSWORDS AND SAMMENLIGN? idk
                     string passord = bruker.Passord;
                     byte[] salt = BrukerRepository.CreateSalt();
                     byte[] hash = BrukerRepository.CreateHash(passord, salt);
@@ -302,7 +302,7 @@ namespace FunnregistreringsAPI.DAL
                     }
                     ny_bruker.Tlf = bruker.Tlf;
                     ny_bruker.Epost = bruker.Epost;
-                    ny_bruker.MineFunn = new List<Funn>();
+                    ny_bruker.MineFunn = new List<Funn>(); // empty list
 
                     _db.brukere.Add(ny_bruker);
                     await _db.SaveChangesAsync();
@@ -444,11 +444,54 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
+        public async Task<bool> LogIn(InnBruker bruker)
+        {
+            try
+            {
+                Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
+                if(enBruker != null)
+                {
+                    // user exists, check password
+                    byte[] hash = CreateHash(bruker.Passord, enBruker.Salt);
+                    if (hash.SequenceEqual(enBruker.Passord))
+                    {
+                        // hash = the hash in our db. password is correct
+                        enBruker.LoggetInn = true;
+                        await _db.SaveChangesAsync();
+
+                        return true;
+                    }
+                    else
+                    {
+                        // wrong password
+                        return false;
+                    }
+                }
+                else
+                {
+                    // user does not exist, try again
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
         public async Task<bool> LogOut(InnBruker bruker)
         {
-           
+           // remove token/ loggetinn = false
 
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> CheckIfUserLoggedIn(InnBruker bruker)
+        {
+            Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
+            if (enBruker.LoggetInn) { return true; }
+            return false;
         }
 
     }

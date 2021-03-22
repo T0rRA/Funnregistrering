@@ -21,5 +21,8 @@ namespace FunnregistreringsAPI.DAL
         public Task<bool> DeleteUser(InnBruker bruker);
 
         public Task<InnBruker> GetUser(InnBruker bruker);
+
+        public Task<bool> LogIn(InnBruker bruker);
+        public Task<bool> CheckIfUserLoggedIn(InnBruker bruker);
     }
 }
