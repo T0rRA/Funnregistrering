@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    public void toLoginPageBtn(View view){
+    public void toLoginPageBtn(View view){ //login page button
         fragmentLogin = new FragmentLogin();
 
         FragmentManager fm = getSupportFragmentManager();
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(""); //Legger Fragmentet på stack så back knappen fungerer
         fragmentTransaction.commit();
     }
-    public void showPreferences(View veiw){
+    public void showPreferencesBtn(View veiw){//settings/preference page button. Creates an intent using the SetPreferenceActivity class and starts an activity.
         Intent intent = new Intent(this, SetPreferenceActivity.class);
         startActivity(intent);
     }

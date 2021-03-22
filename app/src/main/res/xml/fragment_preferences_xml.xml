@@ -1,19 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Fragment displaying the Settings-page-->
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!-- Fragment displaying the Settings-page-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <PreferenceCategory android:title="Kategori 1">
+    <!-- TODO: Legge til innhold og funksjonalitet(Når det er avgjort hva vi skal ha på denne siden) -->
 
+    <!-- TODO: INNHOLDET ER EKSEMPEL på funksjonalitet vi kan ha her -->
+    <PreferenceCategory android:title="Bruker"> <!--Legger til kategorier (grønn tekst)-->
+        <!-- Crates a text-button. Clicking it opens a dialog box. The dialogbox got an edit text where a new password can be entered-->
+        <EditTextPreference
+            android:dialogMessage="Skriv inn nytt passord"
+            android:dialogTitle="Passordbytte"
+            android:summary="Bytt passord"
+            android:title="Passord"></EditTextPreference>
     </PreferenceCategory>
-    <PreferenceCategory android:title="Kategori 2">
-    <CheckBoxPreference android:title= "Dark mode"
-        android:defaultValue="false"
-        android:summary="Darkmode off/on"
-        android:key="checkbox_preference"/>
+    <PreferenceCategory android:title="Utseende">
+        <!-- Creates an On/off checkbox. OFF is standard -->
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:summary="Darkmode off/on"
+            android:title="Dark mode" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Kategori 3">
+    <PreferenceCategory android:title="Appinnstillinger">
+        <!-- Creates a visual switch you can drag on and off. -->
+        <SwitchPreference
+            android:summary="Bytt til modus uten nett"
+            android:title="Offline modus"></SwitchPreference>
     </PreferenceCategory>
-
 </PreferenceScreen>
