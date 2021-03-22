@@ -86,80 +86,80 @@ namespace FunnregistreringsAPI.DAL
            */
             try
             {
-                
+
                 // Input e-mail address
                 Bruker enBruker = new Bruker();
                 enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
-                if(enBruker.Equals(null)) // If user does NOT exist
+                if (enBruker.Equals(null)) // If user does NOT exist
                 {
                     // Error message saying this user does not exist
                     return false;
                 }
                 else // If user exists, send mail with a link to change password
-                { 
-
-                // Generate random token
-                var rngCsp = new RNGCryptoServiceProvider();
-                var token = new byte[8];
-                rngCsp.GetBytes(token);
-                byte[] hashedToken = CreateHash("", token); // 32 byte hash token
-
-                // DateTime - where expDate is an hour after now
-                DateTime date = DateTime.Now;
-                DateTime expDate = new DateTime(date.Year, date.Month, date.Day, (date.Hour + 1), date.Minute, date.Second);
-
-                // Creates a string with the hashed token to be used in the link
-                StringBuilder hT = new StringBuilder();
-                foreach (byte b in hashedToken) hT.Append(b);
-
-                // Add to db
-                PwReset pwReset = new PwReset
                 {
-                    //Username = "epost",
-                    Username = enBruker.Epost,
-                    TokenHash = hT.ToString(),
-                    BestFor = expDate,
-                    TokenBrukt = false
-                };
-                _db.passordReset.Add(pwReset);
-                _db.SaveChanges();
+
+                    // Generate random token
+                    var rngCsp = new RNGCryptoServiceProvider();
+                    var token = new byte[8];
+                    rngCsp.GetBytes(token);
+                    byte[] hashedToken = CreateHash("", token); // 32 byte hash token
+
+                    // DateTime - where expDate is an hour after now
+                    DateTime date = DateTime.Now;
+                    DateTime expDate = new DateTime(date.Year, date.Month, date.Day, (date.Hour + 1), date.Minute, date.Second);
+
+                    // Creates a string with the hashed token to be used in the link
+                    StringBuilder hT = new StringBuilder();
+                    foreach (byte b in hashedToken) hT.Append(b);
+
+                    // Add to db
+                    PwReset pwReset = new PwReset
+                    {
+                        //Username = "epost",
+                        Username = enBruker.Epost,
+                        TokenHash = hT.ToString(),
+                        BestFor = expDate,
+                        TokenBrukt = false
+                    };
+                    _db.passordReset.Add(pwReset);
+                    _db.SaveChanges();
 
 
-                // Connect to the SMTP-setup in appsettings.json
-                var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
-                var config = builder.Build();
+                    // Connect to the SMTP-setup in appsettings.json
+                    var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+                    var config = builder.Build();
 
-                // Set up SMTP client to communicate with SMTP servers
-                var smtpClient = new SmtpClient(config["Smtp:Host"])
-                {
-                    Port = int.Parse(config["Smtp:Port"]),
-                    Credentials = new NetworkCredential(config["Smtp:Username"], config["Smtp:Password"]),
-                    EnableSsl = true,
-                };
+                    // Set up SMTP client to communicate with SMTP servers
+                    var smtpClient = new SmtpClient(config["Smtp:Host"])
+                    {
+                        Port = int.Parse(config["Smtp:Port"]),
+                        Credentials = new NetworkCredential(config["Smtp:Username"], config["Smtp:Password"]),
+                        EnableSsl = true,
+                    };
 
-                // Construct e-mail-string
-                var epostMelding = new MailMessage()
-                {
-                    From = new MailAddress("losfunnregistrering@gmail.com"),
-                    Subject = "Endre passord",
-                    // Body = "<h2>Hei "+ enBruker.Fornavn +", </h2>"
-                    Body = "<h2>Hei brukernavn, </h2>"
-                    + "<br/><br/><p>"
-                    + "For å endre passordet ditt kan du trykke <a href='/passordReset?brukernavn&"+ hT 
-                    +"'>her.</a> <br/>"
-                    + "Hvis du ikke har bedt om å endre passord, kan du ignorere denne e-posten.<br/><br/>"
-                    + "Ha en fin dag videre!<br/><br/>"
-                    + "Med vennlig hilsen,<br/>"
-                    + "Finnerlønn-teamet.</p>",
-                    IsBodyHtml = true,
-                };
+                    // Construct e-mail-string
+                    var epostMelding = new MailMessage()
+                    {
+                        From = new MailAddress("losfunnregistrering@gmail.com"),
+                        Subject = "Endre passord",
+                        // Body = "<h2>Hei "+ enBruker.Fornavn +", </h2>"
+                        Body = "<h2>Hei brukernavn, </h2>"
+                        + "<br/><br/><p>"
+                        + "For å endre passordet ditt kan du trykke <a href='/passordReset?brukernavn&" + hT
+                        + "'>her.</a> <br/>"
+                        + "Hvis du ikke har bedt om å endre passord, kan du ignorere denne e-posten.<br/><br/>"
+                        + "Ha en fin dag videre!<br/><br/>"
+                        + "Med vennlig hilsen,<br/>"
+                        + "Finnerlønn-teamet.</p>",
+                        IsBodyHtml = true,
+                    };
 
-                string mottaker = enBruker.Epost;
-                //string mottaker = "s333752@oslomet.no";
-                epostMelding.To.Add(mottaker); 
-                await smtpClient.SendMailAsync(epostMelding); // sends mail
-                 
-                return true;
+                    string mottaker = enBruker.Epost;
+                    //string mottaker = "s333752@oslomet.no";
+                    epostMelding.To.Add(mottaker);
+                    await smtpClient.SendMailAsync(epostMelding); // sends mail
+
+                    return true;
 
                 }
             }
@@ -184,13 +184,13 @@ namespace FunnregistreringsAPI.DAL
              */
             try
             {
-                
+
                 PwReset enToken = await _db.passordReset.FirstOrDefaultAsync(t => t.TokenHash == token.ToString());
-                if(enToken == null)
+                if (enToken == null)
                 {
                     // token does not exist/is used
                     return false;
-                } 
+                }
                 else
                 {
                     // token exists
@@ -247,14 +247,14 @@ namespace FunnregistreringsAPI.DAL
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
         }
 
         //Might want to change this to return string? Ask frontend boys
-        public async Task<bool> CreateUser(InnBruker bruker)
+        public async Task<bool> CreateUser(InnBruker bruker, string pw2)
         {
             try
             {
@@ -264,50 +264,60 @@ namespace FunnregistreringsAPI.DAL
                 Bruker potentiallyOldUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
                 if (potentiallyOldUser == null)
                 {
-                    // create new user
-                    ny_bruker.Brukernavn = bruker.Brukernavn;
-
+                   
                     // password
-                    // TAKE TWO PASSWORDS AND SAMMENLIGN? idk
-                    string passord = bruker.Passord;
-                    byte[] salt = BrukerRepository.CreateSalt();
-                    byte[] hash = BrukerRepository.CreateHash(passord, salt);
-                    ny_bruker.Passord = hash;
-                    ny_bruker.Salt = salt;
-
-                    ny_bruker.Fornavn = bruker.Fornavn;
-                    ny_bruker.Etternavn = bruker.Etternavn;
-                    ny_bruker.Adresse = bruker.Adresse;
-
-                    // find postal address
-                    var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
-                    if(finnPostadr == null)
+                    // TAKE TWO PASSWORDS AND SAMMENLIGN
+                    if(bruker.Passord.Equals(pw2))
                     {
-                        // Post code is not in the database
-                        var ny_postadresse = new Postadresse();
-                        ny_postadresse.Postnr = bruker.Postnr;
-                        ny_postadresse.Poststed = bruker.Poststed;
-                        _db.postadresser.Add(ny_postadresse); // add postal code to db
+                        // the passwords match
+                        // create new user
+                        ny_bruker.Brukernavn = bruker.Brukernavn;
+                        string passord = bruker.Passord;
+                        byte[] salt = BrukerRepository.CreateSalt();
+                        byte[] hash = BrukerRepository.CreateHash(passord, salt);
+                        ny_bruker.Passord = hash;
+                        ny_bruker.Salt = salt;
 
-                        //ny_bruker.Poststed = bruker.Poststed;
-                        //ny_bruker.Postnr = bruker.Postnr;
-                        ny_bruker.Postnr = ny_postadresse;
-                    } else
-                    {
-                        // Post code is found
-                        //ny_bruker.Postnr = finnPostadr.Postnr;
-                        //ny_bruker.Poststed = finnPostadr.Poststed;
-                        ny_bruker.Postnr.Postnr = finnPostadr.Postnr;
+                        ny_bruker.Fornavn = bruker.Fornavn;
+                        ny_bruker.Etternavn = bruker.Etternavn;
+                        ny_bruker.Adresse = bruker.Adresse;
 
+                        // find postal address
+                        var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
+                        if (finnPostadr == null)
+                        {
+                            // Post code is not in the database
+                            var ny_postadresse = new Postadresse();
+                            ny_postadresse.Postnr = bruker.Postnr;
+                            ny_postadresse.Poststed = bruker.Poststed;
+                            _db.postadresser.Add(ny_postadresse); // add postal code to db
+
+                            //ny_bruker.Poststed = bruker.Poststed;
+                            //ny_bruker.Postnr = bruker.Postnr;
+                            ny_bruker.Postnr = ny_postadresse;
+                        }
+                        else
+                        {
+                            // Post code is found
+                            //ny_bruker.Postnr = finnPostadr.Postnr;
+                            //ny_bruker.Poststed = finnPostadr.Poststed;
+                            ny_bruker.Postnr.Postnr = finnPostadr.Postnr;
+
+                        }
+                        ny_bruker.Tlf = bruker.Tlf;
+                        ny_bruker.Epost = bruker.Epost;
+                        ny_bruker.MineFunn = new List<Funn>(); // empty list
+
+                        _db.brukere.Add(ny_bruker);
+                        await _db.SaveChangesAsync();
+
+                        return true;
                     }
-                    ny_bruker.Tlf = bruker.Tlf;
-                    ny_bruker.Epost = bruker.Epost;
-                    ny_bruker.MineFunn = new List<Funn>(); // empty list
-
-                    _db.brukere.Add(ny_bruker);
-                    await _db.SaveChangesAsync();
-
-                    return true;
+                    else
+                    {
+                        // passwords do not match, try again
+                        return false;
+                    }
                 }
                 else
                 {
@@ -321,23 +331,23 @@ namespace FunnregistreringsAPI.DAL
                 return false;
             }
         }
-        
+
         public async Task<bool> EditUser(InnBruker bruker)
         {
             // InnBruker bruker contains edited user information
             try
             {
                 var enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
-                if(enBruker != null)
+                if (enBruker != null)
                 {
                     // bruker exists
                     // check if new postnr has changed
-                    if(enBruker.Postnr.Postnr != bruker.Postnr)
+                    if (enBruker.Postnr.Postnr != bruker.Postnr)
                     {
                         // postnr has changed
                         // does it exist in our db?
                         var postNr = await _db.postadresser.FindAsync(bruker.Postnr);
-                        if(postNr == null)
+                        if (postNr == null)
                         {
                             // it does not exist and will be added
                             var nyPostadr = new Postadresse();
@@ -376,27 +386,38 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        public async Task<bool> DeleteUser(InnBruker bruker)
+        public async Task<bool> DeleteUser(InnBruker bruker, string passord)
         {
+            // asks user to input their password
 
             try
             {
                 var enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
-                if(enBruker != null)
+                if (enBruker != null)
                 {
-                    // user exists, so delete it.
-                    List<Funn> funnListe = enBruker.MineFunn;
-                    foreach(Funn f in funnListe)
+                    // user exists, so check password
+                    var hash = CreateHash(passord, enBruker.Salt);
+                    if(hash.Equals(enBruker.Passord))
                     {
-                        // delete each funn
-                        var etFunn = await _db.funn.FindAsync(f.FunnID);
-                        _db.funn.Remove(etFunn);
-                    }
-                    // delete user
-                    _db.brukere.Remove(enBruker);
-                    await _db.SaveChangesAsync();
+                        // password is correct, so delete user
+                        List<Funn> funnListe = enBruker.MineFunn;
+                        foreach (Funn f in funnListe)
+                        {
+                            // delete each funn
+                            var etFunn = await _db.funn.FindAsync(f.FunnID);
+                            _db.funn.Remove(etFunn);
+                        }
+                        // delete user
+                        _db.brukere.Remove(enBruker);
+                        await _db.SaveChangesAsync();
 
-                    return true;
+                        return true;
+                    }
+                    else
+                    {
+                        // password is incorrect, try again
+                        return false;
+                    }
                 }
                 else
                 {
@@ -416,7 +437,7 @@ namespace FunnregistreringsAPI.DAL
             try
             {
                 Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
-                if(enBruker != null)
+                if (enBruker != null)
                 {
                     // user exists
                     var hentetBruker = new InnBruker()
@@ -438,7 +459,7 @@ namespace FunnregistreringsAPI.DAL
                     return null;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return null;
             }
@@ -449,7 +470,7 @@ namespace FunnregistreringsAPI.DAL
             try
             {
                 Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
-                if(enBruker != null)
+                if (enBruker != null)
                 {
                     // user exists, check password
                     byte[] hash = CreateHash(bruker.Passord, enBruker.Salt);
@@ -482,17 +503,43 @@ namespace FunnregistreringsAPI.DAL
 
         public async Task<bool> LogOut(InnBruker bruker)
         {
-           // remove token/ loggetinn = false
-
-            throw new NotImplementedException();
+            try
+            {
+                Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
+                if (enBruker != null)
+                {
+                    // user is found
+                    if(enBruker.LoggetInn)
+                    {
+                        // user is logged in, so log out
+                        enBruker.LoggetInn = false;
+                        await _db.SaveChangesAsync();
+                        return true;
+                    }
+                    // user found, but not logged in
+                    return false;
+                }
+                // user is not found
+                return false;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
         }
 
         public async Task<bool> CheckIfUserLoggedIn(InnBruker bruker)
         {
-            Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
-            if (enBruker.LoggetInn) { return true; }
-            return false;
+            try
+            {
+                Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
+                if (enBruker.LoggetInn) { return true; }
+                return false;
+            }
+            catch (Exception e) 
+            { 
+                return false; 
+            }
         }
-
     }
 }

@@ -22,9 +22,9 @@ namespace FunnregistreringsAPI.Controllers
             _db = db;
         }
 
-        public async Task<ActionResult> CreateUser(InnBruker bruker)
+        public async Task<ActionResult> CreateUser(InnBruker bruker, string pw)
         {
-            bool createOk = await _db.CreateUser(bruker);
+            bool createOk = await _db.CreateUser(bruker, pw);
             if(!createOk) { return NotFound("Bruker ble ikke opprettet"); }
             return Ok("Bruker er opprettet.");
         }
@@ -60,12 +60,12 @@ namespace FunnregistreringsAPI.Controllers
             return BadRequest("Feil på server");
         }
 
-        public async Task<ActionResult> DeleteUser(InnBruker bruker)
+        public async Task<ActionResult> DeleteUser(InnBruker bruker, string pw)
         {
             var loggedIn = await _db.CheckIfUserLoggedIn(bruker);
             if (loggedIn)
             {
-                bool deleteOk = await _db.DeleteUser(bruker);
+                bool deleteOk = await _db.DeleteUser(bruker, pw);
                 if(!deleteOk) { return NotFound("Kunne ikke slette brukeren"); }
                 return Ok("Bruker er slettet");
             }
@@ -103,6 +103,13 @@ namespace FunnregistreringsAPI.Controllers
             // Or a redirection? 
             // Since a user shouldnt be able to log in when theyre already logged in
             return BadRequest("400 error på server i guess");
+        }
+
+        public async Task<ActionResult> CheckIfUserLoggedIn(InnBruker bruker)
+        {
+            bool checkOk = await _db.CheckIfUserLoggedIn(bruker);
+            if (!checkOk) return Ok(false);
+            return Ok(true);
         }
     }
 }
