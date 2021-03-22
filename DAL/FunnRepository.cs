@@ -1,5 +1,6 @@
 ﻿using FunnregistreringsAPI.Models;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -85,6 +86,14 @@ namespace FunnregistreringsAPI.DAL
             {
                 return null;
             }
+        }
+
+        public async Task<bool> DeleteFunn(Funn f)
+        {
+            Funn real_funn = await _db.funn.FindAsync(f.FunnID);
+            _db.funn.Remove(real_funn);
+            await _db.SaveChangesAsync();
+            return true;
         }
     }
 }

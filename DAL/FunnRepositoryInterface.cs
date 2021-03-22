@@ -1,4 +1,5 @@
 ﻿using FunnregistreringsAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,10 @@ namespace FunnregistreringsAPI.DAL
         //remember change this to task
         //Has to take inn a user (?) or what do we do
         public List<Funn> GetAllUserFunn();
+
+        public Task<bool> DeleteFunn(Funn f);
+        //what do i include even wth
+        //what else might be required?
+        
     }
 }
