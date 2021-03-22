@@ -85,8 +85,7 @@ public class MainActivity extends AppCompatActivity {
     //Makes the back button work as expected
     public void onBackPressed() {
         if (mPager.getVisibility() == View.GONE) {
-            fm.popBackStack();
-            mPager.setVisibility(View.VISIBLE);
+            closeFragment();
             return;
         }
         if (mPager.getCurrentItem() == 0) {
@@ -127,20 +126,14 @@ public class MainActivity extends AppCompatActivity {
 
     //Opens find from list
     public void openEnkeltFunn(Funn funn, int position) {
-        mPager.setVisibility(View.GONE);
-        fragmentEnkeltFunn = new FragmentEnkeltFunn(funn, position);
-        FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
-        fragmentTransaction.replace(R.id.layout, fragmentEnkeltFunn); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
-        fragmentTransaction.addToBackStack(""); //Puts the fragment on the stack, so back button will work
-        fragmentTransaction.commit();
+        openFragment(fragmentEnkeltFunn);
     }
 
     //Buttons for the single found fragment
     //Saves the changes made to the find
     public void fragmentEnkeltFunnLagreEndring(View view) {
         fragmentEnkeltFunn.saveFind();
-        fm.popBackStack();//Goes back to the slide fragments
-        mPager.setVisibility(View.VISIBLE);
+        closeFragment();
         fragmentMineFunn.makeList();
     }
 
@@ -183,16 +176,25 @@ public class MainActivity extends AppCompatActivity {
     //User fragment buttons
     public void regUserBtn(View view) {
         fragmentRegistrereBruker = new FragmentRegistrereBruker();
-
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
-        fragmentTransaction.replace(R.id.layout, fragmentRegistrereBruker); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
-        fragmentTransaction.addToBackStack(""); //Legger Fragmentet på stack så back knappen fungerer
-        fragmentTransaction.commit();
-
+        openFragment(fragmentRegistrereBruker);
     }
 
     public void saveUserBtn(View view) {
         fragmentRegistrereBruker.saveUserBtn();
+    }
+
+    public void openFragment(Fragment fragment){
+        mPager.setVisibility(View.GONE); //Sets the main fragments visibility to gone so that the user cannot se or interact with it
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
+        fragmentTransaction.replace(R.id.layout, fragment); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
+        fragmentTransaction.addToBackStack(""); //Adds the fragment to the fragment stack so it can be poped later
+        fragmentTransaction.commit();
+    }
+
+    public void closeFragment(){
+        fm.popBackStack();//Goes back to the slide fragments
+        mPager.setVisibility(View.VISIBLE); //Makes the main fragments visible again
     }
 }

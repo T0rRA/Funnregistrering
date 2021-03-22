@@ -24,13 +24,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:hint="@string/registrere_lose_funn_et_tittel" />
+            android:hint="@string/registrere_lose_funn_et_tittel"
+            android:imeOptions="actionDone"
+            android:singleLine="true" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_margin="10dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <Button
@@ -53,10 +55,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:onClick="gpsBtn"
-            android:layout_margin="10dp"
             android:orientation="horizontal">
 
             <Button
@@ -85,8 +87,8 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_margin="10dp"
+            android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:onClick="registrerFunnBtn"
             android:text="@string/registrere_lose_funn_btn_lagre" />
