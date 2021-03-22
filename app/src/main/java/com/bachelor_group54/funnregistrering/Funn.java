@@ -24,29 +24,34 @@ public class Funn implements Serializable {
     }
 
     public String getFunnskjema(){
-        return "Tittel= " + tittel + '\n' +
-                "GrunneierNavn= " + grunneierNavn + '\n' +
-                "GrunneierAdresse= " + grunneierAdresse + '\n' +
-                "GrunneierPostNr= " + grunneierPostNr + '\n' +
-                "GrunneierPostSted= " + grunneierPostSted + '\n' +
-                "GrunneierTlf= " + grunneierTlf + '\n' +
-                "GrunneierEpost= " + grunneierEpost + '\n' +
-                "Funnsted= " + funnsted + '\n' +
-                "Kommune= " + kommune + '\n' +
-                "Fylke= " + fylke + '\n' +
-                "Gjenstand= " + gjenstand + '\n' +
-                "GjenstandMerking= " + gjenstandMerking + '\n' +
-                "Datum= " + datum + '\n' +
-                "ArealType= " + arealType + '\n' +
-                "Beskrivelse= " + beskrivelse + '\n' +
-                "Dato= " + dato + '\n' +
-                "Opplysninger= " + opplysninger + '\n' +
-                "GårdNr= " + gårdNr + '\n' +
-                "Gbnr= " + gbnr + '\n' +
-                "Lengdegrad= " + longitude + "\n" +
-                "Breddegrad= " + latitude + "\n" +
-                "Funndybde= " + funndybde + "\n" +
-                "BildeID= " + bildeID;
+        return "Tittel: " + tittel + "\n\n" +
+
+                "Grunneier \n" +
+                "GrunneierNavn: " + grunneierNavn + "\n" +
+                "GrunneierAdresse: " + grunneierAdresse + '\n' +
+                "GrunneierPostNr: " + grunneierPostNr + '\n' +
+                "GrunneierPostSted: " + grunneierPostSted + '\n' +
+                "GrunneierTlf: " + grunneierTlf + '\n' +
+                "GrunneierEpost: " + grunneierEpost + "\n\n" +
+
+                "Dato: " + dato + '\n' +
+                "Funnsted: " + funnsted + '\n' +
+                "GårdNr: " + gårdNr + '\n' +
+                "Gbnr: " + gbnr + '\n' +
+                "Kommune: " + kommune + '\n' +
+                "Fylke: " + fylke + "\n\n" +
+
+                "Gjenstand: " + gjenstand + '\n' +
+                "Funndybde: " + funndybde + "\n" +
+                "Gjenstand merket med: " + gjenstandMerking + "\n\n" +
+
+                "Breddegrad: " + latitude + "\n" +
+                "Lengdegrad: " + longitude + "\n" +
+                "Datum: " + datum + '\n' +
+                "ArealType: " + arealType + "\n\n" +
+
+                "Beskrivelse: " + beskrivelse + "\n\n" +
+                "Opplysninger: " + opplysninger;
     }
 
     public boolean isFunnmeldingKlar(){
