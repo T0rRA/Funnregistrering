@@ -60,6 +60,11 @@ public class FragmentEnkeltFunn extends Fragment {
                 , view.findViewById(R.id.fragment_enkelt_funn_et_dato)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_sted)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_grunneier)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierTlf)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke)
@@ -115,9 +120,20 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText owner = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
         setText(funn.getGrunneierNavn(), owner);
 
-        //TODO legge til status
-        TextView status = view.findViewById(R.id.fragment_enkelt_funn_tv_status);
-        status.setText("Status: vi har ikke noe status");
+        EditText ownerAddress = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
+        setText(funn.getGrunneierAdresse(), ownerAddress);
+
+        EditText ownerPostalCode = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr);
+        setText(funn.getGrunneierPostNr(), ownerPostalCode);
+
+        EditText ownerPostalPlace = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted);
+        setText(funn.getGrunneierPostSted(), ownerPostalPlace);
+
+        EditText ownerTlf = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierTlf);
+        setText(funn.getGrunneierTlf(), ownerTlf);
+
+        EditText ownerEmail = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost);
+        setText(funn.getGrunneierEpost(), ownerEmail);
 
         EditText description = view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse);
         setText(funn.getBeskrivelse(), description);
@@ -217,9 +233,20 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText owner = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
         funn.setGrunneierNavn(owner.getText().toString());
 
-        //TODO legge til status
-        TextView status = view.findViewById(R.id.fragment_enkelt_funn_tv_status);
-        status.setText("Status: vi har ikke noe status");
+        EditText ownerAddress = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
+        funn.setGrunneierAdresse(ownerAddress.getText().toString());
+
+        EditText ownerPostalCode = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr);
+        funn.setGrunneierPostNr(ownerPostalCode.getText().toString());
+
+        EditText ownerPostalPlace = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted);
+        funn.setGrunneierPostSted(ownerPostalPlace.getText().toString());
+
+        EditText ownerTlf = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierTlf);
+        funn.setGrunneierTlf(ownerTlf.getText().toString());
+
+        EditText ownerEmail = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost);
+        funn.setGrunneierEpost(ownerEmail.getText().toString());
 
         EditText description = view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse);
         funn.setBeskrivelse(description.getText().toString());
