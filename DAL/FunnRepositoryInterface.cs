@@ -13,6 +13,6 @@ namespace FunnregistreringsAPI.DAL
         //A method to get all finds for a user.
         //remember change this to task
         //Has to take inn a user (?) or what do we do
-        public List<Funn> GetAllUserFunn();
+        public Task<List<Funn>> GetAllUserFunn(InnBruker ib);
     }
 }
