@@ -20,10 +20,19 @@ namespace FunnregistreringsAPI.Controllers
         {
             _db = db;
         }
-
-        public List<Funn> GetAllUserFunn()
+        //We have to make these functions secure. Right now these can be injected if they have the webserver API and the function. 
+        //Is it feasible to every time person logs in the "password" is physically saved on the device so that we can confirm their status?
+        public async Task<List<Funn>> GetAllUserFunn(InnBruker ib)
         {
-            return _db.GetAllUserFunn();
+            if (ModelState.IsValid)
+            {
+                return await _db.GetAllUserFunn(ib);
+            }
+            else
+            {
+                return null;
+            }
+            
         }
 
         public async Task<bool> RegistrerFunn(InnFunn nyttFunn, InnBruker ib)

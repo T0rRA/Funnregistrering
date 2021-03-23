@@ -41,8 +41,7 @@ namespace FunnregistreringsAPI.DAL
                 bruker1.mineFunn = new List<Funn>();
 
 
-                Console.WriteLine("USER HAS BEEN ADDED");
-
+                
                 // FUNN
                 var funn1 = new Funn();
                 funn1.image = "123";
@@ -54,8 +53,35 @@ namespace FunnregistreringsAPI.DAL
                 funn1.koordinat = "5943058390494";
                 funn1.datum = "???";
                 funn1.areal_type = "...sirkel";
-
+                
+                var funn2 = new Funn
+                {
+                    image = "544399123123sdadaffdgwqe",
+                    areal_type = "jorde",
+                    datum = "12.03.2021",
+                    funndato = "11.02.2021",
+                    funndybde = "420m",
+                    fylke = "Viken",
+                    gjenstand_markert_med = "funnID'en",
+                    kommune = "Sarpsborg",
+                    koordinat = "12 03 12N, 54 12 65W",
+                };
+                var funn3 = new Funn
+                {
+                    image = "owoew",
+                    areal_type = "fjell",
+                    datum = "12.03.2021",
+                    funndato = "11.02.2021",
+                    funndybde = "69m",
+                    fylke = "Viken",
+                    gjenstand_markert_med = "funnID'en",
+                    kommune = "Sarpsborg",
+                    koordinat = "12 03 17N, 54 12 62W",
+                };
+                
                 bruker1.mineFunn.Add(funn1);
+                bruker1.mineFunn.Add(funn2);
+                bruker1.mineFunn.Add(funn3);
 
                 context.brukere.Add(bruker1);
                 context.SaveChanges();
