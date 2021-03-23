@@ -35,6 +35,13 @@ namespace FunnregistreringsAPI.Controllers
             
         }
 
-
+        public async Task<bool> RegistrerFunn(InnFunn nyttFunn, InnBruker ib)
+        {
+            throw new NotImplementedException();
+        }
+        public async Task<bool> DeleteFunn(Funn f)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

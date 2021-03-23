@@ -15,9 +15,36 @@ namespace FunnregistreringsAPI.DAL
     public class FunnRepository : FunnRepositoryInterface
     {
         private readonly FunnDB _db;
-        public Task<bool> RegistrerFunn(Funn nyttFunn)
+
+        public async Task<bool> RegistrerFunn(InnFunn nyttFunn, InnBruker ib)
+
         {
-            throw new NotImplementedException();
+            try
+            {
+                Bruker realUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == ib.Brukernavn);
+
+                Funn nf = new Funn
+                {
+                    koordinat = nyttFunn.koordinat,
+                    kommune = nyttFunn.kommune,
+                    image = nyttFunn.image,
+                    gjenstand_markert_med = nyttFunn.gjenstand_markert_med,
+                    fylke = nyttFunn.fylke,
+                    funndybde = nyttFunn.funndybde,
+                    datum = nyttFunn.datum,
+                    areal_type = nyttFunn.areal_type,
+                    funndato = nyttFunn.funndato,
+                    BrukerUserID = realUser.UserID
+                };
+
+                await _db.funn.AddAsync(nf);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         //NOTE!!! THIS MUST BE SECURE 
@@ -50,9 +77,13 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        private byte[] CreateHash(string passord, byte[] salt)
+        public async Task<bool> DeleteFunn(Funn f)
         {
-            throw new NotImplementedException();
+            Funn real_funn = await _db.funn.FindAsync(f.FunnID);
+            _db.funn.Remove(real_funn);
+            await _db.SaveChangesAsync();
+            return true;
+
         }
     }
 }
