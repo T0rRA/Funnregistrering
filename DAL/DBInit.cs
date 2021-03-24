@@ -34,12 +34,18 @@ namespace FunnregistreringsAPI.DAL
                 bruker1.Fornavn = "Fatima";
                 bruker1.Etternavn = "Ahmad";
                 bruker1.Adresse = "Osloveien 2b";
-                bruker1.Postnr = "0456";
-                bruker1.Poststed = "Oslo";
+
+                Postadresse poststed = new Postadresse();
+                poststed.Postnr = "0457";
+                poststed.Poststed = "Oslo";
+                context.postadresser.Add(poststed);
+
+                bruker1.Postnr = poststed; // blir postnr1 i db idk why:(
+                
+
                 bruker1.Tlf = "75849384";
                 bruker1.Epost = "s333752@oslomet.no";
-                bruker1.mineFunn = new List<Funn>();
-
+                bruker1.MineFunn = new List<Funn>();
 
                 
                 // FUNN
