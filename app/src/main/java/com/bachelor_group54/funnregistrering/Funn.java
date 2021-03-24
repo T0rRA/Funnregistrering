@@ -19,10 +19,12 @@ public class Funn implements Serializable {
 
     private boolean funnmeldingSendt = false, funnskjemaSendt = false;
 
+    //Returns a string that we can send as a find message
     public String getFunnmelding(){
         return tittel + "\n" + "Lengdegrad: " + longitude + "\nBreddegrad: " + latitude + "\n" + beskrivelse;
     }
 
+    //Returns a formatted string of the fields needed for the find form
     public String getFunnskjema(){
         return "Tittel: " + tittel + "\n\n" +
 
@@ -54,6 +56,7 @@ public class Funn implements Serializable {
                 "Opplysninger: " + opplysninger;
     }
 
+    //Checks if all the fields needed for find message is filled
     public boolean isFunnmeldingKlar(){
         if(tittel.equals("")){
             return false;
@@ -67,17 +70,18 @@ public class Funn implements Serializable {
         return longitude != 200;
     }
 
+    //Checks if all the fields needed for the find form is filled
     public boolean isFunnskjemaKlart(){
         String[] allTheStrings = new String[]{tittel, dato, funnsted, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, beskrivelse, gjenstand, gjenstandMerking,
                 datum, arealType, opplysninger, gårdNr, gbnr, kommune, fylke};
 
         for (String s : allTheStrings){
-            if(s == null || s.equals("")){
+            if(s == null || s.equals("")){ //Checks if the strings are valid
                 return false;
             }
         }
-        return longitude != 200 && latitude != 200 && funndybde != -1 && bildeID != 0;
+        return longitude != 200 && latitude != 200 && funndybde != -1 && bildeID != 0; //Checks if the ints and doubles are valid
     }
 
     public String getOpplysninger() {
