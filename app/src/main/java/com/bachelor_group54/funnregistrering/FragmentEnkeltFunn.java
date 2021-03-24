@@ -52,6 +52,7 @@ public class FragmentEnkeltFunn extends Fragment {
         updateStatusBtn();
     }
 
+    //Makes the status buttons update when editTexts are changed
     public void setTextWatchers(){
         EditText[] editTexts = {view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad)
@@ -77,7 +78,7 @@ public class FragmentEnkeltFunn extends Fragment {
                 , view.findViewById(R.id.fragment_enkelt_funn_et_fylke)};
 
         for (EditText et : editTexts){
-            et.addTextChangedListener(new StatusUpdater());
+            et.addTextChangedListener(new StatusUpdater()); //Setts the textWatcher on the editText
         }
     }
 
