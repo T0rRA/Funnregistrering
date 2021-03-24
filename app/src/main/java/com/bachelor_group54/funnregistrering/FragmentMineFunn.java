@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 //Class for the my finds fragment
 public class FragmentMineFunn extends Fragment {
     private View view;
+    private int listSize;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,5 +42,10 @@ public class FragmentMineFunn extends Fragment {
         ArrayList funnListe = objektLagrer.loadData(); //Gets the ArrayList containing all the finds
         ListAdapter listAdapter = new ListAdapter(getContext(), funnListe, (MainActivity)getActivity()); //Creates the listAdapter, the listAdapter is used to handle the elements within the listView
         listView.setAdapter(listAdapter); //Sets the ListAdapter
+        listSize = funnListe.size();
+    }
+
+    public int getListSize() {
+        return listSize;
     }
 }
