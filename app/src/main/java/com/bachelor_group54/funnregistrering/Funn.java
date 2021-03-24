@@ -1,12 +1,14 @@
 package com.bachelor_group54.funnregistrering;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 
 //Class for holding info about each found (Contains variables with getters and setters )
 public class Funn implements Serializable {
     private String tittel, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, funnsted, kommune, fylke, gjenstand, gjenstandMerking,
-            datum, arealType, beskrivelse, funndato, dato, opplysninger, gårdNr, gbnr;
+            datum, arealType, beskrivelse, dato, opplysninger, gårdNr, gbnr;
 
     //Sets the depth to -1, then we can check if its not set later, as negative values should not be a valid input
     //The maximum latitude value is 90 and the maximum longitude value is 180. Setting both to 200 means we can later check if the value has been set or not
@@ -14,6 +16,73 @@ public class Funn implements Serializable {
 
     //The picture int is the number that needs to be given to the ImageSaver class to load the correct image
     private int bildeID;
+
+    private boolean funnmeldingSendt = false, funnskjemaSendt = false;
+
+    //Returns a string that we can send as a find message
+    public String getFunnmelding(){
+        return tittel + "\n" + "Lengdegrad: " + longitude + "\nBreddegrad: " + latitude + "\n" + beskrivelse;
+    }
+
+    //Returns a formatted string of the fields needed for the find form
+    public String getFunnskjema(){
+        return "Tittel: " + tittel + "\n\n" +
+
+                "Grunneier \n" +
+                "GrunneierNavn: " + grunneierNavn + "\n" +
+                "GrunneierAdresse: " + grunneierAdresse + '\n' +
+                "GrunneierPostNr: " + grunneierPostNr + '\n' +
+                "GrunneierPostSted: " + grunneierPostSted + '\n' +
+                "GrunneierTlf: " + grunneierTlf + '\n' +
+                "GrunneierEpost: " + grunneierEpost + "\n\n" +
+
+                "Dato: " + dato + '\n' +
+                "Funnsted: " + funnsted + '\n' +
+                "GårdNr: " + gårdNr + '\n' +
+                "Gbnr: " + gbnr + '\n' +
+                "Kommune: " + kommune + '\n' +
+                "Fylke: " + fylke + "\n\n" +
+
+                "Gjenstand: " + gjenstand + '\n' +
+                "Funndybde: " + funndybde + "\n" +
+                "Gjenstand merket med: " + gjenstandMerking + "\n\n" +
+
+                "Breddegrad: " + latitude + "\n" +
+                "Lengdegrad: " + longitude + "\n" +
+                "Datum: " + datum + '\n' +
+                "ArealType: " + arealType + "\n\n" +
+
+                "Beskrivelse: " + beskrivelse + "\n\n" +
+                "Opplysninger: " + opplysninger;
+    }
+
+    //Checks if all the fields needed for find message is filled
+    public boolean isFunnmeldingKlar(){
+        if(tittel.equals("")){
+            return false;
+        }
+        if(bildeID == 0){
+            return false;
+        }
+        if(latitude == 200) {
+            return false;
+        }
+        return longitude != 200;
+    }
+
+    //Checks if all the fields needed for the find form is filled
+    public boolean isFunnskjemaKlart(){
+        String[] allTheStrings = new String[]{tittel, dato, funnsted, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
+            grunneierTlf, grunneierEpost, beskrivelse, gjenstand, gjenstandMerking,
+                datum, arealType, opplysninger, gårdNr, gbnr, kommune, fylke};
+
+        for (String s : allTheStrings){
+            if(s == null || s.equals("")){ //Checks if the strings are valid
+                return false;
+            }
+        }
+        return longitude != 200 && latitude != 200 && funndybde != -1 && bildeID != 0; //Checks if the ints and doubles are valid
+    }
 
     public String getOpplysninger() {
         return opplysninger;
@@ -159,14 +228,6 @@ public class Funn implements Serializable {
         this.beskrivelse = beskrivelse;
     }
 
-    public String getFunndato() {
-        return funndato;
-    }
-
-    public void setFunndato(String funndato) {
-        this.funndato = funndato;
-    }
-
     public double getLongitude() {
         return longitude;
     }
@@ -205,5 +266,21 @@ public class Funn implements Serializable {
 
     public void setGbnr(String gbnr) {
         this.gbnr = gbnr;
+    }
+
+    public boolean isFunnmeldingSendt() {
+        return funnmeldingSendt;
+    }
+
+    public void setFunnmeldingSendt(boolean funnmeldingSendt) {
+        this.funnmeldingSendt = funnmeldingSendt;
+    }
+
+    public boolean isFunnskjemaSendt() {
+        return funnskjemaSendt;
+    }
+
+    public void setFunnskjemaSendt(boolean funnskjemaSendt) {
+        this.funnskjemaSendt = funnskjemaSendt;
     }
 }

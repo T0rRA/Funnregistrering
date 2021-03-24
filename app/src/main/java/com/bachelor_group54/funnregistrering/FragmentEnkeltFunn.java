@@ -5,9 +5,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,10 +41,48 @@ public class FragmentEnkeltFunn extends Fragment {
         view = inflater.inflate(R.layout.fragment_enkelt_funn, container, false); //Loads the page from the XML file
         //Add setup code here later
         loadFunn();
+        updateStatusBtn();
+        setTextWatchers();
         return view;
     }
 
-    public void loadFunn(){
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateStatusBtn();
+    }
+
+    //Makes the status buttons update when editTexts are changed
+    public void setTextWatchers(){
+        EditText[] editTexts = {view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_funndybde)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_tittel)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_dato)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_sted)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneier)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierTlf)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_datum)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_arealtype)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_annet)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_gbnr)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_kommune)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_fylke)};
+
+        for (EditText et : editTexts){
+            et.addTextChangedListener(new StatusUpdater()); //Setts the textWatcher on the editText
+        }
+    }
+
+    public void loadFunn() {
         String tomtFelt = "ikke fylt ut";
         ImageView imageView = view.findViewById(R.id.fragment_enkelt_funn_bilde); //Finds the image view
         imageView.setImageBitmap(ImageSaver.loadImage(getContext(), funn.getBildeID())); //Sets the image view to the finds image
@@ -50,20 +91,20 @@ public class FragmentEnkeltFunn extends Fragment {
 
         EditText latitude = view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad); //Finds the latitude textView
         //Latitude cannot be more than 90 or less than -90
-        if(funn.getLatitude() >= -90 && funn.getLatitude() <= 90){
+        if (funn.getLatitude() >= -90 && funn.getLatitude() <= 90) {
             latitude.setText("" + funn.getLatitude());
         }
 
         EditText longitude = view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad); //Finds the longitude textView
         //Longitude cannot be more than 180 or less than -180
-        if(funn.getLongitude() >= -180 && funn.getLongitude() <= 180){
+        if (funn.getLongitude() >= -180 && funn.getLongitude() <= 180) {
             longitude.setText("" + funn.getLongitude());
         }
 
         EditText depth = view.findViewById(R.id.fragment_enkelt_funn_et_funndybde);
-        if(funn.getFunndybde() == -1){//-1 is the default value
+        if (funn.getFunndybde() == -1) {//-1 is the default value
             depth.setHint(tomtFelt);
-        }else{
+        } else {
             depth.setText("" + funn.getFunndybde());
         }
 
@@ -80,9 +121,20 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText owner = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
         setText(funn.getGrunneierNavn(), owner);
 
-        //TODO legge til status
-        TextView status = view.findViewById(R.id.fragment_enkelt_funn_tv_status);
-        status.setText("Status: vi har ikke noe status");
+        EditText ownerAddress = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
+        setText(funn.getGrunneierAdresse(), ownerAddress);
+
+        EditText ownerPostalCode = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr);
+        setText(funn.getGrunneierPostNr(), ownerPostalCode);
+
+        EditText ownerPostalPlace = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted);
+        setText(funn.getGrunneierPostSted(), ownerPostalPlace);
+
+        EditText ownerTlf = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierTlf);
+        setText(funn.getGrunneierTlf(), ownerTlf);
+
+        EditText ownerEmail = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost);
+        setText(funn.getGrunneierEpost(), ownerEmail);
 
         EditText description = view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse);
         setText(funn.getBeskrivelse(), description);
@@ -116,26 +168,26 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     //Checks if strings are filled put or not
-    public String checkString(String string){
-        if(string == null || string.equals("")){ //If null or empty string return not filled message
+    public String checkString(String string) {
+        if (string == null || string.equals("")) { //If null or empty string return not filled message
             return "ikke fylt ut";
         }
         return string; //Returns the input string by default
     }
 
-    public void setText(String text, EditText editText){
+    public void setText(String text, EditText editText) {
         text = checkString(text);
         if (!text.equals("ikke fylt ut")) {
             editText.setText(text);
         }
     }
 
-    public void saveFind(){
+    public void saveFind() {
         //Updates the find with the changed information
         updateFind();
 
         //If the a picture has been added save it
-        if(picture != null) {
+        if (picture != null) {
             savePicture();
         }
 
@@ -147,21 +199,25 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     //This method is used for updating the find before saving it
-    public void updateFind(){
+    public void updateFind() {
         //FIXME legge til sjekk for om latitude er over 90 eller under -90
         EditText latitude = view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad); //Finds the latitude editText
-        if(!latitude.getText().toString().equals("")) {
-            funn.setLatitude(Double.parseDouble(latitude.getText().toString()));//Updates the latitude in the find
+        if (!latitude.getText().toString().equals("")) {
+            try {
+                funn.setLatitude(Double.parseDouble(latitude.getText().toString()));//Updates the latitude in the find
+            }catch (NumberFormatException e){/*Do noting*/}
         }
 
         //FIXME legge til sjekk for om longitude er over 180 eller under -180
         EditText longitude = view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad); //Finds the longitude editText
-        if(!latitude.getText().toString().equals("")) {
+        if (!latitude.getText().toString().equals("")) {
+            try {
             funn.setLongitude(Double.parseDouble(longitude.getText().toString())); //Updates the longitude in the find
+            }catch (NumberFormatException e){/*Do noting*/}
         }
 
         EditText depth = view.findViewById(R.id.fragment_enkelt_funn_et_funndybde); //Finds the text field
-        if(!depth.getText().toString().equals("")) {
+        if (!depth.getText().toString().equals("")) {
             funn.setFunndybde(Double.parseDouble(depth.getText().toString())); //Changes the info inn the find
         }
 
@@ -178,9 +234,20 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText owner = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
         funn.setGrunneierNavn(owner.getText().toString());
 
-        //TODO legge til status
-        TextView status = view.findViewById(R.id.fragment_enkelt_funn_tv_status);
-        status.setText("Status: vi har ikke noe status");
+        EditText ownerAddress = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
+        funn.setGrunneierAdresse(ownerAddress.getText().toString());
+
+        EditText ownerPostalCode = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr);
+        funn.setGrunneierPostNr(ownerPostalCode.getText().toString());
+
+        EditText ownerPostalPlace = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted);
+        funn.setGrunneierPostSted(ownerPostalPlace.getText().toString());
+
+        EditText ownerTlf = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierTlf);
+        funn.setGrunneierTlf(ownerTlf.getText().toString());
+
+        EditText ownerEmail = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost);
+        funn.setGrunneierEpost(ownerEmail.getText().toString());
 
         EditText description = view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse);
         funn.setBeskrivelse(description.getText().toString());
@@ -214,16 +281,15 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
 
-    public void savePicture(){
+    public void savePicture() {
         //Gets the image ID
         int pictureID = funn.getBildeID();
 
         //If no picture has been set get a new picture ID
-        if(pictureID == 0){
-            //Gets the next available pictureID
-            SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
-            pictureID = sharedpreferences.getInt("pictureID", 0) + 1;
+        if (pictureID == 0) {
 
+            pictureID = getNextPictureID();
+            SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
             //Updates the picture ID in shared preferences
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putInt("pictureID", pictureID);
@@ -237,10 +303,16 @@ public class FragmentEnkeltFunn extends Fragment {
 
     }
 
+    public int getNextPictureID(){
+        //Gets the next available pictureID
+        SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
+        return sharedpreferences.getInt("pictureID", 0) + 1;
+    }
+
     int CAMERA_PIC_REQUEST = 1337; //Setting the request code for the camera intent, this is used to identify the result when it is returned after taking the picture in onActivityResult.
 
     //This method opens the camera app when clicking the "Take image" button
-    public void bildeBtn(){
+    public void bildeBtn() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); //Makes an intent of the image capture type
         startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST); //Starts the camera app and waits for the result
     }
@@ -248,10 +320,13 @@ public class FragmentEnkeltFunn extends Fragment {
     @Override
     //This method receives the image from the camera app and setts the ImageView to that image.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == CAMERA_PIC_REQUEST) { //If the requestCode matches that of the startActivityForResult of the cameraIntent we know it is the camera app that is returning it's data.
+        if (requestCode == CAMERA_PIC_REQUEST) { //If the requestCode matches that of the startActivityForResult of the cameraIntent we know it is the camera app that is returning it's data.
             try { //May produce null pointers if the picture is not taken
                 picture = (Bitmap) data.getExtras().get("data"); //Gets the picture from the camera app and saves it as a Bitmap
-            }catch (NullPointerException e){
+                if(funn.getBildeID() == 0){
+                    funn.setBildeID(getNextPictureID());
+                }
+            } catch (NullPointerException e) {
                 Toast.makeText(getContext(), "Picture not taken", Toast.LENGTH_LONG).show(); //Prints a message to the user, explaining that no picture was taken
                 return; //Return if there is no picture
             }
@@ -263,4 +338,62 @@ public class FragmentEnkeltFunn extends Fragment {
         super.onActivityResult(requestCode, resultCode, data); //Calls the super's onActivityResult (Required by Android)
     }
 
+    //Fixme denne metoden må kjøres når felter endres
+    //This method color codes the status buttons (red = missing info, yellow = ready to send, green = sent)
+    public void updateStatusBtn() {
+        Button findMessageBtn = view.findViewById(R.id.fragment_enkelt_funn_funnmelding_btn);
+        if (!funn.isFunnmeldingSendt()) { //Checks if the find message is sent or not
+            if (funn.isFunnmeldingKlar()) {
+                findMessageBtn.setBackgroundColor(getResources().getColor(R.color.colorYellow)); //If the right info is entered the the button is yellow
+            } else {
+                findMessageBtn.setBackgroundColor(getResources().getColor(R.color.colorRed)); //If the right info is not entered then the buttons is red
+            }
+        } else {
+            findMessageBtn.setBackgroundColor(getResources().getColor(R.color.colorGreen)); //If the message is sent then the button is green
+        }
+
+        Button findFormBtn = view.findViewById(R.id.fragment_enkelt_funnskjema_btn);
+        if (!funn.isFunnskjemaSendt()) {
+            if (funn.isFunnskjemaKlart()) {
+                findFormBtn.setBackgroundColor(getResources().getColor(R.color.colorYellow)); //If the right info is entered the the button is yellow
+            } else {
+                findFormBtn.setBackgroundColor(getResources().getColor(R.color.colorRed)); //If the right info is not entered then the buttons is red
+            }
+        } else {
+            findFormBtn.setBackgroundColor(getResources().getColor(R.color.colorGreen)); //If the for is sent then the button is green
+        }
+    }
+
+    public void sendFunnmelding() {
+        EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), funn.getBildeID(), getContext());
+        funn.setFunnmeldingSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
+        saveFind();
+    }
+
+    public void sendFunnskjema() {
+        //TODO finne ut hvordan man lager PDF
+        EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, funn.getBildeID(), getContext());
+        funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
+        saveFind();
+    }
+
+    //Updates the status buttons when editText are changed
+    public class StatusUpdater implements TextWatcher{
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            updateFind();
+            updateStatusBtn();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    }
 }

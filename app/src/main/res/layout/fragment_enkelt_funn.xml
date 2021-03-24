@@ -1,42 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--Fragment for displaying and editing a find-->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:background="#FFFFFF">
+    android:padding="20dp">
 
     <ImageView
         android:id="@+id/fragment_enkelt_funn_bilde"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"/>
+        android:layout_weight="2" />
 
     <!--The scrollView contains all of the text fields needed for the find-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:padding="20dp"
-        android:fadeScrollbars="false">
+        android:fadeScrollbars="false"
+        android:padding="20dp">
 
         <!--This linear layout is only for holding the textViews as the scrollView can only hold 1 view-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@drawable/empty_divider"
             android:orientation="vertical"
-            android:showDividers="middle"
-            android:divider="@drawable/empty_divider">
+            android:showDividers="middle">
 
             <Button
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/fragment_enkelt_funn_btn_endre_bilde"
-                android:onClick="fragmentEnkeltFunnUpdatePicture"/>
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="10dp"
+                android:onClick="fragmentEnkeltFunnUpdatePicture"
+                android:text="@string/fragment_enkelt_funn_btn_endre_bilde" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="10dp">
+
+                <Button
+                    android:id="@+id/fragment_enkelt_funn_funnmelding_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:onClick="fragmentEnkeltFunnSendFunnmeldingBtn"
+                    android:text="@string/fragment_enkelt_funn_status_btn_funnmelding" />
+
+                <Button
+                    android:id="@+id/fragment_enkelt_funnskjema_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:onClick="fragmentEnkeltFunnSendFunnskjemaBtn"
+                    android:text="@string/enkelt_funn_status_btn_funnskjema" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,7 +80,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -76,7 +103,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -97,7 +126,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -118,8 +149,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal|numberSigned"
                     android:minWidth="70dp"
-                    android:inputType="numberDecimal|numberSigned"/>
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -140,8 +173,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal|numberSigned"
                     android:minWidth="70dp"
-                    android:inputType="numberDecimal|numberSigned"/>
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -162,17 +197,126 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/fragment_enkelt_funn_tv_status"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Status: "
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grunneier: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_grunneierAdresse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grunneier: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_grunneierPostNr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grunneier: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_grunneierPostSted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grunneier: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_grunneierTlf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grunneier: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fragment_enkelt_funn_et_grunneierEpost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enkelt_funn_tom_et"
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -191,7 +335,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -212,7 +358,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -233,8 +381,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
                     android:minWidth="70dp"
-                    android:inputType="numberDecimal"/>
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -255,7 +405,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -276,7 +428,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -297,7 +451,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -318,7 +474,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -339,7 +497,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -360,7 +520,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -381,7 +543,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionNext"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -402,17 +566,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
-                    android:minWidth="70dp" />
+                    android:imeOptions="actionDone"
+                    android:minWidth="70dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 
             <Button
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/registrere_lose_funn_btn_lagre"
-                android:onClick="fragmentEnkeltFunnLagreEndring"/>
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="10dp"
+                android:onClick="fragmentEnkeltFunnLagreEndring"
+                android:text="@string/registrere_lose_funn_btn_lagre" />
 
         </LinearLayout>
 

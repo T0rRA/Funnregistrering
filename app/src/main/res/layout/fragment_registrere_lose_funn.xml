@@ -1,47 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Registrering av funn fragment: Inneholder xml for utseende på funnregistreringssiden. -->
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!-- Registrering av funn fragment: Inneholder xml for utseende på funnregistreringssiden. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="20dp"
         android:layout_marginBottom="100dp"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="@string/registrere_lose_funn_tittel"
-            android:textSize="30sp"
             android:textColor="#000"
-            android:layout_gravity="center_horizontal"/>
+            android:textSize="30sp" />
 
         <EditText
             android:id="@+id/nytt_funn_tittel_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:hint="@string/registrere_lose_funn_et_tittel"
-            android:layout_margin="20dp"/>
+            android:imeOptions="actionDone"
+            android:singleLine="true" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
-                android:text="@string/registrere_lose_funn_btn_bilde"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@color/colorPrimary"
                 android:onClick="bildeBtn"
-                android:background="@color/colorPrimary"/>
+                android:text="@string/registrere_lose_funn_btn_bilde" />
 
             <ImageView
                 android:id="@+id/preview_bilde_nytt_funn"
@@ -54,69 +55,49 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:onClick="gpsBtn"
             android:background="@color/colorPrimary"
+            android:onClick="gpsBtn"
             android:orientation="horizontal">
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
-                android:text="@string/registrere_lose_funn_btn_gps"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:onClick="gpsBtn"/>
+                android:onClick="gpsBtn"
+                android:text="@string/registrere_lose_funn_btn_gps" />
 
             <TextView
                 android:id="@+id/gps_tv_nytt_funn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"/>
+                android:gravity="center" />
         </LinearLayout>
 
         <EditText
             android:id="@+id/nytt_funn_beskrivelse_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/registrere_lose_funn_et_beskrivelse"
-            android:layout_margin="20dp"/>
+            android:layout_margin="20dp"
+            android:hint="@string/registrere_lose_funn_et_beskrivelse" />
 
-
-        <LinearLayout
+        <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:background="@color/colorPrimary"
+            android:onClick="registrerFunnBtn"
+            android:text="@string/registrere_lose_funn_btn_lagre" />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/registrere_lose_funn_btn_funnskjema"
-                android:layout_margin="10dp"/>
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/registrere_lose_funn_btn_funnmelding"
-                android:layout_margin="10dp"/>
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/registrere_lose_funn_btn_lagre"
-                android:layout_margin="10dp"
-                android:onClick="registrerFunnBtn"
-                android:background="@color/colorPrimary"/>
-        </LinearLayout>
     </LinearLayout>
 
     <include
-    layout="@layout/navbar"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:layout_gravity="bottom" />
+        layout="@layout/navbar"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom" />
 </FrameLayout>
