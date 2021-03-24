@@ -85,9 +85,9 @@ namespace FunnregistreringsAPI.DAL
                     koordinat = "12 03 17N, 54 12 62W",
                 };
                 
-                bruker1.mineFunn.Add(funn1);
-                bruker1.mineFunn.Add(funn2);
-                bruker1.mineFunn.Add(funn3);
+                bruker1.MineFunn.Add(funn1);
+                bruker1.MineFunn.Add(funn2);
+                bruker1.MineFunn.Add(funn3);
 
                 context.brukere.Add(bruker1);
                 context.SaveChanges();

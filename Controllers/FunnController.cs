@@ -37,11 +37,15 @@ namespace FunnregistreringsAPI.Controllers
 
         public async Task<bool> RegistrerFunn(InnFunn nyttFunn, InnBruker ib)
         {
-            throw new NotImplementedException();
+            return await _db.RegistrerFunn(nyttFunn, ib);
         }
         public async Task<bool> DeleteFunn(Funn f)
         {
-            throw new NotImplementedException();
+            return await _db.DeleteFunn(f);
+        }
+        public async Task<Funn> GetFunn(List<Funn> funnListe, Funn etFunn)
+        {
+            return await _db.GetFunn(funnListe, etFunn);
         }
     }
 }

@@ -17,11 +17,11 @@ namespace FunnregistreringsAPI.DAL
 
         public Task<List<Funn>> GetAllUserFunn(InnBruker ib);
 
-        public List<Funn> GetAllUserFunn();
 
         public Task<bool> DeleteFunn(Funn f);
+        public Task<Funn> GetFunn(List<Funn> funnListe, Funn etFunn);
         //what do i include even wth
         //what else might be required?
-        
+
     }
 }

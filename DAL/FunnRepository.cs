@@ -1,18 +1,14 @@
-﻿using FunnregistreringsAPI.Models;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+using FunnregistreringsAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
 
 namespace FunnregistreringsAPI.DAL
 {
-    public class FunnRepository : FunnRepositoryInterface
+    public class FunnRepository : FunnRepositoryInterface 
     {
         private readonly FunnDB _db;
 
@@ -47,6 +43,29 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
+        public async Task<Funn> GetFunn(List<Funn> funnListe, Funn etFunn)
+        {
+            try
+            {
+                // find specific funn
+                foreach(Funn funnetFunn in funnListe)
+                {
+                    if(funnetFunn.FunnID == etFunn.FunnID)
+                    {
+                        // funn is found in users funnliste, now find it in the funn db
+                        var funnIDb = await _db.funn.FindAsync(etFunn.FunnID); 
+                        if(funnIDb != null) { return funnIDb; }
+                        return null; // funn not found in db
+                    }
+                }
+                return null; // funn not found in list
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
+        }
+
         //NOTE!!! THIS MUST BE SECURE 
         public async Task<List<Funn>> GetAllUserFunn(InnBruker ib)
         {
@@ -55,7 +74,7 @@ namespace FunnregistreringsAPI.DAL
             {
                 Bruker funnetBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == ib.Brukernavn);
                 // Check pword
-                byte[] hash = CreateHash(ib.Passord, funnetBruker.Salt);
+                byte[] hash = BrukerRepository.CreateHash(ib.Passord, funnetBruker.Salt);
                 bool ok = hash.SequenceEqual(funnetBruker.Passord);
 
                 //If ok use UserID from the found user to get the full list of "funn"
@@ -79,11 +98,93 @@ namespace FunnregistreringsAPI.DAL
 
         public async Task<bool> DeleteFunn(Funn f)
         {
-            Funn real_funn = await _db.funn.FindAsync(f.FunnID);
-            _db.funn.Remove(real_funn);
-            await _db.SaveChangesAsync();
-            return true;
+            try
+            {
+                Funn real_funn = await _db.funn.FindAsync(f.FunnID);
+                if(real_funn != null)
+                {
+                    // funn is found
+                    _db.funn.Remove(real_funn);
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                return false; // funn is not found
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
 
+        }
+
+        public async Task<bool> EditFunn(Funn f)
+        {
+            try
+            {
+                Funn etFunn = await _db.funn.FindAsync(f.FunnID);
+                if(etFunn != null)
+                {
+                    // funn is found
+                    etFunn.koordinat = f.koordinat;
+                    etFunn.kommune = f.kommune;
+                    etFunn.image = f.image;
+                    etFunn.gjenstand_markert_med = f.gjenstand_markert_med;
+                    etFunn.fylke = f.fylke;
+                    etFunn.funndybde = f.funndybde;
+                    etFunn.datum = f.datum;
+                    etFunn.areal_type = f.areal_type;
+                    etFunn.funndato = f.funndato;
+
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                return false; // funn is not found
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        public async Task<bool> GeneratePdf(InnBruker innBruker, Funn funn) // gardseier ge
+        {
+            try
+            {
+                // skal man kunne sende inn flere funn? da bruker vi params 
+                /*
+                 * The plan is to:
+                 * take funn parameters, brukerinformasjon, gårdsbrukinfo, grunneier info
+                 * take funn info to fill inn funnskjema
+                 */
+
+                /*
+                Gardseier ge = new Gardseier()
+                {
+                    Fornavn = "",
+                    Etternavn = "",
+                    Adresse = "",
+                    Postnr = "",
+                    Poststed = "",
+                    Tlf = "",
+                    Epost = "",
+                    Funnsted / gardsnr / gbnr = ""
+                };
+                */
+
+                /*
+                 * brukerinfo
+                 * funninfo
+                 */
+                
+
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+
+            throw new NotImplementedException();
         }
     }
 }
