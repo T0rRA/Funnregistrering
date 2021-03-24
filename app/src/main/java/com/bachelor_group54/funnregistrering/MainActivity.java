@@ -185,31 +185,24 @@ public class MainActivity extends AppCompatActivity {
         fragmentRegistrereBruker.saveUserBtn();
     }
 
-    public void loginBtn(View view){
+    public void loginBtn(View view) {
         fragmentLogin.logInBtn();
 
     }
-    public void fragmentLoginRegBtn(View view){
+
+    public void fragmentLoginRegBtn(View view) {
         fragmentRegistrereBruker = new FragmentRegistrereBruker();
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
-        fragmentTransaction.replace(R.id.layout, fragmentRegistrereBruker); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
-        fragmentTransaction.addToBackStack(""); //Legger Fragmentet på stack så back knappen fungerer
-        fragmentTransaction.commit();
+        openFragment(fragmentRegistrereBruker);
     }
 
-    public void toLoginPageBtn(View view){
+    public void toLoginPageBtn(View view) {
         fragmentLogin = new FragmentLogin();
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction(); //Makes a fragment transaction that can be used to change the fragment
-        fragmentTransaction.replace(R.id.layout, fragmentLogin); //Changes the fragment. R.id.layout is the main layout of the Activity that holds the fragment(MainActivity)
-        fragmentTransaction.addToBackStack(""); //Legger Fragmentet på stack så back knappen fungerer
-        fragmentTransaction.commit();
+        openFragment(fragmentLogin);
     }
 
-    public void openFragment(Fragment fragment){
+    public void openFragment(Fragment fragment) {
         mPager.setVisibility(View.GONE); //Sets the main fragments visibility to gone so that the user cannot se or interact with it
 
         FragmentManager fm = getSupportFragmentManager();
@@ -219,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    public void closeFragment(){
+    public void closeFragment() {
         fm.popBackStack();//Goes back to the slide fragments
         mPager.setVisibility(View.VISIBLE); //Makes the main fragments visible again
     }
