@@ -27,4 +27,9 @@
     <string name="login_not_a_user">Ikke en bruker?</string>
     <string name="login_Reg_here">Registrer deg her</string>
     <string name="confirm_pw">Gjenta passord</string>
+    <string name="inputvalideringMinLengde">"Teksten må våre minst "</string>
+    <string name="tegn">" tegn"</string>
+    <string name="inputvalideringIkkeBokstaver">"Du kan ikke ha bokstaver her"</string>
+    <string name="inputvalideringIkkeTall">"Du kan ikke ha tall her"</string>
+    <string name="inputvalideringIkkeSpesialtegn">"Du kan ikke ha spesialtegn her"</string>
 </resources>
