@@ -42,36 +42,6 @@ namespace FunnregistreringsAPI.DAL
             return salt;
         }
 
-        public async Task<bool> AttemptLogin(InnBruker bruker)
-        {
-            try
-            {
-                Bruker funnetBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
-                // Checks password in DB
-                byte[] hash = CreateHash(bruker.Passord, funnetBruker.Salt);
-                //makes a hash out of the salt and the input password
-
-                //compares the hash in the DB and the hashcombination of Salt and Pword-input.
-                bool ok = hash.SequenceEqual(funnetBruker.Passord);
-
-                if (ok)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            //General exception - can specify.
-            catch (Exception e)
-            {
-
-                return false;
-            }
-
-        }
-
         public async Task<bool> SendPwResetLink(InnBruker bruker)
         {
 
@@ -115,7 +85,6 @@ namespace FunnregistreringsAPI.DAL
                     // Add to db
                     PwReset pwReset = new PwReset
                     {
-                        //Username = "epost",
                         Username = enBruker.Epost,
                         TokenHash = hT.ToString(),
                         BestFor = expDate,
@@ -142,8 +111,7 @@ namespace FunnregistreringsAPI.DAL
                     {
                         From = new MailAddress("losfunnregistrering@gmail.com"),
                         Subject = "Endre passord",
-                        // Body = "<h2>Hei "+ enBruker.Fornavn +", </h2>"
-                        Body = "<h2>Hei brukernavn, </h2>"
+                        Body = "<h2>Hei "+ enBruker.Fornavn +", </h2>"
                         + "<br/><br/><p>"
                         + "For å endre passordet ditt kan du trykke <a href='/passordReset?brukernavn&" + hT
                         + "'>her.</a> <br/>"
@@ -155,7 +123,6 @@ namespace FunnregistreringsAPI.DAL
                     };
 
                     string mottaker = enBruker.Epost;
-                    //string mottaker = "s333752@oslomet.no";
                     epostMelding.To.Add(mottaker);
                     await smtpClient.SendMailAsync(epostMelding); // sends mail
 
@@ -266,7 +233,7 @@ namespace FunnregistreringsAPI.DAL
                 {
                    
                     // password
-                    // TAKE TWO PASSWORDS AND SAMMENLIGN
+                    // TAKE TWO PASSWORDS AND COMPARE
                     if(bruker.Passord.Equals(pw2))
                     {
                         // the passwords match
@@ -530,10 +497,12 @@ namespace FunnregistreringsAPI.DAL
 
         public async Task<bool> CheckIfUserLoggedIn(InnBruker bruker)
         {
+            // Find user, check if "LoggetInn" = true/false
             try
             {
                 Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
-                if (enBruker.LoggetInn) { return true; }
+                if(enBruker == null) { return false; } // User does not exist
+                else {if (enBruker.LoggetInn) { return true; } }
                 return false;
             }
             catch (Exception e) 
