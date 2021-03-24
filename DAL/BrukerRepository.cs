@@ -42,6 +42,22 @@ namespace FunnregistreringsAPI.DAL
             return salt;
         }
 
+        public static SmtpClient SmtpClient() {
+            // Connect to the SMTP-setup in appsettings.json
+            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+            var config = builder.Build();
+
+             // Set up SMTP client to communicate with SMTP servers
+            var smtpClient = new SmtpClient(config["Smtp:Host"])
+            {
+                Port = int.Parse(config["Smtp:Port"]),
+                Credentials = new NetworkCredential(config["Smtp:Username"], config["Smtp:Password"]),
+                EnableSsl = true,
+            };
+
+            return smtpClient;
+        }
+
         public async Task<bool> SendPwResetLink(InnBruker bruker)
         {
 
@@ -93,19 +109,8 @@ namespace FunnregistreringsAPI.DAL
                     _db.passordReset.Add(pwReset);
                     _db.SaveChanges();
 
-
-                    // Connect to the SMTP-setup in appsettings.json
-                    var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
-                    var config = builder.Build();
-
-                    // Set up SMTP client to communicate with SMTP servers
-                    var smtpClient = new SmtpClient(config["Smtp:Host"])
-                    {
-                        Port = int.Parse(config["Smtp:Port"]),
-                        Credentials = new NetworkCredential(config["Smtp:Username"], config["Smtp:Password"]),
-                        EnableSsl = true,
-                    };
-
+                    var smtpClient = SmtpClient();  
+                    
                     // Construct e-mail-string
                     var epostMelding = new MailMessage()
                     {
@@ -277,6 +282,25 @@ namespace FunnregistreringsAPI.DAL
 
                         _db.brukere.Add(ny_bruker);
                         await _db.SaveChangesAsync();
+
+                        var smtpClient = SmtpClient();
+
+                        var emailMessage = new MailMessage() {
+                            From = new MailAddress("losfunnregistrering@gmail.com"),
+                            Subject = "Si hallo til effektivisert metallsøking!",
+                            Body = "<h2>Hei "+ ny_bruker.Fornavn +", </h2>"
+                            + "<br/><br/><p>"
+                            + "Velkommen til Finnerlønn! Vi er kjempeglade for å ha deg med på teamet, "
+                            + "og ønsker deg lykke til med metallsøkingen."
+                            + "Ha en fin dag videre!<br/><br/>"
+                            + "Med vennlig hilsen,<br/>"
+                            + "Finnerlønn-teamet.</p>",
+                            IsBodyHtml = true,  
+                        };
+
+                        string mottaker = ny_bruker.Epost;
+                        emailMessage.To.Add(mottaker);
+                        await smtpClient.SendMailAsync(emailMessage); // sends mail
 
                         return true;
                     }

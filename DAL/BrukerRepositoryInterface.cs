@@ -8,8 +8,6 @@ namespace FunnregistreringsAPI.DAL
 {
     public interface BrukerRepositoryInterface
     {
-        public Task<bool> AttemptLogin(InnBruker bruker);
-
         public Task<bool> CreateUser(InnBruker bruker, string pw);
 
         public Task<bool> SendPwResetLink(InnBruker bruker);
