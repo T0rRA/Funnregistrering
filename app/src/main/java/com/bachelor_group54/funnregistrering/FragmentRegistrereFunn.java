@@ -47,7 +47,18 @@ public class FragmentRegistrereFunn extends Fragment {
         view = inflater.inflate(R.layout.fragment_registrere_lose_funn, container, false); //Loads the page from the XML file
         LinearLayout navbarRegistrereFunn = view.findViewById(R.id.navbar_registrere_funn); //Gets the navbar layout for this view
         navbarRegistrereFunn.setBackground(getContext().getDrawable(R.drawable.navbar_btn_selected_background)); //Setts color on the navbar indicating what page you are on
+        setTextWatchers();
         return view;
+    }
+
+    //TODO finne ut hva vi skal ha av innputvalidering
+    public void setTextWatchers(){
+        EditText title = view.findViewById(R.id.nytt_funn_tittel_et);
+        EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et);
+
+        title.addTextChangedListener(new InputValidater(getContext(), true , false , false, 1 , 20, title));
+        title.setText("");
+        description.addTextChangedListener(new InputValidater(getContext(), true , false , false, 0 , 100, description));
     }
 
     public void gpsBtn() {
@@ -140,6 +151,22 @@ public class FragmentRegistrereFunn extends Fragment {
         String date = currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + (currentTime.getYear() + 1900);
         funn.setDato(date);
 
+        //If there are errors in anny of the fields do not save the find
+        if(title.getError() != null && description.getError() != null){
+            Toast.makeText(getContext(), getString(R.string.feil_i_innputfelter) + "tittel og beskrivelse", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        if(title.getError() != null){
+            Toast.makeText(getContext(), getString(R.string.feil_i_innputfelter) + "tittel", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        if(description.getError() != null){
+            Toast.makeText(getContext(), getString(R.string.feil_i_innputfelter) + "beskrivelse", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
         saveFind(funn);
         return funn;
     }
@@ -172,6 +199,7 @@ public class FragmentRegistrereFunn extends Fragment {
         editor.apply();
     }
 
+    //Resets the fields, called when registering new find so it is empty next time the user wants to register a find
     public void clearFields(){
         EditText titleEt = view.findViewById(R.id.nytt_funn_tittel_et);
         titleEt.setText("");

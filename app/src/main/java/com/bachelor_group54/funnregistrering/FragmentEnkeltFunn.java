@@ -79,6 +79,7 @@ public class FragmentEnkeltFunn extends Fragment {
                 , view.findViewById(R.id.fragment_enkelt_funn_et_kommune)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_fylke)};
 
+        //TODO finne ut hva vi skal ha av innputvalidering
         for (int i = 0; i < editTexts.length; i++) {
             EditText et = editTexts[i];
             if (i > 2) { //The first 3 elements are number fields
@@ -90,7 +91,6 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public void loadFunn() {
-        String tomtFelt = "ikke fylt ut";
         ImageView imageView = view.findViewById(R.id.fragment_enkelt_funn_bilde); //Finds the image view
         imageView.setImageBitmap(ImageSaver.loadImage(getContext(), funn.getBildeID())); //Sets the image view to the finds image
 
@@ -109,9 +109,7 @@ public class FragmentEnkeltFunn extends Fragment {
         }
 
         EditText depthEt = view.findViewById(R.id.fragment_enkelt_funn_et_funndybde);
-        if (funn.getFunndybde() == -1) {//-1 is the default value
-            depthEt.setHint(tomtFelt);
-        } else {
+        if (funn.getFunndybde() != -1) { //If depth == -1 then depth is not set
             depthEt.setText("" + funn.getFunndybde());
         }
 
@@ -195,7 +193,7 @@ public class FragmentEnkeltFunn extends Fragment {
         updateFind();
 
         if(!isFindSavable){
-            Toast.makeText(getContext(), "Kunne ikke lagre på grunn av feil i innputfelter " + errorMessage, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), getString(R.string.feil_i_innputfelter) + errorMessage, Toast.LENGTH_LONG).show();
             return false;
         }
 
