@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     //Buttons for the single found fragment
     //Saves the changes made to the find
     public void fragmentEnkeltFunnLagreEndring(View view) {
-        fragmentEnkeltFunn.saveFind();
+        if(!fragmentEnkeltFunn.saveFind()){return;} //If the find could not be saved don't close the fragment
         closeFragment();
         fragmentMineFunn.makeList();
     }
