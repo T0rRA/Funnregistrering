@@ -1,6 +1,8 @@
 ﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using FunnregistreringsAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +14,17 @@ namespace FunnregistreringsAPI.DAL
     {
         private readonly FunnDB _db;
 
-        public async Task<bool> RegistrerFunn(InnFunn nyttFunn, InnBruker ib)
+        public FunnRepository(FunnDB db)
+        {
+            _db = db;
+        }
+
+        public async Task<bool> RegistrerFunn(Funn nyttFunn)
 
         {
             try
             {
-                Bruker realUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == ib.Brukernavn);
+                //Bruker realUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == ib.Brukernavn);
 
                 Funn nf = new Funn
                 {
@@ -30,10 +37,10 @@ namespace FunnregistreringsAPI.DAL
                     datum = nyttFunn.datum,
                     areal_type = nyttFunn.areal_type,
                     funndato = nyttFunn.funndato,
-                    BrukerUserID = realUser.UserID
+                    //BrukerUserID = realUser.UserID
                 };
 
-                await _db.funn.AddAsync(nf);
+                _db.funn.Add(nf);
                 await _db.SaveChangesAsync();
                 return true;
             }
@@ -43,10 +50,12 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        public async Task<Funn> GetFunn(List<Funn> funnListe, Funn etFunn)
+        public async Task<Funn> GetFunn(List<Funn> funnListe)
         {
             try
             {
+                // THIS DONT WORK rn
+                Funn etFunn = new Funn();
                 // find specific funn
                 foreach(Funn funnetFunn in funnListe)
                 {
@@ -147,7 +156,7 @@ namespace FunnregistreringsAPI.DAL
 
         }
 
-        public async Task<bool> GeneratePdf(InnBruker innBruker, Funn funn) // gardseier ge
+        public async Task<bool> GeneratePdf() // gardseier ge
         {
             try
             {
@@ -176,8 +185,10 @@ namespace FunnregistreringsAPI.DAL
                  * brukerinfo
                  * funninfo
                  */
-                
 
+
+                PdfDocument doc = PdfReader.Open("funnskjema.pdf");
+                return true;
             }
             catch(Exception e)
             {

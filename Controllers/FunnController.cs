@@ -24,28 +24,25 @@ namespace FunnregistreringsAPI.Controllers
         //Is it feasible to every time person logs in the "password" is physically saved on the device so that we can confirm their status?
         public async Task<List<Funn>> GetAllUserFunn(InnBruker ib)
         {
-            if (ModelState.IsValid)
-            {
-                return await _db.GetAllUserFunn(ib);
-            }
-            else
-            {
-                return null;
-            }
-            
+            return await _db.GetAllUserFunn(ib);
         }
 
-        public async Task<bool> RegistrerFunn(InnFunn nyttFunn, InnBruker ib)
+        public async Task<bool> RegistrerFunn(Funn nyttFunn)
         {
-            return await _db.RegistrerFunn(nyttFunn, ib);
+            return await _db.RegistrerFunn(nyttFunn);
         }
         public async Task<bool> DeleteFunn(Funn f)
         {
             return await _db.DeleteFunn(f);
         }
-        public async Task<Funn> GetFunn(List<Funn> funnListe, Funn etFunn)
+        public async Task<Funn> GetFunn(List<Funn> funnListe)
         {
-            return await _db.GetFunn(funnListe, etFunn);
+            return await _db.GetFunn(funnListe);
+        }
+
+        public async Task<bool> GeneratePdf()
+        {
+            return await _db.GeneratePdf();
         }
     }
 }

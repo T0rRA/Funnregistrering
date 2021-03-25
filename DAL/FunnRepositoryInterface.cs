@@ -9,7 +9,7 @@ namespace FunnregistreringsAPI.DAL
 {
     public interface FunnRepositoryInterface
     {
-        public Task<bool> RegistrerFunn(InnFunn nyttFunn, InnBruker ib);
+        public Task<bool> RegistrerFunn(Funn nyttfunn);
         
         //A method to get all finds for a user.
         //remember change this to task
@@ -19,9 +19,11 @@ namespace FunnregistreringsAPI.DAL
 
 
         public Task<bool> DeleteFunn(Funn f);
-        public Task<Funn> GetFunn(List<Funn> funnListe, Funn etFunn);
+        public Task<Funn> GetFunn(List<Funn> funnListe);
         //what do i include even wth
         //what else might be required?
+
+        public Task<bool> GeneratePdf();
 
     }
 }
