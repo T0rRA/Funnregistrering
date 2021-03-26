@@ -5,6 +5,7 @@ using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -156,46 +157,18 @@ namespace FunnregistreringsAPI.DAL
 
         }
 
-        public async Task<bool> GeneratePdf() // gardseier ge
+        public async Task<string> GeneratePdf() // gardseier ge
         {
             try
             {
-                // skal man kunne sende inn flere funn? da bruker vi params 
-                /*
-                 * The plan is to:
-                 * take funn parameters, brukerinformasjon, gårdsbrukinfo, grunneier info
-                 * take funn info to fill inn funnskjema
-                 */
-
-                /*
-                Gardseier ge = new Gardseier()
-                {
-                    Fornavn = "",
-                    Etternavn = "",
-                    Adresse = "",
-                    Postnr = "",
-                    Poststed = "",
-                    Tlf = "",
-                    Epost = "",
-                    Funnsted / gardsnr / gbnr = ""
-                };
-                */
-
-                /*
-                 * brukerinfo
-                 * funninfo
-                 */
-
-
-                PdfDocument doc = PdfReader.Open("funnskjema.pdf");
-                return true;
+                
+                return "how are you today?";
             }
             catch(Exception e)
             {
-                return false;
+                return "Oh no";
             }
 
-            throw new NotImplementedException();
         }
     }
 }
