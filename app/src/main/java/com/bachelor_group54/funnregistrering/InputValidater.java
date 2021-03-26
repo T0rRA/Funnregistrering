@@ -34,6 +34,7 @@ public class InputValidater implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         editTextString = charSequence.toString();
+        if(editTextString.equals("")){return;} //Allows the user to leave field empty
 
         String feilmelding = "";
         if(editTextString.length() < minLength){
@@ -45,7 +46,7 @@ public class InputValidater implements TextWatcher {
             feilmelding += context.getString(R.string.inputvalideringIkkeBokstaver);
         }else if(!numbersAllowed && editTextString.matches(".*[0-9].*")){
             feilmelding += context.getString(R.string.inputvalideringIkkeTall);
-        }else if(!specialCharsAllowed && editTextString.matches(".*[^a-zøæåA-ZÆØÅ0-9 ].*")) {
+        }else if(!specialCharsAllowed && editTextString.matches(".*[^a-zøæåA-ZÆØÅ0-9\\- ].*")) {
             feilmelding += context.getString(R.string.inputvalideringIkkeSpesialtegn);
         }
 

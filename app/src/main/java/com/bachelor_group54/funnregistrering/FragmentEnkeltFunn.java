@@ -59,33 +59,83 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText[] editTexts = {view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_funndybde)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_tittel)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_dato)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_tittel) // 3
+                , view.findViewById(R.id.fragment_enkelt_funn_et_dato) // 4
                 , view.findViewById(R.id.fragment_enkelt_funn_et_sted)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneier)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneier) //6
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse) //7
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost) //8
                 , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted) //10
                 , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierTlf)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse) //12
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke) //14
                 , view.findViewById(R.id.fragment_enkelt_funn_et_datum)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_arealtype)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_arealtype) //16
                 , view.findViewById(R.id.fragment_enkelt_funn_et_annet)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr) //18
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gbnr)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_kommune)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_kommune) //20
                 , view.findViewById(R.id.fragment_enkelt_funn_et_fylke)};
 
-        //TODO finne ut hva vi skal ha av innputvalidering
         for (int i = 0; i < editTexts.length; i++) {
             EditText et = editTexts[i];
-            if (i > 2) { //The first 3 elements are number fields
-                //Sets input validator to only allow alphabet chars with length from 0 - 100
-                et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 100, et));
-            } //TODO legge til inputvalidering av nummer feltene
+            //Switch case that sets the appropriate input validation on the EditTexts
+            switch (i){
+                //Groups long, lat and depth together
+                case 0:
+                case 1:
+                case 2:
+                    et.addTextChangedListener(new InputValidater(getContext(),false,true, true, 1, 20, et));
+                    break;
+                case 3: //Title
+                    et.addTextChangedListener(new InputValidater(getContext(),true,true, false, 1, 30, et));
+                    break;
+                case 4: //Date
+                    et.addTextChangedListener(new InputValidater(getContext(),false,true, false, 10, 10, et));
+                    break;
+                case 5: //Location Fixme vet ikke hva som skal i dette feltet
+                    break;
+                case 6: //Owner name
+                    et.addTextChangedListener(new InputValidater(getContext(), true, false, true, 1, 75, et));
+                    break;
+                case 7: //Owner address
+                case 8: //Owner email
+                    et.addTextChangedListener(new InputValidater(getContext(), true, true, true, 1, 50, et));
+                    break;
+                case 9: //Owner postal code FIXME er postNr alltid 4 tall?
+                    et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 4, 4, et));
+                    break;
+                case 10: //Owner post place
+                case 20: //County
+                case 21: //Municipality
+                    et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 1, 30, et));
+                    break;
+                case 11: //Owner tlf fixme utenlandske nr og +47?
+                    et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 8, 8, et));
+                    break;
+                case 12: //Description //fixme skal denn være med?
+                case 17: //Other info
+                    et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 200, et));
+                    break;
+                case 13: //Item fixme vet ikke hva som skal stå i dette feltet så det må kanskje endres senere
+                    et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 50, et));
+                    break;
+                case 14: //Item marked with
+                    et.addTextChangedListener(new InputValidater(getContext(), true, true, false, 0, 30, et));
+                    break;
+                case 15: //Datum //Fixme ingen anelse om hva som skal stå i dette feltet
+                    et.addTextChangedListener(new InputValidater(getContext(), true, true, false, 0, 50, et));
+                    break;
+                case 16: //Area type fixme make dropdown later
+                    et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 20, et));
+                    break;
+                case 18: //Farm nr fixme vet ikke hva som skal stå her
+                case 19: //Gbnr fixme vet ikke hva som skal stå her
+                    et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 0, 20, et));
+                    break;
+            }
             et.addTextChangedListener(new StatusUpdater()); //Setts the textWatcher on the editText
         }
     }

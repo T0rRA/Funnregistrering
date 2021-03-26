@@ -148,7 +148,12 @@ public class FragmentRegistrereFunn extends Fragment {
         funn.setLongitude(longitude);
 
         Date currentTime = Calendar.getInstance().getTime();
-        String date = currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + (currentTime.getYear() + 1900);
+        //Adds zero to beginning of day and month to keep the format dd/mm/yyyy even on single digit months and days
+        String dateMonth = (currentTime.getMonth() + 1) > 9 ? "" + (currentTime.getMonth() + 1) : "0" + (currentTime.getMonth() + 1);
+        String dateDay = currentTime.getDate() > 9 ? "" + currentTime.getDate() : "0" + currentTime.getDate();
+
+        //Formats the date string and sets it on the find object
+        String date = dateDay + "/" + dateMonth + "/" + (currentTime.getYear() + 1900);
         funn.setDato(date);
 
         //If there are errors in anny of the fields do not save the find
@@ -171,6 +176,7 @@ public class FragmentRegistrereFunn extends Fragment {
         return funn;
     }
 
+    //TODO sjekke om titel er tom
     public void saveFind(Funn funn) {
         //If the a picture has been added save it
         if (picture != null) {
