@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         mPager.setCurrentItem(0);
 
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>" + getString(R.string.app_name) + "</font>")); //Changes the color of the actionbar text
-
     }
 
     //The ScreenSlidePagerAdapter holds the fragment from the navigation bar and makes sliding between them possible.
