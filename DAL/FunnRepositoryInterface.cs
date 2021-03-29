@@ -23,7 +23,7 @@ namespace FunnregistreringsAPI.DAL
         //what do i include even wth
         //what else might be required?
 
-        public Task<string> GeneratePdf();
+        public Task<string> GeneratePdf(String f);
 
     }
 }

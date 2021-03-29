@@ -20,7 +20,7 @@ namespace FunnregistreringsAPI.DAL
 
         public Task<InnBruker> GetUser(InnBruker bruker);
 
-        public Task<bool> LogIn(InnBruker bruker);
+        public Task<bool> LogIn(string brukernavn, string passord);
         public Task<bool> LogOut(InnBruker bruker);
         public Task<bool> CheckIfUserLoggedIn(InnBruker bruker);
     }

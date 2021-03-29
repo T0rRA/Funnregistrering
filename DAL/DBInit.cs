@@ -28,7 +28,7 @@ namespace FunnregistreringsAPI.DAL
                 var bruker1 = new Bruker();
                 bruker1.Brukernavn = "s333752@oslomet.no";
                 byte[] salt = BrukerRepository.CreateSalt();
-                byte[] pw = BrukerRepository.CreateHash("Fatima123$£@", salt);
+                byte[] pw = BrukerRepository.CreateHash("Fatima123", salt);
                 bruker1.Salt = salt;
                 bruker1.Passord = pw;
                 bruker1.Fornavn = "Fatima";

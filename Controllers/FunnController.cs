@@ -40,9 +40,9 @@ namespace FunnregistreringsAPI.Controllers
             return await _db.GetFunn(funnListe);
         }
 
-        public async Task<string> GeneratePdf()
+        public async Task<string> GeneratePdf(string f)
         {
-            return await _db.GeneratePdf();
+            return await _db.GeneratePdf(f);
         }
 
     }

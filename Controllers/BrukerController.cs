@@ -89,20 +89,20 @@ namespace FunnregistreringsAPI.Controllers
             return BadRequest("Error på server");
         }
         
-        public async Task<ActionResult> LogIn(InnBruker bruker)     
+        public async Task<ActionResult> LogIn(string brukernavn, string passord)     
         {
-            var loggedIn = await _db.CheckIfUserLoggedIn(bruker);
+           // var loggedIn = await _db.CheckIfUserLoggedIn(bruker);
             // Check if user is logged in
-            if (!loggedIn)
-            {
+           // if (!loggedIn)
+            //{
                 // User is not logged in
-                bool success = await _db.LogIn(bruker);
+                bool success = await _db.LogIn(brukernavn, passord);
                 if (!success) { return Ok(false); } // log-in info is incorrect
                 return Ok(true); // user logged in
-            }
+            //}
             // Or a redirection? 
             // Since a user shouldnt be able to log in when theyre already logged in
-            return BadRequest("400 error på server i guess");
+            //return BadRequest("400 error på server i guess");
         }
 
         public async Task<ActionResult> LogOut(InnBruker bruker)

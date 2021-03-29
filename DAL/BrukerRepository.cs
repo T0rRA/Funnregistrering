@@ -456,15 +456,15 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        public async Task<bool> LogIn(InnBruker bruker)
+        public async Task<bool> LogIn(string brukernavn, string passord)
         {
             try
             {
-                Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
+                Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
                 if (enBruker != null)
                 {
                     // user exists, check password
-                    byte[] hash = CreateHash(bruker.Passord, enBruker.Salt);
+                    byte[] hash = CreateHash(passord, enBruker.Salt);
                     if (hash.SequenceEqual(enBruker.Passord))
                     {
                         // hash = the hash in our db. password is correct

@@ -55,7 +55,7 @@ namespace FunnregistreringsAPI.DAL
         {
             try
             {
-                // THIS DONT WORK rn
+                // THIS DONT WORK rn - maybe this isnt backend..
                 Funn etFunn = new Funn();
                 // find specific funn
                 foreach(Funn funnetFunn in funnListe)
@@ -157,7 +157,7 @@ namespace FunnregistreringsAPI.DAL
 
         }
 
-        public async Task<string> GeneratePdf(string f) // gardseier ge
+        public async Task<string> GeneratePdf(string f)
         {
             try
             {
