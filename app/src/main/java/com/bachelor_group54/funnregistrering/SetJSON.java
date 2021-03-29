@@ -22,11 +22,12 @@ public class SetJSON extends AsyncTask<String, Void, String> {
 
     //FIXME endre denne til å passe med serveren
     @Override
-    //Må legge inn filnavn(jsonhusinn.php) etterfulgt av parameterene (Beskrivelse=gult hus, gateadresse=pilestredet31, osv.)
+    //Sends input to the server example use .execute(url, fieldName=fieldValue, field2Name=field2Value ...)
     protected String doInBackground(String... strings) {
-        String s = "";
-        StringBuilder output = new StringBuilder();
+        String serverOutputLine = "";
+        StringBuilder serverOutput = new StringBuilder();
 
+        //Makes the url
         StringBuilder query = new StringBuilder("https://funnregistreringsapiserver.azurewebsites.net/" + strings[0] + "?");
         for(int i = 1; i < strings.length; i++){
             if(i > 1){
@@ -34,8 +35,8 @@ public class SetJSON extends AsyncTask<String, Void, String> {
             }
             query.append(strings[i]);
         }
-        System.out.println("-----------------------------\n" + query.toString());
         try {
+            //Connects to the server
             URL urlen = new URL(query.toString());
             HttpURLConnection conn = (HttpURLConnection) urlen.openConnection();
             conn.setRequestMethod("POST");
@@ -43,14 +44,15 @@ public class SetJSON extends AsyncTask<String, Void, String> {
 
             //Gets the output from the server
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            while ((s = bufferedReader.readLine()) != null) {
-                output.append(s);
+            while ((serverOutputLine = bufferedReader.readLine()) != null) {
+                serverOutput.append(serverOutputLine);
             }
-            if (conn.getResponseCode() != 200) {
+            if (conn.getResponseCode() != 200) { //Server error
+                //FIXME ikke krasje
                 throw new RuntimeException("Failed : HTTP error code : "+ conn.getResponseCode());
             }
             conn.disconnect();
-            return output.toString();
+            return serverOutput.toString();
         }
         catch (IOException ex) {
             ex.printStackTrace();

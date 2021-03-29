@@ -49,7 +49,7 @@ public class FragmentRegistrereFunn extends Fragment {
         navbarRegistrereFunn.setBackground(getContext().getDrawable(R.drawable.navbar_btn_selected_background)); //Setts color on the navbar indicating what page you are on
         //FIXME test kode fjern denne senere (neste 2 linjene)
         GetJSON getJSON = new GetJSON((TextView) view.findViewById(R.id.nytt_funn_tittel_tv));
-        getJSON.execute("GeneratePdf");
+        getJSON.execute("Funn/GeneratePdf");
         return view;
     }
 

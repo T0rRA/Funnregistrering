@@ -23,46 +23,49 @@ public class GetJSON extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    //Takes the url as input, run it by using .execute("url") (Only need the filename on the server (GeneratePdf))
+    //Takes the url as input, run it by using .execute("url", "field1", "field2") (Only need the filename on the server (GeneratePdf))
     protected String doInBackground(String... urls) {
-        StringBuilder retur = new StringBuilder();
-        String s = "";
-        StringBuilder output = new StringBuilder();
+        StringBuilder outPutString = new StringBuilder();
+        String lineFromServer = "";
+        StringBuilder stringFromServer = new StringBuilder();
 
         try {
-            URL urlen = new URL("https://funnregistreringsapiserver.azurewebsites.net/Funn/" + urls[0]);
+            URL urlen = new URL("https://funnregistreringsapiserver.azurewebsites.net/" + urls[0]);
             HttpURLConnection conn = (HttpURLConnection) urlen.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
             if (conn.getResponseCode() != 200) {
+                //FIXME endre dette ikke bra at appen krasjer
                 throw new RuntimeException("Failed: HTTP error Code:" + conn.getResponseCode());
             }
             //Gets the string from the server
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            while ((s = bufferedReader.readLine()) != null) {
-                output.append(s);
+            while ((lineFromServer = bufferedReader.readLine()) != null) {
+                stringFromServer.append(lineFromServer);
             }
-            if (output.toString().equals("Databasen er tom")) {
+            //FIXME legg til ny test for tom database
+            if (stringFromServer.toString().equals("Databasen er tom")) {
                 return "";
             }
+
             try {
                 //Runs trough the JSON and formats it
-                JSONArray mat = new JSONArray(output.toString());
-                for (int i = 0; i < mat.length(); i++) {
+                JSONArray mat = new JSONArray(stringFromServer.toString());
+                for (int i = 0; i < mat.length(); i++) { //Loops trough the JSON objects.
                     JSONObject jsonobject = mat.getJSONObject(i);
                     for (int j = 1; j < urls.length; j++) {
-                        retur.append(jsonobject.getString(urls[j]));
-                        if (j < urls.length - 1) {
-                            retur.append(",");
+                        outPutString.append(jsonobject.getString(urls[j])); //Gets the fields from the JSONobject, the fields are defined in the in parameter for the method
+                        if (j < urls.length - 1) { //Adds comma if the data is not the last inn the object
+                            outPutString.append(",");
                         }
                     }
-                    retur.append("\n");
+                    outPutString.append("\n");
                 }
-                return retur.toString();
+                return outPutString.toString();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return output.toString();
+            return stringFromServer.toString();
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
             return "getJson.execute trenger URL";
