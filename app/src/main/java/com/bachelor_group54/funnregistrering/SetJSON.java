@@ -27,13 +27,14 @@ public class SetJSON extends AsyncTask<String, Void, String> {
         String s = "";
         StringBuilder output = new StringBuilder();
 
-        StringBuilder query= new StringBuilder("https://funnregistreringsapiserver.azurewebsites.net/Funn/" + strings[0] + "?");
+        StringBuilder query = new StringBuilder("https://funnregistreringsapiserver.azurewebsites.net/" + strings[0] + "?");
         for(int i = 1; i < strings.length; i++){
             if(i > 1){
                 query.append("&");
             }
             query.append(strings[i]);
         }
+        System.out.println("-----------------------------\n" + query.toString());
         try {
             URL urlen = new URL(query.toString());
             HttpURLConnection conn = (HttpURLConnection) urlen.openConnection();
