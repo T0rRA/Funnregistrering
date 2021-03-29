@@ -8,7 +8,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mPager;
     private ScreenSlidePagerAdapter pagerAdapter;
     private FragmentLogin fragmentLogin;
+    private static final String LoginPref = "LoginPref";
+    SharedPreferences sharedPreferences;
 
 
     @Override
@@ -38,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
         //Initializing the fragments needed inn the app
         fragmentRegistrereFunn = new FragmentRegistrereFunn();
         fragmentMineFunn = new FragmentMineFunn();
+
+        //shared pref
+        sharedPreferences =getSharedPreferences(LoginPref, Context.MODE_PRIVATE);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -215,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SetPreferenceActivity.class);
         startActivity(intent);
     }
-}
+
 
     public void closeFragment() {
         fm.popBackStack();//Goes back to the slide fragments
