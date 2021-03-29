@@ -157,12 +157,12 @@ namespace FunnregistreringsAPI.DAL
 
         }
 
-        public async Task<string> GeneratePdf() // gardseier ge
+        public async Task<string> GeneratePdf(string f) // gardseier ge
         {
             try
             {
                 
-                return "how are you today?";
+                return f + " - nice";
             }
             catch(Exception e)
             {
