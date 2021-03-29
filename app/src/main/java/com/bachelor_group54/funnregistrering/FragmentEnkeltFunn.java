@@ -1,5 +1,6 @@
 package com.bachelor_group54.funnregistrering;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -362,6 +363,17 @@ public class FragmentEnkeltFunn extends Fragment {
         }
         //closing pdf
         pdfDocument.close();
+    }
+    //Checking permissions
+    private boolean checkPermission(){
+        int permission1 = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permission2 = ActivityCompat.checkSelfPermission(getContext(), READ_EXTERNAL_STORAGE);
+        return permission1 == PackageManager.PERMISSION_GRANTED && permission2 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    //Requests permissions
+    private void requestPermission(){
+        requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
     }
 
 
