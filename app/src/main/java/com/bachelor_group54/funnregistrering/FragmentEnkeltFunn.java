@@ -3,6 +3,7 @@ package com.bachelor_group54.funnregistrering;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -28,6 +29,10 @@ public class FragmentEnkeltFunn extends Fragment {
     private Funn funn; //The find the view is displaying
     private int position; //The finds position in the saved list
     private Bitmap picture;
+    private int pdfHeight = 1120; // declaring pdf height
+    private int pdfWidth = 792; // declaring pdf width
+    private Bitmap bmp, scalebmp; // creating variable for image storing
+    private static final int PERMISSION_REQUEST_CODE = 200; //for runtime permissions
 
     //Simple constructor for getting the find that the fragment should display
     public FragmentEnkeltFunn(Funn funn, int position) {
@@ -40,6 +45,13 @@ public class FragmentEnkeltFunn extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_enkelt_funn, container, false); //Loads the page from the XML file
         //Add setup code here later
+
+        //Initializing and scarling of the logo /TODO: the same for the picture
+        bmp = BitmapFactory.decodeResource(getResources(),R.drawable.raloeve);
+        scalebmp =Bitmap.createScaledBitmap(bmp,140,140,false);
+
+        //TODO: add checking and requesting premissions code
+
         loadFunn();
         updateStatusBtn();
         setTextWatchers();
@@ -372,6 +384,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
     public void sendFunnskjema() {
         //TODO finne ut hvordan man lager PDF
+
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, funn.getBildeID(), getContext());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
         saveFind();
