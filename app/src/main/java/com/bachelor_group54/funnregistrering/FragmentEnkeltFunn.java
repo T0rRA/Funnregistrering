@@ -2,11 +2,15 @@ package com.bachelor_group54.funnregistrering;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,11 +23,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 //This fragment displays one selected find at the time. The find can also be edited here.
 public class FragmentEnkeltFunn extends Fragment {
@@ -53,7 +65,6 @@ public class FragmentEnkeltFunn extends Fragment {
         scalebmp =Bitmap.createScaledBitmap(bmp,140,140,false);
 
         //TODO: add checking and requesting premissions code
-
         loadFunn();
         updateStatusBtn();
         setTextWatchers();
@@ -297,14 +308,60 @@ public class FragmentEnkeltFunn extends Fragment {
     public void pdfGenerator(){
         // Creation of an object variable for the PDF document
         PdfDocument pdfDocument = new PdfDocument();
+
         //Paint is used to draw shapes and add text
         Paint logo = new Paint();
         Paint text = new Paint();
+
         /*Adding pageInfo to the the PDF
         * Passing the width, height and number of pages
         * Creates the PDF */
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(pdfWidth,pdfHeight,1).create();
 
+        //sets the PDFs startpage.
+        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+
+        //creates canvas variable from the startpage.
+        Canvas canvas = page.getCanvas();
+
+        /*Draws image on pdf file:
+        * bitmap is the 1st parameter,
+        * position from left is the 2nd parameter,
+        * position from top is the 3rd parameter,
+        * the paint variable is the 4th parameter. */
+        canvas.drawBitmap(scalebmp,56,40,logo);
+
+        // adding typeface for the text
+        text.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.NORMAL));
+
+        //Setting text size (in the pdf)
+        text.setTextSize(16);
+
+        /* Draws the text on the pdf
+        * the text is the 1st parameter,
+        * the position from start is the 2nd parameter,
+        * the position from top is the 3rd parameter,
+        * the paint variable  (text) is the 4th parameter.
+        * */
+        canvas.drawText("Dette er en test for å se om alt fungerer som det skal", 209,100, text);
+        canvas.drawText("Her er enda en test", 209,80, text);
+        canvas.drawText("Og dette er enda litt mer testing", 209,60, text);
+
+        //finishing the page
+        pdfDocument.finishPage(page);
+
+        //sets storage path
+        File file = new File(Environment.getExternalStorageDirectory(),"pdfTest.pdf");
+
+        //writes the pdf to the path
+        try{
+            pdfDocument.writeTo(new FileOutputStream(file));
+            Toast.makeText(getContext(), "PDF'en er lagd!", Toast.LENGTH_SHORT).show();
+        } catch (IOException e){ //error handling
+            e.printStackTrace();
+        }
+        //closing pdf
+        pdfDocument.close();
     }
 
 
@@ -395,14 +452,16 @@ public class FragmentEnkeltFunn extends Fragment {
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), funn.getBildeID(), getContext());
         funn.setFunnmeldingSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
         saveFind();
+        pdfGenerator();
     }
 
     public void sendFunnskjema() {
-        //TODO finne ut hvordan man lager PDF
+        //TODO finne ut hvordan man lager PDF -> lagdt til metode for generering av pdf
 
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, funn.getBildeID(), getContext());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
         saveFind();
+        pdfGenerator();
     }
 
     //Updates the status buttons when editText are changed
