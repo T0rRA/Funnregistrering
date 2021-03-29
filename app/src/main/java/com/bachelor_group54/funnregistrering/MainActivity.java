@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SetPreferenceActivity.class);
         startActivity(intent);
     }
-}
+
 
     public void closeFragment() {
         fm.popBackStack();//Goes back to the slide fragments
