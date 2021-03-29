@@ -47,8 +47,9 @@ public class FragmentRegistrereFunn extends Fragment {
         view = inflater.inflate(R.layout.fragment_registrere_lose_funn, container, false); //Loads the page from the XML file
         LinearLayout navbarRegistrereFunn = view.findViewById(R.id.navbar_registrere_funn); //Gets the navbar layout for this view
         navbarRegistrereFunn.setBackground(getContext().getDrawable(R.drawable.navbar_btn_selected_background)); //Setts color on the navbar indicating what page you are on
+        //FIXME test kode fjern denne senere (neste 2 linjene)
         GetJSON getJSON = new GetJSON((TextView) view.findViewById(R.id.nytt_funn_tittel_tv));
-        getJSON.execute("https://funnregistreringsapiserver.azurewebsites.net/Funn/GeneratePdf");
+        getJSON.execute("GeneratePdf");
         return view;
     }
 

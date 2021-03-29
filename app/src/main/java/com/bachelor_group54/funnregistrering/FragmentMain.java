@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,5 +24,11 @@ public class FragmentMain extends Fragment {
         view = inflater.inflate(R.layout.fragment_main, container, false); //Laster inn skjermutsenet fra XML filen
         //Legg til settup kode her
         return view;
+    }
+
+    //FIXME test knapp fjern denne senere
+    public void setJSONTestBtn(){
+        SetJSON setJSON = new SetJSON((TextView) view.findViewById(R.id.fragment_main_tittel));
+        setJSON.execute("Bruker/LogIn", "Brukernavn=s333752@oslomet.no", "Passord=Fatima123$£@");
     }
 }

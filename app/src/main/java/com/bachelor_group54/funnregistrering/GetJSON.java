@@ -23,22 +23,22 @@ public class GetJSON extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    //Takes the url as input, run it by using .execute("url")
+    //Takes the url as input, run it by using .execute("url") (Only need the filename on the server (GeneratePdf))
     protected String doInBackground(String... urls) {
         StringBuilder retur = new StringBuilder();
         String s = "";
         StringBuilder output = new StringBuilder();
 
         try {
-            URL urlen = new URL(urls[0]);
+            URL urlen = new URL("https://funnregistreringsapiserver.azurewebsites.net/Funn/" + urls[0]);
             HttpURLConnection conn = (HttpURLConnection) urlen.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
             if (conn.getResponseCode() != 200) {
                 throw new RuntimeException("Failed: HTTP error Code:" + conn.getResponseCode());
             }
+            //Gets the string from the server
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            System.out.println("Output from server .... \n");
             while ((s = bufferedReader.readLine()) != null) {
                 output.append(s);
             }
@@ -46,7 +46,7 @@ public class GetJSON extends AsyncTask<String, Void, String> {
                 return "";
             }
             try {
-                //Runs trough the JSON an makes a string of it
+                //Runs trough the JSON and formats it
                 JSONArray mat = new JSONArray(output.toString());
                 for (int i = 0; i < mat.length(); i++) {
                     JSONObject jsonobject = mat.getJSONObject(i);
@@ -76,6 +76,5 @@ public class GetJSON extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String jsonString) {
         textView.setText(jsonString);
-        System.out.println("----------------------------------------------------\n" + jsonString);
     }
 }

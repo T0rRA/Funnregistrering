@@ -19,11 +19,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private FragmentManager fm;
     private FragmentRegistrereFunn fragmentRegistrereFunn;
     private FragmentRegistrereBruker fragmentRegistrereBruker;
     private FragmentMineFunn fragmentMineFunn;
     private FragmentEnkeltFunn fragmentEnkeltFunn;
+    private FragmentMain fragmentMain;
+
+    private FragmentManager fm;
     private ViewPager mPager;
     private ScreenSlidePagerAdapter pagerAdapter;
     private FragmentLogin fragmentLogin;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         //Initializing the fragments needed inn the app
         fragmentRegistrereFunn = new FragmentRegistrereFunn();
         fragmentMineFunn = new FragmentMineFunn();
+        fragmentMain = new FragmentMain();
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             //Adds the fragments to the slider
             fragmentListe.add(fragmentRegistrereFunn);
             fragmentListe.add(fragmentMineFunn);
-            fragmentListe.add(new FragmentMain());
+            fragmentListe.add(fragmentMain);
             //TODO legge til resten av fragmentene
         }
 
@@ -106,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void infoBtn(View view) {
+        fragmentMain.setJSONTestBtn();
     }
 
     //Buttons for FragmentRegistrereFunn
