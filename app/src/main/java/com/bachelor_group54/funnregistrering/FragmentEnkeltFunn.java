@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -290,6 +292,19 @@ public class FragmentEnkeltFunn extends Fragment {
 
         EditText fylke = view.findViewById(R.id.fragment_enkelt_funn_et_fylke);
         funn.setFylke(fylke.getText().toString());
+    }
+
+    public void pdfGenerator(){
+        // Creation of an object variable for the PDF document
+        PdfDocument pdfDocument = new PdfDocument();
+        //Paint is used to draw shapes and add text
+        Paint logo = new Paint();
+        Paint text = new Paint();
+        /*Adding pageInfo to the the PDF
+        * Passing the width, height and number of pages
+        * Creates the PDF */
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(pdfWidth,pdfHeight,1).create();
+
     }
 
 
