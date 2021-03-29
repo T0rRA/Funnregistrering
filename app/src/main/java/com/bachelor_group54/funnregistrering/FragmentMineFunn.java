@@ -46,6 +46,6 @@ public class FragmentMineFunn extends Fragment {
     }
 
     public int getListSize() {
-        return listSize;
+        return listSize == 0 ? 1 : listSize;
     }
 }
