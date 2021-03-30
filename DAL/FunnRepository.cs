@@ -1,8 +1,6 @@
 ﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using FunnregistreringsAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,7 +23,6 @@ namespace FunnregistreringsAPI.DAL
         {
             try
             {
-                //Bruker realUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == ib.Brukernavn);
 
                 Funn nf = new Funn
                 {

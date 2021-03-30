@@ -22,16 +22,16 @@ namespace FunnregistreringsAPI.Controllers
             _db = db;
         }
 
-        public async Task<ActionResult> CreateUser(InnBruker bruker, string pw)
+        public async Task<ActionResult> CreateUser(InnBruker bruker)
         {
-            bool createOk = await _db.CreateUser(bruker, pw);
+            bool createOk = await _db.CreateUser(bruker);
             if(!createOk) { return NotFound("Bruker ble ikke opprettet"); }
             return Ok("Bruker er opprettet.");
         }
 
         public async Task<ActionResult> SendResetPwLink(InnBruker bruker)
         {
-            var loggedIn = await _db.CheckIfUserLoggedIn(bruker);
+            var loggedIn = await _db.CheckIfUserLoggedIn(bruker.Brukernavn);
             if (loggedIn)
             {
                 bool sendOk = await _db.SendPwResetLink(bruker);
@@ -50,7 +50,7 @@ namespace FunnregistreringsAPI.Controllers
 
         public async Task<ActionResult> EditUser(InnBruker bruker)
         {
-            var loggedIn = await _db.CheckIfUserLoggedIn(bruker);
+            var loggedIn = await _db.CheckIfUserLoggedIn(bruker.Brukernavn);
             if (loggedIn)
             {
                 bool editOk = await _db.EditUser(bruker);
@@ -62,7 +62,7 @@ namespace FunnregistreringsAPI.Controllers
 
         public async Task<ActionResult> DeleteUser(InnBruker bruker, string pw)
         {
-            var loggedIn = await _db.CheckIfUserLoggedIn(bruker);
+            var loggedIn = await _db.CheckIfUserLoggedIn(bruker.Brukernavn);
             if (loggedIn)
             {
                 bool deleteOk = await _db.DeleteUser(bruker, pw);
@@ -75,7 +75,7 @@ namespace FunnregistreringsAPI.Controllers
         public async Task<ActionResult> GetUser(InnBruker bruker)
         {
 
-            var loggedIn = await _db.CheckIfUserLoggedIn(bruker);
+            var loggedIn = await _db.CheckIfUserLoggedIn(bruker.Brukernavn);
             if (loggedIn) 
             {
                 InnBruker enBruker = await _db.GetUser(bruker);
@@ -91,27 +91,27 @@ namespace FunnregistreringsAPI.Controllers
         
         public async Task<ActionResult> LogIn(string brukernavn, string passord)     
         {
-           // var loggedIn = await _db.CheckIfUserLoggedIn(bruker);
+           var loggedIn = await _db.CheckIfUserLoggedIn(brukernavn);
             // Check if user is logged in
-           // if (!loggedIn)
-            //{
+           if (!loggedIn)
+           {
                 // User is not logged in
                 bool success = await _db.LogIn(brukernavn, passord);
                 if (!success) { return Ok(false); } // log-in info is incorrect
                 return Ok(true); // user logged in
-            //}
+            }
             // Or a redirection? 
             // Since a user shouldnt be able to log in when theyre already logged in
-            //return BadRequest("400 error på server i guess");
+            return BadRequest("400 error på server i guess");
         }
 
-        public async Task<ActionResult> LogOut(InnBruker bruker)
+        public async Task<ActionResult> LogOut(string brukernavn)
         {
-            var loggedIn = await _db.CheckIfUserLoggedIn(bruker);
+            var loggedIn = await _db.CheckIfUserLoggedIn(brukernavn);
             if(loggedIn)
             {
                 // user is logged in
-                bool loggedOut = await _db.LogOut(bruker);
+                bool loggedOut = await _db.LogOut(brukernavn);
                 if(!loggedOut) 
                 { 
                     return NotFound("Bruker kunne ikke logges ut"); 
@@ -121,9 +121,9 @@ namespace FunnregistreringsAPI.Controllers
             return BadRequest("Feil på server.");
         }
 
-        public async Task<ActionResult> CheckIfUserLoggedIn(InnBruker bruker)
+        public async Task<ActionResult> CheckIfUserLoggedIn(string brukernavn)
         {
-            bool checkOk = await _db.CheckIfUserLoggedIn(bruker);
+            bool checkOk = await _db.CheckIfUserLoggedIn(brukernavn);
             if (!checkOk) return Ok(false);
             return Ok(true);
         }

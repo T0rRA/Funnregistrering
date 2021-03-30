@@ -8,7 +8,7 @@ namespace FunnregistreringsAPI.DAL
 {
     public interface BrukerRepositoryInterface
     {
-        public Task<bool> CreateUser(InnBruker bruker, string pw);
+        public Task<bool> CreateUser(InnBruker bruker);
 
         public Task<bool> SendPwResetLink(InnBruker bruker);
 
@@ -21,7 +21,7 @@ namespace FunnregistreringsAPI.DAL
         public Task<InnBruker> GetUser(InnBruker bruker);
 
         public Task<bool> LogIn(string brukernavn, string passord);
-        public Task<bool> LogOut(InnBruker bruker);
-        public Task<bool> CheckIfUserLoggedIn(InnBruker bruker);
+        public Task<bool> LogOut(string brukernavn);
+        public Task<bool> CheckIfUserLoggedIn(string brukernavn);
     }
 }

@@ -42,12 +42,13 @@ namespace FunnregistreringsAPI.DAL
             return salt;
         }
 
-        public static SmtpClient SmtpClient() {
+        public static SmtpClient SmtpClient()
+        {
             // Connect to the SMTP-setup in appsettings.json
             var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
             var config = builder.Build();
 
-             // Set up SMTP client to communicate with SMTP servers
+            // Set up SMTP client to communicate with SMTP servers
             var smtpClient = new SmtpClient(config["Smtp:Host"])
             {
                 Port = int.Parse(config["Smtp:Port"]),
@@ -109,14 +110,14 @@ namespace FunnregistreringsAPI.DAL
                     _db.passordReset.Add(pwReset);
                     _db.SaveChanges();
 
-                    var smtpClient = SmtpClient();  
-                    
+                    var smtpClient = SmtpClient();
+
                     // Construct e-mail-string
                     var epostMelding = new MailMessage()
                     {
                         From = new MailAddress("losfunnregistrering@gmail.com"),
                         Subject = "Endre passord",
-                        Body = "<h2>Hei "+ enBruker.Fornavn +", </h2>"
+                        Body = "<h2>Hei " + enBruker.Fornavn + ", </h2>"
                         + "<br/><br/><p>"
                         + "For å endre passordet ditt kan du trykke <a href='/passordReset?brukernavn&" + hT
                         + "'>her.</a> <br/>"
@@ -226,7 +227,7 @@ namespace FunnregistreringsAPI.DAL
         }
 
         //Might want to change this to return string? Ask frontend boys
-        public async Task<bool> CreateUser(InnBruker bruker, string pw2)
+        public async Task<bool> CreateUser(InnBruker bruker)
         {
             try
             {
@@ -236,79 +237,69 @@ namespace FunnregistreringsAPI.DAL
                 Bruker potentiallyOldUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
                 if (potentiallyOldUser == null)
                 {
-                   
-                    // password
-                    // TAKE TWO PASSWORDS AND COMPARE
-                    if(bruker.Passord.Equals(pw2))
+                    // create new user
+                    ny_bruker.Brukernavn = bruker.Brukernavn;
+                    string passord = bruker.Passord;
+                    byte[] salt = BrukerRepository.CreateSalt();
+                    byte[] hash = BrukerRepository.CreateHash(passord, salt);
+                    ny_bruker.Passord = hash;
+                    ny_bruker.Salt = salt;
+
+                    ny_bruker.Fornavn = bruker.Fornavn;
+                    ny_bruker.Etternavn = bruker.Etternavn;
+                    ny_bruker.Adresse = bruker.Adresse;
+
+                    // find postal address
+                    var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
+                    if (finnPostadr == null)
                     {
-                        // the passwords match
-                        // create new user
-                        ny_bruker.Brukernavn = bruker.Brukernavn;
-                        string passord = bruker.Passord;
-                        byte[] salt = BrukerRepository.CreateSalt();
-                        byte[] hash = BrukerRepository.CreateHash(passord, salt);
-                        ny_bruker.Passord = hash;
-                        ny_bruker.Salt = salt;
+                        // Post code is not in the database
+                        var ny_postadresse = new Postadresse();
+                        ny_postadresse.Postnr = bruker.Postnr;
+                        ny_postadresse.Poststed = bruker.Poststed;
+                        _db.postadresser.Add(ny_postadresse); // add postal code to db
 
-                        ny_bruker.Fornavn = bruker.Fornavn;
-                        ny_bruker.Etternavn = bruker.Etternavn;
-                        ny_bruker.Adresse = bruker.Adresse;
-
-                        // find postal address
-                        var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
-                        if (finnPostadr == null)
-                        {
-                            // Post code is not in the database
-                            var ny_postadresse = new Postadresse();
-                            ny_postadresse.Postnr = bruker.Postnr;
-                            ny_postadresse.Poststed = bruker.Poststed;
-                            _db.postadresser.Add(ny_postadresse); // add postal code to db
-
-                            //ny_bruker.Poststed = bruker.Poststed;
-                            //ny_bruker.Postnr = bruker.Postnr;
-                            ny_bruker.Postnr = ny_postadresse;
-                        }
-                        else
-                        {
-                            // Post code is found
-                            //ny_bruker.Postnr = finnPostadr.Postnr;
-                            //ny_bruker.Poststed = finnPostadr.Poststed;
-                            ny_bruker.Postnr.Postnr = finnPostadr.Postnr;
-
-                        }
-                        ny_bruker.Tlf = bruker.Tlf;
-                        ny_bruker.Epost = bruker.Epost;
-                        ny_bruker.MineFunn = new List<Funn>(); // empty list
-
-                        _db.brukere.Add(ny_bruker);
-                        await _db.SaveChangesAsync();
-
-                        var smtpClient = SmtpClient();
-
-                        var emailMessage = new MailMessage() {
-                            From = new MailAddress("losfunnregistrering@gmail.com"),
-                            Subject = "Si hallo til effektivisert metallsøking!",
-                            Body = "<h2>Hei "+ ny_bruker.Fornavn +", </h2>"
-                            + "<br/><br/><p>"
-                            + "Velkommen til Finnerlønn! Vi er kjempeglade for å ha deg med på teamet, "
-                            + "og ønsker deg lykke til med metallsøkingen."
-                            + "Ha en fin dag videre!<br/><br/>"
-                            + "Med vennlig hilsen,<br/>"
-                            + "Finnerlønn-teamet.</p>",
-                            IsBodyHtml = true,  
-                        };
-
-                        string mottaker = ny_bruker.Epost;
-                        emailMessage.To.Add(mottaker);
-                        await smtpClient.SendMailAsync(emailMessage); // sends mail
-
-                        return true;
+                        //ny_bruker.Poststed = bruker.Poststed;
+                        //ny_bruker.Postnr = bruker.Postnr;
+                        ny_bruker.Postnr = ny_postadresse;
                     }
                     else
                     {
-                        // passwords do not match, try again
-                        return false;
+                        // Post code is found
+                        //ny_bruker.Postnr = finnPostadr.Postnr;
+                        //ny_bruker.Poststed = finnPostadr.Poststed;
+                        ny_bruker.Postnr.Postnr = finnPostadr.Postnr;
+
                     }
+                    ny_bruker.Tlf = bruker.Tlf;
+                    ny_bruker.Epost = bruker.Epost;
+                    ny_bruker.MineFunn = new List<Funn>(); // empty list
+
+                    _db.brukere.Add(ny_bruker);
+                    await _db.SaveChangesAsync();
+
+                    var smtpClient = SmtpClient();
+
+                    var emailMessage = new MailMessage()
+                    {
+                        From = new MailAddress("losfunnregistrering@gmail.com"),
+                        Subject = "Si hallo til effektivisert metallsøking!",
+                        Body = "<h2>Hei " + ny_bruker.Fornavn + ", </h2>"
+                        + "<br/><br/><p>"
+                        + "Velkommen til Finnerlønn! Vi er kjempeglade for å ha deg med på teamet, "
+                        + "og ønsker deg lykke til med metallsøkingen."
+                        + "Ha en fin dag videre!<br/><br/>"
+                        + "Med vennlig hilsen,<br/>"
+                        + "Finnerlønn-teamet.</p>",
+                        IsBodyHtml = true,
+                    };
+
+                    string mottaker = ny_bruker.Epost;
+                    emailMessage.To.Add(mottaker);
+                    await smtpClient.SendMailAsync(emailMessage); // sends mail
+
+                    return true;
+
                 }
                 else
                 {
@@ -380,6 +371,7 @@ namespace FunnregistreringsAPI.DAL
         public async Task<bool> DeleteUser(InnBruker bruker, string passord)
         {
             // asks user to input their password
+            // done in backend as we need the user's salt for comparing hashes
 
             try
             {
@@ -388,7 +380,7 @@ namespace FunnregistreringsAPI.DAL
                 {
                     // user exists, so check password
                     var hash = CreateHash(passord, enBruker.Salt);
-                    if(hash.Equals(enBruker.Passord))
+                    if (hash.Equals(enBruker.Passord))
                     {
                         // password is correct, so delete user
                         List<Funn> funnListe = enBruker.MineFunn;
@@ -492,15 +484,15 @@ namespace FunnregistreringsAPI.DAL
 
         }
 
-        public async Task<bool> LogOut(InnBruker bruker)
+        public async Task<bool> LogOut(string brukernavn)
         {
             try
             {
-                Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
+                Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
                 if (enBruker != null)
                 {
                     // user is found
-                    if(enBruker.LoggetInn)
+                    if (enBruker.LoggetInn)
                     {
                         // user is logged in, so log out
                         enBruker.LoggetInn = false;
@@ -513,25 +505,25 @@ namespace FunnregistreringsAPI.DAL
                 // user is not found
                 return false;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
         }
 
-        public async Task<bool> CheckIfUserLoggedIn(InnBruker bruker)
+        public async Task<bool> CheckIfUserLoggedIn(string brukernavn)
         {
             // Find user, check if "LoggetInn" = true/false
             try
             {
-                Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
-                if(enBruker == null) { return false; } // User does not exist
-                else {if (enBruker.LoggetInn) { return true; } }
+                Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
+                if (enBruker == null) { return false; } // User does not exist
+                else { if (enBruker.LoggetInn) { return true; } }
                 return false;
             }
-            catch (Exception e) 
-            { 
-                return false; 
+            catch (Exception e)
+            {
+                return false;
             }
         }
     }
