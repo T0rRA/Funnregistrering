@@ -65,7 +65,13 @@ public class FragmentEnkeltFunn extends Fragment {
         bmp = BitmapFactory.decodeResource(getResources(),R.drawable.raloeve);
         scalebmp =Bitmap.createScaledBitmap(bmp,140,140,false);
 
-        //TODO: add checking and requesting premissions code
+        //TODO: checking and requesting : Flytte til knappen kanskje?
+        if(checkPermission()){
+            Toast.makeText( getContext(), "Tilattelse innvilget",Toast.LENGTH_SHORT).show();
+        }else{
+            requestPermission();
+        }
+
         loadFunn();
         updateStatusBtn();
         setTextWatchers();
@@ -376,6 +382,21 @@ public class FragmentEnkeltFunn extends Fragment {
         requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
     }
 
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[]permissions, @ NonNull int[]grantResult){
+        if(requestCode == PERMISSION_REQUEST_CODE){
+            if(grantResult.length>0){
+                boolean write = grantResult[0] == PackageManager.PERMISSION_GRANTED;
+                boolean read = grantResult[1] == PackageManager.PERMISSION_GRANTED;
+
+                if (write && read){
+                    Toast.makeText(getContext(), "Du har nå rettigheter til å lagre PDF'er", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getContext(), "Du har ikke rettigheter til å lagre PDF'er", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
 
     public void savePicture() {
         //Gets the image ID
@@ -464,7 +485,6 @@ public class FragmentEnkeltFunn extends Fragment {
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), funn.getBildeID(), getContext());
         funn.setFunnmeldingSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
         saveFind();
-        pdfGenerator();
     }
 
     public void sendFunnskjema() {
