@@ -29,21 +29,21 @@ namespace FunnregistreringsAPI.Controllers
             return Ok("Bruker er opprettet.");
         }
 
-        public async Task<ActionResult> SendResetPwLink(InnBruker bruker)
+        public async Task<ActionResult> SendResetPwLink(string brukernavn)
         {
-            var loggedIn = await _db.CheckIfUserLoggedIn(bruker.Brukernavn);
+            var loggedIn = await _db.CheckIfUserLoggedIn(brukernavn);
             if (loggedIn)
             {
-                bool sendOk = await _db.SendPwResetLink(bruker);
+                bool sendOk = await _db.SendPwResetLink(brukernavn);
                 if(!sendOk) { return NotFound("Kunne ikke sende lenke."); }
                 return Ok("Du har fått en epost med en lenke for å endre passord.");
             }
             return BadRequest("Feil på server");
         }
 
-        public async Task<ActionResult> ChangePassword(InnBruker bruker, String token, string newPassword, string newPassword2)
+        public async Task<ActionResult> ChangePassword(String brukernavn, String token, String newPassword, String newPassword2)
         {
-            bool changeOk = await _db.ChangePassword(bruker, token, newPassword, newPassword2);
+            bool changeOk = await _db.ChangePassword(brukernavn, token, newPassword, newPassword2);
             if(!changeOk) { return NotFound("Kunne ikke endre passord."); }
             return Ok("Passordet er endret.");
         }
@@ -60,12 +60,12 @@ namespace FunnregistreringsAPI.Controllers
             return BadRequest("Feil på server");
         }
 
-        public async Task<ActionResult> DeleteUser(InnBruker bruker, string pw)
+        public async Task<ActionResult> DeleteUser(string brukernavn, string passord)
         {
-            var loggedIn = await _db.CheckIfUserLoggedIn(bruker.Brukernavn);
+            var loggedIn = await _db.CheckIfUserLoggedIn(brukernavn);
             if (loggedIn)
             {
-                bool deleteOk = await _db.DeleteUser(bruker, pw);
+                bool deleteOk = await _db.DeleteUser(brukernavn, passord);
                 if(!deleteOk) { return NotFound("Kunne ikke slette brukeren"); }
                 return Ok("Bruker er slettet");
             }

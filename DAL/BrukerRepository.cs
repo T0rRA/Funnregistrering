@@ -59,7 +59,7 @@ namespace FunnregistreringsAPI.DAL
             return smtpClient;
         }
 
-        public async Task<bool> SendPwResetLink(InnBruker bruker)
+        public async Task<bool> SendPwResetLink(string brukernavn)
         {
 
             // click change password
@@ -76,7 +76,7 @@ namespace FunnregistreringsAPI.DAL
 
                 // Input e-mail address
                 Bruker enBruker = new Bruker();
-                enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
+                enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
                 if (enBruker.Equals(null)) // If user does NOT exist
                 {
                     // Error message saying this user does not exist
@@ -143,7 +143,7 @@ namespace FunnregistreringsAPI.DAL
 
         }
 
-        public async Task<bool> ChangePassword(InnBruker bruker, String token, string newPassword, string newPassword2)
+        public async Task<bool> ChangePassword(String brukernavn, String token, String newPassword, String newPassword2)
         {
             /* Trykker på lenken
                  * ON PASSWORD RESET PAGE:
@@ -170,7 +170,7 @@ namespace FunnregistreringsAPI.DAL
 
                     // check if token is overdue
                     DateTime rightNow = DateTime.Now;
-                    if (DateTime.Compare(enToken.BestFor, rightNow) < 0)
+                    if (DateTime.Compare(enToken.BestFor, rightNow) > 0)
                     {
                         // Token is not overdue
                         // check if token is used
@@ -187,6 +187,11 @@ namespace FunnregistreringsAPI.DAL
                             if (enBruker == null)
                             {
                                 // user is not found
+                                return false;
+                            }
+                            if(enBruker.Brukernavn != brukernavn)
+                            {
+                                //incorrect user
                                 return false;
                             }
                             else
@@ -268,7 +273,7 @@ namespace FunnregistreringsAPI.DAL
                         // Post code is found
                         //ny_bruker.Postnr = finnPostadr.Postnr;
                         //ny_bruker.Poststed = finnPostadr.Poststed;
-                        ny_bruker.Postnr.Postnr = finnPostadr.Postnr;
+                        ny_bruker.Postnr = finnPostadr;
 
                     }
                     ny_bruker.Tlf = bruker.Tlf;
@@ -278,6 +283,9 @@ namespace FunnregistreringsAPI.DAL
                     _db.brukere.Add(ny_bruker);
                     await _db.SaveChangesAsync();
 
+
+                    // Sends welcome-email to new user
+                    /*
                     var smtpClient = SmtpClient();
 
                     var emailMessage = new MailMessage()
@@ -297,7 +305,7 @@ namespace FunnregistreringsAPI.DAL
                     string mottaker = ny_bruker.Epost;
                     emailMessage.To.Add(mottaker);
                     await smtpClient.SendMailAsync(emailMessage); // sends mail
-
+                    */
                     return true;
 
                 }
@@ -345,7 +353,7 @@ namespace FunnregistreringsAPI.DAL
                             // it exists in our db
                             //enBruker.Postnr = bruker.Postnr;
                             //enBruker.Poststed = bruker.Poststed;
-                            enBruker.Postnr.Postnr = bruker.Postnr;
+                            enBruker.Postnr = postNr;
                         }
                     }
                     enBruker.Fornavn = bruker.Fornavn;
@@ -368,19 +376,36 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        public async Task<bool> DeleteUser(InnBruker bruker, string passord)
+        public async Task<bool> DeleteUser(string brukernavn, string passord)
         {
             // asks user to input their password
             // done in backend as we need the user's salt for comparing hashes
 
             try
             {
-                var enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
+                var enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
                 if (enBruker != null)
                 {
-                    // user exists, so check password
+                    // user exists, so compare password
                     var hash = CreateHash(passord, enBruker.Salt);
-                    if (hash.Equals(enBruker.Passord))
+
+                    bool samePw = false;
+                    if(hash.Length == enBruker.Passord.Length) // equal length
+                    {
+                        int i = 0;
+                        while((i < hash.Length) && (hash[i] == enBruker.Passord[i]))
+                        {
+                            // while equal values
+                            i++;
+                        }
+                        if(i == hash.Length)
+                        {
+                            samePw = true;
+                        }
+                    }
+
+
+                    if (samePw)
                     {
                         // password is correct, so delete user
                         List<Funn> funnListe = enBruker.MineFunn;
