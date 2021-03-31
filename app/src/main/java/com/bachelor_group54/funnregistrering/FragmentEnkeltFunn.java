@@ -99,6 +99,7 @@ public class FragmentEnkeltFunn extends Fragment {
                     et.addTextChangedListener(new InputValidater(getContext(),false,true, false, 10, 10, et));
                     break;
                 case 5: //Location Fixme vet ikke hva som skal i dette feltet
+                    et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 50, et));
                     break;
                 case 6: //Owner name
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, true, 1, 75, et));
@@ -407,7 +408,6 @@ public class FragmentEnkeltFunn extends Fragment {
         super.onActivityResult(requestCode, resultCode, data); //Calls the super's onActivityResult (Required by Android)
     }
 
-    //Fixme denne metoden må kjøres når felter endres
     //This method color codes the status buttons (red = missing info, yellow = ready to send, green = sent)
     public void updateStatusBtn() {
         Button findMessageBtn = view.findViewById(R.id.fragment_enkelt_funn_funnmelding_btn);
