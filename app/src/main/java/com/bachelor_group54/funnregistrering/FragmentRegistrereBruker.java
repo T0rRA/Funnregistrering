@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class FragmentRegistrereBruker extends Fragment {
     private View view;
@@ -62,8 +63,16 @@ public class FragmentRegistrereBruker extends Fragment {
             ArrayList<Object> alist = objektLagrer.loadData(); // Fills arraylist with previous user info
             alist.add(user); //Adds new the new user object to the list
             objektLagrer.saveData(alist); // Saves the list
+
+            //Registers the user on the server
+            SetJSON setJSON = new SetJSON();
+            setJSON.execute("Bruker/CreateUser", "Brukernavn=" + user.getName(), "Passord=" +
+                    user.getPassword(), "Fornavn=" + user.getName(), "Etternavn=" + user.getLastName(),
+                    "Adresse=" + user.getAddress(), "Postnr=" + user.getPostalCode(), "Poststed=poststed" /*FIXME har ikke poststed*/,
+                    "Tlf=" + user.getPhoneNum(), "Epost=" + user.getEmail());
+
         } else { //sends message if the passwords are different
-            Toast.makeText(getContext(), "Passordene matcher ikke!", Toast.LENGTH_LONG);
+            Toast.makeText(getContext(), "Passordene matcher ikke!", Toast.LENGTH_LONG).show();
         }
 
     }

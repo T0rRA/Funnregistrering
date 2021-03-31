@@ -62,7 +62,9 @@ public class SetJSON extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        textView.setText(s);
+        if(textView != null) {
+            textView.setText(s);
+        }
     }
 }
 
