@@ -36,4 +36,6 @@
     <string name="enkelt_funn_status_btn_funnskjema">Send inn funnskjema</string>
     <string name="feil_i_innputfelter">"Kunne ikke lagre på grunn av feil i "</string>
     <string name="ulike_passord">Passordene er ikke like</string>
+    <string name="Tall_for_stort">"Tallet må være mindre enn "</string>
+    <string name="Tall_for_lite">"Tallet må være større enn "</string>
 </resources>

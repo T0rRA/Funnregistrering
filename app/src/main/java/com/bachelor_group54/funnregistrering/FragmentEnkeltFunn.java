@@ -84,7 +84,11 @@ public class FragmentEnkeltFunn extends Fragment {
             //Switch case that sets the appropriate input validation on the EditTexts
             switch (i){
                 case 0: //Latitude
+                    et.addTextChangedListener(new InputValidater(getContext(),false,true, true, 1, 20, et));
+                    et.addTextChangedListener(new NumberMaxMinChecker(90, -90, et));
+                    break;
                 case 1: //Longitude
+                    et.addTextChangedListener(new NumberMaxMinChecker(180, -180, et));
                 case 2: //Depth
                     et.addTextChangedListener(new InputValidater(getContext(),false,true, true, 1, 20, et));
                     break;
@@ -265,7 +269,6 @@ public class FragmentEnkeltFunn extends Fragment {
         isFindSavable = true;
         errorMessage = "";
 
-        //FIXME legge til sjekk for om latitude er over 90 eller under -90
         EditText latitudeEt = view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad); //Finds the latitude editText
         if (!latitudeEt.getText().toString().equals("")) {
             try {
@@ -273,7 +276,6 @@ public class FragmentEnkeltFunn extends Fragment {
             } catch (NumberFormatException e) {/*Do noting*/}
         }
 
-        //FIXME legge til sjekk for om longitude er over 180 eller under -180
         EditText longitudeEt = view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad); //Finds the longitude editText
         if (!longitudeEt.getText().toString().equals("")) {
             try {
@@ -468,6 +470,43 @@ public class FragmentEnkeltFunn extends Fragment {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             updateFind();
             updateStatusBtn();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    }
+
+    public class NumberMaxMinChecker implements TextWatcher {
+        private int max;
+        private int min;
+        private EditText editText;
+
+        public NumberMaxMinChecker(int max, int min, EditText editText) {
+            this.max = max;
+            this.min = min;
+            this.editText = editText;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            try {
+                double number = Double.parseDouble(charSequence.toString());
+                if(number > max){
+                    editText.setError(getString(R.string.Tall_for_stort) + (max + 1));
+                }else if(number < min){
+                    editText.setError(getString(R.string.Tall_for_lite) + (min - 1));
+                }
+            } catch (NumberFormatException e){
+                e.printStackTrace();
+            }
+
         }
 
         @Override
