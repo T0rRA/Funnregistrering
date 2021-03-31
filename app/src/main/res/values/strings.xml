@@ -38,4 +38,5 @@
     <string name="ulike_passord">Passordene er ikke like</string>
     <string name="Tall_for_stort">"Tallet må være mindre enn "</string>
     <string name="Tall_for_lite">"Tallet må være større enn "</string>
+    <string name="tomt_felt">"Kunne ikke lagre på grunn av tom "</string>
 </resources>

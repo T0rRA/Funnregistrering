@@ -167,6 +167,11 @@ public class FragmentRegistrereFunn extends Fragment {
             return null;
         }
 
+        if(title.getText().toString().equals("")){
+            Toast.makeText(getContext(), getString(R.string.tomt_felt) + "tittel", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
         if(description.getError() != null){
             Toast.makeText(getContext(), getString(R.string.feil_i_innputfelter) + "beskrivelse", Toast.LENGTH_LONG).show();
             return null;
