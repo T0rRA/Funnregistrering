@@ -35,4 +35,5 @@
     <string name="fragment_enkelt_funn_status_btn_funnmelding">send inn funnmelding</string>
     <string name="enkelt_funn_status_btn_funnskjema">Send inn funnskjema</string>
     <string name="feil_i_innputfelter">"Kunne ikke lagre på grunn av feil i "</string>
+    <string name="ulike_passord">Passordene er ikke like</string>
 </resources>

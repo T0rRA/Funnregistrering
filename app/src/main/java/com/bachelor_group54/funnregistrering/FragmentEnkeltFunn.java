@@ -59,34 +59,33 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText[] editTexts = {view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_funndybde)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_tittel) // 3
-                , view.findViewById(R.id.fragment_enkelt_funn_et_dato) // 4
+                , view.findViewById(R.id.fragment_enkelt_funn_et_tittel)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_dato)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_sted)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneier) //6
-                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse) //7
-                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost) //8
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneier)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted) //10
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierTlf)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse) //12
+                , view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke) //14
+                , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_datum)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_arealtype) //16
+                , view.findViewById(R.id.fragment_enkelt_funn_et_arealtype)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_annet)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr) //18
+                , view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gbnr)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_kommune) //20
+                , view.findViewById(R.id.fragment_enkelt_funn_et_kommune)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_fylke)};
 
         for (int i = 0; i < editTexts.length; i++) {
             EditText et = editTexts[i];
             //Switch case that sets the appropriate input validation on the EditTexts
             switch (i){
-                //Groups long, lat and depth together
-                case 0:
-                case 1:
-                case 2:
+                case 0: //Latitude
+                case 1: //Longitude
+                case 2: //Depth
                     et.addTextChangedListener(new InputValidater(getContext(),false,true, true, 1, 20, et));
                     break;
                 case 3: //Title
