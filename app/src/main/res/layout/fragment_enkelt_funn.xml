@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!-- TODO legge til input type -->
 <!--Fragment for displaying and editing a find-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"

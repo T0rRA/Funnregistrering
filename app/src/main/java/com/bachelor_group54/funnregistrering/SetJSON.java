@@ -48,8 +48,8 @@ public class SetJSON extends AsyncTask<String, Void, String> {
                 serverOutput.append(serverOutputLine);
             }
             if (conn.getResponseCode() != 200) { //Server error
-                //FIXME ikke krasje
-                throw new RuntimeException("Failed : HTTP error code : "+ conn.getResponseCode());
+                System.err.println("Failed: HTTP error Code:" + conn.getResponseCode());
+                return "Failed: HTTP error Code:" + conn.getResponseCode();
             }
             conn.disconnect();
             return serverOutput.toString();

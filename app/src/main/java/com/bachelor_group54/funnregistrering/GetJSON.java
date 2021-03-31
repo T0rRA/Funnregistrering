@@ -35,8 +35,8 @@ public class GetJSON extends AsyncTask<String, Void, String> {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
             if (conn.getResponseCode() != 200) {
-                //FIXME endre dette ikke bra at appen krasjer
-                throw new RuntimeException("Failed: HTTP error Code:" + conn.getResponseCode());
+                System.err.println("Failed: HTTP error Code:" + conn.getResponseCode());
+                return "Failed: HTTP error Code:" + conn.getResponseCode();
             }
             //Gets the string from the server
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
