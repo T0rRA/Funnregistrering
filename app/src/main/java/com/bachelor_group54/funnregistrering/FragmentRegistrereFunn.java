@@ -52,13 +52,12 @@ public class FragmentRegistrereFunn extends Fragment {
     }
 
     //TODO finne ut hva vi skal ha av innputvalidering
-    public void setTextWatchers(){
+    public void setTextWatchers() {
         EditText title = view.findViewById(R.id.nytt_funn_tittel_et);
         EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et);
 
-        title.addTextChangedListener(new InputValidater(getContext(), true , false , false, 1 , 20, title));
-        title.setText("");
-        description.addTextChangedListener(new InputValidater(getContext(), true , false , false, 0 , 100, description));
+        title.addTextChangedListener(new InputValidater(getContext(), true, false, false, 1, 20, title));
+        description.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 100, description));
     }
 
     public void gpsBtn() {
@@ -157,22 +156,23 @@ public class FragmentRegistrereFunn extends Fragment {
         funn.setDato(date);
 
         //If there are errors in anny of the fields do not save the find
-        if(title.getError() != null && description.getError() != null){
+        if (title.getError() != null && description.getError() != null) {
             Toast.makeText(getContext(), getString(R.string.feil_i_innputfelter) + "tittel og beskrivelse", Toast.LENGTH_LONG).show();
             return null;
         }
 
-        if(title.getError() != null){
+        if (title.getError() != null) {
             Toast.makeText(getContext(), getString(R.string.feil_i_innputfelter) + "tittel", Toast.LENGTH_LONG).show();
             return null;
         }
 
-        if(title.getText().toString().equals("")){
+        //Checks if title is empty
+        if (title.getText().toString().equals("")) {
             Toast.makeText(getContext(), getString(R.string.tomt_felt) + "tittel", Toast.LENGTH_LONG).show();
             return null;
         }
 
-        if(description.getError() != null){
+        if (description.getError() != null) {
             Toast.makeText(getContext(), getString(R.string.feil_i_innputfelter) + "beskrivelse", Toast.LENGTH_LONG).show();
             return null;
         }
@@ -181,7 +181,6 @@ public class FragmentRegistrereFunn extends Fragment {
         return funn;
     }
 
-    //TODO sjekke om titel er tom
     public void saveFind(Funn funn) {
         //If the a picture has been added save it
         if (picture != null) {
@@ -211,7 +210,7 @@ public class FragmentRegistrereFunn extends Fragment {
     }
 
     //Resets the fields, called when registering new find so it is empty next time the user wants to register a find
-    public void clearFields(){
+    public void clearFields() {
         EditText titleEt = view.findViewById(R.id.nytt_funn_tittel_et);
         titleEt.setText("");
         EditText descriptionEt = view.findViewById(R.id.nytt_funn_beskrivelse_et);
