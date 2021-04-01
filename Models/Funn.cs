@@ -20,7 +20,7 @@ namespace FunnregistreringsAPI.Models
 
         //The image has to be saved as a Base64 string. This will have to be converted on the frontend. 
         public string image { get; set; }
-        public string funndato { get; set; }
+        public string funndato { get; set; } //datetime?
         public string kommune { get; set; }
         public string fylke { get; set; }
         public string funndybde { get; set; }

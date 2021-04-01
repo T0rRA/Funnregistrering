@@ -285,7 +285,7 @@ namespace FunnregistreringsAPI.DAL
 
 
                     // Sends welcome-email to new user
-                    /*
+                    
                     var smtpClient = SmtpClient();
 
                     var emailMessage = new MailMessage()
@@ -305,7 +305,7 @@ namespace FunnregistreringsAPI.DAL
                     string mottaker = ny_bruker.Epost;
                     emailMessage.To.Add(mottaker);
                     await smtpClient.SendMailAsync(emailMessage); // sends mail
-                    */
+                    
                     return true;
 
                 }
@@ -380,32 +380,14 @@ namespace FunnregistreringsAPI.DAL
         {
             // asks user to input their password
             // done in backend as we need the user's salt for comparing hashes
-
             try
             {
                 var enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
                 if (enBruker != null)
                 {
-                    // user exists, so compare password
+                    // user exists, so compare passwords
                     var hash = CreateHash(passord, enBruker.Salt);
-
-                    bool samePw = false;
-                    if(hash.Length == enBruker.Passord.Length) // equal length
-                    {
-                        int i = 0;
-                        while((i < hash.Length) && (hash[i] == enBruker.Passord[i]))
-                        {
-                            // while equal values
-                            i++;
-                        }
-                        if(i == hash.Length)
-                        {
-                            samePw = true;
-                        }
-                    }
-
-
-                    if (samePw)
+                    if (hash.SequenceEqual(enBruker.Passord))
                     {
                         // password is correct, so delete user
                         List<Funn> funnListe = enBruker.MineFunn;
@@ -413,6 +395,7 @@ namespace FunnregistreringsAPI.DAL
                         {
                             // delete each funn
                             var etFunn = await _db.funn.FindAsync(f.FunnID);
+                            funnListe.Remove(f);
                             _db.funn.Remove(etFunn);
                         }
                         // delete user

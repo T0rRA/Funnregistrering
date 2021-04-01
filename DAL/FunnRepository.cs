@@ -18,29 +18,33 @@ namespace FunnregistreringsAPI.DAL
             _db = db;
         }
 
-        public async Task<bool> RegistrerFunn(Funn nyttFunn)
+        public async Task<bool> RegistrerFunn(Funn nyttFunn, String brukernavn)
 
         {
             try
             {
-
-                Funn nf = new Funn
+                Bruker realUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
+                if(realUser!=null) // user found
                 {
-                    koordinat = nyttFunn.koordinat,
-                    kommune = nyttFunn.kommune,
-                    image = nyttFunn.image,
-                    gjenstand_markert_med = nyttFunn.gjenstand_markert_med,
-                    fylke = nyttFunn.fylke,
-                    funndybde = nyttFunn.funndybde,
-                    datum = nyttFunn.datum,
-                    areal_type = nyttFunn.areal_type,
-                    funndato = nyttFunn.funndato,
-                    //BrukerUserID = realUser.UserID
-                };
+                    Funn nf = new Funn
+                    {
+                        koordinat = nyttFunn.koordinat,
+                        kommune = nyttFunn.kommune,
+                        image = nyttFunn.image,
+                        gjenstand_markert_med = nyttFunn.gjenstand_markert_med,
+                        fylke = nyttFunn.fylke,
+                        funndybde = nyttFunn.funndybde,
+                        datum = nyttFunn.datum,
+                        areal_type = nyttFunn.areal_type,
+                        funndato = nyttFunn.funndato,
+                        BrukerUserID = realUser.UserID
+                    };
 
-                _db.funn.Add(nf);
-                await _db.SaveChangesAsync();
-                return true;
+                    _db.funn.Add(nf);
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                return false; // user not found
             }
             catch (Exception)
             {
@@ -48,19 +52,17 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        public async Task<Funn> GetFunn(List<Funn> funnListe)
+        public async Task<Funn> GetFunn(List<Funn> funnListe, int funnID)
         {
             try
             {
-                // THIS DONT WORK rn - maybe this isnt backend..
-                Funn etFunn = new Funn();
                 // find specific funn
-                foreach(Funn funnetFunn in funnListe)
+                foreach(Funn funn in funnListe)
                 {
-                    if(funnetFunn.FunnID == etFunn.FunnID)
+                    if(funn.FunnID == funnID)
                     {
                         // funn is found in users funnliste, now find it in the funn db
-                        var funnIDb = await _db.funn.FindAsync(etFunn.FunnID); 
+                        var funnIDb = await _db.funn.FindAsync(funnID); 
                         if(funnIDb != null) { return funnIDb; }
                         return null; // funn not found in db
                     }
@@ -74,14 +76,14 @@ namespace FunnregistreringsAPI.DAL
         }
 
         //NOTE!!! THIS MUST BE SECURE 
-        public async Task<List<Funn>> GetAllUserFunn(InnBruker ib)
+        public async Task<List<Funn>> GetAllUserFunn(String brukernavn, String passord)
         {
             //DECLARE A LIST TO RETURN
             try
             {
-                Bruker funnetBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == ib.Brukernavn);
+                Bruker funnetBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
                 // Check pword
-                byte[] hash = BrukerRepository.CreateHash(ib.Passord, funnetBruker.Salt);
+                byte[] hash = BrukerRepository.CreateHash(passord, funnetBruker.Salt);
                 bool ok = hash.SequenceEqual(funnetBruker.Passord);
 
                 //If ok use UserID from the found user to get the full list of "funn"
@@ -95,19 +97,18 @@ namespace FunnregistreringsAPI.DAL
                 {
                     return null; //throw exception here as well. 
                 }
-
-                
-            } catch(Exception)
+            }
+            catch(Exception)
             {
                 return null;
             }
         }
 
-        public async Task<bool> DeleteFunn(Funn f)
+        public async Task<bool> DeleteFunn(int funnID)
         {
             try
             {
-                Funn real_funn = await _db.funn.FindAsync(f.FunnID);
+                Funn real_funn = await _db.funn.FindAsync(funnID);
                 if(real_funn != null)
                 {
                     // funn is found

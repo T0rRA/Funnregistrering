@@ -9,20 +9,11 @@ namespace FunnregistreringsAPI.DAL
 {
     public interface FunnRepositoryInterface
     {
-        public Task<bool> RegistrerFunn(Funn nyttfunn);
-        
-        //A method to get all finds for a user.
-        //remember change this to task
-        //Has to take inn a user (?) or what do we do
-
-        public Task<List<Funn>> GetAllUserFunn(InnBruker ib);
-
-
-        public Task<bool> DeleteFunn(Funn f);
-        public Task<Funn> GetFunn(List<Funn> funnListe);
-        //what do i include even wth
-        //what else might be required?
-
+        public Task<bool> RegistrerFunn(Funn nyttfunn, String brukernavn);
+        public Task<List<Funn>> GetAllUserFunn(String brukernavn, String passord);
+        public Task<bool> DeleteFunn(int funnID);
+        public Task<bool> EditFunn(Funn f);
+        public Task<Funn> GetFunn(List<Funn> funnListe, int funnID);
         public Task<string> GeneratePdf(String f);
 
     }
