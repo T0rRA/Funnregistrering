@@ -96,7 +96,8 @@ namespace FunnregistreringsAPI.DAL
                 if (ok)
                 {
                     List<Funn> ex_funn_list = await _db.funn.Where(funn => funn.BrukerUserID == funnetBruker.UserID).ToListAsync();
-                    if (!ex_funn_list.Any()) { return null; } //if returned list is empty. Can maybe throw exception so that we can differentiate
+                    // empty list is returned            
+                    if (!ex_funn_list.Any()) { return ex_funn_list; } //if returned list is empty. Can maybe throw exception so that we can differentiate
                     else return ex_funn_list;
                 } 
                 else //if user is not correct

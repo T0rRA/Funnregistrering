@@ -423,28 +423,17 @@ namespace FunnregistreringsAPI.DAL
                 return false;
             }
         }
-        public async Task<InnBruker> GetUser(InnBruker bruker)
+        public async Task<Bruker> GetUser(String brukernavn)
         {
             // Get one user's information
 
             try
             {
-                Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
+                Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
                 if (enBruker != null)
                 {
                     // user exists
-                    var hentetBruker = new InnBruker()
-                    {
-                        Brukernavn = enBruker.Brukernavn,
-                        Fornavn = enBruker.Fornavn,
-                        Etternavn = enBruker.Etternavn,
-                        Adresse = enBruker.Adresse,
-                        Postnr = enBruker.Postnr.Postnr,
-                        Poststed = enBruker.Postnr.Poststed,
-                        Tlf = enBruker.Tlf,
-                        Epost = enBruker.Epost
-                    };
-                    return hentetBruker;
+                    return enBruker;
                 }
                 else
                 {

@@ -72,21 +72,21 @@ namespace FunnregistreringsAPI.Controllers
             return BadRequest("Error på server");
         }
 
-        public async Task<ActionResult> GetUser(InnBruker bruker)
+        public async Task<ActionResult> GetUser(String brukernavn)
         {
 
-            var loggedIn = await _db.CheckIfUserLoggedIn(bruker.Brukernavn);
-            if (loggedIn) 
-            {
-                InnBruker enBruker = await _db.GetUser(bruker);
+            var loggedIn = await _db.CheckIfUserLoggedIn(brukernavn);
+            //if (loggedIn) 
+            //{
+                Bruker enBruker = await _db.GetUser(brukernavn);
                 if(enBruker == null)
                 {
                     // User not found
                     return NotFound("Bruker ikke funnet");
                 }
                 return Ok(enBruker);
-            }
-            return BadRequest("Error på server");
+            //}
+            //return BadRequest("Error på server");
         }
         
         public async Task<ActionResult> LogIn(string brukernavn, string passord)     

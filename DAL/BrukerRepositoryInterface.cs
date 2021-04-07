@@ -18,7 +18,7 @@ namespace FunnregistreringsAPI.DAL
 
         public Task<bool> DeleteUser(string brukernavn, string passord);
 
-        public Task<InnBruker> GetUser(InnBruker bruker);
+        public Task<Bruker> GetUser(String brukernavn);
 
         public Task<bool> LogIn(string brukernavn, string passord);
         public Task<int> LogOut(string brukernavn);
