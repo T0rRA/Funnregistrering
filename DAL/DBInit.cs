@@ -48,7 +48,7 @@ namespace FunnregistreringsAPI.DAL
                 bruker1.MineFunn = new List<Funn>();
 
                 
-               /* // FUNN
+                // FUNN
                 var funn1 = new Funn();
                 funn1.image = "123";
                 funn1.funndato = "Kanskje bør dette være en DateTime";
@@ -58,42 +58,40 @@ namespace FunnregistreringsAPI.DAL
                 funn1.gjenstand_markert_med = "oh4o5kf";
                 funn1.koordinat = "5943058390494";
                 funn1.datum = "???";
-                funn1.areal_type = "...sirkel";*/
+                funn1.areal_type = "...sirkel";
                 
                 var funn2 = new Funn
                 {
-                    Image = "544399123123sdadaffdgwqe",
-                    Funndato = "11.02.2021",
-                    Kommune = "Sarpsborg",
-
-                    /*Areal_type = "jorde",
-                    Datum = "12.03.2021",
-                    Funndybde = "420m",
-                    Fylke = "Viken",
-                    Gjenstand_markert_med = "funnID'en",
-                    Koordinat = "12 03 12N, 54 12 65W",*/
+                    image = "544399123123sdadaffdgwqe",
+                    areal_type = "jorde",
+                    datum = "12.03.2021",
+                    funndato = "11.02.2021",
+                    funndybde = "420m",
+                    fylke = "Viken",
+                    gjenstand_markert_med = "funnID'en",
+                    kommune = "Sarpsborg",
+                    koordinat = "12 03 12N, 54 12 65W",
                 };
                 var funn3 = new Funn
                 {
-                    Image = "owoew",
-                    Kommune = "Sarpsborg",
-                    Funndato = "11.02.2021",
-                    /*
-                    Areal_type = "fjell",
-                    Datum = "12.03.2021",
-                    Funndybde = "69m",
-                    Fylke = "Viken",
-                    Gjenstand_markert_med = "funnID'en",
-                    Koordinat = "12 03 17N, 54 12 62W",
-                    */
+                    image = "owoew",
+                    areal_type = "fjell",
+                    datum = "12.03.2021",
+                    funndato = "11.02.2021",
+                    funndybde = "69m",
+                    fylke = "Viken",
+                    gjenstand_markert_med = "funnID'en",
+                    kommune = "Sarpsborg",
+                    koordinat = "12 03 17N, 54 12 62W",
                 };
                 
-                //bruker1.MineFunn.Add(funn1);
+                bruker1.MineFunn.Add(funn1);
                 bruker1.MineFunn.Add(funn2);
                 bruker1.MineFunn.Add(funn3);
 
                 context.brukere.Add(bruker1);
                 context.SaveChanges();
+                Console.WriteLine("Funn added");
                 return true;
             }
             else

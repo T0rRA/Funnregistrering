@@ -18,32 +18,31 @@ namespace FunnregistreringsAPI.DAL
             _db = db;
         }
 
-        public async Task<bool> RegistrerFunn(InnFunn nyttFunn, String brukernavn)
+        public async Task<bool> RegistrerFunn(Funn nyttFunn, String brukernavn)
 
         {
             try
             {
 
                 Bruker realUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
-                if(realUser != null) // user found
+                if(realUser!=null) // user found
                 {
                     var nf = new Funn
                     {
-                        //Koordinat = nyttFunn.Koordinat,
-                        Kommune = nyttFunn.Kommune,
-                        Image = nyttFunn.Image,
-                       /* Gjenstand_markert_med = nyttFunn.Gjenstand_markert_med,
-                        Fylke = nyttFunn.Fylke,
-                        Funndybde = nyttFunn.Funndybde,
-                        Datum = nyttFunn.Datum,
-                        Areal_type = nyttFunn.Areal_type,*/
-                        Funndato = nyttFunn.Funndato,
-                        //BrukerUserID = realUser.UserID
+                        koordinat = nyttFunn.koordinat,
+                        kommune = nyttFunn.kommune,
+                        image = nyttFunn.image,
+                        gjenstand_markert_med = nyttFunn.gjenstand_markert_med,
+                        fylke = nyttFunn.fylke,
+                        funndybde = nyttFunn.funndybde,
+                        datum = nyttFunn.datum,
+                        areal_type = nyttFunn.areal_type,
+                        funndato = nyttFunn.funndato,
+                        BrukerUserID = realUser.UserID
                     };
 
-                    //_db.funn.Add(nf);
-                    //await _db.SaveChangesAsync();
-                    Debug.Write("hello");
+                    _db.funn.Add(nf);
+                    await _db.SaveChangesAsync();
                     return true;
                 }
                 return false; // user not found
@@ -135,15 +134,15 @@ namespace FunnregistreringsAPI.DAL
                 if(etFunn != null)
                 {
                     // funn is found
-                   // etFunn.Koordinat = f.Koordinat;
-                    etFunn.Kommune = f.Kommune;
-                    etFunn.Image = f.Image;
-                   /* etFunn.Gjenstand_markert_med = f.Gjenstand_markert_med;
-                    etFunn.Fylke = f.Fylke;
-                    etFunn.Funndybde = f.Funndybde;
-                    etFunn.Datum = f.Datum;
-                    etFunn.Areal_type = f.Areal_type;*/
-                    etFunn.Funndato = f.Funndato;
+                    etFunn.koordinat = f.koordinat;
+                    etFunn.kommune = f.kommune;
+                    etFunn.image = f.image;
+                    etFunn.gjenstand_markert_med = f.gjenstand_markert_med;
+                    etFunn.fylke = f.fylke;
+                    etFunn.funndybde = f.funndybde;
+                    etFunn.datum = f.datum;
+                    etFunn.areal_type = f.areal_type;
+                    etFunn.funndato = f.funndato;
 
                     await _db.SaveChangesAsync();
                     return true;
