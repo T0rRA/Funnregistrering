@@ -13,12 +13,6 @@ namespace FunnregistreringsAPI.Models
         public int FunnID { get; set; }
  
         public int BrukerUserID { get; set; }
-        
-        //MORE DATA HERE
-        
-        //GRUNNEIER GOES HERE?? Potentially a DB for Grunneiere - or previously registered grunneiere for each G/Bnr
-
-        //The image has to be saved as a Base64 string. This will have to be converted on the frontend. 
         public string image { get; set; }
         public string funndato { get; set; } //datetime?
         public string kommune { get; set; }

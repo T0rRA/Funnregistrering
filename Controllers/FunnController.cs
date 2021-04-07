@@ -21,30 +21,35 @@ namespace FunnregistreringsAPI.Controllers
         }
         //We have to make these functions secure. Right now these can be injected if they have the webserver API and the function. 
         //Is it feasible to every time person logs in the "password" is physically saved on the device so that we can confirm their status?
-        public async Task<bool> RegistrerFunn(Funn nyttFunn, String brukernavn)
+        public async Task<ActionResult> RegistrerFunn(Funn nyttFunn, String brukernavn)
         {
-            return await _db.RegistrerFunn(nyttFunn, brukernavn);
+            bool regOK =  await _db.RegistrerFunn(nyttFunn, brukernavn);
+            if(!regOK) { return NotFound("Funn ble ikke registrert"); }
+            return Ok("Funn er opprettet");
         }
-        public async Task<List<Funn>> GetAllUserFunn(String brukernavn, String passord)
+        public async Task<ActionResult> GetAllUserFunn(String brukernavn, String passord)
         {
-            return await _db.GetAllUserFunn(brukernavn, passord);
+            var getListOk = await _db.GetAllUserFunn(brukernavn, passord);
+            if (getListOk == null) return NotFound("Kunne ikke hente funnliste");
+            return Ok("Lista er hentet");
         }
-        public async Task<bool> DeleteFunn(int funnID)
+        public async Task<ActionResult> DeleteFunn(int funnID)
         {
-            return await _db.DeleteFunn(funnID);
+            bool deleteOK = await _db.DeleteFunn(funnID);
+            if (!deleteOK) return NotFound("Funnet kunne ikke slettes");
+            return Ok("Funnet ble slettet");
         } 
-        public async Task<bool> EditFunn(Funn f)
+        public async Task<ActionResult> EditFunn(Funn f)
         {
-            return await _db.EditFunn(f);
+            bool editOK = await _db.EditFunn(f);
+            if (!editOK) return NotFound("Funnet ble ikke endret");
+            return Ok("Funnet ble endret");
         }
-        public async Task<Funn> GetFunn(List<Funn> funnListe, int funnID)
+        public async Task<ActionResult> GetFunn(String brukernavn, int funnID)
         {
-            return await _db.GetFunn(funnListe, funnID);
-        }
-
-        public async Task<string> GeneratePdf(string f)
-        {
-            return await _db.GeneratePdf(f);
+            var getOk = await _db.GetFunn(brukernavn, funnID);
+            if (getOk == null) return NotFound("Funnet kunne ikke hentes");
+            return Ok("Funnet ble hentet");
         }
 
     }

@@ -13,8 +13,6 @@ namespace FunnregistreringsAPI.DAL
         public Task<List<Funn>> GetAllUserFunn(String brukernavn, String passord);
         public Task<bool> DeleteFunn(int funnID);
         public Task<bool> EditFunn(Funn f);
-        public Task<Funn> GetFunn(List<Funn> funnListe, int funnID);
-        public Task<string> GeneratePdf(String f);
-
+        public Task<Funn> GetFunn(String brukernavn, int funnID);
     }
 }

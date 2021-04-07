@@ -210,6 +210,7 @@ namespace FunnregistreringsAPI.DAL
                                 else
                                 {
                                     // the passwords are not the same, try again.
+                                    // passord-sjekk gjøres også på frontend ved input
                                     return false;
                                 }
 
@@ -493,7 +494,7 @@ namespace FunnregistreringsAPI.DAL
 
         }
 
-        public async Task<bool> LogOut(string brukernavn)
+        public async Task<int> LogOut(string brukernavn)
         {
             try
             {
@@ -506,17 +507,17 @@ namespace FunnregistreringsAPI.DAL
                         // user is logged in, so log out
                         enBruker.LoggetInn = false;
                         await _db.SaveChangesAsync();
-                        return true;
+                        return 1;
                     }
                     // user found, but not logged in
-                    return false;
+                    return 2;
                 }
                 // user is not found
-                return false;
+                return 3;
             }
             catch (Exception e)
             {
-                return false;
+                return 4;
             }
         }
 

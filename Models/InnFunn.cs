@@ -8,11 +8,6 @@ namespace FunnregistreringsAPI.Models
     public class InnFunn : FunnInterface
     {
 
-        //MORE DATA HERE
-        //GRUNNEIER GOES HERE?? Potentially a DB for Grunneiere - or previously registered grunneiere for each G/Bnr
-
-        //JSON CAN'T SEND IMAGES, NEEDS TO BE CONVERTED TO A STRING WITH BASE64
-
         public string image { get; set; } 
         public string funndato { get; set; }
         public string kommune { get; set; }

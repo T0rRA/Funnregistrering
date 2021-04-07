@@ -111,14 +111,13 @@ namespace FunnregistreringsAPI.Controllers
             if(loggedIn)
             {
                 // user is logged in
-                bool loggedOut = await _db.LogOut(brukernavn);
-                if(!loggedOut) 
-                { 
-                    return NotFound("Bruker kunne ikke logges ut"); 
-                }
-                return Ok(true); // User logged out
+                int loggedOut = await _db.LogOut(brukernavn);
+                if (loggedOut == 1) return Ok(true);
+                else if (loggedOut == 2) return NotFound("Bruker er ikke logget inn"); //redirect
+                else if (loggedOut == 3) return NotFound("Bruker ikke funnet");
+                else if (loggedOut == 4) return NotFound("Kunne ikke logge ut.");
             }
-            return BadRequest("Feil på server.");
+            return BadRequest("Bruker er ikke logget inn"); // redirect
         }
 
         public async Task<ActionResult> CheckIfUserLoggedIn(string brukernavn)

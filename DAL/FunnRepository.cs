@@ -53,19 +53,24 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        public async Task<Funn> GetFunn(List<Funn> funnListe, int funnID)
+        public async Task<Funn> GetFunn(String brukernavn, int funnID)
         {
             try
             {
-                // find specific funn
-                foreach(Funn funn in funnListe)
+                var bruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
+                if (bruker != null)
                 {
-                    if(funn.FunnID == funnID)
+                    var funnListe = bruker.MineFunn;
+                    // find specific funn
+                    foreach (Funn funn in funnListe)
                     {
-                        // funn is found in users funnliste, now find it in the funn db
-                        var funnIDb = await _db.funn.FindAsync(funnID); 
-                        if(funnIDb != null) { return funnIDb; }
-                        return null; // funn not found in db
+                        if (funn.FunnID == funnID)
+                        {
+                            // funn is found in users funnliste, now find it in the funn db
+                            var funnIDb = await _db.funn.FindAsync(funnID);
+                            if (funnIDb != null) { return funnIDb; }
+                            return null; // funn not found in db
+                        }
                     }
                 }
                 return null; // funn not found in list
@@ -152,20 +157,6 @@ namespace FunnregistreringsAPI.DAL
             catch(Exception e)
             {
                 return false;
-            }
-
-        }
-
-        public async Task<string> GeneratePdf(string f)
-        {
-            try
-            {
-                
-                return f + " - nice";
-            }
-            catch(Exception e)
-            {
-                return "Oh no";
             }
 
         }
