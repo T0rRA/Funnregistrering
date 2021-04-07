@@ -325,6 +325,7 @@ namespace FunnregistreringsAPI.DAL
         public async Task<bool> EditUser(InnBruker bruker)
         {
             // InnBruker bruker contains edited user information
+            // The user will only send inn InnBruker-object that have no null-values
             try
             {
                 var enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == bruker.Brukernavn);
@@ -332,7 +333,7 @@ namespace FunnregistreringsAPI.DAL
                 {
                     // bruker exists
                     // check if new postnr has changed
-                    if (enBruker.Postnr.Postnr != bruker.Postnr)
+                    if (enBruker.Postnr.Postnr != bruker.Postnr && bruker.Postnr!= null)
                     {
                         // postnr has changed
                         // does it exist in our db?

@@ -23,10 +23,11 @@ namespace FunnregistreringsAPI.DAL
         {
             try
             {
+
                 Bruker realUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
                 if(realUser != null) // user found
                 {
-                    Funn nf = new Funn
+                    var nf = new Funn
                     {
                         //Koordinat = nyttFunn.Koordinat,
                         Kommune = nyttFunn.Kommune,
@@ -130,7 +131,7 @@ namespace FunnregistreringsAPI.DAL
         {
             try
             {
-                Funn etFunn = await _db.funn.FindAsync(f.FunnID);
+                var etFunn = await _db.funn.FindAsync(f.FunnID);
                 if(etFunn != null)
                 {
                     // funn is found

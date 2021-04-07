@@ -11,7 +11,6 @@ using FunnregistreringsAPI.Models;
 namespace FunnregistreringsAPI.Controllers
 {
     [Route("[controller]/[action]")]
-    [ApiController]
     public class FunnController : ControllerBase
     {
         private readonly FunnRepositoryInterface _db;
