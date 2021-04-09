@@ -96,13 +96,15 @@ namespace FunnregistreringsAPI.Controllers
            if (!loggedIn)
            {
                 // User is not logged in
-                bool success = await _db.LogIn(brukernavn, passord);
-                if (!success) { return Ok(false); } // log-in info is incorrect
-                return Ok(true); // user logged in
+                int logInOK= await _db.LogIn(brukernavn, passord);
+                if (logInOK == 1) return Ok(true);  // user logged in
+                else if (logInOK == 2) return NotFound("Feil passord.");
+                else if (logInOK == 3) return NotFound("Bruker finnes ikke.");
+                else if (logInOK == 4) return NotFound("Kunne ikke logge inn (bruker er allerede logget inn kanskje)");
             }
             // Or a redirection? 
             // Since a user shouldnt be able to log in when theyre already logged in
-            return BadRequest("400 error på server i guess");
+            return BadRequest("400 error på server, prøv å logg ut først");
         }
 
         public async Task<ActionResult> LogOut(string brukernavn)

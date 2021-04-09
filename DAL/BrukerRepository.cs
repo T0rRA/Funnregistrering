@@ -447,7 +447,7 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        public async Task<bool> LogIn(string brukernavn, string passord)
+        public async Task<int> LogIn(string brukernavn, string passord)
         {
             try
             {
@@ -462,23 +462,23 @@ namespace FunnregistreringsAPI.DAL
                         enBruker.LoggetInn = true;
                         await _db.SaveChangesAsync();
 
-                        return true;
+                        return 1;
                     }
                     else
                     {
                         // wrong password
-                        return false;
+                        return 2;
                     }
                 }
                 else
                 {
                     // user does not exist, try again
-                    return false;
+                    return 3;
                 }
             }
             catch (Exception e)
             {
-                return false;
+                return 4;
             }
 
         }

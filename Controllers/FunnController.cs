@@ -31,7 +31,7 @@ namespace FunnregistreringsAPI.Controllers
         {
             var getListOk = await _db.GetAllUserFunn(brukernavn, passord);
             if (getListOk == null) return NotFound("Kunne ikke hente funnliste");
-            return Ok("Lista er hentet");
+            return Ok(getListOk);
         }
         public async Task<ActionResult> DeleteFunn(int funnID)
         {
@@ -49,7 +49,7 @@ namespace FunnregistreringsAPI.Controllers
         {
             var getOk = await _db.GetFunn(brukernavn, funnID);
             if (getOk == null) return NotFound("Funnet kunne ikke hentes");
-            return Ok("Funnet ble hentet");
+            return Ok(getOk);
         }
 
     }
