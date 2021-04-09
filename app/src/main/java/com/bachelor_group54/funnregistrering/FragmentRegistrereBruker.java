@@ -68,7 +68,7 @@ public class FragmentRegistrereBruker extends Fragment {
             SetJSON setJSON = new SetJSON();
             setJSON.execute("Bruker/CreateUser", "Brukernavn=" + user.getName(), "Passord=" +
                     user.getPassword(), "Fornavn=" + user.getName(), "Etternavn=" + user.getLastName(),
-                    "Adresse=" + user.getAddress(), "Postnr=" + user.getPostalCode(), "Poststed=poststed" /*FIXME har ikke poststed*/,
+                    "Adresse=" + user.getAddress(), "Postnr=" + user.getPostalCode(), "Poststed=" /*FIXME har ikke poststed*/,
                     "Tlf=" + user.getPhoneNum(), "Epost=" + user.getEmail());
 
         } else { //sends message if the passwords are different

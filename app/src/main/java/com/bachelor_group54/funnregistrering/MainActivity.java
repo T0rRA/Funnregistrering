@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -52,6 +53,21 @@ public class MainActivity extends AppCompatActivity {
         mPager.setCurrentItem(0);
 
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>" + getString(R.string.app_name) + "</font>")); //Changes the color of the actionbar text
+    }
+
+    //TODO lage onResume som logger bruker inn igjen
+    @Override
+    protected void onStop() {
+        SharedPreferences sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
+        String username = sharedpreferences.getString("username", "");
+
+        if(!username.equals("")) {
+            SetJSON setJSON = new SetJSON();
+            setJSON.execute("Bruker/LogOut", "brukernavn=" + username);
+            Toast.makeText(this, "Logger ut", Toast.LENGTH_LONG).show();
+        }
+
+        super.onStop();
     }
 
     //The ScreenSlidePagerAdapter holds the fragment from the navigation bar and makes sliding between them possible.
@@ -222,7 +238,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void closeFragment() {
         fm.popBackStack();//Goes back to the slide fragments
-        mPager.setVisibility(View.VISIBLE); //Makes the main fragments visible again
+        if(fm.getBackStackEntryCount() == 1) {
+            mPager.setVisibility(View.VISIBLE); //Makes the main fragments visible again
+        }
     }
 }
 

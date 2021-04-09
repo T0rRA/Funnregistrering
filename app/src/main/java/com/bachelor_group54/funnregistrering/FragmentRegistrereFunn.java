@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -145,6 +148,11 @@ public class FragmentRegistrereFunn extends Fragment {
 
         saveFind(funn);
         return funn;
+    }
+
+    public void sentFindToBackend(){
+        SetJSON setJSON = new SetJSON();
+        setJSON.execute("nyttFunn", "brukernavn=");
     }
 
     public void saveFind(Funn funn) {

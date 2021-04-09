@@ -2,6 +2,9 @@ package com.bachelor_group54.funnregistrering;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,5 +39,19 @@ public class ImageSaver {
         String file = path + filename; // Combines the program path and the filename
 
         return BitmapFactory.decodeFile(file);
+    }
+
+    //Makes Bitmap form Base64
+    public static Bitmap makeBitmapFormBase64(String encodedImage){
+        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    }
+
+    //Makes Base64 string for the database people
+    public static String makeBase64FromBitmap(Bitmap picture){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        picture.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 }

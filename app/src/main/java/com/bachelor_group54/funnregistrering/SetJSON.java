@@ -1,7 +1,10 @@
 package com.bachelor_group54.funnregistrering;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,12 +15,19 @@ import java.util.Set;
 
 public class SetJSON extends AsyncTask<String, Void, String> {
     private TextView textView;
+    private Context context;
+    private String username;
 
     public SetJSON() {
     }
 
     public SetJSON(TextView textView) {
         this.textView = textView;
+    }
+
+    public SetJSON(Context context, String username) {
+        this.context = context;
+        this.username = username;
     }
 
     //FIXME endre denne til å passe med serveren
@@ -64,6 +74,17 @@ public class SetJSON extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         if(textView != null) {
             textView.setText(s);
+        }else if(context != null && username != null){
+            Toast.makeText(context, s, Toast.LENGTH_LONG).show();
+            //Saves the username to shared preference if login was successful else overwrite it
+            SharedPreferences sharedpreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            if(s.equals("true")) {
+                editor.putString("username", username);
+            }else {
+                editor.putString("username", "");
+            }
+            editor.apply();
         }
     }
 }
