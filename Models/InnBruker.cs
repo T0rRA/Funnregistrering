@@ -8,7 +8,7 @@ namespace FunnregistreringsAPI.Models
 {
     public class InnBruker
     {
-        [RegularExpression(@"^[a-zA-Z0-9-._ ]+@[a-zA-Z.\-]+\.[a-zA-Z]{2,20}$")]
+        [RegularExpression(@"^[a-zA-Z0-9\-._ ]+@[a-zA-Z.\-]+\.[a-zA-Z]{2,20}$")]
         public String Brukernavn { get; set; }
         [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$")]
         public String Passord { get; set; }

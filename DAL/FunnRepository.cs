@@ -18,7 +18,7 @@ namespace FunnregistreringsAPI.DAL
             _db = db;
         }
 
-        public async Task<bool> RegistrerFunn(Funn nyttFunn, String brukernavn)
+        public async Task<bool> RegistrerFunn(InnFunn nyttFunn, String brukernavn)
 
         {
             try

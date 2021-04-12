@@ -24,9 +24,13 @@ namespace FunnregistreringsAPI.Controllers
 
         public async Task<ActionResult> CreateUser(InnBruker bruker)
         {
-            bool createOk = await _db.CreateUser(bruker);
-            if(!createOk) { return NotFound("Bruker ble ikke opprettet"); }
-            return Ok("Bruker er opprettet.");
+            if (ModelState.IsValid)
+            {
+                bool createOk = await _db.CreateUser(bruker);
+                if (!createOk) { return NotFound("Bruker ble ikke opprettet"); }
+                return Ok("Bruker er opprettet.");
+            }
+            return BadRequest("Bad Reuqest 400");
         }
 
         public async Task<ActionResult> SendResetPwLink(string brukernavn)
