@@ -22,7 +22,6 @@ namespace FunnregistreringsAPI.Models
         public virtual Postadresse Postnr { get; set; }// egen klasse
         public string Tlf { get; set; }
         public string Epost { get; set; }
-        //denne har egen db
         public virtual List<Funn> MineFunn { get; set; }
         public bool LoggetInn { get; set; } // log-in check 
 
