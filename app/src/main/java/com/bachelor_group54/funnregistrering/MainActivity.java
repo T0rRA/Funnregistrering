@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Opens find from list
     public void openEnkeltFunn(Funn funn, int position) {
+        fragmentEnkeltFunn = new FragmentEnkeltFunn(funn, position);
         openFragment(fragmentEnkeltFunn);
     }
 

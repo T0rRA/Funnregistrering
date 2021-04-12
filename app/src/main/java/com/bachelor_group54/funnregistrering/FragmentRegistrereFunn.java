@@ -175,8 +175,6 @@ public class FragmentRegistrereFunn extends Fragment {
             Address address = locations.get(0);
             funn.setKommune(address.getSubAdminArea());
             funn.setFylke(address.getAdminArea());
-
-            Toast.makeText(getContext(), "Kommune " + address.getSubAdminArea() + " Fylke " + address.getAdminArea(), Toast.LENGTH_LONG).show();
         } catch(Exception e) {
             e.printStackTrace();
         }
