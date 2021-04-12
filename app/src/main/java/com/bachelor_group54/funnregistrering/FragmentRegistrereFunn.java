@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.Image;
@@ -26,6 +28,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -138,24 +141,52 @@ public class FragmentRegistrereFunn extends Fragment {
         //Sets latitude and longitude, NOTE default values for both are 200
         funn.setLatitude(latitude);
         funn.setLongitude(longitude);
+        //Sets kommune and fylke for the find
+        getAddressFromLocation(latitude, longitude);
 
         Date currentTime = Calendar.getInstance().getTime();
         String date = currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + (currentTime.getYear() + 1900);
         funn.setDato(date);
 
-        saveFind(funn);
+        saveFind();
         return funn;
     }
 
+    //TODO registrere kunn med noe info kanskje API med færre felter
     public void sentFindToBackend(){
         SetJSON setJSON = new SetJSON();
-        setJSON.execute("nyttFunn", "brukernavn=");
+        setJSON.execute("Funn/RegistrereFunn", "image=" + ImageSaver.makeBase64FromBitmap(picture),
+                "kommune=" + funn.getKommune(), "fylke=" + funn.getFylke(),
+                "funndybde=" + funn.getFunndybde(), "gjenstand_markert_med=" + funn.getGjenstandMerking(),
+                "koordninat=" + funn.getLatitude() + "N " + funn.getLongitude() + "W", "datum=" + funn.getDatum(),
+                "areal_type=" + funn.getArealType(), "brukernavn=" /*TODO legge til brukernavn her*/);
+        //TODO legge til info om grunneier
     }
 
-    public void saveFind(Funn funn) {
+    //Takes the latitude and longitude of the gps coordinates and sets the kommune and fylke of the find
+    public void getAddressFromLocation(double lat, double lng) {
+        Geocoder coder = new Geocoder(getContext());
+        List<Address> locations;
+        try{
+            locations = coder.getFromLocation(lat, lng, 1); //Uses the Geocoder class to get the Address from the long and lat values.
+            if(locations== null) {
+                return;
+            }
+            Address address = locations.get(0);
+            funn.setKommune(address.getSubAdminArea());
+            funn.setFylke(address.getAdminArea());
+
+            Toast.makeText(getContext(), "Kommune " + address.getSubAdminArea() + " Fylke " + address.getAdminArea(), Toast.LENGTH_LONG).show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Brukes kun til lokal lagring
+    public void saveFind() {
         //If the a picture has been added save it
         if (picture != null) {
-            savePicture(funn);
+            savePicture();
         }
 
         ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn"); //Initialises the class that saves the finds
@@ -165,7 +196,7 @@ public class FragmentRegistrereFunn extends Fragment {
         objektLagrer.saveData(arrayList); //Saves the new list, overwriting the old list
     }
 
-    public void savePicture(Funn funn) {
+    public void savePicture() {
         //Gets the current picture ID for shared preferences (locally saved)
         SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
         int pictureID = sharedpreferences.getInt("pictureID", 0) + 1;
@@ -179,6 +210,7 @@ public class FragmentRegistrereFunn extends Fragment {
         editor.putInt("pictureID", pictureID);
         editor.apply();
     }
+
 
     public void clearFields(){
         EditText titleEt = view.findViewById(R.id.nytt_funn_tittel_et);

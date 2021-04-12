@@ -13,9 +13,7 @@ import java.io.IOException;
 public class ImageSaver {
 
     public static void saveImage(Bitmap bitmap, Context context, int pictureNr) {
-        String path =  context.getFilesDir().getPath(); //Gets the path to the program
-        String filename = "/Image-" + pictureNr +".jpg"; //Sets the iamge name
-        File file = new File (path + filename); // Combines the program path and the filename
+        File file = new File (getImagePath(context, pictureNr)); // Combines the program path and the filename
 
         try (FileOutputStream out = new FileOutputStream(file)) { //Opens the filoutputstream
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
@@ -33,12 +31,7 @@ public class ImageSaver {
 
     public static Bitmap loadImage(Context context, int pictureNr){
         if(pictureNr == 0){return null;} //Returns empty bitmap if the pictureNr is not set
-
-        String path = context.getFilesDir().getPath(); //Gets the path to the program
-        String filename = "/Image-" + pictureNr +".jpg"; //Sets the image name
-        String file = path + filename; // Combines the program path and the filename
-
-        return BitmapFactory.decodeFile(file);
+        return BitmapFactory.decodeFile(getImagePath(context, pictureNr));
     }
 
     //Makes Bitmap form Base64
@@ -49,6 +42,8 @@ public class ImageSaver {
 
     //Makes Base64 string for the database people
     public static String makeBase64FromBitmap(Bitmap picture){
+        if(picture == null){return "";}
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         picture.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
