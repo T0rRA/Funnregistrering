@@ -17,25 +17,26 @@ namespace FunnregistreringsAPI.Controllers
         }
         //We have to make these functions secure. Right now these can be injected if they have the webserver API and the function. 
         //Is it feasible to every time person logs in the "password" is physically saved on the device so that we can confirm their status?
+        [HttpPost]
         public async Task<ActionResult> RegistrerFunn(InnFunn nyttFunn, String brukernavn)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 bool regOK = await _db.RegistrerFunn(nyttFunn, brukernavn);
                 if (!regOK) { return NotFound("Funn ble ikke registrert"); }
                 return Ok("Funn er opprettet");
-            }
-            return BadRequest("Bad Request 400");
+            //}
+            //return BadRequest("Bad Request 400");
         }
         public async Task<ActionResult> GetAllUserFunn(String brukernavn, String passord)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 var getListOk = await _db.GetAllUserFunn(brukernavn, passord);
                 if (getListOk == null) return NotFound("Kunne ikke hente funnliste");
                 return Ok(getListOk);
-            }
-            return BadRequest("BadRequest request 400");
+            //}
+            //return BadRequest("BadRequest request 400");
         }
         public async Task<ActionResult> DeleteFunn(int funnID)
         {

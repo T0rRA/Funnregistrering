@@ -256,7 +256,7 @@ namespace FunnregistreringsAPI.DAL
                     ny_bruker.Adresse = bruker.Adresse;
 
                     // find postal address
-                    var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
+                    /*var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
                     if (finnPostadr == null)
                     {
                         // Post code is not in the database
@@ -276,7 +276,7 @@ namespace FunnregistreringsAPI.DAL
                         //ny_bruker.Poststed = finnPostadr.Poststed;
                         ny_bruker.Postnr = finnPostadr;
 
-                    }
+                    }*/
                     ny_bruker.Tlf = bruker.Tlf;
                     ny_bruker.Epost = bruker.Epost;
                     ny_bruker.MineFunn = new List<Funn>(); // empty list
@@ -286,7 +286,7 @@ namespace FunnregistreringsAPI.DAL
 
 
                     // Sends welcome-email to new user
-                    
+                    /*
                     var smtpClient = SmtpClient();
 
                     var emailMessage = new MailMessage()
@@ -305,7 +305,7 @@ namespace FunnregistreringsAPI.DAL
 
                     string mottaker = ny_bruker.Epost;
                     emailMessage.To.Add(mottaker);
-                    await smtpClient.SendMailAsync(emailMessage); // sends mail
+                    await smtpClient.SendMailAsync(emailMessage); // sends mail*/
                     
                     return true;
 
