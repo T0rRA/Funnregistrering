@@ -47,7 +47,7 @@ namespace FunnregistreringsAPI.DAL
                 bruker1.Epost = "s333752@oslomet.no";
                 bruker1.MineFunn = new List<Funn>();
 
-                
+                /*
                 // FUNN
                 var funn1 = new Funn();
                 funn1.image = "123";
@@ -88,7 +88,7 @@ namespace FunnregistreringsAPI.DAL
                 bruker1.MineFunn.Add(funn1);
                 bruker1.MineFunn.Add(funn2);
                 bruker1.MineFunn.Add(funn3);
-
+                */
                 context.brukere.Add(bruker1);
                 context.SaveChanges();
                 Console.WriteLine("Funn added");
