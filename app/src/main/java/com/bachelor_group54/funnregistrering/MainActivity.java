@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(!username.equals("")) {
             SetJSON setJSON = new SetJSON();
-            setJSON.execute("Bruker/LogOut", "brukernavn=" + username);
+            //setJSON.execute("Bruker/LogOut", "brukernavn=" + username);
             Toast.makeText(this, "Logger ut", Toast.LENGTH_LONG).show();
         }
 

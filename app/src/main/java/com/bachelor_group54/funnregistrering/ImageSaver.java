@@ -42,11 +42,11 @@ public class ImageSaver {
 
     //Makes Base64 string for the database people
     public static String makeBase64FromBitmap(Bitmap picture){
-        if(picture == null){return "";}
+        if(picture == null){return null;}
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         picture.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        byte[] bytes = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(bytes, Base64.DEFAULT);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }

@@ -30,7 +30,7 @@ public class GetJSON extends AsyncTask<String, Void, String> {
         StringBuilder stringFromServer = new StringBuilder();
 
         try {
-            URL urlen = new URL("https://funnregistreringsapiserver.azurewebsites.net/" + urls[0]);
+            URL urlen = new URL("https://funnapi.azurewebsites.net/" + urls[0]);
             HttpURLConnection conn = (HttpURLConnection) urlen.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");

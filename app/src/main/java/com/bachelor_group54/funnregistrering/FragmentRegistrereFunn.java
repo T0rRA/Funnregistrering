@@ -145,21 +145,55 @@ public class FragmentRegistrereFunn extends Fragment {
         getAddressFromLocation(latitude, longitude);
 
         Date currentTime = Calendar.getInstance().getTime();
-        String date = currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + (currentTime.getYear() + 1900);
+
+        String day = currentTime.getDate() + "";
+        if(currentTime.getDate() < 10) {
+            day = "0" + currentTime.getDate();
+        }
+
+        String month = (currentTime.getMonth() + 1) + "";
+        if(currentTime.getMonth() < 9) {
+            month = "0" + (currentTime.getMonth() + 1);
+        }
+
+        String date = day + "-" + month + "-" + (currentTime.getYear() + 1900);
         funn.setDato(date);
 
-        saveFind();
+        sentFindToBackend();
         return funn;
     }
 
     //TODO registrere kunn med noe info kanskje API med færre felter
     public void sentFindToBackend(){
-        SetJSON setJSON = new SetJSON();
-        setJSON.execute("Funn/RegistrereFunn", "image=" + ImageSaver.makeBase64FromBitmap(picture),
-                "kommune=" + funn.getKommune(), "fylke=" + funn.getFylke(),
+        SharedPreferences sharedpreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        String username = sharedpreferences.getString("username", "");
+
+        if(username.equals("")){
+            Toast.makeText(getContext(), "Du er ikke logget inn", Toast.LENGTH_LONG).show();
+            return;
+        }
+        SetJSON setJSON = new SetJSON(getContext());
+        //FIXME gir ioException muligens noe feil med serveren
+
+        /*setJSON.execute("Funn/RegistrerFunn", "image=" + ImageSaver.makeBase64FromBitmap(picture),
+                "funndato=" + funn.getDato(), "kommune=" + funn.getKommune(), "fylke=" + funn.getFylke(),
                 "funndybde=" + funn.getFunndybde(), "gjenstand_markert_med=" + funn.getGjenstandMerking(),
-                "koordninat=" + funn.getLatitude() + "N " + funn.getLongitude() + "W", "datum=" + funn.getDatum(),
-                "areal_type=" + funn.getArealType(), "brukernavn=" /*TODO legge til brukernavn her*/);
+                "koordinat=" + funn.getLatitude() + "N " + funn.getLongitude() + "W", "datum=" + funn.getDatum(),
+                "areal_type=" + funn.getArealType(), "brukernavn=" + "helge");
+
+        System.out.println("Funn/RegistrerFunn" + "image=" + ImageSaver.makeBase64FromBitmap(picture) +
+                "funndato=" + funn.getDato() + "kommune=" + funn.getKommune() + "fylke=" + funn.getFylke() +
+                "funndybde=" + funn.getFunndybde() + "gjenstand_markert_med=" + funn.getGjenstandMerking() +
+                "koordinat=" + funn.getLatitude() + "N " + funn.getLongitude() + "W" + "datum=" + funn.getDatum() +
+                "areal_type=" + funn.getArealType() + "brukernavn=" + username); */
+
+        UploadToServer uploadToServer = new UploadToServer(getContext());
+        uploadToServer.execute("Funn/RegistrerFunn", "image=" + ImageSaver.makeBase64FromBitmap(picture),
+                "funndato=" + funn.getDato(), "kommune=" + funn.getKommune(), "fylke=" + funn.getFylke(),
+                "funndybde=" + funn.getFunndybde(), "gjenstand_markert_med=" + funn.getGjenstandMerking(),
+                "koordinat=" + funn.getLatitude() + "N " + funn.getLongitude() + "W", "datum=" + funn.getDatum(),
+                "areal_type=" + funn.getArealType(), "brukernavn=" + "helge" /*fixme uncomment username*/);
+
         //TODO legge til info om grunneier
     }
 
@@ -181,6 +215,7 @@ public class FragmentRegistrereFunn extends Fragment {
     }
 
     // Brukes kun til lokal lagring
+    /*
     public void saveFind() {
         //If the a picture has been added save it
         if (picture != null) {
@@ -208,7 +243,7 @@ public class FragmentRegistrereFunn extends Fragment {
         editor.putInt("pictureID", pictureID);
         editor.apply();
     }
-
+    */
 
     public void clearFields(){
         EditText titleEt = view.findViewById(R.id.nytt_funn_tittel_et);
@@ -219,6 +254,7 @@ public class FragmentRegistrereFunn extends Fragment {
         gpsTv.setText("");
         ImageView imageView = view.findViewById(R.id.preview_bilde_nytt_funn);
         imageView.setImageBitmap(null);
+        picture = null;
     }
 }
 

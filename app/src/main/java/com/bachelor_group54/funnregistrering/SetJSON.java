@@ -21,6 +21,10 @@ public class SetJSON extends AsyncTask<String, Void, String> {
     public SetJSON() {
     }
 
+    public SetJSON(Context context) {
+        this.context = context;
+    }
+
     public SetJSON(TextView textView) {
         this.textView = textView;
     }
@@ -38,7 +42,7 @@ public class SetJSON extends AsyncTask<String, Void, String> {
         StringBuilder serverOutput = new StringBuilder();
 
         //Makes the url
-        StringBuilder query = new StringBuilder("https://funnregistreringsapiserver.azurewebsites.net/" + strings[0] + "?");
+        StringBuilder query = new StringBuilder("https://funnapi.azurewebsites.net/" + strings[0] + "?");
         for(int i = 1; i < strings.length; i++){
             if(i > 1){
                 query.append("&");
@@ -75,7 +79,6 @@ public class SetJSON extends AsyncTask<String, Void, String> {
         if(textView != null) {
             textView.setText(s);
         }else if(context != null && username != null){
-            Toast.makeText(context, s, Toast.LENGTH_LONG).show();
             //Saves the username to shared preference if login was successful else overwrite it
             SharedPreferences sharedpreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -85,6 +88,10 @@ public class SetJSON extends AsyncTask<String, Void, String> {
                 editor.putString("username", "");
             }
             editor.apply();
+        }
+
+        if(context != null){
+            Toast.makeText(context, s, Toast.LENGTH_LONG).show();
         }
     }
 }
