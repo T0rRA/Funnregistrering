@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 namespace FunnregistreringsAPI.Models
 {
     public class InnFunn : FunnInterface
-    {
-
-        public string image { get; set; } 
+    {   
+        public byte[] image { get; set; }
         public string funndato { get; set; }
         public string kommune { get; set; }
         public string fylke { get; set; }
@@ -17,5 +16,7 @@ namespace FunnregistreringsAPI.Models
         public string koordinat { get; set; }
         public string datum { get; set; }
         public string areal_type { get; set; }
+        public string gjenstand { get; set; }
+        
     }
 }

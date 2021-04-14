@@ -13,11 +13,12 @@ namespace FunnregistreringsAPI.Models
         public int FunnID { get; set; }
  
         public int BrukerUserID { get; set; }
-        public string image { get; set; }
+        public byte[] image { get; set; }
         public string funndato { get; set; } //datetime?
         public string kommune { get; set; }
         public string fylke { get; set; }
         public string funndybde { get; set; }
+        public string gjenstand { get; set; }
         public string gjenstand_markert_med { get; set; }
         public string koordinat { get; set; }
         public string datum { get; set; }
