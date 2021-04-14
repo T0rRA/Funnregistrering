@@ -38,14 +38,15 @@ import androidx.fragment.app.Fragment;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
+
 //This fragment displays one selected find at the time. The find can also be edited here.
 public class FragmentEnkeltFunn extends Fragment {
     private View view;
     private Funn funn; //The find the view is displaying
     private int position; //The finds position in the saved list
     private Bitmap picture;
-    private int pdfHeight = 1120; // declaring pdf height
-    private int pdfWidth = 792; // declaring pdf width
+    private int pdfHeight = 3508; // declaring pdf height
+    private int pdfWidth = 2480; // declaring pdf width
     private Bitmap bmp, scalebmp; // creating variable for image storing
     private static final int PERMISSION_REQUEST_CODE = 200; //for runtime permissions
 
@@ -61,9 +62,10 @@ public class FragmentEnkeltFunn extends Fragment {
         view = inflater.inflate(R.layout.fragment_enkelt_funn, container, false); //Loads the page from the XML file
         //Add setup code here later
 
-        //Initializing and scarling of the logo /TODO: the same for the picture
-        bmp = BitmapFactory.decodeResource(getResources(),R.drawable.raloeve);
-        scalebmp =Bitmap.createScaledBitmap(bmp,140,140,false);
+        //Initializing and scaling of the logo /TODO: the same for the picture
+        bmp = BitmapFactory.decodeResource(getResources(),R.drawable.funnskjema_bg);
+        scalebmp =Bitmap.createScaledBitmap(bmp,2480,3508,false);
+
 
         //TODO: checking and requesting : Flytte til knappen kanskje?
         if(checkPermission()){
@@ -336,13 +338,19 @@ public class FragmentEnkeltFunn extends Fragment {
         * position from left is the 2nd parameter,
         * position from top is the 3rd parameter,
         * the paint variable is the 4th parameter. */
-        canvas.drawBitmap(scalebmp,56,40,logo);
+        canvas.drawBitmap(scalebmp,0,0,logo);
 
         // adding typeface for the text
-        text.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.NORMAL));
+        text.setTypeface(Typeface.create(Typeface.MONOSPACE,Typeface.NORMAL));
 
         //Setting text size (in the pdf)
-        text.setTextSize(16);
+        text.setTextSize(36);
+
+        //Setting color on the text
+       /*
+        int color = ContextCompat.getColor(getContext(),R.color.colorPrimaryDark);
+        text.setColor(color);
+        */
 
         /* Draws the text on the pdf
         * the text is the 1st parameter,
@@ -350,9 +358,55 @@ public class FragmentEnkeltFunn extends Fragment {
         * the position from top is the 3rd parameter,
         * the paint variable  (text) is the 4th parameter.
         * */
-        canvas.drawText("Dette er en test for å se om alt fungerer som det skal", 209,100, text);
-        canvas.drawText("Her er enda en test", 209,80, text);
-        canvas.drawText("Og dette er enda litt mer testing", 209,60, text);
+        /*  Finner: */
+        canvas.drawText("Ola Nordmann", 300,450, text); // Navn
+        canvas.drawText("Slottet", 300,575, text); // Adresse
+        canvas.drawText("1500", 300,700, text); // Postnr.
+        canvas.drawText("Oslo", 700,700, text); //sted
+        canvas.drawText("989 99 999", 300,825, text); // Tlf
+        canvas.drawText("epost@epost.no", 300,955, text); // epost
+
+        /*  Grunneier:  */
+        canvas.drawText("Ola Nordmann", 1500,450, text); // Navn
+        canvas.drawText("Slottet", 1500,575, text); // Adresse
+        canvas.drawText("1500", 1500,700, text); // Postnr.
+        canvas.drawText("Oslo", 1900,700, text); //sted
+        canvas.drawText("989 99 999", 1500,825, text); // Tlf
+        canvas.drawText("epost@epost.no", 1500,955, text); // epost
+        canvas.drawText("X", 2335,855, text); // Tillattelse
+
+        /*Funnet*/
+        canvas.drawText("14/04/21",110, 1175, text); //Funndato
+        canvas.drawText("PDFgården",425, 1175, text); // Funnsted, gård, gbnr
+        canvas.drawText("Oslo",1250, 1175, text); // Kommune
+        canvas.drawText("Oslo",1900, 1175, text); // Fylke
+
+        canvas.drawText("AWP",110, 1360, text); //Gjenstand
+        canvas.drawText("40 cm",1250, 1360, text); // Funndybde
+        canvas.drawText("Navi",1575, 1360, text); // merket med
+
+        canvas.drawText("43434øst",110, 1550, text); // øst
+        canvas.drawText("323231nord",550, 1550, text); // nord
+        canvas.drawText("14/04/21",1000, 1550, text); //datum/projeksjon
+
+        /*MåleMetode*/
+        canvas.drawText("X",615,1650,text); //Håndholdt GPS
+        canvas.drawText("X",950,1650,text); // Mobiltelefon
+        canvas.drawText("X",1280,1650,text); // Digitalt kart
+
+        /*Arealtype*/
+        canvas.drawText("X",1755,1555,text); // Åker
+        canvas.drawText("X",1755,1595,text); // Beite
+        canvas.drawText("X",1755,1635,text); // Hage
+
+        canvas.drawText("X",1990,1515,text); // Skog
+        canvas.drawText("X",1990,1555,text); // Fjell
+        canvas.drawText("X",1990,1595,text); // Strand
+        canvas.drawText("X",1990,1635,text); // Vann
+
+        /*TODO: Skrive metode som dealer med linebreak*/
+        canvas.drawText("Linebreaks fungerer dårlig her, må skrive en metode for å bestemme breaks ",
+                110, 1850, text); //Andre opplysninger og observasjoner
 
         //finishing the page
         pdfDocument.finishPage(page);
