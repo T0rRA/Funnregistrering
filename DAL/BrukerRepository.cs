@@ -55,7 +55,9 @@ namespace FunnregistreringsAPI.DAL
                 var smtpClient = new SmtpClient(config["Smtp:Host"])
                 {
                     Port = int.Parse(config["Smtp:Port"]),
+                    UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(config["Smtp:Username"], config["Smtp:Password"]),
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
                     EnableSsl = true,
                 };
 
@@ -67,7 +69,7 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        public async Task<int> SendPwResetLink(String brukernavn)
+        public async Task<string> SendPwResetLink(String brukernavn)
         {
 
             // click change password
@@ -87,7 +89,7 @@ namespace FunnregistreringsAPI.DAL
                 if (enBruker.Equals(null) || enBruker.Epost == null) // If user does NOT exist
                 {
                     // Error message saying this user does not exist
-                    return 2;
+                    return "Bruker finnes ikke eller har ikke epost";
                 }
                 else // If user exists, send mail with a link to change password
                 {
@@ -99,7 +101,7 @@ namespace FunnregistreringsAPI.DAL
 
                     // DateTime - where expDate is an hour after now
                     DateTime date = DateTime.Now;
-                    DateTime expDate = new DateTime(date.Year, date.Month, date.Day, (date.Hour + 1), date.Minute, date.Second);
+                    DateTime expDate = date.AddHours(1);
 
                     // Creates a string with the hashed token to be used in the link
                     StringBuilder hT = new StringBuilder();
@@ -117,12 +119,12 @@ namespace FunnregistreringsAPI.DAL
                     _db.SaveChanges();
 
                     var smtpClient = SmtpClient();
-                    if (smtpClient == null) return 4;
+                    if (smtpClient == null) return "Feil i tilkobling til SMTPClient";
 
                     // Construct e-mail-string
                     var epostMelding = new MailMessage()
                     {
-                        From = new MailAddress("losfunnregistrering@gmail.com"),
+                        From = new MailAddress("losfunnregistrering@outlook.com"),
                         Subject = "Endre passord",
                         Body = "<h2>Hei " + enBruker.Fornavn + ", </h2>"
                         + "<br/><br/><p>"
@@ -139,12 +141,12 @@ namespace FunnregistreringsAPI.DAL
                     epostMelding.To.Add(mottaker);
                     await smtpClient.SendMailAsync(epostMelding); // sends mail
 
-                    return 1;
+                    return "Du har fått en epost der du kan endre passord:)";
                 }
             }
             catch (Exception e)
             {
-                return 3;
+                return e.ToString();
             }
 
         }

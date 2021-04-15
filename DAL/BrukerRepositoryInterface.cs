@@ -10,7 +10,7 @@ namespace FunnregistreringsAPI.DAL
     {
         public Task<bool> CreateUser(InnBruker bruker);
 
-        public Task<int> SendPwResetLink(string brukernavn);
+        public Task<string> SendPwResetLink(String brukernavn);
 
         public Task<bool> ChangePassword(String brukernavn, String token, String newPassword, String newPassword2);
 
