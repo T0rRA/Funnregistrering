@@ -33,14 +33,17 @@ namespace FunnregistreringsAPI.Controllers
             //return BadRequest("Bad Reuqest 400");
         }
 
-        public async Task<ActionResult> SendResetPwLink(string brukernavn)
+        public async Task<ActionResult> SendPwResetLink(string brukernavn)
         {
             var loggedIn = await _db.CheckIfUserLoggedIn(brukernavn);
             if (loggedIn)
             {
-                bool sendOk = await _db.SendPwResetLink(brukernavn);
-                if(!sendOk) { return NotFound("Kunne ikke sende lenke."); }
-                return Ok("Du har fått en epost med en lenke for å endre passord.");
+                int sendOk = await _db.SendPwResetLink(brukernavn);
+                if(sendOk == 1) return Ok("Du har fått en epost med en lenke for å endre passord.");
+                if (sendOk == 2) { return NotFound("Bruker finnes ikke eller har ikke epost"); }
+                if(sendOk == 3) { return NotFound("Kunne ikke sende lenke (finner ikke epost)"); }
+                if(sendOk == 4) { return NotFound("Feil i kobling til SMTPClient"); }
+                
             }
             return BadRequest("Feil på server");
         }
