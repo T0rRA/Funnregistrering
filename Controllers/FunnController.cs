@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using FunnregistreringsAPI.DAL;
-using FunnregistreringsAPI.Models;
+using FunnregistreringsAPI.Models; 
 
 namespace FunnregistreringsAPI.Controllers
 {
@@ -22,17 +18,25 @@ namespace FunnregistreringsAPI.Controllers
         //We have to make these functions secure. Right now these can be injected if they have the webserver API and the function. 
         //Is it feasible to every time person logs in the "password" is physically saved on the device so that we can confirm their status?
         [HttpPost]
-        public async Task<ActionResult> RegistrerFunn(Funn nyttFunn, String brukernavn)
+        public async Task<ActionResult> RegistrerFunn(InnFunn nyttFunn, String brukernavn)
         {
-            bool regOK =  await _db.RegistrerFunn(nyttFunn, brukernavn);
-            if(!regOK) { return NotFound("Funn ble ikke registrert"); }
-            return Ok("Funn er opprettet");
+            //if (ModelState.IsValid)
+            //{
+                bool regOK = await _db.RegistrerFunn(nyttFunn, brukernavn);
+                if (!regOK) { return NotFound("Funn ble ikke registrert"); }
+                return Ok("Funn er opprettet");
+            //}
+            //return BadRequest("Bad Request 400");
         }
         public async Task<ActionResult> GetAllUserFunn(String brukernavn, String passord)
         {
-            var getListOk = await _db.GetAllUserFunn(brukernavn, passord);
-            if (getListOk == null) return NotFound("Kunne ikke hente funnliste");
-            return Ok(getListOk);
+            //if (ModelState.IsValid)
+            //{
+                var getListOk = await _db.GetAllUserFunn(brukernavn, passord);
+                if (getListOk == null) return NotFound("Kunne ikke hente funnliste");
+                return Ok(getListOk);
+            //}
+            //return BadRequest("BadRequest request 400");
         }
         public async Task<ActionResult> DeleteFunn(int funnID)
         {

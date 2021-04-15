@@ -1,6 +1,5 @@
 ﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using FunnregistreringsAPI.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,8 +18,7 @@ namespace FunnregistreringsAPI.DAL
             _db = db;
         }
 
-        [HttpPost]
-        public async Task<bool> RegistrerFunn(Funn nyttFunn, String brukernavn)
+        public async Task<bool> RegistrerFunn(InnFunn nyttFunn, String brukernavn)
 
         {
             try

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -44,22 +45,31 @@ namespace FunnregistreringsAPI.DAL
 
         public static SmtpClient SmtpClient()
         {
-            // Connect to the SMTP-setup in appsettings.json
-            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
-            var config = builder.Build();
-
-            // Set up SMTP client to communicate with SMTP servers
-            var smtpClient = new SmtpClient(config["Smtp:Host"])
+            try
             {
-                Port = int.Parse(config["Smtp:Port"]),
-                Credentials = new NetworkCredential(config["Smtp:Username"], config["Smtp:Password"]),
-                EnableSsl = true,
-            };
+                // Connect to the SMTP-setup in appsettings.json
+                var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+                var config = builder.Build();
 
-            return smtpClient;
+                // Set up SMTP client to communicate with SMTP servers
+                var smtpClient = new SmtpClient(config["Smtp:Host"])
+                {
+                    Port = int.Parse(config["Smtp:Port"]),
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(config["Smtp:Username"], config["Smtp:Password"]),
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    EnableSsl = true,
+                };
+
+                return smtpClient;
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
         }
 
-        public async Task<bool> SendPwResetLink(string brukernavn)
+        public async Task<int> SendPwResetLink(String brukernavn)
         {
 
             // click change password
@@ -73,18 +83,16 @@ namespace FunnregistreringsAPI.DAL
            */
             try
             {
-
                 // Input e-mail address
                 Bruker enBruker = new Bruker();
                 enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
                 if (enBruker.Equals(null)) // If user does NOT exist
                 {
                     // Error message saying this user does not exist
-                    return false;
+                    return 2;
                 }
                 else // If user exists, send mail with a link to change password
                 {
-
                     // Generate random token
                     var rngCsp = new RNGCryptoServiceProvider();
                     var token = new byte[8];
@@ -93,7 +101,7 @@ namespace FunnregistreringsAPI.DAL
 
                     // DateTime - where expDate is an hour after now
                     DateTime date = DateTime.Now;
-                    DateTime expDate = new DateTime(date.Year, date.Month, date.Day, (date.Hour + 1), date.Minute, date.Second);
+                    DateTime expDate = date.AddHours(1);
 
                     // Creates a string with the hashed token to be used in the link
                     StringBuilder hT = new StringBuilder();
@@ -111,11 +119,12 @@ namespace FunnregistreringsAPI.DAL
                     _db.SaveChanges();
 
                     var smtpClient = SmtpClient();
+                    if (smtpClient == null) return 4;
 
                     // Construct e-mail-string
                     var epostMelding = new MailMessage()
                     {
-                        From = new MailAddress("losfunnregistrering@gmail.com"),
+                        From = new MailAddress("losfunnregistrering@outlook.com"),
                         Subject = "Endre passord",
                         Body = "<h2>Hei " + enBruker.Fornavn + ", </h2>"
                         + "<br/><br/><p>"
@@ -132,25 +141,22 @@ namespace FunnregistreringsAPI.DAL
                     epostMelding.To.Add(mottaker);
                     await smtpClient.SendMailAsync(epostMelding); // sends mail
 
-                    return true;
-
+                    return 1;
                 }
             }
             catch (Exception e)
             {
-                return false;
+                return 3;
             }
 
         }
 
         public async Task<bool> ChangePassword(String brukernavn, String token, String newPassword, String newPassword2)
         {
-            /* Trykker på lenken
-                 * ON PASSWORD RESET PAGE:
+            /* ON PASSWORD RESET PAGE:
             * take email and token input
-            *   get email and token from clicked link?
             *   get email from user info - get token from unique link
-            * hash token and compare to hashed token in db
+            * check if token exists in db
             * check date and if the link has expired
             * take them to page to input new password
             * mark token as used
@@ -232,7 +238,6 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        //Might want to change this to return string? Ask frontend boys
         public async Task<bool> CreateUser(InnBruker bruker)
         {
             try
@@ -256,7 +261,7 @@ namespace FunnregistreringsAPI.DAL
                     ny_bruker.Adresse = bruker.Adresse;
 
                     // find postal address
-                    var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
+                    /*var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
                     if (finnPostadr == null)
                     {
                         // Post code is not in the database
@@ -276,7 +281,7 @@ namespace FunnregistreringsAPI.DAL
                         //ny_bruker.Poststed = finnPostadr.Poststed;
                         ny_bruker.Postnr = finnPostadr;
 
-                    }
+                    }*/
                     ny_bruker.Tlf = bruker.Tlf;
                     ny_bruker.Epost = bruker.Epost;
                     ny_bruker.MineFunn = new List<Funn>(); // empty list
@@ -286,7 +291,7 @@ namespace FunnregistreringsAPI.DAL
 
 
                     // Sends welcome-email to new user
-                    
+                    /*
                     var smtpClient = SmtpClient();
 
                     var emailMessage = new MailMessage()
@@ -305,7 +310,7 @@ namespace FunnregistreringsAPI.DAL
 
                     string mottaker = ny_bruker.Epost;
                     emailMessage.To.Add(mottaker);
-                    await smtpClient.SendMailAsync(emailMessage); // sends mail
+                    await smtpClient.SendMailAsync(emailMessage); // sends mail*/
                     
                     return true;
 
