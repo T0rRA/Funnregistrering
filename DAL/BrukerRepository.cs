@@ -69,7 +69,7 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        public async Task<string> SendPwResetLink(String brukernavn)
+        public async Task<int> SendPwResetLink(String brukernavn)
         {
 
             // click change password
@@ -86,10 +86,10 @@ namespace FunnregistreringsAPI.DAL
                 // Input e-mail address
                 Bruker enBruker = new Bruker();
                 enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
-                if (enBruker.Equals(null) || enBruker.Epost == null) // If user does NOT exist
+                if (enBruker.Equals(null)) // If user does NOT exist
                 {
                     // Error message saying this user does not exist
-                    return "Bruker finnes ikke eller har ikke epost";
+                    return 2;
                 }
                 else // If user exists, send mail with a link to change password
                 {
@@ -119,7 +119,7 @@ namespace FunnregistreringsAPI.DAL
                     _db.SaveChanges();
 
                     var smtpClient = SmtpClient();
-                    if (smtpClient == null) return "Feil i tilkobling til SMTPClient";
+                    if (smtpClient == null) return 4;
 
                     // Construct e-mail-string
                     var epostMelding = new MailMessage()
@@ -141,24 +141,22 @@ namespace FunnregistreringsAPI.DAL
                     epostMelding.To.Add(mottaker);
                     await smtpClient.SendMailAsync(epostMelding); // sends mail
 
-                    return "Du har fått en epost der du kan endre passord:)";
+                    return 1;
                 }
             }
             catch (Exception e)
             {
-                return e.ToString();
+                return 3;
             }
 
         }
 
         public async Task<bool> ChangePassword(String brukernavn, String token, String newPassword, String newPassword2)
         {
-            /* Trykker på lenken
-                 * ON PASSWORD RESET PAGE:
+            /* ON PASSWORD RESET PAGE:
             * take email and token input
-            *   get email and token from clicked link?
             *   get email from user info - get token from unique link
-            * hash token and compare to hashed token in db
+            * check if token exists in db
             * check date and if the link has expired
             * take them to page to input new password
             * mark token as used
@@ -240,7 +238,6 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        //Might want to change this to return string? Ask frontend boys
         public async Task<bool> CreateUser(InnBruker bruker)
         {
             try
