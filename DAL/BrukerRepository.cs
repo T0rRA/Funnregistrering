@@ -121,6 +121,16 @@ namespace FunnregistreringsAPI.DAL
                     var smtpClient = SmtpClient();
                     if (smtpClient == null) return 4;
 
+                    // Create link 
+                    /*var mailLink = "/Bruker/Redirect?brukernavn=" + enBruker.Brukernavn
+                        + "&token=" + hT;
+                    // hash link
+                    var lenkeByte = new byte[8];
+                    rngCsp.GetBytes(lenkeByte);
+                    byte[] lenkeHash = CreateHash("", lenkeByte);
+                    // Convert byte[] to string
+                    string lenke = Convert.ToString(lenkeHash);*/
+
                     // Construct e-mail-string
                     var epostMelding = new MailMessage()
                     {
@@ -128,7 +138,8 @@ namespace FunnregistreringsAPI.DAL
                         Subject = "Endre passord",
                         Body = "<h2>Hei " + enBruker.Fornavn + ", </h2>"
                         + "<br/><br/><p>"
-                        + "For å endre passordet ditt kan du trykke <a href='/passordReset&" + enBruker.Brukernavn + "&" + hT
+                        + "For å endre passordet ditt kan du trykke <a href='/Bruker/Redirect?brukernavn=" + enBruker.Brukernavn
+                        + "&token=" + hT
                         + "'>her.</a> <br/>"
                         + "Hvis du ikke har bedt om å endre passord, kan du ignorere denne e-posten.<br/><br/>"
                         + "Ha en fin dag videre!<br/><br/>"
@@ -150,7 +161,22 @@ namespace FunnregistreringsAPI.DAL
             }
 
         }
+        // User clicks on link in mail:
+        public async Task<bool> rD(String brukernavn, String token)
+        {
+            try
+            {
+                // bruker sendes hit men brukernavn og token
+                //denne metoden skal sende brukernavn of token videre til passordReset-siden
+                
 
+            }
+            catch(Exception e)
+            {
+
+            }
+             throw new NotImplementedException();
+        }
         public async Task<bool> ChangePassword(String brukernavn, String token, String newPassword)
         {
             /* ON PASSWORD RESET PAGE:
