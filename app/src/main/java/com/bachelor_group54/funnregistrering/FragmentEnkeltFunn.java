@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,6 +53,7 @@ public class FragmentEnkeltFunn extends Fragment {
     private int pdfWidth = 2480; // declaring pdf width
     private Bitmap bmp, scalebmp; // creating variable for image storing
     private static final int PERMISSION_REQUEST_CODE = 200; //for runtime permissions
+    private Rect bounds = new Rect();
 
     //Simple constructor for getting the find that the fragment should display
     public FragmentEnkeltFunn(Funn funn, int position) {
@@ -84,6 +89,29 @@ public class FragmentEnkeltFunn extends Fragment {
     public void onResume() {
         super.onResume();
         updateStatusBtn();
+    }
+
+    //Parmams: str = the string for we want to split. splitSize is the size of each split.
+    private static String[]splitString(String str, int splitSize){
+        List<String> splits = new ArrayList<>();
+
+        int length = str.length();
+
+        for (int i = 0; i < length; i += splitSize) {
+            splits.add(str.substring(i, Math.min(length, i + splitSize)));
+        }
+        return splits.toArray(new String[0]); // returns the split text (in an array)
+    }
+
+
+    public void drawString(Canvas canvas, Paint paint, String str, int x, int y) {
+        String[]lines = splitString(str, 75);
+        int yoff = 10;
+        for (int i = 0; i < lines.length; ++i) {
+            canvas.drawText(lines[i], x, y + yoff, paint);
+            paint.getTextBounds(lines[i], 0, lines[i].length(), bounds);
+            yoff += bounds.height();
+        }
     }
 
     //Makes the status buttons update when editTexts are changed
@@ -405,8 +433,9 @@ public class FragmentEnkeltFunn extends Fragment {
         canvas.drawText("X",1990,1635,text); // Vann
 
         /*TODO: Skrive metode som dealer med linebreak*/
-        canvas.drawText("Linebreaks fungerer dårlig her, må skrive en metode for å bestemme breaks ",
-                110, 1850, text); //Andre opplysninger og observasjoner
+   //     canvas.drawText("Linebreaks fungerer dårlig her, må skrive en metode for å bestemme breaks ",
+     //           110, 1850, text); //Andre opplysninger og observasjoner
+        drawString(canvas,text, "Splitten er fortsatt fucked, men bredden kan kontrolleres. Splitten skjer midt i ord og greier, noe som ikke er helt optimalt. FFFFFFFFFFFFFFFFFFFFFF. FFFFFFFFFFFFF.",110,1850);
 
         //finishing the page
         pdfDocument.finishPage(page);
