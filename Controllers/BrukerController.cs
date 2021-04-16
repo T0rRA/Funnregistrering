@@ -47,9 +47,9 @@ namespace FunnregistreringsAPI.Controllers
             return BadRequest("Feil på server");
         }
 
-        public async Task<ActionResult> ChangePassword(String brukernavn, String token, String newPassword, String newPassword2)
+        public async Task<ActionResult> ChangePassword(String brukernavn, String token, String newPassword)
         {
-            bool changeOk = await _db.ChangePassword(brukernavn, token, newPassword, newPassword2);
+            bool changeOk = await _db.ChangePassword(brukernavn, token, newPassword);
             if(!changeOk) { return NotFound("Kunne ikke endre passord."); }
             return Ok("Passordet er endret.");
         }

@@ -128,7 +128,7 @@ namespace FunnregistreringsAPI.DAL
                         Subject = "Endre passord",
                         Body = "<h2>Hei " + enBruker.Fornavn + ", </h2>"
                         + "<br/><br/><p>"
-                        + "For å endre passordet ditt kan du trykke <a href='/passordReset?brukernavn&" + hT
+                        + "For å endre passordet ditt kan du trykke <a href='/passordReset&" + enBruker.Brukernavn + "&" + hT
                         + "'>her.</a> <br/>"
                         + "Hvis du ikke har bedt om å endre passord, kan du ignorere denne e-posten.<br/><br/>"
                         + "Ha en fin dag videre!<br/><br/>"
@@ -151,7 +151,7 @@ namespace FunnregistreringsAPI.DAL
 
         }
 
-        public async Task<bool> ChangePassword(String brukernavn, String token, String newPassword, String newPassword2)
+        public async Task<bool> ChangePassword(String brukernavn, String token, String newPassword)
         {
             /* ON PASSWORD RESET PAGE:
             * take email and token input
@@ -163,7 +163,6 @@ namespace FunnregistreringsAPI.DAL
              */
             try
             {
-
                 PwReset enToken = await _db.passordReset.FirstOrDefaultAsync(t => t.TokenHash == token.ToString());
                 if (enToken == null)
                 {
@@ -203,8 +202,8 @@ namespace FunnregistreringsAPI.DAL
                             else
                             {
                                 // user is found, compare the password inputs
-                                if (newPassword.Equals(newPassword2))
-                                {
+                                //if (newPassword.Equals(newPassword2))
+                                //{
                                     // the passwords are the same, so hash and overwrite
                                     byte[] salt = CreateSalt();
                                     byte[] hash = CreateHash(newPassword, salt);
@@ -212,13 +211,13 @@ namespace FunnregistreringsAPI.DAL
                                     enBruker.Salt = salt;
                                     await _db.SaveChangesAsync();
                                     return true;
-                                }
+                                /*}
                                 else
                                 {
                                     // the passwords are not the same, try again.
                                     // passord-sjekk gjøres også på frontend ved input
                                     return false;
-                                }
+                                }*/
 
                             }
                         }

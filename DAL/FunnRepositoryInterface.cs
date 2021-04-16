@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,5 +15,6 @@ namespace FunnregistreringsAPI.DAL
         public Task<bool> DeleteFunn(int funnID);
         public Task<bool> EditFunn(Funn f);
         public Task<Funn> GetFunn(String brukernavn, int funnID);
+        public Task<Bitmap> Base64ToImage(int funnId);
     }
 }

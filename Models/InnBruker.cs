@@ -10,7 +10,7 @@ namespace FunnregistreringsAPI.Models
     {
         //[RegularExpression(@"^[a-zA-Z0-9\-._ ]+@[a-zA-Z.\-]+\.[a-zA-Z]{2,20}$")]
         public String Brukernavn { get; set; }
-       // [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$")]
+        // [RegularExpression(@"^[A-ZÅÆØÅ])(?=.*\d)[A-ZÆØÅa-zæøå\d]{6,}$")]
         public String Passord { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\- ]{2,20}$")]
         public string Fornavn { get; set; }

@@ -57,5 +57,12 @@ namespace FunnregistreringsAPI.Controllers
             return Ok(getOk);
         }
 
+        public async Task<ActionResult> Base64ToImage(int funnId)
+        {
+            var imgOk = await _db.Base64ToImage(funnId);
+            if (imgOk == null) return NotFound("bilde kunne ikke vises");
+            return Ok(imgOk);
+        }
+
     }
 }

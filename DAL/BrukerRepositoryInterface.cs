@@ -12,7 +12,7 @@ namespace FunnregistreringsAPI.DAL
 
         public Task<int> SendPwResetLink(String brukernavn);
 
-        public Task<bool> ChangePassword(String brukernavn, String token, String newPassword, String newPassword2);
+        public Task<bool> ChangePassword(String brukernavn, String token, String newPassword);
 
         public Task<bool> EditUser(InnBruker bruker);
 

@@ -4,8 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Drawing;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace FunnregistreringsAPI.DAL
 {
@@ -161,5 +165,21 @@ namespace FunnregistreringsAPI.DAL
             }
 
         }
+
+        public async Task<Bitmap> Base64ToImage(int funnId)
+        {
+            var funn = await _db.funn.FindAsync(funnId);
+            string base64 = funn.image;
+            //string bilde = base64.Substring(base64.IndexOf(',') + 1);
+            string bilde = JsonConvert.SerializeObject(base64);
+            string b = Convert.ToBase64String(Encoding.UTF8.GetBytes(bilde));
+            byte[] kk = Convert.FromBase64String(b);
+            using(var ms = new MemoryStream(kk, 0, kk.Length))
+            {
+                Bitmap img = new Bitmap(ms);
+                return img;
+            }
+        }
+
     }
 }
