@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace FunnregistreringsAPI.Models
 {
-    public class Funn : FunnInterface
+    public class Funn 
     {
         [Key]
         //[RegularExpression(@"^[0-9]+$")]
         public int FunnID { get; set; }
         //[RegularExpression(@"^[0-9]+$")]
         public int BrukerUserID { get; set; }
-        public String image { get; set; }
+        public string image { get; set; }
         public DateTime funndato { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
         public string kommune { get; set; }

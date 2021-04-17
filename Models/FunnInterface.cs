@@ -8,7 +8,7 @@ namespace FunnregistreringsAPI.Models
 {
     interface FunnInterface
     {
-        public String image { get; set; }
+        public byte[] image { get; set; }
         public DateTime funndato { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ-._ ]{2,20}$")]
         public string kommune { get; set; }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using Newtonsoft.Json;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FunnregistreringsAPI.DAL
 {
@@ -35,7 +36,7 @@ namespace FunnregistreringsAPI.DAL
                     {
                         koordinat = nyttFunn.koordinat,
                         kommune = nyttFunn.kommune,
-                        image = nyttFunn.image,
+                        //image = nyttFunn.image,
                         gjenstand_markert_med = nyttFunn.gjenstand_markert_med,
                         fylke = nyttFunn.fylke,
                         funndybde = nyttFunn.funndybde,
@@ -57,6 +58,7 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
+        [HttpPost]
         public async Task<Funn> GetFunn(String brukernavn, int funnID)
         {
             try
@@ -168,7 +170,8 @@ namespace FunnregistreringsAPI.DAL
 
         public async Task<Bitmap> Base64ToImage(int funnId)
         {
-            var funn = await _db.funn.FindAsync(funnId);
+            throw new NotImplementedException();
+           /* var funn = await _db.funn.FindAsync(funnId);
             string base64 = funn.image;
             //string bilde = base64.Substring(base64.IndexOf(',') + 1);
             string bilde = JsonConvert.SerializeObject(base64);
@@ -178,7 +181,7 @@ namespace FunnregistreringsAPI.DAL
             {
                 Bitmap img = new Bitmap(ms);
                 return img;
-            }
+            }*/
         }
 
     }

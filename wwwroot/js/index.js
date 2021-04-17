@@ -36,3 +36,22 @@ function endrePassord(pw) {
         $("#feil").html("Kunne ikke endre passord.");
     });
 }
+
+function getFunn() {
+    var url = 'Funn/GetFunn?brukernavn=s333752@oslomet.no&funnId=1';
+    //console.log(res.);
+    //const data = res.json();
+    //data:image/png;base64,
+    var email = 's333752@oslomet.no';
+    var id = 1;
+
+    $.post(url, function (data) {
+        console.log(data);
+        // get path and display data
+        console.log(data.image);
+        document.getElementById("img").src = data.image;
+    })
+        .fail(function (data) {
+            console.log("FEIL: " + data);
+        });
+}
