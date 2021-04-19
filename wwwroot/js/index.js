@@ -58,13 +58,29 @@ function getFunn() {
 }
 
 function getImg() {
-    var url = 'Funn/dJ?strJson=';
+    var url = '/Funn/dJ?strJson=';
 
     const kk = [{
         'name': 'kkk', 'age': 9,
         'content-type': 'application/json; charset=utf-8',
-        'dataType' : 'json'
+        'dataType': 'json'
     }];
+
+
+   /* const res = fetch(url + kk, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            strJson: kk
+        })
+    })
+        .then((res) => {
+            console.log(res)
+        )};*/
+    //const data = res.json();
 
     const img = {
         "version": "1.0",
@@ -217,13 +233,17 @@ function getImg() {
             console.log(data);
         });*/
 
-
+    
     $.ajax({
-        url: url+kkk,
+        url: url,
         type: 'POST',
-        contentType: ' application/json',
-        //data: kkk,
-        dataType: 'json',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            strJson: kk
+        }),
         success: function (data) {
             console.log("it work: " + data);
         },

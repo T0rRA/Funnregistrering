@@ -177,7 +177,7 @@ namespace FunnregistreringsAPI.DAL
         {
             try
             {
-                var jImg = JsonConvert.DeserializeObject<dynamic>(jsonStr); // image from funn
+                //var jImg = JsonConvert.DeserializeObject<dynamic>(jsonStr); // image from funn
                 Debug.WriteLine(jsonStr.ToString());
                 return true;
             }
