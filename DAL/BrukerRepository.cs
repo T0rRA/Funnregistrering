@@ -162,6 +162,7 @@ namespace FunnregistreringsAPI.DAL
 
         }
         // User clicks on link in mail:
+        /*
         public async Task<bool> rD(String brukernavn, String token)
         {
             try
@@ -176,7 +177,7 @@ namespace FunnregistreringsAPI.DAL
 
             }
              throw new NotImplementedException();
-        }
+        }*/
         public async Task<bool> ChangePassword(String brukernavn, String token, String newPassword)
         {
             /* ON PASSWORD RESET PAGE:

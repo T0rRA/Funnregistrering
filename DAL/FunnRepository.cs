@@ -11,10 +11,11 @@ using System.Drawing;
 using Newtonsoft.Json;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using System.Windows.Forms;
 
 namespace FunnregistreringsAPI.DAL
 {
-    public class FunnRepository : FunnRepositoryInterface 
+    public class FunnRepository : FunnRepositoryInterface
     {
         private readonly FunnDB _db;
 
@@ -30,7 +31,7 @@ namespace FunnregistreringsAPI.DAL
             {
 
                 Bruker realUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
-                if(realUser!=null) // user found
+                if (realUser != null) // user found
                 {
                     var nf = new Funn
                     {
@@ -81,7 +82,7 @@ namespace FunnregistreringsAPI.DAL
                 }
                 return null; // funn not found in list
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return null;
             }
@@ -105,13 +106,13 @@ namespace FunnregistreringsAPI.DAL
                     // empty list is returned            
                     if (!ex_funn_list.Any()) { return ex_funn_list; } //if returned list is empty. Can maybe throw exception so that we can differentiate
                     else return ex_funn_list;
-                } 
+                }
                 else //if user is not correct
                 {
                     return null; //throw exception here as well. 
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return null;
             }
@@ -122,7 +123,7 @@ namespace FunnregistreringsAPI.DAL
             try
             {
                 Funn real_funn = await _db.funn.FindAsync(funnID);
-                if(real_funn != null)
+                if (real_funn != null)
                 {
                     // funn is found
                     _db.funn.Remove(real_funn);
@@ -131,7 +132,7 @@ namespace FunnregistreringsAPI.DAL
                 }
                 return false; // funn is not found
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
@@ -143,7 +144,7 @@ namespace FunnregistreringsAPI.DAL
             try
             {
                 var etFunn = await _db.funn.FindAsync(f.FunnID);
-                if(etFunn != null)
+                if (etFunn != null)
                 {
                     // funn is found
                     etFunn.koordinat = f.koordinat;
@@ -161,28 +162,33 @@ namespace FunnregistreringsAPI.DAL
                 }
                 return false; // funn is not found
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
 
         }
 
-        public async Task<Bitmap> Base64ToImage(int funnId)
+        // TAR  JSON STRING, DESERIALIZE AND HOPEFULLY SAVE
+        // TEST FIRST
+        // ingen lagre-kode implementert ennå fordi jeg skulle teste om den tok input at all
+        // trenger en slags json form for å teste med å sende json objekter
+        public async Task<bool> dJ(string jsonStr)
         {
-            throw new NotImplementedException();
-           /* var funn = await _db.funn.FindAsync(funnId);
-            string base64 = funn.image;
-            //string bilde = base64.Substring(base64.IndexOf(',') + 1);
-            string bilde = JsonConvert.SerializeObject(base64);
-            string b = Convert.ToBase64String(Encoding.UTF8.GetBytes(bilde));
-            byte[] kk = Convert.FromBase64String(b);
-            using(var ms = new MemoryStream(kk, 0, kk.Length))
+            try
             {
-                Bitmap img = new Bitmap(ms);
-                return img;
-            }*/
+                var jImg = JsonConvert.DeserializeObject<String>(jsonStr); // image from funn
+                Debug.WriteLine(jImg.ToString());
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message.ToString());
+                return false;
+            }
         }
 
     }
+
+
 }

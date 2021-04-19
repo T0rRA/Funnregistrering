@@ -15,6 +15,6 @@ namespace FunnregistreringsAPI.DAL
         public Task<bool> DeleteFunn(int funnID);
         public Task<bool> EditFunn(Funn f);
         public Task<Funn> GetFunn(String brukernavn, int funnID);
-        public Task<Bitmap> Base64ToImage(int funnId);
+        public  Task<bool> dJ(string jsonStr);
     }
 }
