@@ -92,24 +92,30 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     //Parmams: str = the string for we want to split. splitSize is the size of each split.
-    private static String[]splitString(String str, int splitSize){
-        List<String> splits = new ArrayList<>();
+    public ArrayList<String> makeLine(String str, int splitSize){
+        ArrayList<String> lines = new ArrayList<>();
+        StringBuilder outString = new StringBuilder();
+        int currLength = 0;
 
-        int length = str.length();
-
-        for (int i = 0; i < length; i += splitSize) {
-            splits.add(str.substring(i, Math.min(length, i + splitSize)));
+        for(String s: str.split(" ")){
+            currLength += s.length();
+            if(currLength > splitSize){
+                lines.add(outString.toString());
+                outString = new StringBuilder();
+                currLength = 0;
+            }
+            outString.append(s).append(" ");
         }
-        return splits.toArray(new String[0]); // returns the split text (in an array)
+        lines.add(outString.toString());
+        return lines;
     }
 
-
     public void drawString(Canvas canvas, Paint paint, String str, int x, int y) {
-        String[]lines = splitString(str, 75);
-        int yoff = 10;
-        for (int i = 0; i < lines.length; ++i) {
-            canvas.drawText(lines[i], x, y + yoff, paint);
-            paint.getTextBounds(lines[i], 0, lines[i].length(), bounds);
+        ArrayList<String> lines = makeLine(str, 75);
+        int yoff = 0; // lengde fra topp
+        for (int i=0; i<lines.size();i++ ) {
+            canvas.drawText(lines.get(i), x, y + yoff, paint);
+            paint.getTextBounds(lines.get(i), 0, lines.get(i).length(), bounds);
             yoff += bounds.height();
         }
     }
@@ -342,7 +348,7 @@ public class FragmentEnkeltFunn extends Fragment {
         funn.setFylke(fylke.getText().toString());
     }
 
-    public void pdfGenerator(){
+    public File pdfGenerator(){
         // Creation of an object variable for the PDF document
         PdfDocument pdfDocument = new PdfDocument();
 
@@ -386,7 +392,8 @@ public class FragmentEnkeltFunn extends Fragment {
         * the position from top is the 3rd parameter,
         * the paint variable  (text) is the 4th parameter.
         * */
-        /*  Finner: */
+        /*  Finner:
+        * TODO: Hent info fra User*/
         canvas.drawText("Ola Nordmann", 300,450, text); // Navn
         canvas.drawText("Slottet", 300,575, text); // Adresse
         canvas.drawText("1500", 300,700, text); // Postnr.
@@ -404,25 +411,26 @@ public class FragmentEnkeltFunn extends Fragment {
         canvas.drawText("X", 2335,855, text); // Tillattelse
 
         /*Funnet*/
-        canvas.drawText("14/04/21",110, 1175, text); //Funndato
-        canvas.drawText("PDFgården",425, 1175, text); // Funnsted, gård, gbnr
-        canvas.drawText("Oslo",1250, 1175, text); // Kommune
-        canvas.drawText("Oslo",1900, 1175, text); // Fylke
+        canvas.drawText(funn.getDato(),110, 1175, text); //Funndato
+        canvas.drawText(funn.getFunnsted(),425, 1175, text); // Funnsted, gård, gbnr
+        canvas.drawText(funn.getKommune(),1250, 1175, text); // Kommune
+        canvas.drawText(funn.getFylke(),1900, 1175, text); // Fylke
 
-        canvas.drawText("AWP",110, 1360, text); //Gjenstand
-        canvas.drawText("40 cm",1250, 1360, text); // Funndybde
-        canvas.drawText("Navi",1575, 1360, text); // merket med
+        canvas.drawText(funn.getGjenstand(),110, 1360, text); //Gjenstand
+        canvas.drawText(""+funn.getFunndybde(),1250, 1360, text); // Funndybde
+        canvas.drawText(funn.getGjenstandMerking(),1575, 1360, text); // merket med
 
-        canvas.drawText("43434øst",110, 1550, text); // øst
-        canvas.drawText("323231nord",550, 1550, text); // nord
-        canvas.drawText("14/04/21",1000, 1550, text); //datum/projeksjon
+        canvas.drawText(""+funn.getLongitude(),110, 1550, text); // øst
+        canvas.drawText(""+funn.getLatitude(),550, 1550, text); // nord
+        canvas.drawText(funn.getDatum(),1000, 1550, text); //datum/projeksjon
 
         /*MåleMetode*/
-        canvas.drawText("X",615,1650,text); //Håndholdt GPS
+        canvas.drawText(" ",615,1650,text); //Håndholdt GPS
         canvas.drawText("X",950,1650,text); // Mobiltelefon
-        canvas.drawText("X",1280,1650,text); // Digitalt kart
+        canvas.drawText(" ",1280,1650,text); // Digitalt kart
 
         /*Arealtype*/
+        //TODO legg til når droppdown i funn er fiksa
         canvas.drawText("X",1755,1555,text); // Åker
         canvas.drawText("X",1755,1595,text); // Beite
         canvas.drawText("X",1755,1635,text); // Hage
@@ -432,16 +440,16 @@ public class FragmentEnkeltFunn extends Fragment {
         canvas.drawText("X",1990,1595,text); // Strand
         canvas.drawText("X",1990,1635,text); // Vann
 
-        /*TODO: Skrive metode som dealer med linebreak*/
-   //     canvas.drawText("Linebreaks fungerer dårlig her, må skrive en metode for å bestemme breaks ",
-     //           110, 1850, text); //Andre opplysninger og observasjoner
-        drawString(canvas,text, "Splitten er fortsatt fucked, men bredden kan kontrolleres. Splitten skjer midt i ord og greier, noe som ikke er helt optimalt. FFFFFFFFFFFFFFFFFFFFFF. FFFFFFFFFFFFF.",110,1850);
+        //Andre opplysninger og observasjoner
+        drawString(canvas,text, funn.getBeskrivelse(),110,1850);
 
         //finishing the page
         pdfDocument.finishPage(page);
 
         //sets storage path
-        File file = new File(Environment.getExternalStorageDirectory(),"pdfTest.pdf");
+        String path = getContext().getFilesDir().getPath(); //Gets program path
+        String filename = "/pdf.pdf"; //Sets the iamge name
+        File file = new File(path+filename);
 
         //writes the pdf to the path
         try{
@@ -452,6 +460,7 @@ public class FragmentEnkeltFunn extends Fragment {
         }
         //closing pdf
         pdfDocument.close();
+        return file;
     }
     //Checking permissions
     private boolean checkPermission(){
@@ -565,7 +574,7 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public void sendFunnmelding() {
-        EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), funn.getBildeID(), getContext());
+        EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), getContext(),new File(ImageSaver.getImagePath(getContext(),funn.getBildeID())));
         funn.setFunnmeldingSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
         saveFind();
     }
@@ -573,10 +582,9 @@ public class FragmentEnkeltFunn extends Fragment {
     public void sendFunnskjema() {
         //TODO finne ut hvordan man lager PDF -> lagdt til metode for generering av pdf
 
-        EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, funn.getBildeID(), getContext());
+        EmailIntent.sendEmail("tor.ryan.andersen@gmail.com"/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, getContext(), pdfGenerator());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
         saveFind();
-        pdfGenerator();
     }
 
     //Updates the status buttons when editText are changed
