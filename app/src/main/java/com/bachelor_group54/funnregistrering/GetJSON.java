@@ -17,9 +17,14 @@ import java.util.ArrayList;
 
 public class GetJSON extends AsyncTask<String, Void, String> {
     private TextView textView;
+    private FragmentMineFunn fragmentMineFunn;
 
     public GetJSON(TextView textView) {
         this.textView = textView;
+    }
+
+    public GetJSON(FragmentMineFunn fragmentMineFunn) {
+        this.fragmentMineFunn = fragmentMineFunn;
     }
 
     @Override
@@ -78,6 +83,38 @@ public class GetJSON extends AsyncTask<String, Void, String> {
     //Setts the textView's text to the output of the doInBackground method if the .execute method was called
     @Override
     protected void onPostExecute(String jsonString) {
-        textView.setText(jsonString);
+        if(textView != null) {
+            textView.setText(jsonString);
+        }
+
+        if(fragmentMineFunn != null){
+            ArrayList<Funn> findsList = new ArrayList<>();
+            for(String line : jsonString.split("\n")){
+                Funn find = new Funn();
+                String[] fields = line.split(",");
+
+                try {
+                    //TODO legge til bilde
+                    find.setDato(fields[1]);
+                    find.setKommune(fields[2]);
+                    find.setFylke(fields[3]);
+                    find.setFunndybde(Double.parseDouble(fields[4]));
+                    find.setGjenstandMerking(fields[5]);
+                    find.setLatitude(Double.parseDouble(fields[6].split(" ")[0].replace("N", "")));
+                    find.setLongitude(Double.parseDouble(fields[6].split(" ")[1].replace("W", "")));
+                    find.setDatum(fields[7]);
+                    find.setArealType(fields[8]);
+                }catch (NumberFormatException e){
+                    System.out.println("-----------------\nNumber format exception i GetJSON");
+                    e.printStackTrace();
+                } catch (ArrayIndexOutOfBoundsException e){
+                    System.out.println("-----------------\nArray out of bounds i GetJSON");
+                    e.printStackTrace();
+                }
+
+                findsList.add(find);
+            }
+            fragmentMineFunn.makeList(findsList);
+        }
     }
 }

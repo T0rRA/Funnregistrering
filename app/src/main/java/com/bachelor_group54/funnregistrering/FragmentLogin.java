@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,5 +47,17 @@ public class FragmentLogin extends Fragment {
 
         SetJSON setJSON = new SetJSON(getContext(), loginInfo.getUserName());
         setJSON.execute("Bruker/LogIn", "brukernavn=" + loginInfo.getUserName(), "passord=" + loginInfo.getPassword());
+    }
+
+    public void forgottenPassword(){
+        EditText usernameEt = view.findViewById(R.id.user_name);
+        String username = usernameEt.getText().toString();
+
+        if(username.equals("")){
+            Toast.makeText(getContext(), "Skriv inn brukernavn først", Toast.LENGTH_LONG).show();
+        }
+
+        SetJSON setJSON = new SetJSON(getContext());
+        setJSON.execute("Bruker/SendPwResetLink", "brukernavn=" + username);
     }
 }

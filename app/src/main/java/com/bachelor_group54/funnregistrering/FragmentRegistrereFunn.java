@@ -168,10 +168,10 @@ public class FragmentRegistrereFunn extends Fragment {
         SharedPreferences sharedpreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         String username = sharedpreferences.getString("username", "");
 
-        if(username.equals("")){
+        /*if(username.equals("")){
             Toast.makeText(getContext(), "Du er ikke logget inn", Toast.LENGTH_LONG).show();
             return;
-        }
+        }*/
         SetJSON setJSON = new SetJSON(getContext());
         //FIXME gir ioException muligens noe feil med serveren
 
@@ -188,7 +188,7 @@ public class FragmentRegistrereFunn extends Fragment {
                 "areal_type=" + funn.getArealType() + "brukernavn=" + username); */
 
         UploadToServer uploadToServer = new UploadToServer(getContext());
-        uploadToServer.execute("Funn/RegistrerFunn", "image=" + ImageSaver.makeBase64FromBitmap(picture),
+        uploadToServer.execute("Funn/RegistrerFunn", "image=" + "image" /*fixme uncommet ImageSaver.makeBase64FromBitmap(picture)*/,
                 "funndato=" + funn.getDato(), "kommune=" + funn.getKommune(), "fylke=" + funn.getFylke(),
                 "funndybde=" + funn.getFunndybde(), "gjenstand_markert_med=" + funn.getGjenstandMerking(),
                 "koordinat=" + funn.getLatitude() + "N " + funn.getLongitude() + "W", "datum=" + funn.getDatum(),

@@ -21,6 +21,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.zip.CheckedOutputStream;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class UploadToServer extends AsyncTask<String, Void, String> {
     private Context context;
 
@@ -32,8 +34,8 @@ public class UploadToServer extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... strings) {
         //Makes the url
         StringBuilder query = new StringBuilder("https://funnapi.azurewebsites.net/" + strings[0] + "?");
-        for(int i = 2; i < strings.length; i++){
-            if(i > 2){
+        for (int i = 2; i < strings.length; i++) {
+            if (i > 2) {
                 query.append("&");
             }
             query.append(strings[i]);
@@ -42,22 +44,25 @@ public class UploadToServer extends AsyncTask<String, Void, String> {
         try {
             JSONObject jsonObject = new JSONObject();
 
-            String[] nameValueStrings = strings[1].split("=");
+            //Makes jsonObject for the image, and puts the base64 string of the image
+            String[] nameValueStrings = strings[1].split("="); //Element 1 in string contains the image (image=imageString)
             jsonObject.put(nameValueStrings[0], nameValueStrings[1]);
-
 
             String data = jsonObject.toString();
 
             URL url = new URL(query.toString());
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setDoInput(true);
             connection.setRequestMethod("POST");
-            connection.setFixedLengthStreamingMode(data.getBytes().length);
+            connection.setFixedLengthStreamingMode(data.getBytes().length); //Enables streaming of HTTP request body without internal buffering
+            connection.setRequestProperty("ENCTYPE", "multipart/form-data");
             connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+
             OutputStream out = new BufferedOutputStream(connection.getOutputStream());
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
             writer.write(data);
+
             Log.d("ImageUploadLog", "Data to php = " + data);
             writer.flush();
             writer.close();
@@ -88,7 +93,7 @@ public class UploadToServer extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String string) {
-        if(context != null){
+        if (context != null) {
             Toast.makeText(context, string, Toast.LENGTH_LONG).show();
         }
     }

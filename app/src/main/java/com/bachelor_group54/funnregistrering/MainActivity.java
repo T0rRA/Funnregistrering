@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     public void fragmentEnkeltFunnLagreEndring(View view) {
         fragmentEnkeltFunn.saveFind();
         closeFragment();
-        fragmentMineFunn.makeList();
+        fragmentMineFunn.getFinds();
     }
 
     public void fragmentEnkeltFunnUpdatePicture(View view) {
@@ -209,16 +209,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void forgottenPasswordBtn(View view) {
+        fragmentLogin.forgottenPassword();
+    }
+
     public void fragmentLoginRegBtn(View view) {
         fragmentRegistrereBruker = new FragmentRegistrereBruker();
-
         openFragment(fragmentRegistrereBruker);
     }
 
     public void toLoginPageBtn(View view){ //login page button
-
         fragmentLogin = new FragmentLogin();
-
         openFragment(fragmentLogin);
     }
 
