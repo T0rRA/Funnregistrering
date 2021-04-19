@@ -11,7 +11,6 @@ using System.Drawing;
 using Newtonsoft.Json;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using System.Windows.Forms;
 
 namespace FunnregistreringsAPI.DAL
 {
@@ -173,12 +172,13 @@ namespace FunnregistreringsAPI.DAL
         // TEST FIRST
         // ingen lagre-kode implementert ennå fordi jeg skulle teste om den tok input at all
         // trenger en slags json form for å teste med å sende json objekter
-        public async Task<bool> dJ(string jsonStr)
+        [HttpPost]
+        public bool dJ(String jsonStr)
         {
             try
             {
-                var jImg = JsonConvert.DeserializeObject<String>(jsonStr); // image from funn
-                Debug.WriteLine(jImg.ToString());
+                var jImg = JsonConvert.DeserializeObject<dynamic>(jsonStr); // image from funn
+                Debug.WriteLine(jsonStr.ToString());
                 return true;
             }
             catch (Exception e)

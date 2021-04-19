@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FunnregistreringsAPI.DAL;
-using FunnregistreringsAPI.Models; 
+using FunnregistreringsAPI.Models;
+using Newtonsoft.Json;
+using System.Drawing;
 
 namespace FunnregistreringsAPI.Controllers
 {
@@ -57,11 +59,12 @@ namespace FunnregistreringsAPI.Controllers
             return Ok(getOk);
         }
 
-        public async Task<ActionResult> dJ(string jsonStr)
+        [HttpPost]
+        public bool dJ(String jsonStr)
         {
-            bool imgOk =  await _db.dJ(jsonStr);
-            if (!imgOk) return NotFound("bilde kunne ikke vises");
-            return Ok(imgOk);
+            bool imgOk =  _db.dJ(jsonStr);
+            if (!imgOk) return true;
+            return false;
         }
 
     }
