@@ -126,10 +126,6 @@ public class MainActivity extends AppCompatActivity {
         mPager.setCurrentItem(0);
     }
 
-    public void infoBtn(View view) {
-        fragmentMain.setJSONTestBtn();
-    }
-
     //Buttons for FragmentRegistrereFunn
     public void bildeBtn(View view) {
         fragmentRegistrereFunn.bildeBtn();
@@ -184,7 +180,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void navbarMineFunn(View view) {
         mPager.setCurrentItem(1);
+    }
 
+    public void updateMineFunnList(){
+        fragmentMineFunn.getFinds();
     }
 
     public void navbarProfil(View view) {

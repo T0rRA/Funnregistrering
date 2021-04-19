@@ -25,10 +25,4 @@ public class FragmentMain extends Fragment {
         //Legg til settup kode her
         return view;
     }
-
-    //FIXME test knapp fjern denne senere
-    public void setJSONTestBtn(){
-        SetJSON setJSON = new SetJSON((TextView) view.findViewById(R.id.fragment_main_tittel));
-        setJSON.execute("Bruker/LogIn", "brukernavn=helge", "passord=helge123");
-    }
 }

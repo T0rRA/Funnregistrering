@@ -15,7 +15,7 @@ public class Funn implements Serializable {
     private double longitude = 200, latitude = 200, funndybde = -1;
 
     //The picture int is the number that needs to be given to the ImageSaver class to load the correct image
-    private int bildeID;
+    private int bildeID, funnID;
 
     private boolean funnmeldingSendt = false, funnskjemaSendt = false;
 
@@ -282,5 +282,13 @@ public class Funn implements Serializable {
 
     public void setFunnskjemaSendt(boolean funnskjemaSendt) {
         this.funnskjemaSendt = funnskjemaSendt;
+    }
+
+    public int getFunnID() {
+        return funnID;
+    }
+
+    public void setFunnID(int funnID) {
+        this.funnID = funnID;
     }
 }

@@ -94,16 +94,17 @@ public class GetJSON extends AsyncTask<String, Void, String> {
                 String[] fields = line.split(",");
 
                 try {
+                    find.setFunnID(Integer.parseInt(fields[0]));
                     //TODO legge til bilde
-                    find.setDato(fields[1]);
-                    find.setKommune(fields[2]);
-                    find.setFylke(fields[3]);
-                    find.setFunndybde(Double.parseDouble(fields[4]));
-                    find.setGjenstandMerking(fields[5]);
-                    find.setLatitude(Double.parseDouble(fields[6].split(" ")[0].replace("N", "")));
-                    find.setLongitude(Double.parseDouble(fields[6].split(" ")[1].replace("W", "")));
-                    find.setDatum(fields[7]);
-                    find.setArealType(fields[8]);
+                    find.setDato(fields[2]);
+                    find.setKommune(fields[3]);
+                    find.setFylke(fields[4]);
+                    find.setFunndybde(Double.parseDouble(fields[5]));
+                    find.setGjenstandMerking(fields[6]);
+                    find.setLatitude(Double.parseDouble(fields[7].split(" ")[0].replace("N", "")));
+                    find.setLongitude(Double.parseDouble(fields[7].split(" ")[1].replace("W", "")));
+                    find.setDatum(fields[8]);
+                    find.setArealType(fields[9]);
                 }catch (NumberFormatException e){
                     System.out.println("-----------------\nNumber format exception i GetJSON");
                     e.printStackTrace();

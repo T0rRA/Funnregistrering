@@ -88,13 +88,16 @@ public class ListAdapter extends BaseAdapter{
             }
         });
 
-
-        //Creates empty elements to maintain scroll for larger lists
-        if(itemList.get(position) == null){
-            viewHolder.textViewTitel.setVisibility(View.GONE);
-            viewHolder.textViewDato.setVisibility(View.GONE);
-            viewHolder.textViewSted.setVisibility(View.INVISIBLE);
-        }
+        /*TODO lage popup vindu som spør om man vil slette*/
+        viewHolder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                SetJSON setJSON = new SetJSON(context);
+                setJSON.execute("Funn/DeleteFunn", "funnID=" + itemList.get(position).getFunnID());
+                mainActivity.updateMineFunnList();
+                return false;
+            }
+        });
 
         return convertView; //Returns the view
     }

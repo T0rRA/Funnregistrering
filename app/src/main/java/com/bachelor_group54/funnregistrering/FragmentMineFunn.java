@@ -48,7 +48,7 @@ public class FragmentMineFunn extends Fragment {
     //TODO bruker lang tid på å hente listen noen ganger kanskje hente listen tidligere?
     public void getFinds(){
         GetJSON getJSON = new GetJSON(this);
-        getJSON.execute("Funn/GetAllUserFunn?brukernavn=helge&passord=helge123"/*FIXME endre til å bruke riktig brukernavn og passord eller token?*/, "image", "funndato", "kommune", "fylke", "funndybde", "gjenstand_markert_med", "koordinat", "datum", "areal_type");
+        getJSON.execute("Funn/GetAllUserFunn?brukernavn=helge&passord=helge123"/*FIXME endre til å bruke riktig brukernavn og passord eller token?*/, "funnID", "image", "funndato", "kommune", "fylke", "funndybde", "gjenstand_markert_med", "koordinat", "datum", "areal_type");
     }
 
     public int getListSize() {

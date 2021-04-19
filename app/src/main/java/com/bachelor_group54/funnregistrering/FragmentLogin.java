@@ -55,6 +55,7 @@ public class FragmentLogin extends Fragment {
 
         if(username.equals("")){
             Toast.makeText(getContext(), "Skriv inn brukernavn først", Toast.LENGTH_LONG).show();
+            return;
         }
 
         SetJSON setJSON = new SetJSON(getContext());

@@ -50,6 +50,7 @@ public class FragmentEnkeltFunn extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        super.onResume();
         updateStatusBtn();
     }
 
@@ -205,8 +206,10 @@ public class FragmentEnkeltFunn extends Fragment {
         SharedPreferences sharedpreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         String username = sharedpreferences.getString("username", "");
 
+        //TODO get userID
+
         UploadToServer uploadToServer = new UploadToServer(getContext());
-        uploadToServer.execute("Funn/EditFunn","funnID=" + position, "brukerUserID=" /*fixme legge til brukerID*/,"image=" + ImageSaver.makeBase64FromBitmap(picture),
+        uploadToServer.execute("Funn/EditFunn", "image=" + ImageSaver.makeBase64FromBitmap(picture), "funnID=" + funn.getFunnID(), "brukerUserID=2" /*fixme legge til brukerID*/,
                 "funndato=" + funn.getDato(), "kommune=" + funn.getKommune(), "fylke=" + funn.getFylke(),
                 "funndybde=" + funn.getFunndybde(), "gjenstand_markert_med=" + funn.getGjenstandMerking(),
                 "koordinat=" + funn.getLatitude() + "N " + funn.getLongitude() + "W", "datum=" + funn.getDatum(),
