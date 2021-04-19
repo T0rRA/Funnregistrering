@@ -13,7 +13,7 @@ import androidx.core.content.FileProvider;
 public class EmailIntent {
 
     //Opens the email app and fills the email.
-    public static void sendEmail(String to, String subject, String message, int pictureNr ,Context context) {
+    public static void sendEmail(String to, String subject, String message, int pictureNr, Context context) {
         Intent email = new Intent(Intent.ACTION_SEND);
         email.setType("application/image");
         email.putExtra(Intent.EXTRA_EMAIL, new String[]{to}); //To is the email address of the receiver of the email
