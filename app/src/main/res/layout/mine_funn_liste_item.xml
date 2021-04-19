@@ -23,19 +23,19 @@
             android:id="@+id/titel_mine_funn_liste_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="asdadasd" />
+            android:text="tittel" />
 
         <TextView
             android:id="@+id/dato_mine_funn_liste_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="asdadasd" />
+            android:text="dato" />
 
         <TextView
             android:id="@+id/sted_mine_funn_liste_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="asdadasd" />
+            android:text="kommune" />
 
     </LinearLayout>
 

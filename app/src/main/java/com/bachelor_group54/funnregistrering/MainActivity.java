@@ -98,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
             super.startUpdate(container);
             pagerAdapter.getItem(mPager.getCurrentItem()).onResume(); //Makes it so that we can update a fragment with its onResume method
         }
+
+
     }
 
     @Override
@@ -153,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     //Buttons for the single found fragment
     //Saves the changes made to the find
     public void fragmentEnkeltFunnLagreEndring(View view) {
-        fragmentEnkeltFunn.saveFind();
+        fragmentEnkeltFunn.editFind();
         closeFragment();
         fragmentMineFunn.getFinds();
     }

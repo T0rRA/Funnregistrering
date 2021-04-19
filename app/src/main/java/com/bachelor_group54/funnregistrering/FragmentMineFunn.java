@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.zip.Inflater;
@@ -32,7 +33,7 @@ public class FragmentMineFunn extends Fragment {
     @Override
     //Updates the page
     public void onResume() {
-        //getFinds();
+        //getFinds(); //FIXME opdaterer når man scroller
         super.onResume();
     }
 
@@ -44,6 +45,7 @@ public class FragmentMineFunn extends Fragment {
         listSize = findsList.size();
     }
 
+    //TODO bruker lang tid på å hente listen noen ganger kanskje hente listen tidligere?
     public void getFinds(){
         GetJSON getJSON = new GetJSON(this);
         getJSON.execute("Funn/GetAllUserFunn?brukernavn=helge&passord=helge123"/*FIXME endre til å bruke riktig brukernavn og passord eller token?*/, "image", "funndato", "kommune", "fylke", "funndybde", "gjenstand_markert_med", "koordinat", "datum", "areal_type");

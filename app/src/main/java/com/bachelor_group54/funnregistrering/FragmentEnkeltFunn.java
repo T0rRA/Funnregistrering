@@ -1,5 +1,6 @@
 package com.bachelor_group54.funnregistrering;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -198,6 +199,20 @@ public class FragmentEnkeltFunn extends Fragment {
         objektLagrer.saveData(arrayList); //Saves the new list, overwriting the old list
     }
 
+    public void editFind(){
+        updateFind();
+
+        SharedPreferences sharedpreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        String username = sharedpreferences.getString("username", "");
+
+        UploadToServer uploadToServer = new UploadToServer(getContext());
+        uploadToServer.execute("Funn/EditFunn","funnID=" + position, "brukerUserID=" /*fixme legge til brukerID*/,"image=" + ImageSaver.makeBase64FromBitmap(picture),
+                "funndato=" + funn.getDato(), "kommune=" + funn.getKommune(), "fylke=" + funn.getFylke(),
+                "funndybde=" + funn.getFunndybde(), "gjenstand_markert_med=" + funn.getGjenstandMerking(),
+                "koordinat=" + funn.getLatitude() + "N " + funn.getLongitude() + "W", "datum=" + funn.getDatum(),
+                "areal_type=" + funn.getArealType());
+    }
+
     //This method is used for updating the find before saving it
     public void updateFind() {
         //FIXME legge til sjekk for om latitude er over 90 eller under -90
@@ -367,14 +382,14 @@ public class FragmentEnkeltFunn extends Fragment {
     public void sendFunnmelding() {
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), funn.getBildeID(), getContext());
         funn.setFunnmeldingSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        saveFind();
+        saveFind(); /*TODO endre til editFind, trenger lagring av funnmeldingSend variablen*/
     }
 
     public void sendFunnskjema() {
         //TODO finne ut hvordan man lager PDF
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, funn.getBildeID(), getContext());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        saveFind();
+        saveFind(); /*TODO endre til editFind, trenger lagring av funnskjemaSendt variablen*/
     }
 
     //Updates the status buttons when editText are changed

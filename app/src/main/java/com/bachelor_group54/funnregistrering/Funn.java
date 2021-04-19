@@ -58,7 +58,7 @@ public class Funn implements Serializable {
 
     //Checks if all the fields needed for find message is filled
     public boolean isFunnmeldingKlar(){
-        if(tittel.equals("")){
+        if(tittel == null || tittel.equals("")){
             return false;
         }
         if(bildeID == 0){
