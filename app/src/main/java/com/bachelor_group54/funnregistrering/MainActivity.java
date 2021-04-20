@@ -51,6 +51,19 @@ public class MainActivity extends AppCompatActivity {
 
         //Only if you want to start on element 1 in the list, no need if starting at 0
         mPager.setCurrentItem(0);
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {} //Needs to be overridden
+
+            @Override
+            //When the page is changed run the new page's onResume method to make sure it's up to date.
+            public void onPageSelected(int position) {
+                pagerAdapter.getItem(position).onResume();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {} //Needs to be overridden
+        });
 
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>" + getString(R.string.app_name) + "</font>")); //Changes the color of the actionbar text
     }
@@ -92,14 +105,6 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             return fragmentListe.size();
         }
-
-        @Override
-        public void startUpdate(@NonNull ViewGroup container) {
-            super.startUpdate(container);
-            pagerAdapter.getItem(mPager.getCurrentItem()).onResume(); //Makes it so that we can update a fragment with its onResume method
-        }
-
-
     }
 
     @Override

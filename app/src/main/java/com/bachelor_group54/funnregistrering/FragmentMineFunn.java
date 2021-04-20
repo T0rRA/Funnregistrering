@@ -33,7 +33,7 @@ public class FragmentMineFunn extends Fragment {
     @Override
     //Updates the page
     public void onResume() {
-        //getFinds(); //FIXME opdaterer når man scroller
+        getFinds();
         super.onResume();
     }
 
