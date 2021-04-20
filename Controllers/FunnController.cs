@@ -60,11 +60,11 @@ namespace FunnregistreringsAPI.Controllers
         }
 
         [HttpPost]
-        public bool dJ(String jsonStr)
+        public bool dJ( string jsonStr)
         {
             bool imgOk =  _db.dJ(jsonStr);
-            if (!imgOk) return true;
-            return false;
+            if (!imgOk) return false;
+            return true;
         }
 
     }

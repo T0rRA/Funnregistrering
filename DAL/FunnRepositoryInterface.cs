@@ -16,6 +16,6 @@ namespace FunnregistreringsAPI.DAL
         public Task<bool> DeleteFunn(int funnID);
         public Task<bool> EditFunn(Funn f);
         public Task<Funn> GetFunn(String brukernavn, int funnID);
-        public bool dJ(String jsonStr);
+        public bool dJ(string jsonStr);
     }
 }

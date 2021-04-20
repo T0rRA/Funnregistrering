@@ -58,29 +58,8 @@ function getFunn() {
 }
 
 function getImg() {
-    var url = '/Funn/dJ?strJson=';
+    var url = 'Funn/dJ?jsonStr=';
 
-    const kk = [{
-        'name': 'kkk', 'age': 9,
-        'content-type': 'application/json; charset=utf-8',
-        'dataType': 'json'
-    }];
-
-
-   /* const res = fetch(url + kk, {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            strJson: kk
-        })
-    })
-        .then((res) => {
-            console.log(res)
-        )};*/
-    //const data = res.json();
 
     const img = {
         "version": "1.0",
@@ -224,32 +203,22 @@ function getImg() {
         }
     };
 
-    kkk = JSON.stringify(kk);
-    /*
-    $.post(url + kkk, function (data) {
-        console.log(data);
-    })
-        .fail(function (data) {
-            console.log(data);
-        });*/
+    console.log(img);
 
-    
-    $.ajax({
-        url: url,
-        type: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            strJson: kk
-        }),
-        success: function (data) {
-            console.log("it work: " + data);
-        },
-        fail: function (data) {
-            console.log("it dont work: " + data);
-        }
-    })
+
+
+$.ajax({
+    url: url + JSON.stringify(img),
+    type: 'Post',
+    data: JSON.stringify(img),
+    dataType: 'json',
+    contentType : 'application/json; chartset=utf-8',
+    success: function (data) {
+        console.log("it work: " + data);
+    },
+    fail: function (data) {
+        console.log("it dont work: " + data);
+    }
+});
 
 }
