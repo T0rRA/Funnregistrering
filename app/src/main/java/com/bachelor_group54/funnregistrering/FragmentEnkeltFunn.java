@@ -393,7 +393,7 @@ public class FragmentEnkeltFunn extends Fragment {
         * the paint variable  (text) is the 4th parameter.
         * */
         /*  Finner:
-        * TODO: Hent info fra User*/
+        * TODO: Hent info fra User, getters*/
         canvas.drawText("Ola Nordmann", 300,450, text); // Navn
         canvas.drawText("Slottet", 300,575, text); // Adresse
         canvas.drawText("1500", 300,700, text); // Postnr.
@@ -401,7 +401,7 @@ public class FragmentEnkeltFunn extends Fragment {
         canvas.drawText("989 99 999", 300,825, text); // Tlf
         canvas.drawText("epost@epost.no", 300,955, text); // epost
 
-        /*  Grunneier:  */
+        /*  Grunneier:  TODO: Må legge inn grunneier info et sted. Bruk så get for å hente de ut her*/
         canvas.drawText("Ola Nordmann", 1500,450, text); // Navn
         canvas.drawText("Slottet", 1500,575, text); // Adresse
         canvas.drawText("1500", 1500,700, text); // Postnr.
@@ -448,7 +448,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
         //sets storage path
         String path = getContext().getFilesDir().getPath(); //Gets program path
-        String filename = "/pdf.pdf"; //Sets the iamge name
+        String filename = "/funnskjema.pdf"; //Sets the iamge name TODO: add Dynamisk navn på funnskjema
         File file = new File(path+filename);
 
         //writes the pdf to the path
