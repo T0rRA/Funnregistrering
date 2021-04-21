@@ -47,6 +47,10 @@ public class FragmentLogin extends Fragment {
 
         SetJSON setJSON = new SetJSON(getContext(), loginInfo.getUserName());
         setJSON.execute("Bruker/LogIn", "brukernavn=" + loginInfo.getUserName(), "passord=" + loginInfo.getPassword());
+
+        //FIXME kanskje logIn burde returnere User object?
+        GetJSON getJSON = new GetJSON(this);
+        getJSON.execute("Bruker/GetUser?brukernavn=" + loginInfo.getUserName());
     }
 
     public void forgottenPassword(){

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class GetJSON extends AsyncTask<String, Void, String> {
     private TextView textView;
     private FragmentMineFunn fragmentMineFunn;
+    private FragmentLogin fragmentLogin;
 
     public GetJSON(TextView textView) {
         this.textView = textView;
@@ -25,6 +26,10 @@ public class GetJSON extends AsyncTask<String, Void, String> {
 
     public GetJSON(FragmentMineFunn fragmentMineFunn) {
         this.fragmentMineFunn = fragmentMineFunn;
+    }
+
+    public GetJSON(FragmentLogin fragmentLogin) {
+        this.fragmentLogin = fragmentLogin;
     }
 
     @Override
@@ -116,6 +121,32 @@ public class GetJSON extends AsyncTask<String, Void, String> {
                 findsList.add(find);
             }
             fragmentMineFunn.makeList(findsList);
+        }
+
+        if(fragmentLogin != null){
+            User user = User.getInstance();
+            try {
+                jsonString = jsonString.substring(0 , jsonString.indexOf("[")) + jsonString.substring(jsonString.indexOf("]")); //Removes the list of finds
+                System.out.println("------------------------------\n" + jsonString);
+
+                String[] fields = jsonString.split(",");
+
+                for(int i = 0; i < fields.length; i++){
+                    fields[i] = fields[i].split(":")[1].replace("\"", "");
+                }
+
+                user.setPostalCode(fields[0]);
+                user.setUsername(fields[3]);
+                user.setName(fields[7]);
+                user.setLastName(fields[8]);
+                user.setAddress(fields[9]);
+                user.setPhoneNum(fields[10]);
+                user.setEmail(fields[11]);
+
+            } catch (ArrayIndexOutOfBoundsException e){
+                System.out.println("-----------------\nArray out of bounds i GetJSON");
+                e.printStackTrace();
+            }
         }
     }
 }
