@@ -16,6 +16,12 @@ namespace FunnregistreringsAPI.DAL
 
         public DbSet<Bruker> brukere { get; set; }
         public DbSet<Funn> funn { get; set; }
+<<<<<<< Updated upstream
+=======
+        public DbSet<PwReset> passordReset { get; set; }
+        public DbSet<Postadresse> postadresser { get; set; }
+        public DbSet<Image> Images { get; set; }
+>>>>>>> Stashed changes
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

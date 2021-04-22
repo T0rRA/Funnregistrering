@@ -13,20 +13,16 @@ namespace FunnregistreringsAPI.Models
         public int FunnID { get; set; }
  
         public int BrukerUserID { get; set; }
-        
-        //MORE DATA HERE
-        
-        //GRUNNEIER GOES HERE?? Potentially a DB for Grunneiere - or previously registered grunneiere for each G/Bnr
-
-        //The image has to be saved as a Base64 string. This will have to be converted on the frontend. 
-        public string image { get; set; }
+        public String image { get; set; }
         public string funndato { get; set; }
+        //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
         public string kommune { get; set; }
         public string fylke { get; set; }
         public string funndybde { get; set; }
         public string gjenstand_markert_med { get; set; }
         public string koordinat { get; set; }
         public string datum { get; set; }
+        //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
         public string areal_type { get; set; }
     }
 }

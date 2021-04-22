@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace FunnregistreringsAPI
 {
     public class Startup
@@ -27,7 +28,12 @@ namespace FunnregistreringsAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+<<<<<<< Updated upstream
             services.AddControllers();
+=======
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            
+>>>>>>> Stashed changes
             services.AddDbContext<FunnDB>(options => options.UseSqlite("Data Source=Funn.db"));
             services.AddScoped<BrukerRepositoryInterface, BrukerRepository>();
             services.AddScoped<FunnRepositoryInterface, FunnRepository>();
