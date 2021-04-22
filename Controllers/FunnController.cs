@@ -17,7 +17,7 @@ namespace FunnregistreringsAPI.Controllers
 {
     [Microsoft.AspNetCore.Mvc.Route("[controller]/[action]")]
     public class FunnController : ApiController
-
+    {
         private readonly FunnRepositoryInterface _db;
 
         public FunnController(FunnRepositoryInterface db)
@@ -102,13 +102,13 @@ namespace FunnregistreringsAPI.Controllers
             return Ok();
         }
 
-        [Microsoft.AspNetCore.Mvc.HttpPost]
+       /* [Microsoft.AspNetCore.Mvc.HttpPost]
         public bool dJ(String jsonStr)
         {
             bool imgOk =  _db.dJ(jsonStr);
             if (!imgOk) return true;
             return false;
-        }
+        }*/
 
 
     }
