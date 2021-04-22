@@ -10,23 +10,29 @@ namespace FunnregistreringsAPI.Models
     public class Bruker
     { 
         [Key]
+
+        //[RegularExpression(@"^[0-9]+$")]
         public int UserID { get; set; }
         //Might be that username = Email
-        public string Brukernavn { get; set; }
+        //[RegularExpression(@"^[a-zA-Z0-9\-._ ]+@[a-zA-Z.\-]+\.[a-zA-Z]{2,20}$")]
+        public String Brukernavn { get; set; }
         public byte[] Passord { get; set; }
-        //Salt is used to hash passwords with unique functions
         public byte[] Salt { get; set; }
+        //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\- ]{2,20}$")]
         public string Fornavn { get; set; }
+        //[RegularExpression(@"^[a-zA-ZæøåÆØÅ+\- ]{2,20}$")]
         public string Etternavn { get; set; }
+        //[RegularExpression(@"^[a-zA-ZæøåÆØÅ0-9\-. ]{2,40}$")]
         public string Adresse { get; set; }
-        public string Postnr { get; set; }
-        
-        //OIDA DENNE MÅ KANSKJE HA SIN EGEN DB
-        public string Poststed { get; set; }
+        //[RegularExpression(@"^[0-9]{4}$")]
+        public virtual Postadresse Postnr { get; set; }
+
+        //[RegularExpression(@"^[0-9+]{8,12}$")]
         public string Tlf { get; set; }
+        //[RegularExpression(@"^[a-zA-Z0-9\-._ ]+@[a-zA-Z.\-]+\.[a-zA-Z]{2,20}$")]
         public string Epost { get; set; }
-        //denne har egen db
-        public virtual List<Funn> mineFunn { get; set; }
+        public virtual List<Funn> MineFunn { get; set; }
+        public bool LoggetInn { get; set; } // log-in check 
 
     }
 }

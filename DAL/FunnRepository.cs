@@ -1,12 +1,11 @@
-﻿using FunnregistreringsAPI.Models;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+using FunnregistreringsAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
-<<<<<<< Updated upstream
-=======
 using System.Drawing;
 using Newtonsoft.Json;
 using System.Text;
@@ -14,17 +13,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.AspNetCore.Hosting;
 using Paket;
->>>>>>> Stashed changes
+
 
 namespace FunnregistreringsAPI.DAL
 {
-    public class FunnRepository : FunnRepositoryInterface
+    public class FunnRepository : FunnRepositoryInterface 
     {
-<<<<<<< Updated upstream
-        public Task<bool> RegistrerFunn(Funn nyttFunn)
-        {
-            throw new NotImplementedException();
-=======
         private readonly FunnDB _db;
         private readonly IWebHostEnvironment _appEnvironment;
 
@@ -35,11 +29,9 @@ namespace FunnregistreringsAPI.DAL
         }
 
         public async Task<bool> RegistrerFunn(InnFunn nyttFunn, String brukernavn)
-
         {
             try
             {
-
                 Bruker realUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
                 if (realUser != null) // user found
                 {
@@ -69,7 +61,6 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        [HttpPost]
         public async Task<Funn> GetFunn(String brukernavn, int funnID)
         {
             try
@@ -92,65 +83,52 @@ namespace FunnregistreringsAPI.DAL
                 }
                 return null; // funn not found in list
             }
+
             catch (Exception e)
             {
                 return null;
             }
->>>>>>> Stashed changes
         }
 
         //NOTE!!! THIS MUST BE SECURE 
-        public List<Funn> GetAllUserFunn()
+        public async Task<List<Funn>> GetAllUserFunn(String brukernavn, String passord)
         {
             //DECLARE A LIST TO RETURN
             try
             {
-                List<Funn> ex_funn_list = new List<Funn>();
-                //Note to self or other funn repo lads - let's make a generator this was horrible to write.
-                ex_funn_list.Add(new Funn
-                {
-                    FunnID = 1,
-                    image = "544399123123sdadaffdgwqe",
-                    areal_type = "jorde",
-                    datum = "12.03.2021",
-                    funndato = "11.02.2021",
-                    funndybde = "420m",
-                    fylke = "Viken",
-                    gjenstand_markert_med = "funnID'en",
-                    kommune = "Sarpsborg",
-                    koordinat = "12 03 12N, 54 12 65W",
-                    BrukerUserID = 1
-                });
-                ex_funn_list.Add(new Funn
-                {
-                    FunnID = 2,
-                    image = "owoew",
-                    areal_type = "fjell",
-                    datum = "12.03.2021",
-                    funndato = "11.02.2021",
-                    funndybde = "69m",
-                    fylke = "Viken",
-                    gjenstand_markert_med = "funnID'en",
-                    kommune = "Sarpsborg",
-                    koordinat = "12 03 17N, 54 12 62W",
-                    BrukerUserID = 1
-                });
+                Bruker funnetBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
+                // Check pword
+                byte[] hash = BrukerRepository.CreateHash(passord, funnetBruker.Salt);
+                bool ok = hash.SequenceEqual(funnetBruker.Passord);
 
-                return ex_funn_list;
-            } catch(Exception)
+                //If ok use UserID from the found user to get the full list of "funn"
+                if (ok)
+                {
+                    List<Funn> ex_funn_list = await _db.funn.Where(funn => funn.BrukerUserID == funnetBruker.UserID).ToListAsync();
+                    // empty list is returned            
+                    if (!ex_funn_list.Any()) { return ex_funn_list; } //if returned list is empty. Can maybe throw exception so that we can differentiate
+                    else return ex_funn_list;
+                } 
+                else //if user is not correct
+                {
+                    return null; //throw exception here as well. 
+                }
+            }
+            catch(Exception)
             {
                 return null;
             }
         }
-<<<<<<< Updated upstream
-=======
+
 
         public async Task<bool> DeleteFunn(int funnID)
         {
             try
             {
                 Funn real_funn = await _db.funn.FindAsync(funnID);
+
                 if (real_funn != null)
+
                 {
                     // funn is found
                     _db.funn.Remove(real_funn);
@@ -163,7 +141,6 @@ namespace FunnregistreringsAPI.DAL
             {
                 return false;
             }
-
         }
 
         public async Task<bool> EditFunn(Funn f)
@@ -193,7 +170,6 @@ namespace FunnregistreringsAPI.DAL
             {
                 return false;
             }
-
         }
 
         // TAR  JSON STRING, DESERIALIZE AND HOPEFULLY SAVE
@@ -215,6 +191,5 @@ namespace FunnregistreringsAPI.DAL
                 return false;
             }
         }
->>>>>>> Stashed changes
     }
 }

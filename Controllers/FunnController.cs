@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using FunnregistreringsAPI.DAL;
+
 using FunnregistreringsAPI.Models;
 using Newtonsoft.Json;
 using System.IO;
@@ -20,7 +17,7 @@ namespace FunnregistreringsAPI.Controllers
 {
     [Microsoft.AspNetCore.Mvc.Route("[controller]/[action]")]
     public class FunnController : ApiController
-    {
+
         private readonly FunnRepositoryInterface _db;
 
         public FunnController(FunnRepositoryInterface db)
@@ -29,6 +26,7 @@ namespace FunnregistreringsAPI.Controllers
             Configuration = new System.Web.Http.HttpConfiguration();
             Request = new System.Net.Http.HttpRequestMessage();
         }
+
 
         //We have to make these functions secure. Right now these can be injected if they have the webserver API and the function. 
         //Is it feasible to every time person logs in the "password" is physically saved on the device so that we can confirm their status?
@@ -111,6 +109,7 @@ namespace FunnregistreringsAPI.Controllers
             if (!imgOk) return true;
             return false;
         }
+
 
     }
 }
