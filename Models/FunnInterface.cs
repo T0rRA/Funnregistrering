@@ -8,9 +8,9 @@ namespace FunnregistreringsAPI.Models
 {
     interface FunnInterface
     {
-        public String image { get; set; }
-        public DateTime funndato { get; set; }
-        //[RegularExpression(@"^[a-zA-ZæøåÆØÅ-._ ]{2,20}$")]
+        //GRUNNEIER GOES HERE?? Potentially a DB for Grunneiere - or previously registered grunneiere for each G/Bnr
+        public string image { get; set; }
+        public string funndato { get; set; }
         public string kommune { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ-._ ]{2,20}$")]
         public string fylke { get; set; }
@@ -20,7 +20,7 @@ namespace FunnregistreringsAPI.Models
         public string gjenstand_markert_med { get; set; }
         //[RegularExpression(@"^[0-9.- ]{2,40}$")]
         public string koordinat { get; set; }
-        public DateTime datum { get; set; }
+        public string datum { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ-._ ]{2,20}$")]
         public string areal_type { get; set; }
     }

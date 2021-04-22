@@ -6,26 +6,34 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Drawing;
+using Newtonsoft.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.AspNetCore.Hosting;
+using Paket;
+
 
 namespace FunnregistreringsAPI.DAL
 {
     public class FunnRepository : FunnRepositoryInterface 
     {
         private readonly FunnDB _db;
+        private readonly IWebHostEnvironment _appEnvironment;
 
-        public FunnRepository(FunnDB db)
+        public FunnRepository(FunnDB db, IWebHostEnvironment appEnvironment)
         {
             _db = db;
+            _appEnvironment = appEnvironment;
         }
 
         public async Task<bool> RegistrerFunn(InnFunn nyttFunn, String brukernavn)
-
         {
             try
             {
-
                 Bruker realUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
-                if(realUser!=null) // user found
+                if (realUser != null) // user found
                 {
                     var nf = new Funn
                     {
@@ -75,7 +83,8 @@ namespace FunnregistreringsAPI.DAL
                 }
                 return null; // funn not found in list
             }
-            catch(Exception e)
+
+            catch (Exception e)
             {
                 return null;
             }
@@ -111,12 +120,15 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
+
         public async Task<bool> DeleteFunn(int funnID)
         {
             try
             {
                 Funn real_funn = await _db.funn.FindAsync(funnID);
-                if(real_funn != null)
+
+                if (real_funn != null)
+
                 {
                     // funn is found
                     _db.funn.Remove(real_funn);
@@ -125,11 +137,10 @@ namespace FunnregistreringsAPI.DAL
                 }
                 return false; // funn is not found
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
-
         }
 
         public async Task<bool> EditFunn(Funn f)
@@ -137,7 +148,7 @@ namespace FunnregistreringsAPI.DAL
             try
             {
                 var etFunn = await _db.funn.FindAsync(f.FunnID);
-                if(etFunn != null)
+                if (etFunn != null)
                 {
                     // funn is found
                     etFunn.koordinat = f.koordinat;
@@ -155,11 +166,30 @@ namespace FunnregistreringsAPI.DAL
                 }
                 return false; // funn is not found
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
+        }
 
+        // TAR  JSON STRING, DESERIALIZE AND HOPEFULLY SAVE
+        // TEST FIRST
+        // ingen lagre-kode implementert ennå fordi jeg skulle teste om den tok input at all
+        // trenger en slags json form for å teste med å sende json objekter
+        [HttpPost]
+        public bool dJ(String jsonStr)
+        {
+            try
+            {
+                var jImg = JsonConvert.DeserializeObject<dynamic>(jsonStr); // image from funn
+                Debug.WriteLine(jsonStr.ToString());
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message.ToString());
+                return false;
+            }
         }
     }
 }

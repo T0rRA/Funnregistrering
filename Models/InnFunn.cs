@@ -8,9 +8,13 @@ namespace FunnregistreringsAPI.Models
 {
     public class InnFunn : FunnInterface
     {
-
-        public String image { get; set; } 
-        public DateTime funndato { get; set; }
+        //MORE DATA HERE
+        //GRUNNEIER GOES HERE?? Potentially a DB for Grunneiere - or previously registered grunneiere for each G/Bnr
+        //JSON CAN'T SEND IMAGES, NEEDS TO BE CONVERTED TO A STRING WITH BASE64
+        public string image { get; set; } 
+        public string funndato { get; set; }
+        public string image { get; set; } 
+        public string funndato { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
         public string kommune { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
@@ -21,8 +25,9 @@ namespace FunnregistreringsAPI.Models
         public string gjenstand_markert_med { get; set; }
         //[RegularExpression(@"^[0-9.\- ]{2,40}$")]
         public string koordinat { get; set; }
-        public DateTime datum { get; set; }
+        public string datum { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
         public string areal_type { get; set; }
+        public string image_name { get; set; }
     }
 }
