@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace FunnregistreringsAPI.DAL
 {
@@ -16,6 +16,6 @@ namespace FunnregistreringsAPI.DAL
         public Task<bool> DeleteFunn(int funnID);
         public Task<bool> EditFunn(Funn f);
         public Task<Funn> GetFunn(String brukernavn, int funnID);
-        public bool dJ(string jsonStr);
+        public Task<HttpResponseMessage> Get([FromBody] Image img);
     }
 }

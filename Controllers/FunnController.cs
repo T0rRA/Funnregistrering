@@ -5,10 +5,13 @@ using FunnregistreringsAPI.DAL;
 using FunnregistreringsAPI.Models;
 using Newtonsoft.Json;
 using System.Drawing;
+using Image = FunnregistreringsAPI.Models.Image;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http;
 
 namespace FunnregistreringsAPI.Controllers
 {
-    [Route("[controller]/[action]")]
+    [Microsoft.AspNetCore.Mvc.Route("[controller]/[action]")]
     public class FunnController : ControllerBase
     {
         private readonly FunnRepositoryInterface _db;
@@ -19,7 +22,7 @@ namespace FunnregistreringsAPI.Controllers
         }
         //We have to make these functions secure. Right now these can be injected if they have the webserver API and the function. 
         //Is it feasible to every time person logs in the "password" is physically saved on the device so that we can confirm their status?
-        [HttpPost]
+        [Microsoft.AspNetCore.Mvc.HttpPost]
         public async Task<ActionResult> RegistrerFunn(InnFunn nyttFunn, String brukernavn)
         {
             //if (ModelState.IsValid)
@@ -59,12 +62,12 @@ namespace FunnregistreringsAPI.Controllers
             return Ok(getOk);
         }
 
-        [HttpPost]
-        public bool dJ( string jsonStr)
+        [Microsoft.AspNetCore.Mvc.HttpPost]
+        public async Task<ActionResult> Get([FromBody] Image img)
         {
-            bool imgOk =  _db.dJ(jsonStr);
-            if (!imgOk) return false;
-            return true;
+            HttpResponseMessage imgOk = await _db.Get(img);
+            if (imgOk == null) return NotFound("dette gikk ikke");
+            return Ok(imgOk);
         }
 
     }

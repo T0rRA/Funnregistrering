@@ -12,6 +12,9 @@ using Newtonsoft.Json;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using Image = FunnregistreringsAPI.Models.Image;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http;
 
 namespace FunnregistreringsAPI.DAL
 {
@@ -59,7 +62,7 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        [HttpPost]
+        [Microsoft.AspNetCore.Mvc.HttpPost]
         public async Task<Funn> GetFunn(String brukernavn, int funnID)
         {
             try
@@ -173,24 +176,27 @@ namespace FunnregistreringsAPI.DAL
         // TEST FIRST
         // ingen lagre-kode implementert ennå fordi jeg skulle teste om den tok input at all
         // trenger en slags json form for å teste med å sende json objekter
-        [HttpPost]
-        public bool dJ(string jsonStr)
+        [Microsoft.AspNetCore.Mvc.HttpPost]
+        public Task<HttpResponseMessage> Get([FromBody]Image img)
         {
             try
             {
                 //var jImg = JsonConvert.DeserializeObject<dynamic>(jsonStr); // image from funn
                 //Debug.WriteLine(jImg.ToString());
-                Debug.WriteLine("jsonStr= " +jsonStr.ToString());
+                Debug.WriteLine("jsonStr= " +img.ToString());
 
-                JObject json = JObject.Parse(jsonStr);
-                Debug.WriteLine(json.ToString());
+                //JObject json = JObject.Parse(img);
+                //Debug.WriteLine(json.ToString());
 
-                return true;
+                var response = new HttpResponseMessage();
+                response.Content = new StringContent("hello this is content");
+
+                return Task.FromResult(response);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message.ToString());
-                return false;
+                return null;
             }
         }
 
