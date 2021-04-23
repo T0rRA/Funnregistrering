@@ -13,8 +13,6 @@ namespace FunnregistreringsAPI.Models
         //JSON CAN'T SEND IMAGES, NEEDS TO BE CONVERTED TO A STRING WITH BASE64
         public string image { get; set; } 
         public string funndato { get; set; }
-        public string image { get; set; } 
-        public string funndato { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
         public string kommune { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
@@ -28,6 +26,5 @@ namespace FunnregistreringsAPI.Models
         public string datum { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
         public string areal_type { get; set; }
-        public string image_name { get; set; }
     }
 }
