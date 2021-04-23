@@ -584,7 +584,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
         EmailIntent.sendEmail("tor.ryan.andersen@gmail.com"/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, getContext(), pdfGenerator());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        saveFind();
+        saveFind(); //TODO bytte ut med oppdatering av databasen
     }
 
     //Updates the status buttons when editText are changed
