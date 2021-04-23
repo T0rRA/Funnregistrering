@@ -91,7 +91,7 @@ public class FragmentEnkeltFunn extends Fragment {
         updateStatusBtn();
     }
 
-    //Parmams: str = the string for we want to split. splitSize is the size of each split.
+    //Parmams: str is the string we want to split. splitSize is the size of each split.
     public ArrayList<String> makeLine(String str, int splitSize){
         ArrayList<String> lines = new ArrayList<>();
         StringBuilder outString = new StringBuilder();
