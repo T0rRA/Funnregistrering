@@ -448,7 +448,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
         //sets storage path
         String path = getContext().getFilesDir().getPath(); //Gets program path
-        String filename = "/pdf.pdf"; //Sets the iamge name
+        String filename = "/pdf.pdf"; //Sets the pdf name
         File file = new File(path+filename);
 
         //writes the pdf to the path
