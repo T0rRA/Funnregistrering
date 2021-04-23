@@ -576,7 +576,7 @@ public class FragmentEnkeltFunn extends Fragment {
     public void sendFunnmelding() {
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), getContext(),new File(ImageSaver.getImagePath(getContext(),funn.getBildeID())));
         funn.setFunnmeldingSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        saveFind();
+        saveFind(); //TODO bytte ut med oppdatering av databasen
     }
 
     public void sendFunnskjema() {
