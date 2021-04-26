@@ -172,24 +172,5 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        // TAR  JSON STRING, DESERIALIZE AND HOPEFULLY SAVE
-        // TEST FIRST
-        // ingen lagre-kode implementert ennå fordi jeg skulle teste om den tok input at all
-        // trenger en slags json form for å teste med å sende json objekter
-        [HttpPost]
-        public bool dJ(String jsonStr)
-        {
-            try
-            {
-                var jImg = JsonConvert.DeserializeObject<dynamic>(jsonStr); // image from funn
-                Debug.WriteLine(jsonStr.ToString());
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message.ToString());
-                return false;
-            }
-        }
     }
 }

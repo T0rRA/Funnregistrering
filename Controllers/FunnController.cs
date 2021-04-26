@@ -16,15 +16,13 @@ using Microsoft.AspNetCore.Http;
 namespace FunnregistreringsAPI.Controllers
 {
     [Microsoft.AspNetCore.Mvc.Route("[controller]/[action]")]
-    public class FunnController : ApiController
+    public class FunnController : ControllerBase
     {
         private readonly FunnRepositoryInterface _db;
 
         public FunnController(FunnRepositoryInterface db)
         {
             _db = db;
-            Configuration = new System.Web.Http.HttpConfiguration();
-            Request = new System.Net.Http.HttpRequestMessage();
         }
 
 
@@ -40,17 +38,17 @@ namespace FunnregistreringsAPI.Controllers
                 //{
                 if (nyttFunn == null)
                 {
-                    return BadRequest();
+                    return (IHttpActionResult)BadRequest();
                 }
 
                 bool regOK = await _db.RegistrerFunn(nyttFunn, brukernavn);
-                if (!regOK) return BadRequest("Did not work out well");
-                return Ok("Funn is given!");
+                if (!regOK) return (IHttpActionResult)BadRequest("Did not work out well");
+                return (IHttpActionResult)Ok("Funn is given!");
                 //}
                 //return BadRequest("Bad Request 400");
             } catch (Exception e)
             {
-                return InternalServerError();
+                return (IHttpActionResult)StatusCode(500);
             }
         }
 
@@ -60,8 +58,8 @@ namespace FunnregistreringsAPI.Controllers
             //if (ModelState.IsValid)
             //{
             var getListOk = await _db.GetAllUserFunn(brukernavn, passord);
-            if (getListOk == null) return BadRequest();
-            return Ok();
+            if (getListOk == null) return (IHttpActionResult)BadRequest();
+            return (IHttpActionResult)Ok();
             //}
             //return BadRequest("BadRequest request 400");
         }
@@ -70,8 +68,8 @@ namespace FunnregistreringsAPI.Controllers
         public async Task<IHttpActionResult> DeleteFunn(int funnID)
         {
             bool deleteOK = await _db.DeleteFunn(funnID);
-            if (!deleteOK) return NotFound();
-            return Ok();
+            if (!deleteOK) return (IHttpActionResult)NotFound();
+            return (IHttpActionResult)Ok();
         } 
 
         [System.Web.Http.HttpPut]
@@ -79,37 +77,29 @@ namespace FunnregistreringsAPI.Controllers
         {
             if (f == null)
             {
-                return BadRequest();
+                return (IHttpActionResult)BadRequest();
             }
             bool editOK = await _db.EditFunn(f);
-            if (!editOK) return NotFound();
-            return Ok();
+            if (!editOK) return (IHttpActionResult)NotFound();
+            return (IHttpActionResult)Ok();
         }
 
         [System.Web.Http.HttpGet]
         public async Task<IHttpActionResult> GetFunn(String brukernavn, int funnID)
         {
-            if(brukernavn == null)
+            if (brukernavn == null)
             {
-                return BadRequest();
+                return (IHttpActionResult)BadRequest();
             }
             if (funnID == null)
             {
-                return BadRequest();
+                return (IHttpActionResult)BadRequest();
             }
             var getOk = await _db.GetFunn(brukernavn, funnID);
-            if (getOk == null) return NotFound();
-            return Ok();
+            if (getOk == null) return new NotFoundResult();
+            return (IHttpActionResult)Ok();
+
         }
-
-       /* [Microsoft.AspNetCore.Mvc.HttpPost]
-        public bool dJ(String jsonStr)
-        {
-            bool imgOk =  _db.dJ(jsonStr);
-            if (!imgOk) return true;
-            return false;
-        }*/
-
 
     }
 }
