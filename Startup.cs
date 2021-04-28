@@ -24,7 +24,9 @@ namespace FunnregistreringsAPI
         {
 
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            services.AddDbContext<FunnDB>(options => options.UseSqlite("Data Source=Funn.db"));
+            //services.AddDbContext<FunnDB>(options => options.UseSqlite("Data Source=Funn.db"));
+            //var configString = Configuration["ConnectionStrings:DefaultConnection"];
+            services.AddDbContext<FunnDB>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<BrukerRepositoryInterface, BrukerRepository>();
             services.AddScoped<FunnRepositoryInterface, FunnRepository>();
         }
@@ -35,7 +37,7 @@ namespace FunnregistreringsAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                DBInit.Initialize(app);
+                //DBInit.Initialize(app);
             }
 
             app.UseHttpsRedirection();

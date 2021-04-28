@@ -22,6 +22,6 @@ namespace Funnregistrering.Models
         public string Tlf { get; set; }
         //[RegularExpression(@"^[a-zA-Z0-9\-._ ]+@[a-zA-Z.\-]+\.[a-zA-Z]{2,20}$")]
         public string Epost { get; set; }
-        public virtual List<GBNr> eideGBNR { get; set; }
+        //public virtual List<GBNr> eideGBNR { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace FunnregistreringsAPI.DAL
             _appEnvironment = appEnvironment;
         }
 
-        public async Task<bool> RegistrerFunn(InnFunn nyttFunn, String brukernavn)
+        public async Task<string> RegistrerFunn(InnFunn nyttFunn, String brukernavn)
         {
             try
             {
@@ -133,13 +133,15 @@ namespace FunnregistreringsAPI.DAL
 
                     await _db.funn.AddAsync(nf);
                     await _db.SaveChangesAsync();
-                    return true;
+                    return "";
                 }
-                return false; // user not found
+                return "User not found. brukernavn: " +brukernavn +" and realUser: " + realUser.Brukernavn; // user not found
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return false;
+                return ("Message: " + e.Message +
+                    "Inner Exception: " + e.InnerException +
+                    "Stack Trace: " + e.StackTrace);
             }
         }
 
@@ -148,14 +150,13 @@ namespace FunnregistreringsAPI.DAL
             try
             {
                 var bruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
-                Debug.WriteLine("bruker: " + bruker);
                 if (bruker != null)
                 {
-                    var funnListe = bruker.MineFunn;
+                    // Get all user funn 
+                    List<Funn> funnListe = await _db.funn.Where(funn => funn.BrukerUserID == bruker.UserID).ToListAsync();
                     // find specific funn
                     foreach (Funn funn in funnListe)
                     {
-                        Debug.WriteLine("funn " + funn.FunnID + ": " + funn);
                         if (funn.FunnID == funnID)
                         {
                             // funn is found in users funnliste, now find it in the funn db
@@ -181,6 +182,7 @@ namespace FunnregistreringsAPI.DAL
             try
             {
                 Bruker funnetBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
+                if (funnetBruker == null) return null;
                 // Check pword
                 byte[] hash = BrukerRepository.CreateHash(passord, funnetBruker.Salt);
                 bool ok = hash.SequenceEqual(funnetBruker.Passord);
@@ -259,9 +261,10 @@ namespace FunnregistreringsAPI.DAL
 
         public async Task<GBNr> GetGBNr(string gbnr)
         {
+            throw new NotImplementedException();
             try
             {
-                var farm = await _db.gbnre.FirstOrDefaultAsync(g => g.gb_nr == gbnr);
+                var farm = await _db.GBNr.FirstOrDefaultAsync(g => g.gb_nr == gbnr);
                 if (farm != null)
                 {
                     return farm;

@@ -19,7 +19,8 @@ namespace FunnregistreringsAPI.DAL
         public DbSet<Postadresse> postadresser { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Grunneier> grunneiere { get; set; }
-        public DbSet<GBNr> gbnre { get; set; }
+        
+        public DbSet<GBNr> GBNr { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
