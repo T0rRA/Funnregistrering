@@ -246,7 +246,20 @@ namespace FunnregistreringsAPI.DAL
                     etFunn.datum = f.datum;
                     etFunn.areal_type = f.areal_type;
                     etFunn.funndato = f.funndato;
-                    etFunn.gbnr = f.gbnr;
+
+                    if(etFunn.gbnr.gb_nr != f.gbnr.gb_nr || etFunn.gbnr.grunneier.Fornavn != f.gbnr.grunneier.Fornavn || etFunn.gbnr.grunneier.Etternavn != f.gbnr.grunneier.Etternavn ||
+                        etFunn.gbnr.grunneier.Postnr.Postnr != f.gbnr.grunneier.Postnr.Postnr || etFunn.gbnr.grunneier.Postnr.Poststed != f.gbnr.grunneier.Postnr.Poststed
+                        || etFunn.gbnr.grunneier.Adresse != f.gbnr.grunneier.Adresse || etFunn.gbnr.grunneier.Epost != f.gbnr.grunneier.Epost || etFunn.gbnr.grunneier.Tlf != f.gbnr.grunneier.Tlf) 
+                    {
+                        etFunn.gbnr.gb_nr = f.gbnr.gb_nr;
+                        etFunn.gbnr.grunneier.Fornavn = f.gbnr.grunneier.Fornavn;
+                        etFunn.gbnr.grunneier.Etternavn = f.gbnr.grunneier.Etternavn;
+                        etFunn.gbnr.grunneier.Adresse = f.gbnr.grunneier.Adresse;
+                        etFunn.gbnr.grunneier.Epost = f.gbnr.grunneier.Epost;
+                        etFunn.gbnr.grunneier.Postnr.Postnr = f.gbnr.grunneier.Postnr.Postnr;
+                        etFunn.gbnr.grunneier.Postnr.Poststed = f.gbnr.grunneier.Postnr.Postnr;
+                        etFunn.gbnr.grunneier.Tlf = f.gbnr.grunneier.Tlf;
+                    }
 
                     await _db.SaveChangesAsync();
                     return true;

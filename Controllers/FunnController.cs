@@ -116,7 +116,7 @@ namespace FunnregistreringsAPI.Controllers
                 {
                     return NotFound("User does not exist");
                 }
-                if (funnID == null)
+                if (funnID == 0)
                 {
                     return NotFound("Funn does not exist");
                 }
