@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="area_type_array">
+        <item>Åker</item>
+        <item>Beite</item>
+        <item>Hage</item>
+        <item>Skog</item>
+        <item>Fjell</item>
+        <item>Strand</item>
+        <item>Vann</item>
+    </string-array>
+</resources>
