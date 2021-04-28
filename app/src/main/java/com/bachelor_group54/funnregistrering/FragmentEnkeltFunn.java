@@ -98,7 +98,7 @@ public class FragmentEnkeltFunn extends Fragment {
                 case 4: //Date
                     et.addTextChangedListener(new InputValidater(getContext(),false,true, false, 10, 10, et));
                     break;
-                case 5: //Location Fixme vet ikke hva som skal i dette feltet
+                case 5: //Location (Funnsted) Fixme vet ikke hva som skal i dette feltet
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 50, et));
                     break;
                 case 6: //Owner name
@@ -108,7 +108,7 @@ public class FragmentEnkeltFunn extends Fragment {
                 case 8: //Owner email
                     et.addTextChangedListener(new InputValidater(getContext(), true, true, true, 1, 50, et));
                     break;
-                case 9: //Owner postal code FIXME er postNr alltid 4 tall?
+                case 9:
                     et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 4, 4, et));
                     break;
                 case 10: //Owner post place
@@ -116,8 +116,8 @@ public class FragmentEnkeltFunn extends Fragment {
                 case 21: //Municipality
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 1, 30, et));
                     break;
-                case 11: //Owner tlf fixme utenlandske nr og +47?
-                    et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 8, 8, et));
+                case 11: //Owner tlf
+                    et.addTextChangedListener(new PhoneInputValidator(et));
                     break;
                 case 12: //Description //fixme skal denn være med?
                 case 17: //Other info
@@ -129,13 +129,13 @@ public class FragmentEnkeltFunn extends Fragment {
                 case 14: //Item marked with
                     et.addTextChangedListener(new InputValidater(getContext(), true, true, false, 0, 30, et));
                     break;
-                case 15: //Datum //Fixme ingen anelse om hva som skal stå i dette feltet
-                    et.addTextChangedListener(new InputValidater(getContext(), true, true, false, 0, 50, et));
+                case 15: //Datum
+                    et.addTextChangedListener(new InputValidater(getContext(), false, true, true, 0, 6, et));
                     break;
                 case 16: //Area type fixme make dropdown later
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 20, et));
                     break;
-                case 18: //Farm nr fixme vet ikke hva som skal stå her
+                case 18: //Farm fixme vet ikke hva som skal stå her
                 case 19: //Gbnr fixme vet ikke hva som skal stå her
                     et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 0, 20, et));
                     break;
@@ -440,7 +440,6 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public void sendFunnskjema() {
-        //TODO finne ut hvordan man lager PDF
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, funn.getBildeID(), getContext());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
         saveFind();

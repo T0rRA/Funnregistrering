@@ -44,12 +44,10 @@ public class FragmentRegistrereBruker extends Fragment {
         addressET.addTextChangedListener(new InputValidater(getContext(), true, true, true, 1 , 50, addressET));
 
         EditText postalcodeET = view.findViewById(R.id.postal_code_new); //finds the editText containing the postal code
-        //FIXME er postNR alltid 4 tall?
         postalcodeET.addTextChangedListener(new InputValidater(getContext(), false, true, false, 4 , 4, postalcodeET));
 
         EditText phoneNumET = view.findViewById(R.id.phone_num_new); //finds the editText containing the phone number
-        //FIXME +47? utenlandsk tlf?
-        phoneNumET.addTextChangedListener(new InputValidater(getContext(), false, true, false, 8 , 8, phoneNumET));
+        phoneNumET.addTextChangedListener(new PhoneInputValidator(phoneNumET));
 
         EditText emailET = view.findViewById(R.id.email_new); //finds the editText containing the email
         emailET.addTextChangedListener(new InputValidater(getContext(), true, true, true, 1 , 50, emailET));

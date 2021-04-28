@@ -51,7 +51,6 @@ public class FragmentRegistrereFunn extends Fragment {
         return view;
     }
 
-    //TODO finne ut hva vi skal ha av innputvalidering
     public void setTextWatchers() {
         EditText title = view.findViewById(R.id.nytt_funn_tittel_et);
         EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et);
@@ -93,7 +92,7 @@ public class FragmentRegistrereFunn extends Fragment {
         } else if (network_loc != null) { //Gets location from the network if network_loc is not null, only if the GPS was not found
             latitude = network_loc.getLatitude();
             longitude = network_loc.getLongitude();
-            Toast.makeText(getContext(), "Accuracy: " + network_loc.getAccuracy(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Accuracy: " + network_loc.getAccuracy(), Toast.LENGTH_LONG).show(); //TODO fjerne i ferdig program
         } //If nether network or gps can provide the location the default values of 0 and 0 is used instead, should be handled in the real program
 
         TextView textView = view.findViewById(R.id.gps_tv_nytt_funn); //Finds the textView on the main app screen
