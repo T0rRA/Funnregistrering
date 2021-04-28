@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Funnregistrering.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,5 +31,6 @@ namespace FunnregistreringsAPI.Models
         public string datum { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
         public string areal_type { get; set; }
+        public virtual GBNr gbnr { get; set; }
     }
 }

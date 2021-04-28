@@ -1,4 +1,5 @@
-﻿using FunnregistreringsAPI.Models;
+﻿using Funnregistrering.Models;
+using FunnregistreringsAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,6 @@ namespace FunnregistreringsAPI.DAL
         public Task<bool> DeleteFunn(int funnID);
         public Task<bool> EditFunn(Funn f);
         public Task<Funn> GetFunn(String brukernavn, int funnID);
+        public Task<GBNr> GetGBNr(string gbnr);
     }
 }

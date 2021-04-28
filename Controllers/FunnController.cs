@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Net;
 using System.Web;
 using Microsoft.AspNetCore.Http;
+using Funnregistrering.Models;
 
 namespace FunnregistreringsAPI.Controllers
 {
@@ -30,7 +31,7 @@ namespace FunnregistreringsAPI.Controllers
         //Is it feasible to every time person logs in the "password" is physically saved on the device so that we can confirm their status?
 
         [System.Web.Http.HttpPost]
-        public async Task<IHttpActionResult> RegistrerFunn([System.Web.Http.FromBody] InnFunn nyttFunn, string brukernavn)
+        public async Task<ActionResult> RegistrerFunn([System.Web.Http.FromBody] InnFunn nyttFunn, string brukernavn)
         {
             try
             {
@@ -38,67 +39,103 @@ namespace FunnregistreringsAPI.Controllers
                 //{
                 if (nyttFunn == null)
                 {
-                    return (IHttpActionResult)BadRequest();
+                    return BadRequest("There is no funn to be registered");
                 }
 
                 bool regOK = await _db.RegistrerFunn(nyttFunn, brukernavn);
-                if (!regOK) return (IHttpActionResult)BadRequest("Did not work out well");
-                return (IHttpActionResult)Ok("Funn is given!");
+                if (!regOK) return NotFound("Did not work out well");
+                return Ok("Funn is registered!");
                 //}
                 //return BadRequest("Bad Request 400");
             } catch (Exception e)
             {
-                return (IHttpActionResult)StatusCode(500);
+                return BadRequest(e.Message);
             }
         }
 
         [System.Web.Http.HttpGet]
-        public async Task<IHttpActionResult> GetAllUserFunn(String brukernavn, String passord)
+        public async Task<ActionResult> GetAllUserFunn(String brukernavn, String passord)
         {
             //if (ModelState.IsValid)
             //{
-            var getListOk = await _db.GetAllUserFunn(brukernavn, passord);
-            if (getListOk == null) return (IHttpActionResult)BadRequest();
-            return (IHttpActionResult)Ok();
+            try
+            {
+                var getListOk = await _db.GetAllUserFunn(brukernavn, passord);
+                if (getListOk == null) return NotFound("No list exists");
+                return Ok(getListOk);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
             //}
             //return BadRequest("BadRequest request 400");
         }
 
         [System.Web.Http.HttpDelete]
-        public async Task<IHttpActionResult> DeleteFunn(int funnID)
+        public async Task<ActionResult> DeleteFunn(int funnID)
         {
             bool deleteOK = await _db.DeleteFunn(funnID);
-            if (!deleteOK) return (IHttpActionResult)NotFound();
-            return (IHttpActionResult)Ok();
+            if (!deleteOK) return (ActionResult)NotFound();
+            return (ActionResult)Ok();
         } 
 
         [System.Web.Http.HttpPut]
-        public async Task<IHttpActionResult> EditFunn(Funn f)
+        public async Task<ActionResult> EditFunn(Funn f)
         {
-            if (f == null)
+            try
             {
-                return (IHttpActionResult)BadRequest();
+                if (f == null)
+                {
+                    return NotFound("Funn is empty/not found");
+                }
+                bool editOK = await _db.EditFunn(f);
+                if (!editOK) return NotFound("Funn could not be edited");
+                return Ok("Funn was edited");
             }
-            bool editOK = await _db.EditFunn(f);
-            if (!editOK) return (IHttpActionResult)NotFound();
-            return (IHttpActionResult)Ok();
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
         }
 
         [System.Web.Http.HttpGet]
-        public async Task<IHttpActionResult> GetFunn(String brukernavn, int funnID)
+        public async Task<ActionResult> GetFunn(String brukernavn, int funnID)
         {
-            if (brukernavn == null)
+            try
             {
-                return (IHttpActionResult)BadRequest();
+                if (brukernavn == null)
+                {
+                    return NotFound("User does not exist");
+                }
+                if (funnID == null)
+                {
+                    return NotFound("Funn does not exist");
+                }
+                var getOk = await _db.GetFunn(brukernavn, funnID);
+                if (getOk == null) return NotFound("Could not get funn");
+                return Ok(getOk);
             }
-            if (funnID == null)
+            catch (Exception e)
             {
-                return (IHttpActionResult)BadRequest();
+                return BadRequest(e.Message);
             }
-            var getOk = await _db.GetFunn(brukernavn, funnID);
-            if (getOk == null) return new NotFoundResult();
-            return (IHttpActionResult)Ok();
 
+        }
+
+        public async Task<ActionResult> GetGBNr(string gbnr)
+        {
+            try
+            {
+                var getNr = await _db.GetGBNr(gbnr);
+                if (getNr != null) return Ok(getNr);
+                return NotFound("Fant ikke gårdsbrukseier");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
     }

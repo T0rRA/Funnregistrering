@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.AspNetCore.Hosting;
 using Paket;
-
+using Funnregistrering.Models;
 
 namespace FunnregistreringsAPI.DAL
 {
@@ -66,12 +66,14 @@ namespace FunnregistreringsAPI.DAL
             try
             {
                 var bruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
+                Debug.WriteLine("bruker: " + bruker);
                 if (bruker != null)
                 {
                     var funnListe = bruker.MineFunn;
                     // find specific funn
                     foreach (Funn funn in funnListe)
                     {
+                        Debug.WriteLine("funn " + funn.FunnID + ": " + funn);
                         if (funn.FunnID == funnID)
                         {
                             // funn is found in users funnliste, now find it in the funn db
@@ -169,6 +171,24 @@ namespace FunnregistreringsAPI.DAL
             catch (Exception e)
             {
                 return false;
+            }
+        }
+
+        public async Task<GBNr> GetGBNr(string gbnr)
+        {
+            try
+            {
+                var farm = await _db.gbnre.FirstOrDefaultAsync(g => g.gb_nr == gbnr);
+                if (farm != null)
+                {
+                    return farm;
+                }
+                return null; // farm not found in list
+            }
+
+            catch (Exception e)
+            {
+                return null;
             }
         }
 

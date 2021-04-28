@@ -1,4 +1,5 @@
-﻿using FunnregistreringsAPI.Models;
+﻿using Funnregistrering.Models;
+using FunnregistreringsAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -17,6 +18,8 @@ namespace FunnregistreringsAPI.DAL
         public DbSet<PwReset> passordReset { get; set; }
         public DbSet<Postadresse> postadresser { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<Grunneier> grunneiere { get; set; }
+        public DbSet<GBNr> gbnre { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
