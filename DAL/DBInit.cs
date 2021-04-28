@@ -70,7 +70,7 @@ namespace FunnregistreringsAPI.DAL
                 */
                 var funn2 = new Funn
                 {
-                    image = "Images/tobytheguarddog",
+                    //image = "Images/tobytheguarddog",
                     areal_type = "jorde",
                     datum = "12.03.2021",
                     funndato = "11.02.2021",

@@ -32,27 +32,106 @@ namespace FunnregistreringsAPI.DAL
         {
             try
             {
+                //FIRST GBNr and grunneier checks!
+                //First check if the GBNr doesn't exist
+                GBNr checkGBNr = await _db.gbnre.FirstOrDefaultAsync(gb => gb.gb_nr == nyttFunn.innGBNr.gb_nr);
+                //worst path -> start creating new postnumber -> new grunneier -> new gbnr -> add gbnr to grunneier -> save changes
+                if (checkGBNr == null)
+                {
+
+                    //If the GBNr doesn't exist, check if the Grunneier exists
+                    Grunneier checkGrunneier = await _db.grunneiere.FirstOrDefaultAsync(ge => ge.Adresse == nyttFunn.innGBNr.grunneier.Adresse);
+                    if(checkGrunneier == null)
+                    {
+
+                        //if it doesn't exist check if postnumber exists
+                        Postadresse pa = await _db.postadresser.FirstOrDefaultAsync(post => post.Postnr == nyttFunn.innGBNr.grunneier.Postnr);
+                        if(pa == null)
+                        {
+                            //start creating new postnumber -
+                            Postadresse newPa = new Postadresse
+                            {
+                                Postnr = nyttFunn.innGBNr.grunneier.Postnr,
+                                Poststed = nyttFunn.innGBNr.grunneier.Poststed
+                            };
+
+                            //prep for db
+                            await _db.postadresser.AddAsync(newPa);
+                            //to overwrite pa so that we can use pa as the common variable in line 69
+                            pa = newPa;
+                        } 
+
+                        //create new grunneier
+                        Grunneier ge = new Grunneier
+                        {
+                            Fornavn = nyttFunn.innGBNr.grunneier.Fornavn,
+                            Etternavn = nyttFunn.innGBNr.grunneier.Etternavn,
+                            Epost = nyttFunn.innGBNr.grunneier.Epost,
+                            Adresse = nyttFunn.innGBNr.grunneier.Adresse,
+                            Tlf = nyttFunn.innGBNr.grunneier.Tlf, 
+                            Postnr = pa  //either the new post adress or an old one
+                        };
+
+                        //new gbnr
+                        GBNr gb = new GBNr
+                        {
+                            gb_nr = nyttFunn.innGBNr.gb_nr,
+                            grunneier = ge
+                        };
+
+                        //create list for grunneier and add the gbnr to it
+                        ge.eideGBNR = new List<GBNr>();
+                        ge.eideGBNR.Add(gb);
+
+                        //add to db and save.
+                        await _db.grunneiere.AddAsync(ge);
+                        await _db.gbnre.AddAsync(gb);
+                        await _db.SaveChangesAsync();
+
+                        checkGrunneier = ge;
+                        checkGBNr = gb;
+                        
+                    }
+                    //next path if GBNr is null but Grunneier is not.
+                    else
+                    {
+                        GBNr gb = new GBNr
+                        {
+                            gb_nr = nyttFunn.innGBNr.gb_nr,
+                            grunneier = checkGrunneier
+                        };
+                        await _db.gbnre.AddAsync(gb);
+
+                        checkGrunneier.eideGBNR.Add(gb);
+
+                        await _db.SaveChangesAsync();
+                        checkGBNr = gb;
+                    }
+                }
+                //GBNr og Grunneier håndtering FINISHED
+
+
                 Bruker realUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
+
+                byte[] theImage = Convert.FromBase64String(nyttFunn.image);
                 if (realUser != null) // user found
                 {
                     var nf = new Funn
                     {
                         koordinat = nyttFunn.koordinat,
                         kommune = nyttFunn.kommune,
-                        image = nyttFunn.image,
+                        image = theImage,
                         gjenstand_markert_med = nyttFunn.gjenstand_markert_med,
                         fylke = nyttFunn.fylke,
                         funndybde = nyttFunn.funndybde,
                         datum = nyttFunn.datum,
                         areal_type = nyttFunn.areal_type,
                         funndato = nyttFunn.funndato,
-                        BrukerUserID = realUser.UserID
+                        BrukerUserID = realUser.UserID,
+                        gbnr = checkGBNr
                     };
 
-
-
-
-                    _db.funn.Add(nf);
+                    await _db.funn.AddAsync(nf);
                     await _db.SaveChangesAsync();
                     return "";
                 }
@@ -167,6 +246,7 @@ namespace FunnregistreringsAPI.DAL
                     etFunn.datum = f.datum;
                     etFunn.areal_type = f.areal_type;
                     etFunn.funndato = f.funndato;
+                    etFunn.gbnr = f.gbnr;
 
                     await _db.SaveChangesAsync();
                     return true;

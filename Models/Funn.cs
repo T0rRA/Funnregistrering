@@ -15,7 +15,7 @@ namespace FunnregistreringsAPI.Models
         public int FunnID { get; set; }
         //[RegularExpression(@"^[0-9]+$")]
         public int BrukerUserID { get; set; }
-        public String image { get; set; }
+        public byte[] image { get; set; }
         public string funndato { get; set; }
 
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
