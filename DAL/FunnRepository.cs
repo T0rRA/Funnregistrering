@@ -34,7 +34,7 @@ namespace FunnregistreringsAPI.DAL
             {
                 //FIRST GBNr and grunneier checks!
                 //First check if the GBNr doesn't exist
-                GBNr checkGBNr = await _db.gbnre.FirstOrDefaultAsync(gb => gb.gb_nr == nyttFunn.innGBNr.gb_nr);
+                GBNr checkGBNr = await _db.GBNr.FirstOrDefaultAsync(gb => gb.gb_nr == nyttFunn.innGBNr.gb_nr);
                 //worst path -> start creating new postnumber -> new grunneier -> new gbnr -> add gbnr to grunneier -> save changes
                 if (checkGBNr == null)
                 {
@@ -85,7 +85,7 @@ namespace FunnregistreringsAPI.DAL
 
                         //add to db and save.
                         await _db.grunneiere.AddAsync(ge);
-                        await _db.gbnre.AddAsync(gb);
+                        await _db.GBNr.AddAsync(gb);
                         await _db.SaveChangesAsync();
 
                         checkGrunneier = ge;
@@ -100,7 +100,7 @@ namespace FunnregistreringsAPI.DAL
                             gb_nr = nyttFunn.innGBNr.gb_nr,
                             grunneier = checkGrunneier
                         };
-                        await _db.gbnre.AddAsync(gb);
+                        await _db.GBNr.AddAsync(gb);
 
                         checkGrunneier.eideGBNR.Add(gb);
 
