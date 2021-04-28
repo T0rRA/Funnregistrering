@@ -33,20 +33,16 @@ public class UploadToServer extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         //Makes the url
-        StringBuilder query = new StringBuilder("https://funnapi.azurewebsites.net/" + strings[0] + "?");
-        for (int i = 2; i < strings.length; i++) {
-            if (i > 2) {
-                query.append("&");
-            }
-            query.append(strings[i]);
-        }
+        StringBuilder query = new StringBuilder("https://funnapi.azurewebsites.net/" + strings[0]);
 
         try {
             JSONObject jsonObject = new JSONObject();
 
-            //Makes jsonObject for the image, and puts the base64 string of the image
-            String[] nameValueStrings = strings[1].split("="); //Element 1 in string contains the image (image=imageString)
-            jsonObject.put(nameValueStrings[0], nameValueStrings[1]);
+            //Loops trough the strings and adds them to the JSON object (except the first one witch is the url)
+            for (int i = 1; i < strings.length; i++) {
+                String[] nameValueStrings = strings[i].split(":"); //Splits the string in variable name and value name example: Image (image:imageString) name=image value = imageString.
+                jsonObject.put(nameValueStrings[0], nameValueStrings[1]); //Adds the string to the JSON object
+            }
 
             String data = jsonObject.toString();
 

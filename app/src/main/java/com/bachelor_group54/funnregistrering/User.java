@@ -15,7 +15,6 @@ public class User {
     }
     //Singleton design pattern end
 
-
     public String getUsername() {
         return username;
     }
