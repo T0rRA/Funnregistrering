@@ -260,6 +260,22 @@ namespace FunnregistreringsAPI.DAL
                     ny_bruker.Etternavn = bruker.Etternavn;
                     ny_bruker.Adresse = bruker.Adresse;
 
+                    Postadresse postadress1 = await _db.postadresser.FirstOrDefaultAsync(post => post.Postnr == bruker.Postnr);
+                    if (postadress1 == null)
+                    {
+                        Postadresse postadresse = new Postadresse
+                        {
+                            Postnr = bruker.Postnr,
+                            Poststed = bruker.Poststed
+                        };
+                        ny_bruker.Postnr = postadresse;
+                        await _db.postadresser.AddAsync(postadresse);
+                    }
+                    else
+                    {
+                        ny_bruker.Postnr = postadress1;
+                        await _db.postadresser.AddAsync(postadress1);
+                    }
                     // find postal address
                     /*var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
                     if (finnPostadr == null)
@@ -285,6 +301,7 @@ namespace FunnregistreringsAPI.DAL
                     ny_bruker.Tlf = bruker.Tlf;
                     ny_bruker.Epost = bruker.Epost;
                     ny_bruker.MineFunn = new List<Funn>(); // empty list
+
 
                     _db.brukere.Add(ny_bruker);
                     await _db.SaveChangesAsync();

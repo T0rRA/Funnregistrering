@@ -10,7 +10,7 @@ namespace FunnregistreringsAPI.Models
     interface FunnInterface
     {
         //GRUNNEIER GOES HERE?? Potentially a DB for Grunneiere - or previously registered grunneiere for each G/Bnr
-        public string image { get; set; }
+        //public string image { get; set; }
         public string funndato { get; set; }
         public string kommune { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ-._ ]{2,20}$")]
