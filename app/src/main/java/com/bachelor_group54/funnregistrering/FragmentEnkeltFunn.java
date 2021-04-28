@@ -72,12 +72,12 @@ public class FragmentEnkeltFunn extends Fragment {
         scalebmp =Bitmap.createScaledBitmap(bmp,2480,3508,false);
 
 
-        //TODO: checking and requesting : Flytte til knappen kanskje?
+/*        //TODO: Disse rettighetene er knyttet til external storage, SLETT KODEN
         if(checkPermission()){
             Toast.makeText( getContext(), "Tilattelse innvilget",Toast.LENGTH_SHORT).show();
         }else{
             requestPermission();
-        }
+        }*/
 
         loadFunn();
         updateStatusBtn();
@@ -353,7 +353,7 @@ public class FragmentEnkeltFunn extends Fragment {
         PdfDocument pdfDocument = new PdfDocument();
 
         //Paint is used to draw shapes and add text
-        Paint logo = new Paint();
+        Paint picture = new Paint();
         Paint text = new Paint();
 
         /*Adding pageInfo to the the PDF
@@ -372,7 +372,7 @@ public class FragmentEnkeltFunn extends Fragment {
         * position from left is the 2nd parameter,
         * position from top is the 3rd parameter,
         * the paint variable is the 4th parameter. */
-        canvas.drawBitmap(scalebmp,0,0,logo);
+        canvas.drawBitmap(scalebmp,0,0,picture);
 
         // adding typeface for the text
         text.setTypeface(Typeface.create(Typeface.MONOSPACE,Typeface.NORMAL));
@@ -448,7 +448,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
         //sets storage path
         String path = getContext().getFilesDir().getPath(); //Gets program path
-        String filename = "/funnskjema.pdf"; //Sets the iamge name TODO: add Dynamisk navn på funnskjema
+        String filename = "/funnskjema.pdf"; //Sets the image name TODO: add Dynamisk navn på funnskjema(?)
         File file = new File(path+filename);
 
         //writes the pdf to the path
@@ -462,7 +462,9 @@ public class FragmentEnkeltFunn extends Fragment {
         pdfDocument.close();
         return file;
     }
-    //Checking permissions
+
+    //TODO: Disse rettighetene er knyttet til external storage, SLETT UTkommentert kode
+   /* //Checking permissions
     private boolean checkPermission(){
         int permission1 = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int permission2 = ActivityCompat.checkSelfPermission(getContext(), READ_EXTERNAL_STORAGE);
@@ -476,7 +478,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[]permissions, @ NonNull int[]grantResult){
         if(requestCode == PERMISSION_REQUEST_CODE){
-            if(grantResult.length>0){
+            if(grantResult.length>1){
                 boolean write = grantResult[0] == PackageManager.PERMISSION_GRANTED;
                 boolean read = grantResult[1] == PackageManager.PERMISSION_GRANTED;
 
@@ -487,7 +489,7 @@ public class FragmentEnkeltFunn extends Fragment {
                 }
             }
         }
-    }
+    }*/
 
 
     public void savePicture() {
