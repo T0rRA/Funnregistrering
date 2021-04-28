@@ -238,7 +238,7 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        public async Task<bool> CreateUser(InnBruker bruker)
+        public async Task<string> CreateUser(InnBruker bruker)
         {
             try
             {
@@ -261,7 +261,7 @@ namespace FunnregistreringsAPI.DAL
                     ny_bruker.Adresse = bruker.Adresse;
 
                     // find postal address
-                    /*var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
+                    var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
                     if (finnPostadr == null)
                     {
                         // Post code is not in the database
@@ -270,21 +270,16 @@ namespace FunnregistreringsAPI.DAL
                         ny_postadresse.Poststed = bruker.Poststed;
                         _db.postadresser.Add(ny_postadresse); // add postal code to db
 
-                        //ny_bruker.Poststed = bruker.Poststed;
-                        //ny_bruker.Postnr = bruker.Postnr;
                         ny_bruker.Postnr = ny_postadresse;
                     }
                     else
                     {
                         // Post code is found
-                        //ny_bruker.Postnr = finnPostadr.Postnr;
-                        //ny_bruker.Poststed = finnPostadr.Poststed;
                         ny_bruker.Postnr = finnPostadr;
 
-                    }*/
+                    }
                     ny_bruker.Tlf = bruker.Tlf;
                     ny_bruker.Epost = bruker.Epost;
-                    ny_bruker.MineFunn = new List<Funn>(); // empty list
 
                     _db.brukere.Add(ny_bruker);
                     await _db.SaveChangesAsync();
@@ -312,23 +307,25 @@ namespace FunnregistreringsAPI.DAL
                     emailMessage.To.Add(mottaker);
                     await smtpClient.SendMailAsync(emailMessage); // sends mail*/
                     
-                    return true;
+                    return "";
 
                 }
                 else
                 {
                     // User already exists
-                    return false;
+                    return "Bruker finnes allerede";
                 }
 
             }
             catch (Exception e)
             {
-                return false;
+                return ("Message: " + e.Message +
+                   "Inner Exception: " + e.InnerException +
+                   "Stack Trace: " + e.StackTrace);
             }
         }
 
-        public async Task<bool> EditUser(InnBruker bruker)
+        public async Task<string> EditUser(InnBruker bruker)
         {
             // InnBruker bruker contains edited user information
             // The user will only send inn InnBruker-object that have no null-values
@@ -339,7 +336,7 @@ namespace FunnregistreringsAPI.DAL
                 {
                     // bruker exists
                     // check if new postnr has changed
-                    if (enBruker.Postnr.Postnr != bruker.Postnr && bruker.Postnr!= null)
+                    if (enBruker.Postnr.Postnr != bruker.Postnr || enBruker.Postnr.Postnr == null)
                     {
                         // postnr has changed
                         // does it exist in our db?
@@ -351,15 +348,12 @@ namespace FunnregistreringsAPI.DAL
                             nyPostadr.Postnr = bruker.Postnr;
                             nyPostadr.Poststed = bruker.Poststed;
 
-                            //enBruker.Postnr = bruker.Postnr;
-                            //enBruker.Poststed = bruker.Poststed;
+
                             enBruker.Postnr = nyPostadr;
                         }
                         else
                         {
                             // it exists in our db
-                            //enBruker.Postnr = bruker.Postnr;
-                            //enBruker.Poststed = bruker.Poststed;
                             enBruker.Postnr = postNr;
                         }
                     }
@@ -369,17 +363,19 @@ namespace FunnregistreringsAPI.DAL
                     enBruker.Tlf = bruker.Tlf;
                     enBruker.Epost = bruker.Epost;
                     await _db.SaveChangesAsync();
-                    return true;
+                    return "";
                 }
                 else
                 {
                     // bruker does not exist
-                    return false;
+                    return "Bruker finnes ikke";
                 }
             }
             catch (Exception e)
             {
-                return false;
+                return ("Message: " + e.Message +
+                    "Inner Exception: " + e.InnerException +
+                    "Stack Trace: " + e.StackTrace);
             }
         }
 
@@ -397,7 +393,7 @@ namespace FunnregistreringsAPI.DAL
                     if (hash.SequenceEqual(enBruker.Passord))
                     {
                         // password is correct, so delete user
-                        List<Funn> funnListe = enBruker.MineFunn;
+                        List<Funn> funnListe = await _db.funn.Where(funn => funn.BrukerUserID == enBruker.UserID).ToListAsync();
                         foreach (Funn f in funnListe)
                         {
                             // delete each funn

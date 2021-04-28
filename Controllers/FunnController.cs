@@ -42,8 +42,8 @@ namespace FunnregistreringsAPI.Controllers
                     return BadRequest("There is no funn to be registered");
                 }
 
-                bool regOK = await _db.RegistrerFunn(nyttFunn, brukernavn);
-                if (!regOK) return NotFound("Did not work out well");
+                string regOK = await _db.RegistrerFunn(nyttFunn, brukernavn);
+                if (regOK != "") return NotFound(regOK);
                 return Ok("Funn is registered!");
                 //}
                 //return BadRequest("Bad Request 400");
@@ -75,9 +75,16 @@ namespace FunnregistreringsAPI.Controllers
         [System.Web.Http.HttpDelete]
         public async Task<ActionResult> DeleteFunn(int funnID)
         {
-            bool deleteOK = await _db.DeleteFunn(funnID);
-            if (!deleteOK) return (ActionResult)NotFound();
-            return (ActionResult)Ok();
+            try
+            {
+                bool deleteOK = await _db.DeleteFunn(funnID);
+                if (!deleteOK) return NotFound("Funn could not be deleted");
+                return Ok("Funn was successfully deleted");
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         } 
 
         [System.Web.Http.HttpPut]
@@ -114,7 +121,7 @@ namespace FunnregistreringsAPI.Controllers
                     return NotFound("Funn does not exist");
                 }
                 var getOk = await _db.GetFunn(brukernavn, funnID);
-                if (getOk == null) return NotFound("Could not get funn");
+                if (getOk == null) return NotFound("Could not get funn, your list might be empty");
                 return Ok(getOk);
             }
             catch (Exception e)
