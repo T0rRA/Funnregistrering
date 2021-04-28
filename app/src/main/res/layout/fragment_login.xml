@@ -4,22 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingTop="20dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="20dp">
+    android:paddingTop="20dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="75dp">
     <EditText
         android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_user_name" />
+        android:hint="@string/login_user_name"
+        />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/login_password" />
+    </LinearLayout>
 
     <Button
         android:layout_width="100dp"
@@ -36,7 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:paddingBottom="20dp"
+            app:layout_constraintBottom_toTopOf="@id/bottomColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -51,6 +57,17 @@
                 android:layout_height="wrap_content"
                 android:onClick="fragmentLoginRegBtn"
                 android:text="@string/login_Reg_here" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/bottomColor"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary">
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
