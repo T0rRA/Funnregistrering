@@ -20,7 +20,6 @@ public class EmailIntent {
         email.putExtra(Intent.EXTRA_SUBJECT, subject); //The email subject
         email.putExtra(Intent.EXTRA_TEXT, message); //The email text
 
-        //If the pictureNr == 0 then the picture has not been set
         if(files[0] != null) {
             for(File file: files) { //Looping the files
                 //Attaching the image to the email

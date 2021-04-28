@@ -91,7 +91,7 @@ public class FragmentEnkeltFunn extends Fragment {
         updateStatusBtn();
     }
 
-    //Parmams: str = the string for we want to split. splitSize is the size of each split.
+    //Parmams: str is the string we want to split. splitSize is the size of each split.
     public ArrayList<String> makeLine(String str, int splitSize){
         ArrayList<String> lines = new ArrayList<>();
         StringBuilder outString = new StringBuilder();
@@ -448,7 +448,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
         //sets storage path
         String path = getContext().getFilesDir().getPath(); //Gets program path
-        String filename = "/funnskjema.pdf"; //Sets the image name TODO: add Dynamisk navn på funnskjema(?)
+        String filename = "/funnskjema.pdf"; //Sets the pdf name TODO: add Dynamisk navn på funnskjema(?)
         File file = new File(path+filename);
 
         //writes the pdf to the path
@@ -578,7 +578,7 @@ public class FragmentEnkeltFunn extends Fragment {
     public void sendFunnmelding() {
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), getContext(),new File(ImageSaver.getImagePath(getContext(),funn.getBildeID())));
         funn.setFunnmeldingSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        saveFind();
+        saveFind(); //TODO bytte ut med oppdatering av databasen
     }
 
     public void sendFunnskjema() {
@@ -586,7 +586,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
         EmailIntent.sendEmail("tor.ryan.andersen@gmail.com"/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, getContext(), pdfGenerator());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        saveFind();
+        saveFind(); //TODO bytte ut med oppdatering av databasen
     }
 
     //Updates the status buttons when editText are changed
