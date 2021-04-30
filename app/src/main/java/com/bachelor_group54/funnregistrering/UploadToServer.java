@@ -59,12 +59,13 @@ public class UploadToServer extends AsyncTask<String, Void, String> {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
             writer.write(data);
 
-            Log.d("ImageUploadLog", "Data to php = " + data);
+            System.out.println("Data to php = " + data);
             writer.flush();
             writer.close();
             out.close();
             connection.connect();
 
+            System.out.println("-------------------------------\n" + connection.getResponseCode());
             InputStream in = new BufferedInputStream(connection.getInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     in, StandardCharsets.UTF_8));
@@ -77,9 +78,9 @@ public class UploadToServer extends AsyncTask<String, Void, String> {
             String result = sb.toString();
             Log.d("ImageUploadLog", "Response from php = " + result);
             //Response = new JSONObject(result);
-            connection.disconnect();
 
-            return result;
+            connection.disconnect();
+            return "result";
         } catch (Exception e) {
             Log.d("ImageUploadLog", "Error Encountered");
             e.printStackTrace();

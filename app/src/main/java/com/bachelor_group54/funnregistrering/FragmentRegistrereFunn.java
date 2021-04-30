@@ -24,11 +24,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -186,14 +191,64 @@ public class FragmentRegistrereFunn extends Fragment {
                 "koordinat=" + funn.getLatitude() + "N " + funn.getLongitude() + "W" + "datum=" + funn.getDatum() +
                 "areal_type=" + funn.getArealType() + "brukernavn=" + username); */
 
-        UploadToServer uploadToServer = new UploadToServer(getContext());
-        uploadToServer.execute("Funn/RegistrerFunn", "image:" + ImageSaver.makeBase64FromBitmap(picture),
+       /* UploadToServer uploadToServer = new UploadToServer(getContext());
+        uploadToServer.execute("funn/RegistrerFunn",  //"image:" + ImageSaver.makeBase64FromBitmap(picture),
                 "funndato:" + funn.getDato(), "kommune:" + funn.getKommune(), "fylke:" + funn.getFylke(),
-                "funndybde:" + funn.getFunndybde(), "gjenstand_markert_med:" + funn.getGjenstandMerking(),
+                "funndybde:" + funn.getFunndybde(), "gjenstand_markert_med:" + "Stjerne"*//* fixme uncomment funn.getGjenstandMerking() *//*,
                 "koordinat:" + funn.getLatitude() + "N " + funn.getLongitude() + "W", "datum:" + funn.getDatum(),
-                "areal_type:" + funn.getArealType(), "brukernavn:" + "helge" /*fixme uncomment user.getUsername*/);
+                "areal_type:" + funn.getArealType(), "brukernavn:" + "helge" *//*fixme uncomment user.getUsername*//*,
+                "innGBNr.gb_nr:" + funn.getGbnr(), "innGBNr.grunneier.Fornavn:" + funn.getGrunneierNavn() *//*TODO lage fornavn og etternavn for grunneier*//*,
+                "innGBNr.grunneier.Etternavn:" + funn.getGrunneierNavn(), "innGBNr.grunneier.Adresse:" + funn.getGrunneierAdresse(),
+                "innGBNr.grunneier.Postnr:" + funn.getGrunneierPostNr(), "innGBNr.grunneier.Poststed:" + funn.getGrunneierPostSted(),
+                "innGBNr.grunneier.Tlf:" + funn.getGrunneierTlf(), "innGBNr.grunneier.Epost:" + funn.getGrunneierEpost());*/
 
-        //TODO legge til info om grunneier
+        
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("image" , ImageSaver.makeBase64FromBitmap(picture));
+            postData.put("funndato" , funn.getDato());
+            postData.put("kommune", funn.getKommune());
+            postData.put("fylke" , funn.getFylke());
+            postData.put("funndybde" , funn.getFunndybde() + "");
+            postData.put("gjenstand_markert_med" , "Stjerne");
+            postData.put("koordinat" , funn.getLatitude() + "N " + funn.getLongitude() + "W");
+            postData.put("datum" , funn.getDatum());
+            postData.put("areal_type" , funn.getArealType());
+            postData.put("brukernavn" , "helge");
+            postData.put("innGBNr.gb_nr" , funn.getGbnr());
+            postData.put("innGBNr.grunneier.Fornavn" , funn.getGrunneierNavn());
+            postData.put( "innGBNr.grunneier.Etternavn" , funn.getGrunneierNavn());
+            postData.put("innGBNr.grunneier.Adresse" , funn.getGrunneierAdresse());
+            postData.put("innGBNr.grunneier.Postnr" , funn.getGrunneierPostNr());
+            postData.put("innGBNr.grunneier.Poststed" , funn.getGrunneierPostSted());
+            postData.put("innGBNr.grunneier.Tlf" , funn.getGrunneierTlf());
+            postData.put("innGBNr.grunneier.Epost" , funn.getGrunneierEpost());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("image" , ImageSaver.makeBase64FromBitmap(picture) == null ? "" : ImageSaver.makeBase64FromBitmap(picture));
+        params.put("funndato" , funn.getDato() == null ? "" : funn.getDato());
+        params.put("kommune", funn.getKommune() == null ? "" : funn.getKommune());
+        params.put("fylke" , funn.getFylke() == null ? "" : funn.getFylke());
+        params.put("funndybde" , funn.getFunndybde()+"");
+        params.put("gjenstand_markert_med" , "Stjerne");
+        params.put("koordinat" , funn.getLatitude() + "N " + funn.getLongitude() + "W");
+        params.put("datum" , funn.getDatum() == null ? "" : funn.getDatum());
+        params.put("areal_type" , funn.getArealType() == null ? "" : funn.getArealType());
+        params.put("brukernavn" , "helge");
+        params.put("innGBNr.gb_nr" , funn.getGbnr() == null ? "" : funn.getGbnr());
+        params.put("innGBNr.grunneier.Fornavn" , funn.getGrunneierNavn() == null ? "" : funn.getGrunneierNavn());
+        params.put( "innGBNr.grunneier.Etternavn" , funn.getGrunneierNavn() == null ? "" : funn.getGrunneierNavn());
+        params.put("innGBNr.grunneier.Adresse" , funn.getGrunneierAdresse() == null ? "" : funn.getGrunneierAdresse());
+        params.put("innGBNr.grunneier.Postnr" , funn.getGrunneierPostNr() == null ? "" : funn.getGrunneierPostNr());
+        params.put("innGBNr.grunneier.Poststed" , funn.getGrunneierPostSted() == null ? "" : funn.getGrunneierPostSted());
+        params.put("innGBNr.grunneier.Tlf" , funn.getGrunneierTlf() == null ? "" : funn.getGrunneierPostSted());
+        params.put("innGBNr.grunneier.Epost" , funn.getGrunneierEpost() == null ? "" : funn.getGrunneierPostSted());
+
+        SendToServer.postRequest(getContext(), params);
+        //SendToServer.getServerResponse(postData.toString(), getContext());
     }
 
     //Takes the latitude and longitude of the gps coordinates and sets the kommune and fylke of the find
