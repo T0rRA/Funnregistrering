@@ -29,5 +29,5 @@
     <string name="confirm_pw">Gjenta passord</string>
     <string name="fragment_enkelt_funn_status_btn_funnmelding">send inn funnmelding</string>
     <string name="enkelt_funn_status_btn_funnskjema">Send inn funnskjema</string>
-    <string name="introText">Dette er en applikasjon for innmelding av løse funn  Her kan du også sende funnskjema, og lage en oversikt over dine egne funn. \n \nKos deg!</string>
+    <string name="introText">Dette er en applikasjon for innmelding av arkeologiske funn. Her kan du også sende funnskjema, og lage en oversikt over dine egne funn. \n \nKos deg!</string>
 </resources>
