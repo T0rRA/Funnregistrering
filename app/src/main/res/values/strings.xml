@@ -29,4 +29,10 @@
     <string name="confirm_pw">Gjenta passord</string>
     <string name="fragment_enkelt_funn_status_btn_funnmelding">send inn funnmelding</string>
     <string name="enkelt_funn_status_btn_funnskjema">Send inn funnskjema</string>
+    <string name="riksantikvaren_sider">På Riksantikvarens sider kan du lese om hva du skal gjøre om du har funnet noe, lovgivningen rundt dette og retningslinjene rundt finnerlønn.\n</string>
+    <string name="Link_Messaage"><a href="https://www.riksantikvaren.no/funn/jeg-har-funnet-noe/">Les mer her</a>
+</string>
+    <string name="tips_meldeplikt">\u2022 Meldeplikt: Det er obligatorisk å melde inn et funn til fylkeskommune eller museum innen 48 timer! Appen vil hjelpe deg å sende mail til den mest relevante aktøren.\n</string>
+    <string name="tips_fredning">\u2022 Fredning: Pass på å ikke grav i fredede områder! Hver gang et innleveringsverdigfunn er oppdaget så er området 5m rundt den automatisk fredet.\n</string>
+    <string name="tips_samfunn">\u2022 Samfunn: Dersom du er en veldig ny "detektorist" så kan det være smart å ta kontakt med ditt lokallag eller en av de større foreningene. De tar deg ofte godt i mot og er veldig hjelpsomme. Dette kan både gjøres gjennom mail,  diverse Facebook grupper og andre metoder.\n</string>
 </resources>

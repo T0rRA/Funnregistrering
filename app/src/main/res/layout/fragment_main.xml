@@ -43,12 +43,7 @@
             android:onClick="infoBtn"
             android:text="Info og regler" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="Info og regler"
-            android:layout_weight="1"
-            android:onClick="infoBtn"/>
+
 
        <Button
            android:layout_width="match_parent"
