@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -203,17 +205,36 @@ public class FragmentEnkeltFunn extends Fragment {
     public void editFind(){
         updateFind();
 
-        SharedPreferences sharedpreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        String username = sharedpreferences.getString("username", "");
+        User user = User.getInstance();
 
-        //TODO get userID
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("image" , makeStringNonNull(ImageSaver.makeBase64FromBitmap(picture)));
+        params.put("funndato" , makeStringNonNull(funn.getDato()));
+        params.put("kommune", makeStringNonNull(funn.getKommune()));
+        params.put("fylke" , makeStringNonNull(funn.getFylke()));
+        params.put("funndybde" , funn.getFunndybde()+"");
+        params.put("gjenstand_markert_med" , makeStringNonNull(funn.getGjenstandMerking()));
+        params.put("koordinat" , funn.getLatitude() + "N " + funn.getLongitude() + "W");
+        params.put("datum" , makeStringNonNull(funn.getDatum()));
+        params.put("areal_type" , makeStringNonNull(funn.getArealType()));
 
-        UploadToServer uploadToServer = new UploadToServer(getContext());
-        uploadToServer.execute("Funn/EditFunn", "image=" + ImageSaver.makeBase64FromBitmap(picture), "funnID=" + funn.getFunnID(), "brukerUserID=2" /*fixme legge til brukerID*/,
-                "funndato=" + funn.getDato(), "kommune=" + funn.getKommune(), "fylke=" + funn.getFylke(),
-                "funndybde=" + funn.getFunndybde(), "gjenstand_markert_med=" + funn.getGjenstandMerking(),
-                "koordinat=" + funn.getLatitude() + "N " + funn.getLongitude() + "W", "datum=" + funn.getDatum(),
-                "areal_type=" + funn.getArealType());
+        params.put("BrukerUserID" , user.getUserID() + ""); //fixme uncomment user.getUsername
+        params.put("FunnID", funn.getFunnID() + "");
+
+        params.put("innGBNr.gb_nr" , makeStringNonNull(funn.getGbnr()));
+        params.put("innGBNr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierNavn())); //fixme fornavn og etternavn
+        params.put( "innGBNr.grunneier.Etternavn" , makeStringNonNull(funn.getGrunneierNavn()));
+        params.put("innGBNr.grunneier.Adresse" , makeStringNonNull(funn.getGrunneierAdresse()));
+        params.put("innGBNr.grunneier.Postnr" , makeStringNonNull(funn.getGrunneierPostNr()));
+        params.put("innGBNr.grunneier.Poststed" , makeStringNonNull(funn.getGrunneierPostSted()));
+        params.put("innGBNr.grunneier.Tlf" , makeStringNonNull(funn.getGrunneierTlf()));
+        params.put("innGBNr.grunneier.Epost" , makeStringNonNull(funn.getGrunneierEpost()));
+
+        SendToServer.postRequest(getContext(), params, "Funn/EditFunn");
+    }
+
+    public String makeStringNonNull(String s){
+        return s == null ? "" : s;
     }
 
     //This method is used for updating the find before saving it

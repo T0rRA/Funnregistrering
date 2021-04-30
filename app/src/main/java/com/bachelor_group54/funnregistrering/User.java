@@ -4,6 +4,7 @@ package com.bachelor_group54.funnregistrering;
 // Using Singleton design pattern to access the user trough the program
 public class User {
     private String username, name, lastName, address, postalCode, phoneNum, email;
+    private int userID;
 
     //Singleton design pattern start
     private static final User INSTANCE = new User();
@@ -14,6 +15,15 @@ public class User {
         return INSTANCE;
     }
     //Singleton design pattern end
+
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
 
     public String getUsername() {
         return username;
