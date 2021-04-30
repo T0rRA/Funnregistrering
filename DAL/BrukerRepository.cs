@@ -272,11 +272,6 @@ namespace FunnregistreringsAPI.DAL
                         ny_bruker.Postnr = postadresse;
                         await _db.postadresser.AddAsync(postadresse);
                     }
-                    else
-                    {
-                        ny_bruker.Postnr = postadress1;
-                        await _db.postadresser.AddAsync(postadress1);
-                    }
                     // find postal address
                     var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
                     if (finnPostadr == null)
