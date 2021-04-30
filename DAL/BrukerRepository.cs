@@ -13,6 +13,7 @@ using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using FunnregistreringsAPI.DAL;
 
 namespace FunnregistreringsAPI.DAL
 {
@@ -396,7 +397,7 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        public async Task<bool> DeleteUser(string brukernavn, string passord)
+        public async Task<string> DeleteUser(string brukernavn, string passord)
         {
             // asks user to input their password
             // done in backend as we need the user's salt for comparing hashes
@@ -409,36 +410,32 @@ namespace FunnregistreringsAPI.DAL
                     var hash = CreateHash(passord, enBruker.Salt);
                     if (hash.SequenceEqual(enBruker.Passord))
                     {
-                        // password is correct, so delete user
-                        List<Funn> funnListe = await _db.funn.Where(funn => funn.BrukerUserID == enBruker.UserID).ToListAsync();
-                        foreach (Funn f in funnListe)
-                        {
-                            // delete each funn
-                            var etFunn = await _db.funn.FindAsync(f.FunnID);
-                            funnListe.Remove(f);
-                            _db.funn.Remove(etFunn);
-                        }
+                        // password is correct, so delete all funn attached to the user
+                        _db.funn.FromSqlRaw("DELETE FROM funn WHERE BrukerUserID = " + enBruker.UserID);
+
                         // delete user
                         _db.brukere.Remove(enBruker);
                         await _db.SaveChangesAsync();
 
-                        return true;
+                        return "";
                     }
                     else
                     {
                         // password is incorrect, try again
-                        return false;
+                        return "Wrong password";
                     }
                 }
                 else
                 {
                     // user does not exist
-                    return false;
+                    return "User does not exist";
                 }
             }
             catch (Exception e)
             {
-                return false;
+                return ("Message: " + e.Message +
+                    "Inner Exception: " + e.InnerException +
+                    "Stack Trace: " + e.StackTrace);
             }
         }
         public async Task<Bruker> GetUser(String brukernavn)

@@ -11,7 +11,7 @@ namespace FunnregistreringsAPI.DAL
     public interface FunnRepositoryInterface
     {
         public Task<string> RegistrerFunn(InnFunn nyttfunn, String brukernavn);
-        public Task<List<Funn>> GetAllUserFunn(String brukernavn, String passord);
+         public Task<List<Funn>> GetAllUserFunn(String brukernavn, String passord);
         public Task<bool> DeleteFunn(int funnID);
         public Task<bool> EditFunn(Funn f);
         public Task<Funn> GetFunn(String brukernavn, int funnID);

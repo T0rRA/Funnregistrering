@@ -16,7 +16,7 @@ namespace FunnregistreringsAPI.DAL
 
         public Task<string> EditUser(InnBruker bruker);
 
-        public Task<bool> DeleteUser(string brukernavn, string passord);
+        public Task<string> DeleteUser(string brukernavn, string passord);
 
         public Task<Bruker> GetUser(String brukernavn);
 

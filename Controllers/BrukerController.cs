@@ -94,8 +94,8 @@ namespace FunnregistreringsAPI.Controllers
                 var loggedIn = await _db.CheckIfUserLoggedIn(brukernavn);
                 if (loggedIn)
                 {
-                    bool deleteOk = await _db.DeleteUser(brukernavn, passord);
-                    if (!deleteOk) { return NotFound("Kunne ikke slette brukeren"); }
+                    var deleteOk = await _db.DeleteUser(brukernavn, passord);
+                    if (deleteOk != "") { return NotFound(deleteOk); }
                     return Ok("Bruker er slettet");
                 }
                 return BadRequest("Bruker er ikke logget inn");
