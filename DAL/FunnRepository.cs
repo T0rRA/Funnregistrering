@@ -113,14 +113,14 @@ namespace FunnregistreringsAPI.DAL
 
                 Bruker realUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
 
-                byte[] theImage = Convert.FromBase64String(nyttFunn.image);
+                //byte[] theImage = Convert.FromBase64String(nyttFunn.image);
                 if (realUser != null) // user found
                 {
                     var nf = new Funn
                     {
                         koordinat = nyttFunn.koordinat,
                         kommune = nyttFunn.kommune,
-                        image = theImage,
+                        image = nyttFunn.image,
                         gjenstand_markert_med = nyttFunn.gjenstand_markert_med,
                         fylke = nyttFunn.fylke,
                         funndybde = nyttFunn.funndybde,
