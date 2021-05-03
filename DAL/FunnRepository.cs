@@ -289,7 +289,9 @@ namespace FunnregistreringsAPI.DAL
                         };
                         etFunn.gbnr.grunneier.Postnr = postadresse;
                         await _db.postadresser.AddAsync(postadresse);
+                        postNr = postadresse;
                     }
+
                         // funn is found
                     etFunn.koordinat = f.koordinat;
                     etFunn.kommune = f.kommune;
@@ -307,8 +309,8 @@ namespace FunnregistreringsAPI.DAL
                     etFunn.gbnr.grunneier.Etternavn = f.gbnr.grunneier.Etternavn;
                     etFunn.gbnr.grunneier.Adresse = f.gbnr.grunneier.Adresse;
                     etFunn.gbnr.grunneier.Epost = f.gbnr.grunneier.Epost;
-                    //etFunn.gbnr.grunneier.Postnr.Postnr = f.gbnr.grunneier.Postnr.Postnr;
-                    //etFunn.gbnr.grunneier.Postnr.Poststed = f.gbnr.grunneier.Postnr.Postnr;
+                    etFunn.gbnr.grunneier.Postnr.Postnr = postNr.Postnr;
+                    etFunn.gbnr.grunneier.Postnr.Poststed = postNr.Postnr;
                     etFunn.gbnr.grunneier.Tlf = f.gbnr.grunneier.Tlf;
                     
                     await _db.SaveChangesAsync();
