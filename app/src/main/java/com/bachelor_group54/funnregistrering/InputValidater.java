@@ -34,7 +34,7 @@ public class InputValidater implements TextWatcher {
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         editTextString = charSequence.toString();
         if(editTextString.equals("")){return;} //Allows the user to leave field empty
-
+//Div regex 
         String feilmelding = "";
         if(!normalCharsAllowed && editTextString.matches(".*[a-zæøåA-ZÆØÅ].*")){
             feilmelding += context.getString(R.string.inputvalideringIkkeBokstaver);
