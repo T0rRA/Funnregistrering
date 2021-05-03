@@ -1,9 +1,7 @@
 package com.bachelor_group54.funnregistrering;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,35 +10,26 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 
 //This fragment displays one selected find at the time. The find can also be edited here.
@@ -49,16 +38,14 @@ public class FragmentEnkeltFunn extends Fragment {
     private Funn funn; //The find the view is displaying
     private int position; //The finds position in the saved list
     private Bitmap picture;
-    private int pdfHeight = 3508; // declaring pdf height
-    private int pdfWidth = 2480; // declaring pdf width
-    private Bitmap bmp, scalebmp; // creating variable for image storing
-    private static final int PERMISSION_REQUEST_CODE = 200; //for runtime permissions
+    private Bitmap scalebmp; // creating variable for image storing
     private Rect bounds = new Rect();
 
     //Simple constructor for getting the find that the fragment should display
     public FragmentEnkeltFunn(Funn funn, int position) {
         this.funn = funn;
         this.position = position;
+
     }
 
     @Nullable
@@ -67,17 +54,9 @@ public class FragmentEnkeltFunn extends Fragment {
         view = inflater.inflate(R.layout.fragment_enkelt_funn, container, false); //Loads the page from the XML file
         //Add setup code here later
 
-        //Initializing and scaling of the logo /TODO: the same for the picture
-        bmp = BitmapFactory.decodeResource(getResources(),R.drawable.funnskjema_bg);
+        //Initializing and scaling of the background /TODO: Kan brukes for scaling av bildet også om det skal med
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.funnskjema_bg);
         scalebmp =Bitmap.createScaledBitmap(bmp,2480,3508,false);
-
-
-/*        //TODO: Disse rettighetene er knyttet til external storage, SLETT KODEN
-        if(checkPermission()){
-            Toast.makeText( getContext(), "Tilattelse innvilget",Toast.LENGTH_SHORT).show();
-        }else{
-            requestPermission();
-        }*/
 
         loadFunn();
         updateStatusBtn();
@@ -359,7 +338,11 @@ public class FragmentEnkeltFunn extends Fragment {
         /*Adding pageInfo to the the PDF
         * Passing the width, height and number of pages
         * Creates the PDF */
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(pdfWidth,pdfHeight,1).create();
+        // declaring pdf height
+        int pdfHeight = 3508;
+        // declaring pdf width
+        int pdfWidth = 2480;
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(pdfWidth, pdfHeight,1).create();
 
         //sets the PDFs startpage.
         PdfDocument.Page page = pdfDocument.startPage(pageInfo);
@@ -392,23 +375,26 @@ public class FragmentEnkeltFunn extends Fragment {
         * the position from top is the 3rd parameter,
         * the paint variable  (text) is the 4th parameter.
         * */
-        /*  Finner:
-        * TODO: Hent info fra User, getters*/
-        canvas.drawText("Ola Nordmann", 300,450, text); // Navn
-        canvas.drawText("Slottet", 300,575, text); // Adresse
-        canvas.drawText("1500", 300,700, text); // Postnr.
-        canvas.drawText("Oslo", 700,700, text); //sted
-        canvas.drawText("989 99 999", 300,825, text); // Tlf
-        canvas.drawText("epost@epost.no", 300,955, text); // epost
 
-        /*  Grunneier:  TODO: Må legge inn grunneier info et sted. Bruk så get for å hente de ut her*/
-        canvas.drawText("Ola Nordmann", 1500,450, text); // Navn
-        canvas.drawText("Slottet", 1500,575, text); // Adresse
-        canvas.drawText("1500", 1500,700, text); // Postnr.
-        canvas.drawText("Oslo", 1900,700, text); //sted
-        canvas.drawText("989 99 999", 1500,825, text); // Tlf
-        canvas.drawText("epost@epost.no", 1500,955, text); // epost
-        canvas.drawText("X", 2335,855, text); // Tillattelse
+        /*  Finner:
+        *  TODO: Legg til poststed i User.java*/
+        User user = User.getInstance();
+        canvas.drawText(user.getName()+""+user.getLastName(), 300,450, text); // Navn
+        canvas.drawText(user.getAddress(), 300,575, text); // Adresse
+        canvas.drawText(user.getPostalCode(), 300,700, text); // Postnr.
+        canvas.drawText("LEGG TIL POSTSTED I USER", 700,700, text); //sted
+        canvas.drawText(user.getPhoneNum(), 300,825, text); // Tlf
+        canvas.drawText(user.getEmail(), 300,955, text); // epost
+
+
+        /*  Grunneier:  TODO: Registrering av tillatelse*/
+        canvas.drawText(funn.getGrunneierNavn(), 1500,450, text); // Navn
+        canvas.drawText(funn.getGrunneierAdresse(), 1500,575, text); // Adresse
+        canvas.drawText(funn.getGrunneierPostNr(), 1500,700, text); // Postnr.
+        canvas.drawText(funn.getGrunneierPostSted(), 1900,700, text); //sted
+        canvas.drawText(funn.getGrunneierTlf(), 1500,825, text); // Tlf
+        canvas.drawText(funn.getGrunneierEpost(), 1500,955, text); // epost
+        canvas.drawText("X", 2335,855, text); // Tillatelse
 
         /*Funnet*/
         canvas.drawText(funn.getDato(),110, 1175, text); //Funndato
@@ -462,35 +448,6 @@ public class FragmentEnkeltFunn extends Fragment {
         pdfDocument.close();
         return file;
     }
-
-    //TODO: Disse rettighetene er knyttet til external storage, SLETT UTkommentert kode
-   /* //Checking permissions
-    private boolean checkPermission(){
-        int permission1 = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        int permission2 = ActivityCompat.checkSelfPermission(getContext(), READ_EXTERNAL_STORAGE);
-        return permission1 == PackageManager.PERMISSION_GRANTED && permission2 == PackageManager.PERMISSION_GRANTED;
-    }
-
-    //Requests permissions
-    private void requestPermission(){
-        requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-    }
-
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[]permissions, @ NonNull int[]grantResult){
-        if(requestCode == PERMISSION_REQUEST_CODE){
-            if(grantResult.length>1){
-                boolean write = grantResult[0] == PackageManager.PERMISSION_GRANTED;
-                boolean read = grantResult[1] == PackageManager.PERMISSION_GRANTED;
-
-                if (write && read){
-                    Toast.makeText(getContext(), "Du har nå rettigheter til å lagre PDF'er", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getContext(), "Du har ikke rettigheter til å lagre PDF'er", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }*/
-
 
     public void savePicture() {
         //Gets the image ID
