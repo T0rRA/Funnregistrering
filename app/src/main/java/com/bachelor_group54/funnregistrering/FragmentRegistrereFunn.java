@@ -51,6 +51,7 @@ public class FragmentRegistrereFunn extends Fragment {
         return view;
     }
 
+// Sets input validation
     public void setTextWatchers() {
         EditText title = view.findViewById(R.id.nytt_funn_tittel_et);
         EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et);
@@ -222,5 +223,4 @@ public class FragmentRegistrereFunn extends Fragment {
         imageView.setImageBitmap(null);
     }
 }
-
 
