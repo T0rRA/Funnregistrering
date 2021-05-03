@@ -28,6 +28,8 @@ public class FragmentEnkeltFunn extends Fragment {
     private Funn funn; //The find the view is displaying
     private int position; //The finds position in the saved list
     private Bitmap picture;
+    private boolean isFindSavable;
+    private String errorMessage;
 
     //Simple constructor for getting the find that the fragment should display
     public FragmentEnkeltFunn(Funn funn, int position) {
@@ -53,7 +55,7 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     //Makes the status buttons update when editTexts are changed
-    public void setTextWatchers(){
+    public void setTextWatchers() {
         EditText[] editTexts = {view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_funndybde)
@@ -77,94 +79,151 @@ public class FragmentEnkeltFunn extends Fragment {
                 , view.findViewById(R.id.fragment_enkelt_funn_et_kommune)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_fylke)};
 
-        for (EditText et : editTexts){
+        for (int i = 0; i < editTexts.length; i++) {
+            EditText et = editTexts[i];
+            //Switch case that sets the appropriate input validation on the EditTexts
+            switch (i){
+                case 0: //Latitude
+                    et.addTextChangedListener(new InputValidater(getContext(),false,true, true, 1, 20, et));
+                    et.addTextChangedListener(new NumberMaxMinChecker(90, -90, et));
+                    break;
+                case 1: //Longitude
+                    et.addTextChangedListener(new NumberMaxMinChecker(180, -180, et));
+                case 2: //Depth
+                    et.addTextChangedListener(new InputValidater(getContext(),false,true, true, 1, 20, et));
+                    break;
+                case 3: //Title
+                    et.addTextChangedListener(new InputValidater(getContext(),true,true, false, 1, 30, et));
+                    break;
+                case 4: //Date
+                    et.addTextChangedListener(new InputValidater(getContext(),false,true, false, 10, 10, et));
+                    break;
+                case 5: //Location (Funnsted) Fixme vet ikke hva som skal i dette feltet
+                    et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 50, et));
+                    break;
+                case 6: //Owner name
+                    et.addTextChangedListener(new InputValidater(getContext(), true, false, true, 1, 75, et));
+                    break;
+                case 7: //Owner address
+                case 8: //Owner email
+                    et.addTextChangedListener(new InputValidater(getContext(), true, true, true, 1, 50, et));
+                    break;
+                case 9:
+                    et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 4, 4, et));
+                    break;
+                case 10: //Owner post place
+                case 20: //County
+                case 21: //Municipality
+                    et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 1, 30, et));
+                    break;
+                case 11: //Owner tlf
+                    et.addTextChangedListener(new PhoneInputValidator(et));
+                    break;
+                case 12: //Description //fixme skal denn være med?
+                case 17: //Other info
+                    et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 200, et));
+                    break;
+                case 13: //Item fixme vet ikke hva som skal stå i dette feltet så det må kanskje endres senere
+                    et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 50, et));
+                    break;
+                case 14: //Item marked with
+                    et.addTextChangedListener(new InputValidater(getContext(), true, true, false, 0, 30, et));
+                    break;
+                case 15: //Datum
+                    et.addTextChangedListener(new InputValidater(getContext(), false, true, true, 0, 6, et));
+                    break;
+                case 16: //Area type fixme make dropdown later
+                    et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 20, et));
+                    break;
+                case 18: //Farm fixme vet ikke hva som skal stå her
+                case 19: //Gbnr fixme vet ikke hva som skal stå her
+                    et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 0, 20, et));
+                    break;
+            }
             et.addTextChangedListener(new StatusUpdater()); //Setts the textWatcher on the editText
         }
     }
 
     public void loadFunn() {
-        String tomtFelt = "ikke fylt ut";
         ImageView imageView = view.findViewById(R.id.fragment_enkelt_funn_bilde); //Finds the image view
         imageView.setImageBitmap(ImageSaver.loadImage(getContext(), funn.getBildeID())); //Sets the image view to the finds image
 
         //TODO finne ut hvilke felter brukeren skal kunne endre selv
 
-        EditText latitude = view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad); //Finds the latitude textView
+        EditText latitudeEt = view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad); //Finds the latitude textView
         //Latitude cannot be more than 90 or less than -90
         if (funn.getLatitude() >= -90 && funn.getLatitude() <= 90) {
-            latitude.setText("" + funn.getLatitude());
+            latitudeEt.setText("" + funn.getLatitude());
         }
 
-        EditText longitude = view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad); //Finds the longitude textView
+        EditText longitudeEt = view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad); //Finds the longitude textView
         //Longitude cannot be more than 180 or less than -180
         if (funn.getLongitude() >= -180 && funn.getLongitude() <= 180) {
-            longitude.setText("" + funn.getLongitude());
+            longitudeEt.setText("" + funn.getLongitude());
         }
 
-        EditText depth = view.findViewById(R.id.fragment_enkelt_funn_et_funndybde);
-        if (funn.getFunndybde() == -1) {//-1 is the default value
-            depth.setHint(tomtFelt);
-        } else {
-            depth.setText("" + funn.getFunndybde());
+        EditText depthEt = view.findViewById(R.id.fragment_enkelt_funn_et_funndybde);
+        if (funn.getFunndybde() != -1) { //If depth == -1 then depth is not set
+            depthEt.setText("" + funn.getFunndybde());
         }
 
-        EditText title = view.findViewById(R.id.fragment_enkelt_funn_et_tittel); //Finds the textView of the title
-        setText(funn.getTittel(), title); //Checks and sets the title
+        EditText titleEt = view.findViewById(R.id.fragment_enkelt_funn_et_tittel); //Finds the textView of the title
+        setText(funn.getTittel(), titleEt); //Checks and sets the title
 
         //The same for all the other textViews, finding, checking and setting the text.
-        EditText date = view.findViewById(R.id.fragment_enkelt_funn_et_dato);
-        setText(funn.getDato(), date);
+        EditText dateEt = view.findViewById(R.id.fragment_enkelt_funn_et_dato);
+        setText(funn.getDato(), dateEt);
 
-        EditText location = view.findViewById(R.id.fragment_enkelt_funn_et_sted);
-        setText(funn.getFunnsted(), location);
+        EditText locationEt = view.findViewById(R.id.fragment_enkelt_funn_et_sted);
+        setText(funn.getFunnsted(), locationEt);
 
-        EditText owner = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
-        setText(funn.getGrunneierNavn(), owner);
+        EditText ownerEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
+        setText(funn.getGrunneierNavn(), ownerEt);
 
-        EditText ownerAddress = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
-        setText(funn.getGrunneierAdresse(), ownerAddress);
+        EditText ownerAddressEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
+        setText(funn.getGrunneierAdresse(), ownerAddressEt);
 
-        EditText ownerPostalCode = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr);
-        setText(funn.getGrunneierPostNr(), ownerPostalCode);
+        EditText ownerPostalCodeEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr);
+        setText(funn.getGrunneierPostNr(), ownerPostalCodeEt);
 
-        EditText ownerPostalPlace = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted);
-        setText(funn.getGrunneierPostSted(), ownerPostalPlace);
+        EditText ownerPostalPlaceEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted);
+        setText(funn.getGrunneierPostSted(), ownerPostalPlaceEt);
 
-        EditText ownerTlf = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierTlf);
-        setText(funn.getGrunneierTlf(), ownerTlf);
+        EditText ownerTlfEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierTlf);
+        setText(funn.getGrunneierTlf(), ownerTlfEt);
 
-        EditText ownerEmail = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost);
-        setText(funn.getGrunneierEpost(), ownerEmail);
+        EditText ownerEmailEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost);
+        setText(funn.getGrunneierEpost(), ownerEmailEt);
 
         EditText description = view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse);
         setText(funn.getBeskrivelse(), description);
 
-        EditText item = view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand);
-        setText(funn.getGjenstand(), item);
+        EditText itemEt = view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand);
+        setText(funn.getGjenstand(), itemEt);
 
-        EditText itemMarking = view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke);
-        setText(funn.getGjenstandMerking(), itemMarking);
+        EditText itemMarkingEt = view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke);
+        setText(funn.getGjenstandMerking(), itemMarkingEt);
 
-        EditText age = view.findViewById(R.id.fragment_enkelt_funn_et_datum);
-        setText(funn.getDatum(), age);
+        EditText ageEt = view.findViewById(R.id.fragment_enkelt_funn_et_datum);
+        setText(funn.getDatum(), ageEt);
 
-        EditText areaType = view.findViewById(R.id.fragment_enkelt_funn_et_arealtype);
-        setText(funn.getArealType(), areaType);
+        EditText areaTypeEt = view.findViewById(R.id.fragment_enkelt_funn_et_arealtype);
+        setText(funn.getArealType(), areaTypeEt);
 
-        EditText moreInfo = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
-        setText(funn.getOpplysninger(), moreInfo);
+        EditText moreInfoEt = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
+        setText(funn.getOpplysninger(), moreInfoEt);
 
-        EditText gårdNr = view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr);
-        setText(funn.getGårdNr(), gårdNr);
+        EditText farmNrEt = view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr);
+        setText(funn.getGårdNr(), farmNrEt);
 
-        EditText gbnr = view.findViewById(R.id.fragment_enkelt_funn_et_gbnr);
-        setText(funn.getGbnr(), gbnr);
+        EditText gbnrEt = view.findViewById(R.id.fragment_enkelt_funn_et_gbnr);
+        setText(funn.getGbnr(), gbnrEt);
 
-        EditText kommune = view.findViewById(R.id.fragment_enkelt_funn_et_kommune);
-        setText(funn.getKommune(), kommune);
+        EditText municipalityEt = view.findViewById(R.id.fragment_enkelt_funn_et_kommune);
+        setText(funn.getKommune(), municipalityEt);
 
-        EditText fylke = view.findViewById(R.id.fragment_enkelt_funn_et_fylke);
-        setText(funn.getFylke(), fylke);
+        EditText countyEt = view.findViewById(R.id.fragment_enkelt_funn_et_fylke);
+        setText(funn.getFylke(), countyEt);
     }
 
     //Checks if strings are filled put or not
@@ -182,9 +241,15 @@ public class FragmentEnkeltFunn extends Fragment {
         }
     }
 
-    public void saveFind() {
+    //Saves the find and returns true on success and false for fail
+    public boolean saveFind() {
         //Updates the find with the changed information
         updateFind();
+
+        if(!isFindSavable){
+            Toast.makeText(getContext(), getString(R.string.feil_i_innputfelter) + errorMessage, Toast.LENGTH_LONG).show();
+            return false;
+        }
 
         //If the a picture has been added save it
         if (picture != null) {
@@ -196,88 +261,93 @@ public class FragmentEnkeltFunn extends Fragment {
         arrayList.set(position, funn); //Overwrites the previous finds
 
         objektLagrer.saveData(arrayList); //Saves the new list, overwriting the old list
+
+        return true;
     }
 
     //This method is used for updating the find before saving it
     public void updateFind() {
-        //FIXME legge til sjekk for om latitude er over 90 eller under -90
-        EditText latitude = view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad); //Finds the latitude editText
-        if (!latitude.getText().toString().equals("")) {
+        isFindSavable = true;
+        errorMessage = "";
+
+        EditText latitudeEt = view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad); //Finds the latitude editText
+        if (!latitudeEt.getText().toString().equals("")) {
             try {
-                funn.setLatitude(Double.parseDouble(latitude.getText().toString()));//Updates the latitude in the find
-            }catch (NumberFormatException e){/*Do noting*/}
+                funn.setLatitude(Double.parseDouble(inputChecker(latitudeEt, "breddegrad")));//Updates the latitude in the find
+            } catch (NumberFormatException e) {/*Do noting*/}
         }
 
-        //FIXME legge til sjekk for om longitude er over 180 eller under -180
-        EditText longitude = view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad); //Finds the longitude editText
-        if (!latitude.getText().toString().equals("")) {
+        EditText longitudeEt = view.findViewById(R.id.fragment_enkelt_funn_et_lengdegrad); //Finds the longitude editText
+        if (!longitudeEt.getText().toString().equals("")) {
             try {
-            funn.setLongitude(Double.parseDouble(longitude.getText().toString())); //Updates the longitude in the find
-            }catch (NumberFormatException e){/*Do noting*/}
+                funn.setLongitude(Double.parseDouble(inputChecker(longitudeEt, "lengdegrad"))); //Updates the longitude in the find
+            } catch (NumberFormatException e) {/*Do noting*/}
         }
 
         EditText depth = view.findViewById(R.id.fragment_enkelt_funn_et_funndybde); //Finds the text field
         if (!depth.getText().toString().equals("")) {
-            funn.setFunndybde(Double.parseDouble(depth.getText().toString())); //Changes the info inn the find
+            try {
+                funn.setFunndybde(Double.parseDouble(inputChecker(depth, "funndybde"))); //Changes the info inn the find
+            } catch (NumberFormatException e) {/*Do noting*/}
         }
 
         //Just the same all the way, find the text fields and updates the find
-        EditText title = view.findViewById(R.id.fragment_enkelt_funn_et_tittel);
-        funn.setTittel(title.getText().toString());
+        EditText titleEt = view.findViewById(R.id.fragment_enkelt_funn_et_tittel);
+        funn.setTittel(inputChecker(titleEt, "tittel"));
 
-        EditText date = view.findViewById(R.id.fragment_enkelt_funn_et_dato);
-        funn.setDato(date.getText().toString());
+        EditText dateEt = view.findViewById(R.id.fragment_enkelt_funn_et_dato);
+        funn.setDato(inputChecker(dateEt, "dato"));
 
-        EditText location = view.findViewById(R.id.fragment_enkelt_funn_et_sted);
-        funn.setFunnsted(location.getText().toString());
+        EditText locationEt = view.findViewById(R.id.fragment_enkelt_funn_et_sted);
+        funn.setFunnsted(inputChecker(locationEt, "sted"));
 
-        EditText owner = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
-        funn.setGrunneierNavn(owner.getText().toString());
+        EditText ownerEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
+        funn.setGrunneierNavn(inputChecker(ownerEt, "grunneier"));
 
-        EditText ownerAddress = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
-        funn.setGrunneierAdresse(ownerAddress.getText().toString());
+        EditText ownerAddressEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
+        funn.setGrunneierAdresse(inputChecker(ownerAddressEt, "grunneier adresse"));
 
-        EditText ownerPostalCode = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr);
-        funn.setGrunneierPostNr(ownerPostalCode.getText().toString());
+        EditText ownerPostalCodeEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr);
+        funn.setGrunneierPostNr(inputChecker(ownerPostalCodeEt, "grunneier postnr"));
 
-        EditText ownerPostalPlace = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted);
-        funn.setGrunneierPostSted(ownerPostalPlace.getText().toString());
+        EditText ownerPostalPlaceEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted);
+        funn.setGrunneierPostSted(inputChecker(ownerPostalPlaceEt, "grunneier poststed"));
 
-        EditText ownerTlf = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierTlf);
-        funn.setGrunneierTlf(ownerTlf.getText().toString());
+        EditText ownerTlfEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierTlf);
+        funn.setGrunneierTlf(inputChecker(ownerTlfEt, "grunneier tlf"));
 
-        EditText ownerEmail = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost);
-        funn.setGrunneierEpost(ownerEmail.getText().toString());
+        EditText ownerEmailEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost);
+        funn.setGrunneierEpost(inputChecker(ownerEmailEt, "grunneier e-post"));
 
-        EditText description = view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse);
-        funn.setBeskrivelse(description.getText().toString());
+        EditText descriptionEt = view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse);
+        funn.setBeskrivelse(inputChecker(descriptionEt, "beskrivelse"));
 
-        EditText item = view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand);
-        funn.setGjenstand(item.getText().toString());
+        EditText itemEt = view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand);
+        funn.setGjenstand(inputChecker(itemEt, "gjenstand"));
 
-        EditText itemMarking = view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke);
-        funn.setGjenstandMerking(itemMarking.getText().toString());
+        EditText itemMarkingEt = view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke);
+        funn.setGjenstandMerking(inputChecker(itemMarkingEt, "gjenstand merket med"));
 
-        EditText age = view.findViewById(R.id.fragment_enkelt_funn_et_datum);
-        funn.setDatum(age.getText().toString());
+        EditText ageEt = view.findViewById(R.id.fragment_enkelt_funn_et_datum);
+        funn.setDatum(inputChecker(ageEt, "datum"));
 
-        EditText areaType = view.findViewById(R.id.fragment_enkelt_funn_et_arealtype);
-        funn.setArealType(areaType.getText().toString());
+        EditText areaTypeEt = view.findViewById(R.id.fragment_enkelt_funn_et_arealtype);
+        funn.setArealType(inputChecker(areaTypeEt, "arealtype"));
 
-        EditText moreInfo = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
-        funn.setOpplysninger(moreInfo.getText().toString());
+        EditText moreInfoEt = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
+        funn.setOpplysninger(inputChecker(moreInfoEt, "andre opplysninger"));
 
-        EditText gårdNr = view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr);
-        funn.setGårdNr(gårdNr.getText().toString());
+        EditText farmNrEt = view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr);
+        funn.setGårdNr(inputChecker(farmNrEt, "gård"));
 
-        EditText gbnr = view.findViewById(R.id.fragment_enkelt_funn_et_gbnr);
-        funn.setGbnr(gbnr.getText().toString());
+        EditText gbnrEt = view.findViewById(R.id.fragment_enkelt_funn_et_gbnr);
+        funn.setGbnr(inputChecker(gbnrEt, "gbnr"));
 
-        EditText kommune = view.findViewById(R.id.fragment_enkelt_funn_et_kommune);
-        funn.setKommune(kommune.getText().toString());
+        EditText municipalityEt = view.findViewById(R.id.fragment_enkelt_funn_et_kommune);
+        funn.setKommune(inputChecker(municipalityEt, "kommune"));
 
-        EditText fylke = view.findViewById(R.id.fragment_enkelt_funn_et_fylke);
-        funn.setFylke(fylke.getText().toString());
+        EditText countyEt = view.findViewById(R.id.fragment_enkelt_funn_et_fylke);
+        funn.setFylke(inputChecker(countyEt, "fylke"));
     }
 
 
@@ -303,7 +373,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
     }
 
-    public int getNextPictureID(){
+    public int getNextPictureID() {
         //Gets the next available pictureID
         SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
         return sharedpreferences.getInt("pictureID", 0) + 1;
@@ -323,7 +393,7 @@ public class FragmentEnkeltFunn extends Fragment {
         if (requestCode == CAMERA_PIC_REQUEST) { //If the requestCode matches that of the startActivityForResult of the cameraIntent we know it is the camera app that is returning it's data.
             try { //May produce null pointers if the picture is not taken
                 picture = (Bitmap) data.getExtras().get("data"); //Gets the picture from the camera app and saves it as a Bitmap
-                if(funn.getBildeID() == 0){
+                if (funn.getBildeID() == 0) {
                     funn.setBildeID(getNextPictureID());
                 }
             } catch (NullPointerException e) {
@@ -338,7 +408,6 @@ public class FragmentEnkeltFunn extends Fragment {
         super.onActivityResult(requestCode, resultCode, data); //Calls the super's onActivityResult (Required by Android)
     }
 
-    //Fixme denne metoden må kjøres når felter endres
     //This method color codes the status buttons (red = missing info, yellow = ready to send, green = sent)
     public void updateStatusBtn() {
         Button findMessageBtn = view.findViewById(R.id.fragment_enkelt_funn_funnmelding_btn);
@@ -371,14 +440,25 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public void sendFunnskjema() {
-        //TODO finne ut hvordan man lager PDF
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, funn.getBildeID(), getContext());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
         saveFind();
     }
 
+    //Returns empty string if string is invalid or the string if it is valid
+    public String inputChecker(EditText editText, String fieldName) {
+        String editTextString = editText.getText().toString();
+        //If the editText has an error then the input is invalid
+        if (editText.getError() != null) {
+            isFindSavable = false;
+            errorMessage += errorMessage.equals("") ? fieldName : ", " + fieldName; //If it's the first error no comma, the rest wil have comma
+            return "";
+        }
+        return editTextString;
+    }
+
     //Updates the status buttons when editText are changed
-    public class StatusUpdater implements TextWatcher{
+    public class StatusUpdater implements TextWatcher {
 
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -389,6 +469,43 @@ public class FragmentEnkeltFunn extends Fragment {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             updateFind();
             updateStatusBtn();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    }
+
+    public class NumberMaxMinChecker implements TextWatcher {
+        private int max;
+        private int min;
+        private EditText editText;
+
+        public NumberMaxMinChecker(int max, int min, EditText editText) {
+            this.max = max;
+            this.min = min;
+            this.editText = editText;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            try {
+                double number = Double.parseDouble(charSequence.toString());
+                if(number > max){
+                    editText.setError(getString(R.string.Tall_for_stort) + (max + 1));
+                }else if(number < min){
+                    editText.setError(getString(R.string.Tall_for_lite) + (min - 1));
+                }
+            } catch (NumberFormatException e){
+                e.printStackTrace();
+            }
+
         }
 
         @Override

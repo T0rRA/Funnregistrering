@@ -13,7 +13,7 @@
         android:layout_marginBottom="5sp"
         android:text="@string/profil_oppretting"
         android:textSize="24sp" />
-    <!--    TODO: add input type?   -->
+
     <EditText
         android:id="@+id/name_new"
         android:layout_width="match_parent"
@@ -36,31 +36,36 @@
         android:id="@+id/postal_code_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/postal_code" />
+        android:hint="@string/postal_code"
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/phone_num_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/phone_num" />
+        android:hint="@string/phone_num"
+        android:inputType="phone" />
 
     <EditText
         android:id="@+id/email_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/email" />
+        android:hint="@string/email"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/password_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/passwd" />
+        android:hint="@string/passwd"
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/confirmation_pw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/confirm_pw" />
+        android:hint="@string/confirm_pw"
+        android:inputType="textPassword" />
 
     <Button
         android:layout_width="match_parent"

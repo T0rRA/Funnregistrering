@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void registrerFunnBtn(View view) {
         Funn funn = fragmentRegistrereFunn.registrerFunnBtn(); //Registers the find, and gets the find object back
+        if(funn == null){return;} //If the find is null then the find was not registered
         ((FragmentRegistrereFunn) pagerAdapter.getItem(mPager.getCurrentItem())).clearFields(); //Clears the fields in the register new find fragment
         mPager.setCurrentItem(1); //Goes to the found overview
         openEnkeltFunn(funn, fragmentMineFunn.getListSize() - 1); //Opens the find in the find list
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
     //Buttons for the single found fragment
     //Saves the changes made to the find
     public void fragmentEnkeltFunnLagreEndring(View view) {
-        fragmentEnkeltFunn.saveFind();
+        if(!fragmentEnkeltFunn.saveFind()){return;} //If the find could not be saved don't close the fragment
         closeFragment();
         fragmentMineFunn.makeList();
     }

@@ -211,7 +211,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grunneier: "
+                    android:text="Grunneier adresse: "
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -234,7 +234,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grunneier: "
+                    android:text="Grunneier postnr: "
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -257,7 +257,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grunneier: "
+                    android:text="Grunneier poststed: "
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -280,7 +280,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grunneier: "
+                    android:text="Grunneier tlf: "
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -291,7 +291,8 @@
                     android:hint="@string/enkelt_funn_tom_et"
                     android:imeOptions="actionNext"
                     android:minWidth="70dp"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:inputType="phone"/>
 
             </LinearLayout>
 
@@ -303,7 +304,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grunneier: "
+                    android:text="Grunneier e-post: "
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -386,6 +387,13 @@
                     android:minWidth="70dp"
                     android:singleLine="true" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" cm"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -430,7 +438,8 @@
                     android:hint="@string/enkelt_funn_tom_et"
                     android:imeOptions="actionNext"
                     android:minWidth="70dp"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:inputType="numberSigned"/>
 
             </LinearLayout>
 

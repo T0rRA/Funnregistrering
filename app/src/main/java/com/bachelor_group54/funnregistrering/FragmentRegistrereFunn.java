@@ -47,7 +47,16 @@ public class FragmentRegistrereFunn extends Fragment {
         view = inflater.inflate(R.layout.fragment_registrere_lose_funn, container, false); //Loads the page from the XML file
         LinearLayout navbarRegistrereFunn = view.findViewById(R.id.navbar_registrere_funn); //Gets the navbar layout for this view
         navbarRegistrereFunn.setBackground(getContext().getDrawable(R.drawable.navbar_btn_selected_background)); //Setts color on the navbar indicating what page you are on
+        setTextWatchers();
         return view;
+    }
+
+    public void setTextWatchers() {
+        EditText title = view.findViewById(R.id.nytt_funn_tittel_et);
+        EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et);
+
+        title.addTextChangedListener(new InputValidater(getContext(), true, false, false, 1, 20, title));
+        description.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 100, description));
     }
 
     public void gpsBtn() {
@@ -79,9 +88,11 @@ public class FragmentRegistrereFunn extends Fragment {
         if (gps_loc != null) { //Gets location from the GPS if the gps_loc is not null
             latitude = gps_loc.getLatitude();
             longitude = gps_loc.getLongitude();
+            Toast.makeText(getContext(), "Accuracy: " + gps_loc.getAccuracy(), Toast.LENGTH_LONG).show();
         } else if (network_loc != null) { //Gets location from the network if network_loc is not null, only if the GPS was not found
             latitude = network_loc.getLatitude();
             longitude = network_loc.getLongitude();
+            Toast.makeText(getContext(), "Accuracy: " + network_loc.getAccuracy(), Toast.LENGTH_LONG).show(); //TODO fjerne i ferdig program
         } //If nether network or gps can provide the location the default values of 0 and 0 is used instead, should be handled in the real program
 
         TextView textView = view.findViewById(R.id.gps_tv_nytt_funn); //Finds the textView on the main app screen
@@ -137,8 +148,35 @@ public class FragmentRegistrereFunn extends Fragment {
         funn.setLongitude(longitude);
 
         Date currentTime = Calendar.getInstance().getTime();
-        String date = currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + (currentTime.getYear() + 1900);
+        //Adds zero to beginning of day and month to keep the format dd/mm/yyyy even on single digit months and days
+        String dateMonth = (currentTime.getMonth() + 1) > 9 ? "" + (currentTime.getMonth() + 1) : "0" + (currentTime.getMonth() + 1);
+        String dateDay = currentTime.getDate() > 9 ? "" + currentTime.getDate() : "0" + currentTime.getDate();
+
+        //Formats the date string and sets it on the find object
+        String date = dateDay + "/" + dateMonth + "/" + (currentTime.getYear() + 1900);
         funn.setDato(date);
+
+        //If there are errors in anny of the fields do not save the find
+        if (title.getError() != null && description.getError() != null) {
+            Toast.makeText(getContext(), getString(R.string.feil_i_innputfelter) + "tittel og beskrivelse", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        if (title.getError() != null) {
+            Toast.makeText(getContext(), getString(R.string.feil_i_innputfelter) + "tittel", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        //Checks if title is empty
+        if (title.getText().toString().equals("")) {
+            Toast.makeText(getContext(), getString(R.string.tomt_felt) + "tittel", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        if (description.getError() != null) {
+            Toast.makeText(getContext(), getString(R.string.feil_i_innputfelter) + "beskrivelse", Toast.LENGTH_LONG).show();
+            return null;
+        }
 
         saveFind(funn);
         return funn;
@@ -172,7 +210,8 @@ public class FragmentRegistrereFunn extends Fragment {
         editor.apply();
     }
 
-    public void clearFields(){
+    //Resets the fields, called when registering new find so it is empty next time the user wants to register a find
+    public void clearFields() {
         EditText titleEt = view.findViewById(R.id.nytt_funn_tittel_et);
         titleEt.setText("");
         EditText descriptionEt = view.findViewById(R.id.nytt_funn_beskrivelse_et);
