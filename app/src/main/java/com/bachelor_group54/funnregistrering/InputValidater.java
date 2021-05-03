@@ -22,7 +22,6 @@ public class InputValidater implements TextWatcher {
         this.specialCharsAllowed = specialCharsAllowed;
         this.minLength = minLength;
         this.maxLength = maxLength;
-
         this.editText = editText;
     }
 
