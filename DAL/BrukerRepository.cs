@@ -360,6 +360,7 @@ namespace FunnregistreringsAPI.DAL
                             var nyPostadr = new Postadresse();
                             nyPostadr.Postnr = bruker.Postnr;
                             nyPostadr.Poststed = bruker.Poststed;
+                            _db.postadresser.Add(nyPostadr); // add to db
 
 
                             enBruker.Postnr = nyPostadr;

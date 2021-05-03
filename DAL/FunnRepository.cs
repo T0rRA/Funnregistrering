@@ -207,7 +207,7 @@ namespace FunnregistreringsAPI.DAL
         }
 
 
-        public async Task<bool> DeleteFunn(int funnID)
+        public async Task<string> DeleteFunn(int funnID)
         {
             try
             {
@@ -219,23 +219,45 @@ namespace FunnregistreringsAPI.DAL
                     // funn is found
                     _db.funn.Remove(real_funn);
                     await _db.SaveChangesAsync();
-                    return true;
+                    return "";
                 }
-                return false; // funn is not found
+                return "User it not found"; // funn is not found
             }
             catch (Exception e)
             {
-                return false;
+                return ("Message: " + e.Message +
+                    "Inner Exception: " + e.InnerException +
+                    "Stack Trace: " + e.StackTrace);
             }
         }
 
-        public async Task<bool> EditFunn(Funn f)
+        public async Task<string> EditFunn(Funn f)
         {
             try
             {
                 var etFunn = await _db.funn.FindAsync(f.FunnID);
                 if (etFunn != null)
                 {
+                    // check if grunneier-postnr has changed
+                    if(etFunn.gbnr.grunneier.Postnr.Postnr != f.gbnr.grunneier.Postnr.Postnr || etFunn.gbnr.grunneier.Postnr.Postnr == null)
+                    {
+                        // postnr has changed, does it exist in our db?
+                        var postNr = await _db.postadresser.FindAsync(f.gbnr.grunneier.Postnr.Postnr);
+                        if (postNr == null)
+                        {
+                            // it does not exist and will be added
+                            var nyPostadr = new Postadresse();
+                            nyPostadr.Postnr = f.gbnr.grunneier.Postnr.Postnr;
+                            nyPostadr.Poststed = f.gbnr.grunneier.Postnr.Poststed;
+                            _db.postadresser.Add(nyPostadr); // add to db
+                        }
+                        else
+                        {
+                            //it exists in our db
+                            etFunn.gbnr.grunneier.Postnr = postNr;
+                        }
+                    }
+
                     // funn is found
                     etFunn.koordinat = f.koordinat;
                     etFunn.kommune = f.kommune;
@@ -246,29 +268,26 @@ namespace FunnregistreringsAPI.DAL
                     etFunn.datum = f.datum;
                     etFunn.areal_type = f.areal_type;
                     etFunn.funndato = f.funndato;
-
-                    if(etFunn.gbnr.gb_nr != f.gbnr.gb_nr || etFunn.gbnr.grunneier.Fornavn != f.gbnr.grunneier.Fornavn || etFunn.gbnr.grunneier.Etternavn != f.gbnr.grunneier.Etternavn ||
-                        etFunn.gbnr.grunneier.Postnr.Postnr != f.gbnr.grunneier.Postnr.Postnr || etFunn.gbnr.grunneier.Postnr.Poststed != f.gbnr.grunneier.Postnr.Poststed
-                        || etFunn.gbnr.grunneier.Adresse != f.gbnr.grunneier.Adresse || etFunn.gbnr.grunneier.Epost != f.gbnr.grunneier.Epost || etFunn.gbnr.grunneier.Tlf != f.gbnr.grunneier.Tlf) 
-                    {
-                        etFunn.gbnr.gb_nr = f.gbnr.gb_nr;
-                        etFunn.gbnr.grunneier.Fornavn = f.gbnr.grunneier.Fornavn;
-                        etFunn.gbnr.grunneier.Etternavn = f.gbnr.grunneier.Etternavn;
-                        etFunn.gbnr.grunneier.Adresse = f.gbnr.grunneier.Adresse;
-                        etFunn.gbnr.grunneier.Epost = f.gbnr.grunneier.Epost;
-                        etFunn.gbnr.grunneier.Postnr.Postnr = f.gbnr.grunneier.Postnr.Postnr;
-                        etFunn.gbnr.grunneier.Postnr.Poststed = f.gbnr.grunneier.Postnr.Postnr;
-                        etFunn.gbnr.grunneier.Tlf = f.gbnr.grunneier.Tlf;
-                    }
-
+                    etFunn.gbnr.gb_nr = f.gbnr.gb_nr;
+                    etFunn.gbnr.grunneier.Fornavn = f.gbnr.grunneier.Fornavn;
+                    etFunn.gbnr.grunneier.Etternavn = f.gbnr.grunneier.Etternavn;
+                    etFunn.gbnr.grunneier.Adresse = f.gbnr.grunneier.Adresse;
+                    etFunn.gbnr.grunneier.Epost = f.gbnr.grunneier.Epost;
+                       // etFunn.gbnr.grunneier.Postnr.Postnr = f.gbnr.grunneier.Postnr.Postnr;
+                       // etFunn.gbnr.grunneier.Postnr.Poststed = f.gbnr.grunneier.Postnr.Postnr;
+                    etFunn.gbnr.grunneier.Tlf = f.gbnr.grunneier.Tlf;
+                    
                     await _db.SaveChangesAsync();
-                    return true;
+                    return "";
                 }
-                return false; // funn is not found
+                return "Funn is not found"; // funn is not found
             }
             catch (Exception e)
             {
-                return false;
+                return ("Message: " + e.Message +
+                    "Inner Exception: " + e.InnerException +
+                    "Stack Trace: " + e.StackTrace);
+            
             }
         }
 

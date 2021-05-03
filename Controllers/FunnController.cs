@@ -77,8 +77,8 @@ namespace FunnregistreringsAPI.Controllers
         {
             try
             {
-                bool deleteOK = await _db.DeleteFunn(funnID);
-                if (!deleteOK) return NotFound("Funn could not be deleted");
+                var deleteOK = await _db.DeleteFunn(funnID);
+                if (deleteOK != "") return NotFound(deleteOK);
                 return Ok("Funn was successfully deleted");
             }
             catch(Exception e)
@@ -96,8 +96,8 @@ namespace FunnregistreringsAPI.Controllers
                 {
                     return NotFound("Funn is empty/not found");
                 }
-                bool editOK = await _db.EditFunn(f);
-                if (!editOK) return NotFound("Funn could not be edited");
+                var editOK = await _db.EditFunn(f);
+                if (editOK != "") return NotFound(editOK);
                 return Ok("Funn was edited");
             }
             catch (Exception e)
