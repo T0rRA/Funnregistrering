@@ -273,7 +273,7 @@ namespace FunnregistreringsAPI.DAL
                 if (etFunn != null)
                 {
                     //checks if gbnr is null
-                    if(etFunn.gbnr == null)
+                    if(etFunn.gbnr.Equals(null))
                     {
                         etFunn.gbnr = f.gbnr;
                     }
