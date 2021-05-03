@@ -278,11 +278,11 @@ namespace FunnregistreringsAPI.DAL
                         etFunn.gbnr = f.gbnr;
                     }
                     // check if grunneier-postnr has changed
-                    if(etFunn.gbnr.grunneier.Postnr.Postnr == null || etFunn.gbnr.grunneier.Postnr.Postnr != f.gbnr.grunneier.Postnr.Postnr )
+                    if(etFunn.gbnr.grunneier.Postnr.Equals(null) || etFunn.gbnr.grunneier.Postnr.Postnr != f.gbnr.grunneier.Postnr.Postnr )
                     {
                         // postnr has changed, does it exist in our db?
                         var postNr = await _db.postadresser.FindAsync(f.gbnr.grunneier.Postnr.Postnr);
-                        if (postNr == null) // if postadresse does not exist
+                        if (postNr.Equals(null)) // if postadresse does not exist
                         {
                             // create a new one
                             Postadresse postadresse = new Postadresse
