@@ -1,16 +1,36 @@
 package com.bachelor_group54.funnregistrering;
 
-import java.io.Serializable;
-// Attributter, Getters and Setters
-public class User implements Serializable {
-    private String name, lastName, address, postalCode, phoneNum, email, password;
+// Attributes, Getters and Setters
+// Using Singleton design pattern to access the user trough the program
+public class User {
+    private String username, name, lastName, address, postalCode, phoneNum, email,password;
+    private int userID;
 
-    public String getPassword() {
-        return password;
+    //Singleton design pattern start
+    private static final User INSTANCE = new User();
+
+    private User(){}
+
+    public static User getInstance() {
+        return INSTANCE;
+    }
+    //Singleton design pattern end
+
+
+    public int getUserID() {
+        return userID;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getLastName() {
@@ -59,5 +79,13 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

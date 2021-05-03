@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mPager;
     private ScreenSlidePagerAdapter pagerAdapter;
     private FragmentLogin fragmentLogin;
+    private FragmentIntroPage fragmentIntroPage;
 
 
     @Override
@@ -202,6 +203,11 @@ public class MainActivity extends AppCompatActivity {
 
         openFragment(fragmentLogin);
     }
+    public void toIntroPageBtn(View view){ //login page button
+
+        fragmentIntroPage = new FragmentIntroPage();
+        openFragment(fragmentIntroPage);
+    }
 
     public void openFragment(Fragment fragment) {
         mPager.setVisibility(View.GONE); //Sets the main fragments visibility to gone so that the user cannot se or interact with it
@@ -217,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SetPreferenceActivity.class);
         startActivity(intent);
     }
+
 
     public void closeFragment() {
         fm.popBackStack();//Goes back to the slide fragments

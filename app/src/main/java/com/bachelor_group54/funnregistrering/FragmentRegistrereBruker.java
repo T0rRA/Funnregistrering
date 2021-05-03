@@ -80,7 +80,7 @@ public class FragmentRegistrereBruker extends Fragment {
     public void saveUserBtn() {
         String confirmationPw;
 
-        User user = new User(); //new user object
+        User user = User.getInstance(); //new user object
 
         EditText nameET = view.findViewById(R.id.name_new); //finds the editText containing the name
         user.setName(nameET.getText().toString()); //adds the content (the name) to the user object
