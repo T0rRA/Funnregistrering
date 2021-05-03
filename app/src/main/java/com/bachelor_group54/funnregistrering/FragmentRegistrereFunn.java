@@ -190,7 +190,7 @@ public class FragmentRegistrereFunn extends Fragment {
         params.put("datum" , makeStringNonNull(funn.getDatum()));
         params.put("areal_type" , makeStringNonNull(funn.getArealType()));
 
-        params.put("brukernavn" , "helge"); //fixme uncomment user.getUsername
+        params.put("brukernavn" , "helge2"); //fixme uncomment user.getUsername
 
         params.put("innGBNr.gb_nr" , makeStringNonNull(funn.getGbnr()));
         params.put("innGBNr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierNavn())); //fixme fornavn og etternavn
@@ -220,6 +220,7 @@ public class FragmentRegistrereFunn extends Fragment {
             Address address = locations.get(0);
             funn.setKommune(address.getSubAdminArea());
             funn.setFylke(address.getAdminArea());
+            funn.setGrunneierPostNr(address.getPostalCode());
         } catch(Exception e) {
             e.printStackTrace();
         }

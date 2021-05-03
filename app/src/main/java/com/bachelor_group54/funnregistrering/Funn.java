@@ -1,5 +1,7 @@
 package com.bachelor_group54.funnregistrering;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -16,6 +18,8 @@ public class Funn implements Serializable {
 
     //The picture int is the number that needs to be given to the ImageSaver class to load the correct image
     private int bildeID, funnID;
+
+    private Bitmap bilde;
 
     private boolean funnmeldingSendt = false, funnskjemaSendt = false;
 
@@ -82,6 +86,14 @@ public class Funn implements Serializable {
             }
         }
         return longitude != 200 && latitude != 200 && funndybde != -1 && bildeID != 0; //Checks if the ints and doubles are valid
+    }
+
+    public Bitmap getBilde() {
+        return bilde;
+    }
+
+    public void setBilde(Bitmap bilde) {
+        this.bilde = bilde;
     }
 
     public String getOpplysninger() {

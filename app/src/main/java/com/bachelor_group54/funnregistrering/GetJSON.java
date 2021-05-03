@@ -1,9 +1,13 @@
 package com.bachelor_group54.funnregistrering;
 
 import android.content.Context;
+import android.media.Image;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +43,8 @@ public class GetJSON extends AsyncTask<String, Void, String> {
         String lineFromServer = "";
         StringBuilder stringFromServer = new StringBuilder();
 
+        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<>();
+
         try {
             URL urlen = new URL("https://funnapi.azurewebsites.net/" + urls[0]);
             HttpURLConnection conn = (HttpURLConnection) urlen.openConnection();
@@ -70,64 +76,76 @@ public class GetJSON extends AsyncTask<String, Void, String> {
                         }
                     }
                     outPutString.append("\n");
+                    jsonObjectArrayList.add(jsonobject);
                 }
+                makeList(jsonObjectArrayList);
                 return outPutString.toString();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             return stringFromServer.toString();
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
-            return "getJson.execute trenger URL";
         } catch (Exception e) {
             e.printStackTrace();
-            return "Something went wrong!";
+            return null;
+        }
+    }
+
+    //Method for making the list in myFinds
+    //Separate method as the image contains \n that messes up my split("\n") implementation in onPostExecute
+    private void makeList(ArrayList<JSONObject> jsonObjectArrayList){
+        if(fragmentMineFunn != null){
+            final ArrayList<Funn> findsList = new ArrayList<>();
+            try {
+                for (JSONObject jsonObject: jsonObjectArrayList) {
+                    Funn find = new Funn();
+
+                    try {
+                        find.setFunnID(Integer.parseInt(jsonObject.get("funnID").toString()));
+                        find.setBilde(ImageSaver.makeBitmapFormBase64(jsonObject.get("image").toString()));
+                        find.setDato(jsonObject.get("funndato").toString());
+                        find.setKommune(jsonObject.get("kommune").toString());
+                        find.setFylke(jsonObject.get("fylke").toString());
+                        find.setFunndybde(Double.parseDouble(jsonObject.get("funndybde").toString()));
+                        find.setGjenstandMerking(jsonObject.get("gjenstand_markert_med").toString());
+                        find.setLatitude(Double.parseDouble((jsonObject.get("koordinat").toString()).split(" ")[0].replace("N", "")));
+                        find.setLongitude(Double.parseDouble((jsonObject.get("koordinat").toString()).split(" ")[1].replace("W", "")));
+                        find.setDatum(jsonObject.get("datum").toString());
+                        find.setArealType(jsonObject.get("areal_type").toString());
+                    } catch (NumberFormatException e) {
+                        System.out.println("-----------------\nNumber format exception i GetJSON");
+                        e.printStackTrace();
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println("-----------------\nArray out of bounds i GetJSON");
+                        e.printStackTrace();
+                    }
+                    findsList.add(find);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            new Handler(Looper.getMainLooper()).post(new Runnable() { //Must run the makeList method in the UI thread
+                @Override
+                public void run() {
+                    fragmentMineFunn.makeList(findsList);
+                }
+            });
+
         }
     }
 
     //Setts the textView's text to the output of the doInBackground method if the .execute method was called
     @Override
     protected void onPostExecute(String jsonString) {
+        if(jsonString == null || jsonString.equals("")){return;}
         if(textView != null) {
             textView.setText(jsonString);
-        }
-
-        if(fragmentMineFunn != null){
-            ArrayList<Funn> findsList = new ArrayList<>();
-            for(String line : jsonString.split("\n")){
-                Funn find = new Funn();
-                String[] fields = line.split(",");
-
-                try {
-                    find.setFunnID(Integer.parseInt(fields[0]));
-                    //TODO legge til bilde
-                    find.setDato(fields[2]);
-                    find.setKommune(fields[3]);
-                    find.setFylke(fields[4]);
-                    find.setFunndybde(Double.parseDouble(fields[5]));
-                    find.setGjenstandMerking(fields[6]);
-                    find.setLatitude(Double.parseDouble(fields[7].split(" ")[0].replace("N", "")));
-                    find.setLongitude(Double.parseDouble(fields[7].split(" ")[1].replace("W", "")));
-                    find.setDatum(fields[8]);
-                    find.setArealType(fields[9]);
-                }catch (NumberFormatException e){
-                    System.out.println("-----------------\nNumber format exception i GetJSON");
-                    e.printStackTrace();
-                } catch (ArrayIndexOutOfBoundsException e){
-                    System.out.println("-----------------\nArray out of bounds i GetJSON");
-                    e.printStackTrace();
-                }
-
-                findsList.add(find);
-            }
-            fragmentMineFunn.makeList(findsList);
         }
 
         if(fragmentLogin != null){
             User user = User.getInstance();
             try {
-                jsonString = jsonString.substring(0 , jsonString.indexOf("[")) + jsonString.substring(jsonString.indexOf("]")); //Removes the list of finds
-                System.out.println("------------------------------\n" + jsonString);
+                //jsonString = jsonString.substring(0 , jsonString.indexOf("[")) + jsonString.substring(jsonString.indexOf("]")); //Removes the list of finds
 
                 String[] fields = jsonString.split(",");
 

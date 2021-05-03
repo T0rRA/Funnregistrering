@@ -89,7 +89,7 @@ public class FragmentEnkeltFunn extends Fragment {
     public void loadFunn() {
         String tomtFelt = "ikke fylt ut";
         ImageView imageView = view.findViewById(R.id.fragment_enkelt_funn_bilde); //Finds the image view
-        imageView.setImageBitmap(ImageSaver.loadImage(getContext(), funn.getBildeID())); //Sets the image view to the finds image
+        imageView.setImageBitmap(funn.getBilde()); //Sets the image view to the finds image
 
         //TODO finne ut hvilke felter brukeren skal kunne endre selv
 
@@ -208,7 +208,7 @@ public class FragmentEnkeltFunn extends Fragment {
         User user = User.getInstance();
 
         Map<String,String> params = new HashMap<String, String>();
-        params.put("image" , makeStringNonNull(ImageSaver.makeBase64FromBitmap(picture)));
+        params.put("image" , makeStringNonNull(ImageSaver.makeBase64FromBitmap(funn.getBilde())));
         params.put("funndato" , makeStringNonNull(funn.getDato()));
         params.put("kommune", makeStringNonNull(funn.getKommune()));
         params.put("fylke" , makeStringNonNull(funn.getFylke()));
@@ -218,14 +218,14 @@ public class FragmentEnkeltFunn extends Fragment {
         params.put("datum" , makeStringNonNull(funn.getDatum()));
         params.put("areal_type" , makeStringNonNull(funn.getArealType()));
 
-        params.put("BrukerUserID" , user.getUserID() + ""); //fixme uncomment user.getUsername
+        params.put("BrukerUserID" , "11"); //fixme uncomment user.getUsername
         params.put("FunnID", funn.getFunnID() + "");
 
         params.put("innGBNr.gb_nr" , makeStringNonNull(funn.getGbnr()));
         params.put("innGBNr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierNavn())); //fixme fornavn og etternavn
         params.put( "innGBNr.grunneier.Etternavn" , makeStringNonNull(funn.getGrunneierNavn()));
         params.put("innGBNr.grunneier.Adresse" , makeStringNonNull(funn.getGrunneierAdresse()));
-        params.put("innGBNr.grunneier.Postnr" , makeStringNonNull(funn.getGrunneierPostNr()));
+        params.put("innGBNr.grunneier.Postnr" , "1352");// fixme makeStringNonNull(funn.getGrunneierPostNr()));
         params.put("innGBNr.grunneier.Poststed" , makeStringNonNull(funn.getGrunneierPostSted()));
         params.put("innGBNr.grunneier.Tlf" , makeStringNonNull(funn.getGrunneierTlf()));
         params.put("innGBNr.grunneier.Epost" , makeStringNonNull(funn.getGrunneierEpost()));
@@ -259,6 +259,9 @@ public class FragmentEnkeltFunn extends Fragment {
         if (!depth.getText().toString().equals("")) {
             funn.setFunndybde(Double.parseDouble(depth.getText().toString())); //Changes the info inn the find
         }
+
+
+        funn.setBilde(picture);
 
         //Just the same all the way, find the text fields and updates the find
         EditText title = view.findViewById(R.id.fragment_enkelt_funn_et_tittel);

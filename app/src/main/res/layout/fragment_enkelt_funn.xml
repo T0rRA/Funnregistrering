@@ -211,7 +211,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grunneier: "
+                    android:text="Grunneier adresse: "
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -234,7 +234,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grunneier: "
+                    android:text="Grunneier postNr: "
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -257,7 +257,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grunneier: "
+                    android:text="Grunneier poststed: "
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -280,7 +280,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grunneier: "
+                    android:text="Grunneier tlf: "
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -303,7 +303,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grunneier: "
+                    android:text="Grunneier epost: "
                     android:textColor="#000000"
                     android:textSize="18sp" />
 

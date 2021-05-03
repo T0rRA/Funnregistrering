@@ -78,7 +78,7 @@ public class ListAdapter extends BaseAdapter{
         viewHolder.textViewSted.setText(itemList.get(position).getKommune()); //Sets the location of the list item
 
         viewHolder.picture = convertView.findViewById(R.id.image_mine_funn_liste_item); //Gets the image View of the list item
-        viewHolder.picture.setImageBitmap(ImageSaver.loadImage(context,itemList.get(position).getBildeID())); //Sets the image of the list item
+        viewHolder.picture.setImageBitmap(itemList.get(position).getBilde()); //Sets the image of the list item
 
         viewHolder.linearLayout = convertView.findViewById(R.id.linear_layout_mine_funn_item);
         viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
