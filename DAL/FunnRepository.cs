@@ -92,7 +92,6 @@ namespace FunnregistreringsAPI.DAL
                                 //to overwrite pa so that we can use pa as the common variable in line 69
                                 pa = newPa;
                             }
-
                             //create new grunneier
                             Grunneier ge = new Grunneier
                             {
@@ -273,47 +272,25 @@ namespace FunnregistreringsAPI.DAL
                 if (etFunn != null)
                 {
                     //checks if gbnr is null
-                    if(etFunn.gbnr.Equals(null))
+                    if(etFunn.gbnr == null)
                     {
                         etFunn.gbnr = f.gbnr;
                     }
-                    // check if grunneier-postnr has changed
-                    if(etFunn.gbnr.grunneier.Postnr.Equals(null) || etFunn.gbnr.grunneier.Postnr.Postnr == null || etFunn.gbnr.grunneier.Postnr.Postnr != f.gbnr.grunneier.Postnr.Postnr )
+
+                    // check if postnr exists in db
+                    var postNr = await _db.postadresser.FindAsync(f.gbnr.grunneier.Postnr.Postnr);
+                    if (postNr == null) // if postadresse does not exist
                     {
-                        // postnr has changed, does it exist in our db?
-                        var postNr = await _db.postadresser.FindAsync(f.gbnr.grunneier.Postnr.Postnr);
-                        if (postNr.Equals(null)) // if postadresse does not exist
+                        // create a new one
+                        Postadresse postadresse = new Postadresse
                         {
-                            // create a new one
-                            Postadresse postadresse = new Postadresse
-                            {
-                                Postnr = f.gbnr.grunneier.Postnr.Postnr,
-                                Poststed = f.gbnr.grunneier.Postnr.Poststed
-                            };
-                            etFunn.gbnr.grunneier.Postnr = postadresse;
-                            await _db.postadresser.AddAsync(postadresse);
-                        }
-
-
-                        /* if (postNr == null)
-                        {
-                            // it does not exist and will be added
-                            var nyPostadr = new Postadresse();
-                            nyPostadr.Postnr = f.gbnr.grunneier.Postnr.Postnr;
-                            nyPostadr.Poststed = f.gbnr.grunneier.Postnr.Poststed;
-
-                            etFunn.gbnr.grunneier.Postnr = nyPostadr;
-
-                            _db.postadresser.Add(nyPostadr); // add to db
-                        }
-                        else
-                        {
-                            //it exists in our db
-                            etFunn.gbnr.grunneier.Postnr = postNr;
-                        }*/
+                            Postnr = f.gbnr.grunneier.Postnr.Postnr,
+                            Poststed = f.gbnr.grunneier.Postnr.Poststed
+                        };
+                        etFunn.gbnr.grunneier.Postnr = postadresse;
+                        await _db.postadresser.AddAsync(postadresse);
                     }
-
-                    // funn is found
+                        // funn is found
                     etFunn.koordinat = f.koordinat;
                     etFunn.kommune = f.kommune;
                     etFunn.image = f.image;
@@ -330,8 +307,8 @@ namespace FunnregistreringsAPI.DAL
                     etFunn.gbnr.grunneier.Etternavn = f.gbnr.grunneier.Etternavn;
                     etFunn.gbnr.grunneier.Adresse = f.gbnr.grunneier.Adresse;
                     etFunn.gbnr.grunneier.Epost = f.gbnr.grunneier.Epost;
-                    etFunn.gbnr.grunneier.Postnr.Postnr = f.gbnr.grunneier.Postnr.Postnr;
-                    etFunn.gbnr.grunneier.Postnr.Poststed = f.gbnr.grunneier.Postnr.Postnr;
+                    //etFunn.gbnr.grunneier.Postnr.Postnr = f.gbnr.grunneier.Postnr.Postnr;
+                    //etFunn.gbnr.grunneier.Postnr.Poststed = f.gbnr.grunneier.Postnr.Postnr;
                     etFunn.gbnr.grunneier.Tlf = f.gbnr.grunneier.Tlf;
                     
                     await _db.SaveChangesAsync();
