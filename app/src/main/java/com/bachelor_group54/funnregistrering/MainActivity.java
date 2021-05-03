@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mPager;
     private ScreenSlidePagerAdapter pagerAdapter;
     private FragmentLogin fragmentLogin;
+    private FragmentIntroPage fragmentIntroPage;
 
 
     @Override
@@ -200,6 +201,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentLogin = new FragmentLogin();
 
         openFragment(fragmentLogin);
+    }
+    public void toIntroPageBtn(View view){ //login page button
+
+        fragmentIntroPage = new FragmentIntroPage();
+        openFragment(fragmentIntroPage);
     }
 
     public void openFragment(Fragment fragment) {

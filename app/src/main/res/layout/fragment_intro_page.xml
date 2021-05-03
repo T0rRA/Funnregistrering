@@ -11,27 +11,24 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="75dp">
-    <EditText
-        android:id="@+id/user_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/login_user_name"
-        />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/login_password" />
+        android:paddingVertical="45dp">
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Velkommen til Finnerlønn!"
+            android:textSize="26dp"
+            android:textStyle="bold"
+            android:paddingBottom="16dp"
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/introText"
+            android:textSize="20dp"
+            android:textAlignment="center"/>
     </LinearLayout>
-
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:onClick="loginBtn"
-        android:text="@string/login_login" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -46,18 +43,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingRight="15dp"
-                android:text="@string/login_not_a_user" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="fragmentLoginRegBtn"
-                android:text="@string/login_Reg_here" />
+                android:onClick="toLoginPageBtn"
+                android:text="Gå videre"/>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/bottomColor"
             android:layout_width="match_parent"
