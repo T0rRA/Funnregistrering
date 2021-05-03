@@ -10,6 +10,7 @@ namespace FunnregistreringsAPI.Models
     public class Postadresse
     { 
         [Key]
+        public int PostadresseID { get; set; }
         public string Postnr { get; set; }
         public string Poststed { get; set; }
        
