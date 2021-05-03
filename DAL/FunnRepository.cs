@@ -33,7 +33,7 @@ namespace FunnregistreringsAPI.DAL
             try
             {
 
-                if (nyttFunn.innGBNr.grunneier.Postnr == null || nyttFunn.innGBNr.grunneier.Poststed == null || nyttFunn.innGBNr.gb_nr == null)
+                if (nyttFunn.innGBNr == null||nyttFunn.innGBNr.grunneier.Postnr == null || nyttFunn.innGBNr.grunneier.Poststed == null || nyttFunn.innGBNr.gb_nr == null)
                 {
                     Bruker realUser = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
 
