@@ -5,6 +5,7 @@
 
     <!--Permission for file writing-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <!-- Permission needed for getting device location (The bottom two are only needed if using network location)-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>

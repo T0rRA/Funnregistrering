@@ -3,6 +3,12 @@ package com.bachelor_group54.funnregistrering;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -13,14 +19,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+
+
 
 //This fragment displays one selected find at the time. The find can also be edited here.
 public class FragmentEnkeltFunn extends Fragment {
@@ -28,11 +38,14 @@ public class FragmentEnkeltFunn extends Fragment {
     private Funn funn; //The find the view is displaying
     private int position; //The finds position in the saved list
     private Bitmap picture;
+    private Bitmap scalebmp; // creating variable for image storing
+    private Rect bounds = new Rect();
 
     //Simple constructor for getting the find that the fragment should display
     public FragmentEnkeltFunn(Funn funn, int position) {
         this.funn = funn;
         this.position = position;
+
     }
 
     @Nullable
@@ -40,6 +53,11 @@ public class FragmentEnkeltFunn extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_enkelt_funn, container, false); //Loads the page from the XML file
         //Add setup code here later
+
+        //Initializing and scaling of the background /TODO: Kan brukes for scaling av bildet også om det skal med
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.funnskjema_bg);
+        scalebmp =Bitmap.createScaledBitmap(bmp,2480,3508,false);
+
         loadFunn();
         updateStatusBtn();
         setTextWatchers();
@@ -50,6 +68,35 @@ public class FragmentEnkeltFunn extends Fragment {
     public void onResume() {
         super.onResume();
         updateStatusBtn();
+    }
+
+    //Parmams: str is the string we want to split. splitSize is the size of each split.
+    public ArrayList<String> makeLine(String str, int splitSize){
+        ArrayList<String> lines = new ArrayList<>();
+        StringBuilder outString = new StringBuilder();
+        int currLength = 0;
+
+        for(String s: str.split(" ")){
+            currLength += s.length();
+            if(currLength > splitSize){
+                lines.add(outString.toString());
+                outString = new StringBuilder();
+                currLength = 0;
+            }
+            outString.append(s).append(" ");
+        }
+        lines.add(outString.toString());
+        return lines;
+    }
+
+    public void drawString(Canvas canvas, Paint paint, String str, int x, int y) {
+        ArrayList<String> lines = makeLine(str, 75);
+        int yoff = 0; // lengde fra topp
+        for (int i=0; i<lines.size();i++ ) {
+            canvas.drawText(lines.get(i), x, y + yoff, paint);
+            paint.getTextBounds(lines.get(i), 0, lines.get(i).length(), bounds);
+            yoff += bounds.height();
+        }
     }
 
     //Makes the status buttons update when editTexts are changed
@@ -280,6 +327,127 @@ public class FragmentEnkeltFunn extends Fragment {
         funn.setFylke(fylke.getText().toString());
     }
 
+    public File pdfGenerator(){
+        // Creation of an object variable for the PDF document
+        PdfDocument pdfDocument = new PdfDocument();
+
+        //Paint is used to draw shapes and add text
+        Paint picture = new Paint();
+        Paint text = new Paint();
+
+        /*Adding pageInfo to the the PDF
+        * Passing the width, height and number of pages
+        * Creates the PDF */
+        // declaring pdf height
+        int pdfHeight = 3508;
+        // declaring pdf width
+        int pdfWidth = 2480;
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(pdfWidth, pdfHeight,1).create();
+
+        //sets the PDFs startpage.
+        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+
+        //creates canvas variable from the startpage.
+        Canvas canvas = page.getCanvas();
+
+        /*Draws image on pdf file:
+        * bitmap is the 1st parameter,
+        * position from left is the 2nd parameter,
+        * position from top is the 3rd parameter,
+        * the paint variable is the 4th parameter. */
+        canvas.drawBitmap(scalebmp,0,0,picture);
+
+        // adding typeface for the text
+        text.setTypeface(Typeface.create(Typeface.MONOSPACE,Typeface.NORMAL));
+
+        //Setting text size (in the pdf)
+        text.setTextSize(36);
+
+        //Setting color on the text
+       /*
+        int color = ContextCompat.getColor(getContext(),R.color.colorPrimaryDark);
+        text.setColor(color);
+        */
+
+        /* Draws the text on the pdf
+        * the text is the 1st parameter,
+        * the position from start is the 2nd parameter,
+        * the position from top is the 3rd parameter,
+        * the paint variable  (text) is the 4th parameter.
+        * */
+
+        /*  Finner:
+        *  TODO: Legg til poststed i User.java*/
+        User user = User.getInstance();
+        canvas.drawText(user.getName()+""+user.getLastName(), 300,450, text); // Navn
+        canvas.drawText(user.getAddress(), 300,575, text); // Adresse
+        canvas.drawText(user.getPostalCode(), 300,700, text); // Postnr.
+        canvas.drawText("LEGG TIL POSTSTED I USER", 700,700, text); //sted
+        canvas.drawText(user.getPhoneNum(), 300,825, text); // Tlf
+        canvas.drawText(user.getEmail(), 300,955, text); // epost
+
+
+        /*  Grunneier:  TODO: Registrering av tillatelse*/
+        canvas.drawText(funn.getGrunneierNavn(), 1500,450, text); // Navn
+        canvas.drawText(funn.getGrunneierAdresse(), 1500,575, text); // Adresse
+        canvas.drawText(funn.getGrunneierPostNr(), 1500,700, text); // Postnr.
+        canvas.drawText(funn.getGrunneierPostSted(), 1900,700, text); //sted
+        canvas.drawText(funn.getGrunneierTlf(), 1500,825, text); // Tlf
+        canvas.drawText(funn.getGrunneierEpost(), 1500,955, text); // epost
+        canvas.drawText("X", 2335,855, text); // Tillatelse
+
+        /*Funnet*/
+        canvas.drawText(funn.getDato(),110, 1175, text); //Funndato
+        canvas.drawText(funn.getFunnsted(),425, 1175, text); // Funnsted, gård, gbnr
+        canvas.drawText(funn.getKommune(),1250, 1175, text); // Kommune
+        canvas.drawText(funn.getFylke(),1900, 1175, text); // Fylke
+
+        canvas.drawText(funn.getGjenstand(),110, 1360, text); //Gjenstand
+        canvas.drawText(""+funn.getFunndybde(),1250, 1360, text); // Funndybde
+        canvas.drawText(funn.getGjenstandMerking(),1575, 1360, text); // merket med
+
+        canvas.drawText(""+funn.getLongitude(),110, 1550, text); // øst
+        canvas.drawText(""+funn.getLatitude(),550, 1550, text); // nord
+        canvas.drawText(funn.getDatum(),1000, 1550, text); //datum/projeksjon
+
+        /*MåleMetode*/
+        canvas.drawText(" ",615,1650,text); //Håndholdt GPS
+        canvas.drawText("X",950,1650,text); // Mobiltelefon
+        canvas.drawText(" ",1280,1650,text); // Digitalt kart
+
+        /*Arealtype*/
+        //TODO legg til når droppdown i funn er fiksa
+        canvas.drawText("X",1755,1555,text); // Åker
+        canvas.drawText("X",1755,1595,text); // Beite
+        canvas.drawText("X",1755,1635,text); // Hage
+
+        canvas.drawText("X",1990,1515,text); // Skog
+        canvas.drawText("X",1990,1555,text); // Fjell
+        canvas.drawText("X",1990,1595,text); // Strand
+        canvas.drawText("X",1990,1635,text); // Vann
+
+        //Andre opplysninger og observasjoner
+        drawString(canvas,text, funn.getBeskrivelse(),110,1850);
+
+        //finishing the page
+        pdfDocument.finishPage(page);
+
+        //sets storage path
+        String path = getContext().getFilesDir().getPath(); //Gets program path
+        String filename = "/funnskjema.pdf"; //Sets the pdf name TODO: add Dynamisk navn på funnskjema(?)
+        File file = new File(path+filename);
+
+        //writes the pdf to the path
+        try{
+            pdfDocument.writeTo(new FileOutputStream(file));
+            Toast.makeText(getContext(), "PDF'en er lagd!", Toast.LENGTH_SHORT).show();
+        } catch (IOException e){ //error handling
+            e.printStackTrace();
+        }
+        //closing pdf
+        pdfDocument.close();
+        return file;
+    }
 
     public void savePicture() {
         //Gets the image ID
@@ -365,16 +533,17 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public void sendFunnmelding() {
-        EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), funn.getBildeID(), getContext());
+        EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), getContext(),new File(ImageSaver.getImagePath(getContext(),funn.getBildeID())));
         funn.setFunnmeldingSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        saveFind();
+        saveFind(); //TODO bytte ut med oppdatering av databasen
     }
 
     public void sendFunnskjema() {
-        //TODO finne ut hvordan man lager PDF
-        EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, funn.getBildeID(), getContext());
+        //TODO finne ut hvordan man lager PDF -> lagdt til metode for generering av pdf
+
+        EmailIntent.sendEmail("tor.ryan.andersen@gmail.com"/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, getContext(), pdfGenerator());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        saveFind();
+        saveFind(); //TODO bytte ut med oppdatering av databasen
     }
 
     //Updates the status buttons when editText are changed

@@ -223,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     public void closeFragment() {
         fm.popBackStack();//Goes back to the slide fragments
         mPager.setVisibility(View.VISIBLE); //Makes the main fragments visible again
