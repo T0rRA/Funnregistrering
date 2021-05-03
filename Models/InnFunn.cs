@@ -16,6 +16,8 @@ namespace FunnregistreringsAPI.Models
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
         public string kommune { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
+        public string tittel { get; set; }
+        public string beskrivelse { get; set; }
         public string fylke { get; set; }
         //[RegularExpression(@"^[0-9 ]+(cm|mm|centimeter|m|meter|millimeter|km|kilometer)$")]
         public string funndybde { get; set; }

@@ -24,5 +24,7 @@ namespace FunnregistreringsAPI.Models
         public string datum { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ-._ ]{2,20}$")]
         public string areal_type { get; set; }
+        public string tittel { get; set; }
+        public string beskrivelse { get; set; }
     }
 }

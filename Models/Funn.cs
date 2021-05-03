@@ -17,6 +17,8 @@ namespace FunnregistreringsAPI.Models
         public int BrukerUserID { get; set; }
         public string image { get; set; }
         public string funndato { get; set; }
+        public string tittel { get; set; }
+        public string beskrivelse { get; set; }
 
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
         public string kommune { get; set; }
