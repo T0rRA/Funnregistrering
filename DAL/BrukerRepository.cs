@@ -261,17 +261,7 @@ namespace FunnregistreringsAPI.DAL
                     ny_bruker.Etternavn = bruker.Etternavn;
                     ny_bruker.Adresse = bruker.Adresse;
 
-                    Postadresse postadress1 = await _db.postadresser.FirstOrDefaultAsync(post => post.Postnr == bruker.Postnr);
-                    if (postadress1 == null)
-                    {
-                        Postadresse postadresse = new Postadresse
-                        {
-                            Postnr = bruker.Postnr,
-                            Poststed = bruker.Poststed
-                        };
-                        ny_bruker.Postnr = postadresse;
-                        await _db.postadresser.AddAsync(postadresse);
-                    }
+
                     // find postal address
                     var finnPostadr = await _db.postadresser.FindAsync(bruker.Postnr);
                     if (finnPostadr == null)
