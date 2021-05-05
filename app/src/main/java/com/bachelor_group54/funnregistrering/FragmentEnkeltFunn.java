@@ -16,10 +16,15 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,6 +63,17 @@ public class FragmentEnkeltFunn extends Fragment {
         //Initializing and scaling of the background /TODO: Kan brukes for scaling av bildet også om det skal med
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.funnskjema_bg);
         scalebmp =Bitmap.createScaledBitmap(bmp,2480,3508,false);
+
+
+        //Initializes dropdown for area type
+        Spinner areaType = view.findViewById(R.id.fragment_enkelt_funn_dropdown_arealtype);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.area_type_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        areaType.setAdapter(adapter);
 
         loadFunn();
         updateStatusBtn();
@@ -158,15 +174,15 @@ public class FragmentEnkeltFunn extends Fragment {
                     et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 4, 4, et));
                     break;
                 case 10: //Owner post place
-                case 20: //County
-                case 21: //Municipality
+                case 19: //County
+                case 20: //Municipality
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 1, 30, et));
                     break;
                 case 11: //Owner tlf
                     et.addTextChangedListener(new PhoneInputValidator(et));
                     break;
                 case 12: //Description //fixme skal denn være med?
-                case 17: //Other info
+                case 16: //Other info
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 200, et));
                     break;
                 case 13: //Item fixme vet ikke hva som skal stå i dette feltet så det må kanskje endres senere
@@ -178,12 +194,9 @@ public class FragmentEnkeltFunn extends Fragment {
                 case 15: //Datum
                     et.addTextChangedListener(new InputValidater(getContext(), false, true, true, 0, 6, et));
                     break;
-                case 16: //Area type fixme make dropdown later
-                    et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 20, et));
-                    break;
-                case 18: //Farm fixme vet ikke hva som skal stå her
-                case 19: //Gbnr fixme vet ikke hva som skal stå her
-                    et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 0, 20, et));
+                case 17: //Farm fixme vet ikke hva som skal stå her
+                case 18: //Gbnr fixme vet ikke hva som skal stå her
+                    et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 0, 8, et));
                     break;
             }
             et.addTextChangedListener(new StatusUpdater()); //Setts the textWatcher on the editText
@@ -253,8 +266,8 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText ageEt = view.findViewById(R.id.fragment_enkelt_funn_et_datum);
         setText(funn.getDatum(), ageEt);
 
-        EditText areaTypeEt = view.findViewById(R.id.fragment_enkelt_funn_et_arealtype);
-        setText(funn.getArealType(), areaTypeEt);
+        Spinner areaType = view.findViewById(R.id.fragment_enkelt_funn_dropdown_arealtype);
+        areaType.setSelection(funn.getArealTypeIndex(getContext()));
 
         EditText moreInfoEt = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
         setText(funn.getOpplysninger(), moreInfoEt);
@@ -377,8 +390,8 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText ageEt = view.findViewById(R.id.fragment_enkelt_funn_et_datum);
         funn.setDatum(inputChecker(ageEt, "datum"));
 
-        EditText areaTypeEt = view.findViewById(R.id.fragment_enkelt_funn_et_arealtype);
-        funn.setArealType(inputChecker(areaTypeEt, "arealtype"));
+        Spinner areaTypeSpinner = view.findViewById(R.id.fragment_enkelt_funn_dropdown_arealtype);
+        funn.setArealTypeWithIndex((int)areaTypeSpinner.getSelectedItemId(), getContext());
 
         EditText moreInfoEt = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
         funn.setOpplysninger(inputChecker(moreInfoEt, "andre opplysninger"));

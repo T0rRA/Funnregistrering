@@ -1,5 +1,7 @@
 package com.bachelor_group54.funnregistrering;
 
+import android.content.Context;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -82,6 +84,26 @@ public class Funn implements Serializable {
             }
         }
         return longitude != 200 && latitude != 200 && funndybde != -1 && bildeID != 0; //Checks if the ints and doubles are valid
+    }
+
+    //Gets the index of the current areaType, returns -1 on error
+    public int getArealTypeIndex(Context context) {
+        if(arealType == null || arealType.equals("")){return -1;}
+        String[] arealTypeArray = context.getResources().getStringArray(R.array.area_type_array);
+        int i = 0;
+        while(!arealTypeArray[i].equals(arealType)){
+            i++;
+        }
+        return i;
+    }
+
+    //Finds the area type in the list and updates the area type variable
+    public void setArealTypeWithIndex(int arealTypeIndex, Context context) {
+        this.arealType = context.getResources().getStringArray(R.array.area_type_array)[arealTypeIndex];
+    }
+
+    public String getArealType() {
+        return arealType;
     }
 
     public String getOpplysninger() {
@@ -210,14 +232,6 @@ public class Funn implements Serializable {
 
     public void setDatum(String datum) {
         this.datum = datum;
-    }
-
-    public String getArealType() {
-        return arealType;
-    }
-
-    public void setArealType(String arealType) {
-        this.arealType = arealType;
     }
 
     public String getBeskrivelse() {
