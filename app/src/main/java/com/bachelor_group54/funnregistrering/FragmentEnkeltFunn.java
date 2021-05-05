@@ -134,7 +134,6 @@ public class FragmentEnkeltFunn extends Fragment {
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_datum)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_arealtype)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_annet)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gbnr)
