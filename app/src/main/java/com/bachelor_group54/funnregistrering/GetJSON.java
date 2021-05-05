@@ -105,10 +105,12 @@ public class GetJSON extends AsyncTask<String, Void, String> {
                         find.setDato(jsonObject.get("funndato").toString());
                         find.setKommune(jsonObject.get("kommune").toString());
                         find.setFylke(jsonObject.get("fylke").toString());
-                        find.setFunndybde(Double.parseDouble(jsonObject.get("funndybde").toString()));
+                        find.setFunndybde(makeNumber(jsonObject.get("funndybde").toString()));
                         find.setGjenstandMerking(jsonObject.get("gjenstand_markert_med").toString());
-                        find.setLatitude(Double.parseDouble((jsonObject.get("koordinat").toString()).split(" ")[0].replace("N", "")));
-                        find.setLongitude(Double.parseDouble((jsonObject.get("koordinat").toString()).split(" ")[1].replace("W", "")));
+                        try {
+                            find.setLatitude(makeNumber((jsonObject.get("koordinat").toString()).split(" ")[0].replace("N", "")));
+                            find.setLongitude(makeNumber((jsonObject.get("koordinat").toString()).split(" ")[1].replace("W", "")));
+                        }catch (ArrayIndexOutOfBoundsException ignored){}
                         find.setDatum(jsonObject.get("datum").toString());
                         find.setArealType(jsonObject.get("areal_type").toString());
 
@@ -157,10 +159,19 @@ public class GetJSON extends AsyncTask<String, Void, String> {
             new Handler(Looper.getMainLooper()).post(new Runnable() { //Must run the makeList method in the UI thread
                 @Override
                 public void run() {
+                    fragmentMineFunn.stopProgressBar();
                     fragmentMineFunn.makeList(findsList);
                 }
             });
 
+        }
+    }
+
+    private double makeNumber(String s){
+        try {
+            return Double.parseDouble(s);
+        }catch (NumberFormatException e){
+            return 0;
         }
     }
 

@@ -200,16 +200,16 @@ public class FragmentRegistrereFunn extends Fragment {
         params.put("innGBNr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierFornavn()));
         params.put( "innGBNr.grunneier.Etternavn" , makeStringNonNull(funn.getGrunneierEtternavn()));
         params.put("innGBNr.grunneier.Adresse" , makeStringNonNull(funn.getGrunneierAdresse()));
-        params.put("innGBNr.grunneier.Postnr" , "1352");//makeStringNonNull(funn.getGrunneierPostNr()));
+        params.put("innGBNr.grunneier.Postnr" , makeStringNonNull(funn.getGrunneierPostNr()));
         params.put("innGBNr.grunneier.Poststed" , makeStringNonNull(funn.getGrunneierPostSted()));
         params.put("innGBNr.grunneier.Tlf" , makeStringNonNull(funn.getGrunneierTlf()));
         params.put("innGBNr.grunneier.Epost" , makeStringNonNull(funn.getGrunneierEpost()));
 
-        SendToServer.postRequest(getContext(), params, "Funn/RegistrerFunn");
+        SendToServer.postRequest(getContext(), params, "Funn/RegistrerFunn", FragmentList.getFragmentMineFunn());
     }
 
     public String makeStringNonNull(String s){
-        return s == null ? "0" : s; //TODO endre tilbake
+        return s == null ? " " : s; //TODO endre tilbake
     }
 
     //Takes the latitude and longitude of the gps coordinates and sets the kommune and fylke of the find
@@ -224,7 +224,7 @@ public class FragmentRegistrereFunn extends Fragment {
             Address address = locations.get(0);
             funn.setKommune(address.getSubAdminArea());
             funn.setFylke(address.getAdminArea());
-            funn.setGrunneierPostNr(address.getPostalCode());
+            funn.setGrunneierPostNr(address.getPostalCode()); //FIXME kanskje ikke fylle denne automatisk
         } catch(Exception e) {
             e.printStackTrace();
         }

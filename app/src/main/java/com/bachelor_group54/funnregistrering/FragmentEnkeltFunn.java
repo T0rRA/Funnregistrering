@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -173,7 +174,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
     //Checks if strings are filled put or not
     public String checkString(String string) {
-        if (string == null || string.equals("")) { //If null or empty string return not filled message
+        if (string == null || string.equals("") || string.equals(" ")) { //If null or empty string return not filled message
             return "ikke fylt ut";
         }
         return string; //Returns the input string by default
@@ -223,20 +224,20 @@ public class FragmentEnkeltFunn extends Fragment {
         params.put("BrukerUserID" , "11"); //fixme uncomment user.getUsername
         params.put("FunnID", funn.getFunnID() + "");
 
-        params.put("innGBNr.gb_nr" , makeStringNonNull(funn.getGbnr()));
-        params.put("innGBNr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierFornavn())); //fixme fornavn og etternavn
-        params.put( "innGBNr.grunneier.Etternavn" , makeStringNonNull(funn.getGrunneierEtternavn()));
-        params.put("innGBNr.grunneier.Adresse" , makeStringNonNull(funn.getGrunneierAdresse()));
-        params.put("innGBNr.grunneier.Postnr" , makeStringNonNull(funn.getGrunneierPostNr()));
-        params.put("innGBNr.grunneier.Poststed" , makeStringNonNull(funn.getGrunneierPostSted()));
-        params.put("innGBNr.grunneier.Tlf" , makeStringNonNull(funn.getGrunneierTlf()));
-        params.put("innGBNr.grunneier.Epost" , makeStringNonNull(funn.getGrunneierEpost()));
+        params.put("gbnr.gb_nr" , makeStringNonNull(funn.getGbnr()));
+        params.put("gbnr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierFornavn()));
+        params.put( "gbnr.grunneier.Etternavn" , makeStringNonNull(funn.getGrunneierEtternavn()));
+        params.put("gbnr.grunneier.Adresse" , makeStringNonNull(funn.getGrunneierAdresse()));
+        params.put("gbnr.grunneier.Postnr.Postnr" , makeStringNonNull(funn.getGrunneierPostNr()));
+        params.put("gbnr.grunneier.Postnr.Poststed" , makeStringNonNull(funn.getGrunneierPostSted()));
+        params.put("gbnr.grunneier.Tlf" , makeStringNonNull(funn.getGrunneierTlf()));
+        params.put("gbnr.grunneier.Epost" , makeStringNonNull(funn.getGrunneierEpost()));
 
-        SendToServer.postRequest(getContext(), params, "Funn/EditFunn");
+        SendToServer.postRequest(getContext(), params, "Funn/EditFunn", FragmentList.getFragmentMineFunn());
     }
 
     public String makeStringNonNull(String s){
-        return s == null ? "0" : s; //TODO endre tilbake
+        return s == null ? " " : s; //TODO endre tilbake
     }
 
     //This method is used for updating the find before saving it
@@ -262,8 +263,9 @@ public class FragmentEnkeltFunn extends Fragment {
             funn.setFunndybde(Double.parseDouble(depth.getText().toString())); //Changes the info inn the find
         }
 
-
-        funn.setBilde(picture);
+        if(picture != null) {
+            funn.setBilde(picture);
+        }
 
         //Just the same all the way, find the text fields and updates the find
         EditText title = view.findViewById(R.id.fragment_enkelt_funn_et_tittel);

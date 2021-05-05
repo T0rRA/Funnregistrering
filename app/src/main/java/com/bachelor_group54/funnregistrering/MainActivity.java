@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private FragmentList fragmentList;
     private FragmentRegistrereFunn fragmentRegistrereFunn;
     private FragmentRegistrereBruker fragmentRegistrereBruker;
     private FragmentMineFunn fragmentMineFunn;
@@ -40,9 +41,14 @@ public class MainActivity extends AppCompatActivity {
         fm = getSupportFragmentManager();
 
         //Initializing the fragments needed inn the app
+        fragmentList = FragmentList.getInstance();
+
         fragmentRegistrereFunn = new FragmentRegistrereFunn();
-        fragmentMineFunn = new FragmentMineFunn();
         fragmentMain = new FragmentMain();
+
+        fragmentMineFunn = new FragmentMineFunn();
+        fragmentList.setFragmentMineFunn(fragmentMineFunn);
+
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -158,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
     public void fragmentEnkeltFunnLagreEndring(View view) {
         fragmentEnkeltFunn.editFind();
         closeFragment();
-        fragmentMineFunn.getFinds();
     }
 
     public void fragmentEnkeltFunnUpdatePicture(View view) {

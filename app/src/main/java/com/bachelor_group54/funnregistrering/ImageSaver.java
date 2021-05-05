@@ -36,8 +36,14 @@ public class ImageSaver {
 
     //Makes Bitmap form Base64
     public static Bitmap makeBitmapFormBase64(String encodedImage){
-        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        try {
+            byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        }catch (Exception e){
+            System.err.println("-----Bilde Feil-----\n");
+            return null;
+        }
+
     }
 
     //Makes Base64 string for the database people

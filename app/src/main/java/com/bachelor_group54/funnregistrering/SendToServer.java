@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class SendToServer {
 
-    public static void postRequest(final Context context, final Map<String, String> params, String serverPath) {
+    public static void postRequest(final Context context, final Map<String, String> params, String serverPath, final FragmentMineFunn fragmentMineFunn) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         String url = "https://funnapi.azurewebsites.net/" + serverPath;
 
@@ -36,11 +36,11 @@ public class SendToServer {
             public void onResponse(String response) {
                 Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 System.out.println("--------VOLLEY Response------------\n" + response);
+                fragmentMineFunn.getFinds();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // As of f605da3 the following should work
                 NetworkResponse response = error.networkResponse;
 
                 if (error instanceof ServerError && response != null) {

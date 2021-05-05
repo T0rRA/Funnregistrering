@@ -1,11 +1,13 @@
 package com.bachelor_group54.funnregistrering;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import androidx.fragment.app.Fragment;
 public class FragmentMineFunn extends Fragment {
     private View view;
     private int listSize;
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class FragmentMineFunn extends Fragment {
     @Override
     //Updates the page
     public void onResume() {
-        getFinds();
+        //getFinds();
         super.onResume();
     }
 
@@ -47,8 +50,19 @@ public class FragmentMineFunn extends Fragment {
 
     //TODO bruker bruker noen ganger lang tid på å hente listen, Kanskje hente listen tidligere?, Loading sirkel?
     public void getFinds(){
+        startProgressBar();
         GetJSON getJSON = new GetJSON(this);
         getJSON.execute("Funn/GetAllUserFunn?brukernavn=helge2&passord=helge123"/*FIXME endre til å bruke riktig brukernavn og passord eller token?*/, "funnID", "image", "funndato", "kommune", "fylke", "funndybde", "gjenstand_markert_med", "koordinat", "datum", "areal_type");
+    }
+
+    public void stopProgressBar(){
+        progressBar = view.findViewById(R.id.progress_bar_fragment_mine_funn);
+        progressBar.setWillNotDraw(true);
+    }
+
+    public void startProgressBar(){
+        progressBar = view.findViewById(R.id.progress_bar_fragment_mine_funn);
+        progressBar.setWillNotDraw(false);
     }
 
     public int getListSize() {
