@@ -52,6 +52,7 @@ public class ListAdapter extends BaseAdapter{
     @Override
     //The method called by the list view when using the setAdapter method, to display the list on the screen
     public View getView(final int position, View convertView, ViewGroup parent) {
+        boolean longPress = false;
         //Writes message if list is empty
         if(itemList.size() < 1){
             TextView textView = new TextView(context);
@@ -92,10 +93,8 @@ public class ListAdapter extends BaseAdapter{
         viewHolder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                SetJSON setJSON = new SetJSON(context);
-                setJSON.execute("Funn/DeleteFunn", "funnID=" + itemList.get(position).getFunnID());
-                mainActivity.updateMineFunnList();
-                return false;
+                mainActivity.makeDeleteDialog(itemList.get(position));
+                return true;
             }
         });
 

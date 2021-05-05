@@ -127,6 +127,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private Funn funn;
+    private TextDialog deleteDialog;
+
+    public void makeDeleteDialog(Funn funn){
+        this.funn = funn;
+        deleteDialog = new TextDialog(R.layout.dialog_yes_no, "Er du siker på at du vil slette " + funn.getTittel() + " ?");
+        deleteDialog.show(getSupportFragmentManager(), null);
+    }
+
+    public void dialogYes(View view) {
+        SetJSON setJSON = new SetJSON(this, fragmentMineFunn);
+        setJSON.execute("Funn/DeleteFunn", "funnID=" + funn.getFunnID());
+        deleteDialog.dismiss();
+    }
+
+    public void dialogNo(View view) {
+        deleteDialog.dismiss();
+    }
 
     //Buttons for nyeFunnFragment
     public void nyeFunnBtn(View view) {

@@ -17,6 +17,7 @@ public class SetJSON extends AsyncTask<String, Void, String> {
     private TextView textView;
     private Context context;
     private String username;
+    private FragmentMineFunn fragmentMineFunn;
 
     public SetJSON() {
     }
@@ -32,6 +33,11 @@ public class SetJSON extends AsyncTask<String, Void, String> {
     public SetJSON(Context context, String username) {
         this.context = context;
         this.username = username;
+    }
+
+    public SetJSON(Context context, FragmentMineFunn fragmentMineFunn) {
+        this.context = context;
+        this.fragmentMineFunn = fragmentMineFunn;
     }
 
     //FIXME endre denne til å passe med serveren
@@ -92,6 +98,10 @@ public class SetJSON extends AsyncTask<String, Void, String> {
 
         if(context != null){
             Toast.makeText(context, s, Toast.LENGTH_LONG).show();
+        }
+
+        if(fragmentMineFunn != null){
+            fragmentMineFunn.getFinds();
         }
     }
 }
