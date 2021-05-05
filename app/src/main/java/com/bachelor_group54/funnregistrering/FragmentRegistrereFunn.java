@@ -137,6 +137,8 @@ public class FragmentRegistrereFunn extends Fragment {
     public Funn registrerFunnBtn() {
         funn = new Funn();
 
+        funn.setBilde(picture);
+
         EditText title = view.findViewById(R.id.nytt_funn_tittel_et); //Finds the editText containing the title
         funn.setTittel(title.getText().toString()); //Puts the title in the finds object
 
@@ -180,6 +182,8 @@ public class FragmentRegistrereFunn extends Fragment {
         }*/
 
         Map<String,String> params = new HashMap<String, String>();
+        params.put("tittel", makeStringNonNull(funn.getTittel()));
+        params.put("beskrivelse", makeStringNonNull(funn.getBeskrivelse()));
         params.put("image" , makeStringNonNull(ImageSaver.makeBase64FromBitmap(picture)));
         params.put("funndato" , makeStringNonNull(funn.getDato()));
         params.put("kommune", makeStringNonNull(funn.getKommune()));
@@ -193,10 +197,10 @@ public class FragmentRegistrereFunn extends Fragment {
         params.put("brukernavn" , "helge2"); //fixme uncomment user.getUsername
 
         params.put("innGBNr.gb_nr" , makeStringNonNull(funn.getGbnr()));
-        params.put("innGBNr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierNavn())); //fixme fornavn og etternavn
-        params.put( "innGBNr.grunneier.Etternavn" , makeStringNonNull(funn.getGrunneierNavn()));
+        params.put("innGBNr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierFornavn()));
+        params.put( "innGBNr.grunneier.Etternavn" , makeStringNonNull(funn.getGrunneierEtternavn()));
         params.put("innGBNr.grunneier.Adresse" , makeStringNonNull(funn.getGrunneierAdresse()));
-        params.put("innGBNr.grunneier.Postnr" , makeStringNonNull(funn.getGrunneierPostNr()));
+        params.put("innGBNr.grunneier.Postnr" , "1352");//makeStringNonNull(funn.getGrunneierPostNr()));
         params.put("innGBNr.grunneier.Poststed" , makeStringNonNull(funn.getGrunneierPostSted()));
         params.put("innGBNr.grunneier.Tlf" , makeStringNonNull(funn.getGrunneierTlf()));
         params.put("innGBNr.grunneier.Epost" , makeStringNonNull(funn.getGrunneierEpost()));
@@ -205,7 +209,7 @@ public class FragmentRegistrereFunn extends Fragment {
     }
 
     public String makeStringNonNull(String s){
-        return s == null ? "" : s;
+        return s == null ? "0" : s; //TODO endre tilbake
     }
 
     //Takes the latitude and longitude of the gps coordinates and sets the kommune and fylke of the find

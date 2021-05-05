@@ -8,7 +8,7 @@ import java.lang.reflect.Type;
 
 //Class for holding info about each found (Contains variables with getters and setters )
 public class Funn implements Serializable {
-    private String tittel, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
+    private String tittel, grunneierFornavn, grunneierEtternavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, funnsted, kommune, fylke, gjenstand, gjenstandMerking,
             datum, arealType, beskrivelse, dato, opplysninger, gårdNr, gbnr;
 
@@ -33,7 +33,7 @@ public class Funn implements Serializable {
         return "Tittel: " + tittel + "\n\n" +
 
                 "Grunneier \n" +
-                "GrunneierNavn: " + grunneierNavn + "\n" +
+                "GrunneierNavn: " + grunneierFornavn + grunneierEtternavn +"\n" +
                 "GrunneierAdresse: " + grunneierAdresse + '\n' +
                 "GrunneierPostNr: " + grunneierPostNr + '\n' +
                 "GrunneierPostSted: " + grunneierPostSted + '\n' +
@@ -76,7 +76,7 @@ public class Funn implements Serializable {
 
     //Checks if all the fields needed for the find form is filled
     public boolean isFunnskjemaKlart(){
-        String[] allTheStrings = new String[]{tittel, dato, funnsted, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
+        String[] allTheStrings = new String[]{tittel, dato, funnsted, grunneierFornavn, grunneierEtternavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, beskrivelse, gjenstand, gjenstandMerking,
                 datum, arealType, opplysninger, gårdNr, gbnr, kommune, fylke};
 
@@ -86,6 +86,22 @@ public class Funn implements Serializable {
             }
         }
         return longitude != 200 && latitude != 200 && funndybde != -1 && bildeID != 0; //Checks if the ints and doubles are valid
+    }
+
+    public String getGrunneierFornavn() {
+        return grunneierFornavn;
+    }
+
+    public void setGrunneierFornavn(String grunneierFornavn) {
+        this.grunneierFornavn = grunneierFornavn;
+    }
+
+    public String getGrunneierEtternavn() {
+        return grunneierEtternavn;
+    }
+
+    public void setGrunneierEtternavn(String grunneierEtternavn) {
+        this.grunneierEtternavn = grunneierEtternavn;
     }
 
     public Bitmap getBilde() {
@@ -126,14 +142,6 @@ public class Funn implements Serializable {
 
     public void setTittel(String tittel) {
         this.tittel = tittel;
-    }
-
-    public String getGrunneierNavn() {
-        return grunneierNavn;
-    }
-
-    public void setGrunneierNavn(String grunneierNavn) {
-        this.grunneierNavn = grunneierNavn;
     }
 
     public String getGrunneierAdresse() {

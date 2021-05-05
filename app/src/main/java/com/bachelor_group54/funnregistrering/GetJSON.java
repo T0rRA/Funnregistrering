@@ -111,6 +111,36 @@ public class GetJSON extends AsyncTask<String, Void, String> {
                         find.setLongitude(Double.parseDouble((jsonObject.get("koordinat").toString()).split(" ")[1].replace("W", "")));
                         find.setDatum(jsonObject.get("datum").toString());
                         find.setArealType(jsonObject.get("areal_type").toString());
+
+                        JSONObject gbnr = null;
+                        JSONObject grunneier = null;
+                        JSONObject postnr = null;
+                        if( !jsonObject.get("gbnr").toString().equals("null")){
+                            gbnr = (JSONObject) jsonObject.get("gbnr");
+                            grunneier = (JSONObject) gbnr.get("grunneier");
+                            postnr = (JSONObject)grunneier.get("postnr");
+                        }
+
+                        if(gbnr != null){
+                            find.setGbnr(gbnr.get("gb_nr").toString());
+                        }
+
+                        if(grunneier != null) {
+                            find.setGrunneierFornavn(grunneier.get("fornavn").toString());
+                            find.setGrunneierEtternavn(grunneier.get("etternavn").toString());
+                            find.setGrunneierAdresse(grunneier.get("adresse").toString());
+                            find.setGrunneierTlf(grunneier.get("tlf").toString());
+                            find.setGrunneierEpost(grunneier.get("epost").toString());
+                        }
+
+                        if (postnr != null){
+                            find.setGrunneierPostNr(postnr.get("postnr").toString());
+                            find.setGrunneierPostSted(postnr.get("poststed").toString());
+                        }
+
+                        find.setTittel(jsonObject.get("tittel").toString());
+                        find.setBeskrivelse(jsonObject.get("beskrivelse").toString());
+
                     } catch (NumberFormatException e) {
                         System.out.println("-----------------\nNumber format exception i GetJSON");
                         e.printStackTrace();

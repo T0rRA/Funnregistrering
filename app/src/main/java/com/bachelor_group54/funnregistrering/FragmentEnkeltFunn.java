@@ -123,7 +123,7 @@ public class FragmentEnkeltFunn extends Fragment {
         setText(funn.getFunnsted(), location);
 
         EditText owner = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
-        setText(funn.getGrunneierNavn(), owner);
+        setText(funn.getGrunneierFornavn() + funn.getGrunneierEtternavn(), owner); //TODO lagge egene felter for fornavn og etternavn
 
         EditText ownerAddress = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
         setText(funn.getGrunneierAdresse(), ownerAddress);
@@ -208,6 +208,8 @@ public class FragmentEnkeltFunn extends Fragment {
         User user = User.getInstance();
 
         Map<String,String> params = new HashMap<String, String>();
+        params.put("tittel", makeStringNonNull(funn.getTittel()));
+        params.put("beskrivelse", makeStringNonNull(funn.getBeskrivelse()));
         params.put("image" , makeStringNonNull(ImageSaver.makeBase64FromBitmap(funn.getBilde())));
         params.put("funndato" , makeStringNonNull(funn.getDato()));
         params.put("kommune", makeStringNonNull(funn.getKommune()));
@@ -222,10 +224,10 @@ public class FragmentEnkeltFunn extends Fragment {
         params.put("FunnID", funn.getFunnID() + "");
 
         params.put("innGBNr.gb_nr" , makeStringNonNull(funn.getGbnr()));
-        params.put("innGBNr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierNavn())); //fixme fornavn og etternavn
-        params.put( "innGBNr.grunneier.Etternavn" , makeStringNonNull(funn.getGrunneierNavn()));
+        params.put("innGBNr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierFornavn())); //fixme fornavn og etternavn
+        params.put( "innGBNr.grunneier.Etternavn" , makeStringNonNull(funn.getGrunneierEtternavn()));
         params.put("innGBNr.grunneier.Adresse" , makeStringNonNull(funn.getGrunneierAdresse()));
-        params.put("innGBNr.grunneier.Postnr" , "1352");// fixme makeStringNonNull(funn.getGrunneierPostNr()));
+        params.put("innGBNr.grunneier.Postnr" , makeStringNonNull(funn.getGrunneierPostNr()));
         params.put("innGBNr.grunneier.Poststed" , makeStringNonNull(funn.getGrunneierPostSted()));
         params.put("innGBNr.grunneier.Tlf" , makeStringNonNull(funn.getGrunneierTlf()));
         params.put("innGBNr.grunneier.Epost" , makeStringNonNull(funn.getGrunneierEpost()));
@@ -234,7 +236,7 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public String makeStringNonNull(String s){
-        return s == null ? "" : s;
+        return s == null ? "0" : s; //TODO endre tilbake
     }
 
     //This method is used for updating the find before saving it
@@ -273,8 +275,9 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText location = view.findViewById(R.id.fragment_enkelt_funn_et_sted);
         funn.setFunnsted(location.getText().toString());
 
+        //TODO lage egene felter for fornavn og etternavn
         EditText owner = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
-        funn.setGrunneierNavn(owner.getText().toString());
+        funn.setGrunneierFornavn(owner.getText().toString());
 
         EditText ownerAddress = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
         funn.setGrunneierAdresse(ownerAddress.getText().toString());
