@@ -198,13 +198,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toLoginPageBtn(View view){ //login page button
-
+        closeFragment();
         fragmentLogin = new FragmentLogin();
-
         openFragment(fragmentLogin);
     }
-    public void toIntroPageBtn(View view){ //login page button
 
+    public void toIntroPageBtn(View view){ //login page button
         fragmentIntroPage = new FragmentIntroPage();
         openFragment(fragmentIntroPage);
     }
