@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_holder);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         fm = getSupportFragmentManager();
 
@@ -188,7 +191,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void loginBtn(View view) {
         fragmentLogin.logInBtn();
+    }
 
+    public void onCheckboxClickedBtn(View view){
+        fragmentEnkeltFunn.onCheckboxClickedBtn();
+    }
+    public void onCheckboxClickediRegBtn(View view){
+        fragmentRegistrereFunn.onCheckboxClickediRegBtn();
     }
 
     public void fragmentLoginRegBtn(View view) {

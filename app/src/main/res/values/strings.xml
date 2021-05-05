@@ -40,4 +40,5 @@
     <string name="Tall_for_stort">"Tallet må være mindre enn "</string>
     <string name="Tall_for_lite">"Tallet må være større enn "</string>
     <string name="tomt_felt">"Kunne ikke lagre på grunn av tom "</string>
+    <string name="godkjenning_grunneier">Jeg har snakket med og fått godkjenning av grunneier.</string>
 </resources>

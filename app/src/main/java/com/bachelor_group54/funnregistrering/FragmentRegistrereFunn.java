@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,6 +49,7 @@ public class FragmentRegistrereFunn extends Fragment {
         LinearLayout navbarRegistrereFunn = view.findViewById(R.id.navbar_registrere_funn); //Gets the navbar layout for this view
         navbarRegistrereFunn.setBackground(getContext().getDrawable(R.drawable.navbar_btn_selected_background)); //Setts color on the navbar indicating what page you are on
         setTextWatchers();
+        funn = new Funn();
         return view;
     }
 
@@ -135,7 +137,6 @@ public class FragmentRegistrereFunn extends Fragment {
     }
 
     public Funn registrerFunnBtn() {
-        funn = new Funn();
 
         EditText title = view.findViewById(R.id.nytt_funn_tittel_et); //Finds the editText containing the title
         funn.setTittel(title.getText().toString()); //Puts the title in the finds object
@@ -182,6 +183,13 @@ public class FragmentRegistrereFunn extends Fragment {
         return funn;
     }
 
+    public void onCheckboxClickediRegBtn() {
+        final CheckBox checkBox = view.findViewById(R.id.checkbox_grunneier_reg);
+
+        funn.setTillatelseGitt(checkBox.isChecked());
+        Toast.makeText(getContext(), checkBox.isChecked()+"", Toast.LENGTH_SHORT).show();
+    }
+
     public void saveFind(Funn funn) {
         //If the a picture has been added save it
         if (picture != null) {
@@ -212,6 +220,7 @@ public class FragmentRegistrereFunn extends Fragment {
 
     //Resets the fields, called when registering new find so it is empty next time the user wants to register a find
     public void clearFields() {
+        funn = new Funn();
         EditText titleEt = view.findViewById(R.id.nytt_funn_tittel_et);
         titleEt.setText("");
         EditText descriptionEt = view.findViewById(R.id.nytt_funn_beskrivelse_et);

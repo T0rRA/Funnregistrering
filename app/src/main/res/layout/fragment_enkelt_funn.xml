@@ -63,6 +63,14 @@
 
             </LinearLayout>
 
+            <CheckBox
+                android:id="@+id/checkbox_grunneier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCheckboxClickedBtn"
+                android:text="@string/godkjenning_grunneier" />
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -290,9 +298,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
                     android:imeOptions="actionNext"
+                    android:inputType="phone"
                     android:minWidth="70dp"
-                    android:singleLine="true"
-                    android:inputType="phone"/>
+                    android:singleLine="true" />
 
             </LinearLayout>
 
@@ -437,9 +445,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/enkelt_funn_tom_et"
                     android:imeOptions="actionNext"
+                    android:inputType="numberSigned"
                     android:minWidth="70dp"
-                    android:singleLine="true"
-                    android:inputType="numberSigned"/>
+                    android:singleLine="true" />
 
             </LinearLayout>
 

@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -52,6 +53,7 @@ public class FragmentEnkeltFunn extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_enkelt_funn, container, false); //Loads the page from the XML file
         //Add setup code here later
 
@@ -270,6 +272,9 @@ public class FragmentEnkeltFunn extends Fragment {
 
         EditText countyEt = view.findViewById(R.id.fragment_enkelt_funn_et_fylke);
         setText(funn.getFylke(), countyEt);
+
+        CheckBox grunneierCheck = view.findViewById(R.id.checkbox_grunneier);
+        grunneierCheck.setChecked(funn.isTillatelseGitt());
     }
 
     //Checks if strings are filled put or not
@@ -495,6 +500,7 @@ public class FragmentEnkeltFunn extends Fragment {
         canvas.drawText("X",1990,1595,text); // Strand
         canvas.drawText("X",1990,1635,text); // Vann
 
+
         //Andre opplysninger og observasjoner
         drawString(canvas,text, funn.getBeskrivelse(),110,1850);
 
@@ -599,6 +605,13 @@ public class FragmentEnkeltFunn extends Fragment {
             findFormBtn.setBackgroundColor(getResources().getColor(R.color.colorGreen)); //If the for is sent then the button is green
         }
     }
+    public void onCheckboxClickedBtn() {
+        final CheckBox checkBox = view.findViewById(R.id.checkbox_grunneier);
+
+        funn.setTillatelseGitt(checkBox.isChecked());
+        Toast.makeText(getContext(), checkBox.isChecked()+"", Toast.LENGTH_SHORT).show();
+    }
+
 
     public void sendFunnmelding() {
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), getContext(),new File(ImageSaver.getImagePath(getContext(),funn.getBildeID())));

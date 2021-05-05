@@ -17,7 +17,7 @@ public class Funn implements Serializable {
     //The picture int is the number that needs to be given to the ImageSaver class to load the correct image
     private int bildeID;
 
-    private boolean funnmeldingSendt = false, funnskjemaSendt = false;
+    private boolean funnmeldingSendt = false, funnskjemaSendt = false, tillatelseGitt = false;
 
     //Returns a string that we can send as a find message
     public String getFunnmelding(){
@@ -282,5 +282,13 @@ public class Funn implements Serializable {
 
     public void setFunnskjemaSendt(boolean funnskjemaSendt) {
         this.funnskjemaSendt = funnskjemaSendt;
+    }
+
+    public boolean isTillatelseGitt() {
+        return tillatelseGitt;
+    }
+
+    public void setTillatelseGitt(boolean tillatelseGitt) {
+        this.tillatelseGitt = tillatelseGitt;
     }
 }
