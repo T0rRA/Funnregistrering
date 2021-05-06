@@ -85,15 +85,11 @@ public class SetJSON extends AsyncTask<String, Void, String> {
         if(textView != null) {
             textView.setText(s);
         }else if(context != null && username != null){
-            //Saves the username to shared preference if login was successful else overwrite it
-            SharedPreferences sharedpreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedpreferences.edit();
             if(s.equals("true")) {
-                editor.putString("username", username);
-            }else {
-                editor.putString("username", "");
+                //FIXME kanskje logIn burde returnere User object?
+                GetJSON getJSON = new GetJSON(new FragmentLogin());
+                getJSON.execute("Bruker/GetUser?brukernavn=" + username);
             }
-            editor.apply();
         }
 
         if(context != null){

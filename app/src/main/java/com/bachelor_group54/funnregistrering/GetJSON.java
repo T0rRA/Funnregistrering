@@ -200,6 +200,7 @@ public class GetJSON extends AsyncTask<String, Void, String> {
                 }catch (NumberFormatException e){
                     user.setUserID(0);
                 }
+
                 user.setUsername(fields[3]);
                 user.setName(fields[7]);
                 user.setLastName(fields[8]);

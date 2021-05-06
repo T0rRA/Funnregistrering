@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+//TODO legge til spørsmål om man vil lagre på back button
 //This fragment displays one selected find at the time. The find can also be edited here.
 public class FragmentEnkeltFunn extends Fragment {
     private View view;
@@ -237,7 +238,7 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public String makeStringNonNull(String s){
-        return s == null ? " " : s; //TODO endre tilbake
+        return s == null ? " " : s;
     }
 
     //This method is used for updating the find before saving it
