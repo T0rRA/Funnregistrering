@@ -74,6 +74,9 @@ public class SetJSON extends AsyncTask<String, Void, String> {
             return serverOutput.toString();
         }
         catch (IOException ex) {
+            if(username != null){
+                return "Kunne ikke logge inn"; //FIXME file not found exception når loggin feiler og på feil bruker (er det lurt å ha sjekk for om bruker er logget inn?)
+            }
             ex.printStackTrace();
             return "io exception";
         }
@@ -84,14 +87,18 @@ public class SetJSON extends AsyncTask<String, Void, String> {
         if(textView != null) {
             textView.setText(s);
         }else if(context != null && username != null){
-            if(s.equals("true")) {
+            if(s.equals("true")) { //Successful log in
                 //FIXME kanskje logIn burde returnere User object?
+                //Get user info and save it in the User object (using Singleton)
                 GetJSON getJSON = new GetJSON(new FragmentLogin());
                 getJSON.execute("Bruker/GetUser?brukernavn=" + username);
+                FragmentList.getInstance().getMainActivity().closeFragment(); //Closes the login fragment
+                s = "Logger inn";
             }
         }
 
         if(context != null){
+            s = s.replace("\n", "");
             Toast.makeText(context, s, Toast.LENGTH_LONG).show();
         }
 

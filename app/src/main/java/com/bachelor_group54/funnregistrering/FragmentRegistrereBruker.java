@@ -63,7 +63,7 @@ public class FragmentRegistrereBruker extends Fragment {
             objektLagrer.saveData(alist); // Saves the list*/
 
             //Registers the user on the server
-            SetJSON setJSON = new SetJSON();
+            SetJSON setJSON = new SetJSON(getContext());
             setJSON.execute("Bruker/CreateUser", "Brukernavn=" + name, "Passord=" +
                     password, "Fornavn=" + name, "Etternavn=" + lastName,
                     "Adresse=" + address, "Postnr=" + postalcode, "Poststed=" /*FIXME har ikke poststed*/,

@@ -41,14 +41,14 @@ public class MainActivity extends AppCompatActivity {
         fm = getSupportFragmentManager();
 
         //Initializing the fragments needed inn the app
-        fragmentList = FragmentList.getInstance();
-
         fragmentRegistrereFunn = new FragmentRegistrereFunn();
         fragmentMain = new FragmentMain();
-
         fragmentMineFunn = new FragmentMineFunn();
-        fragmentList.setFragmentMineFunn(fragmentMineFunn);
 
+        //Adding fragments and MainActivity to the fragmentList object, to access it later from other classes
+        fragmentList = FragmentList.getInstance();
+        fragmentList.setMainActivity(this);
+        fragmentList.setFragmentMineFunn(fragmentMineFunn);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -250,11 +250,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveUserBtn(View view) {
         fragmentRegistrereBruker.saveUserBtn();
+        closeFragment();
     }
 
     public void loginBtn(View view) {
         fragmentLogin.logInBtn();
-
     }
 
     public void forgottenPasswordBtn(View view) {
