@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Ja"
-                android:onClick="dialogYes"
+                android:onClick="deleteDialogYes"
                 android:layout_margin="10dp"/>
 
             <Button
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Nei"
-                android:onClick="dialogNo"
+                android:onClick="deleteDialogNo"
                 android:layout_margin="10dp"/>
 
         </LinearLayout>

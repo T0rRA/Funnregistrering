@@ -13,9 +13,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -32,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mPager;
     private ScreenSlidePagerAdapter pagerAdapter;
     private FragmentLogin fragmentLogin;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +117,10 @@ public class MainActivity extends AppCompatActivity {
     //Makes the back button work as expected
     public void onBackPressed() {
         if (mPager.getVisibility() == View.GONE) {
+            if(fragmentEnkeltFunn != null){ //Ask if the user wants to save when closing single found fragment
+                saveDialog = new TextDialog(R.layout.dialog_save, "Vil du lagre endringene du har gjordt?");
+                saveDialog.show(getSupportFragmentManager(), null);
+            }
             closeFragment();
             return;
         }
@@ -130,22 +131,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Yes and no buttons for the dialog box witch opens onBackPressed from fragmentEnkeltFunn
+    private TextDialog saveDialog;
+
+    public void saveDialogYes(View view) {
+        fragmentEnkeltFunnLagreEndring(view);
+        saveDialog.dismiss();
+        fragmentEnkeltFunn = null;
+    }
+
+    public void saveDialogNo(View view) {
+        saveDialog.dismiss();
+        updateMineFunnList();
+        fragmentEnkeltFunn = null;
+    }
+
+    //Methods and variables for the delete dialog box, witch opens when long pressing a item in the list on FragmentMineFunn.
     private Funn funn;
     private TextDialog deleteDialog;
 
     public void makeDeleteDialog(Funn funn){
         this.funn = funn;
-        deleteDialog = new TextDialog(R.layout.dialog_yes_no, "Er du siker på at du vil slette " + funn.getTittel() + " ?");
+        deleteDialog = new TextDialog(R.layout.dialog_delete, "Er du siker på at du vil slette " + funn.getTittel() + " ?");
         deleteDialog.show(getSupportFragmentManager(), null);
     }
 
-    public void dialogYes(View view) {
+    public void deleteDialogYes(View view) {
         SetJSON setJSON = new SetJSON(this, fragmentMineFunn);
         setJSON.execute("Funn/DeleteFunn", "funnID=" + funn.getFunnID());
         deleteDialog.dismiss();
     }
 
-    public void dialogNo(View view) {
+    public void deleteDialogNo(View view) {
         deleteDialog.dismiss();
     }
 
@@ -183,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
     //Buttons for the single found fragment
     //Saves the changes made to the find
     public void fragmentEnkeltFunnLagreEndring(View view) {
-        fragmentEnkeltFunn.editFind();
+        fragmentEnkeltFunn.editFind(this);
         closeFragment();
     }
 
@@ -198,7 +215,6 @@ public class MainActivity extends AppCompatActivity {
     public void fragmentEnkeltFunnSendFunnskjemaBtn(View view) {
         fragmentEnkeltFunn.sendFunnskjema();
     }
-
 
     //Navigation bar buttons
     public void navbarRegistrereFunn(View view) {

@@ -26,7 +26,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-//TODO legge til spørsmål om man vil lagre på back button
 //This fragment displays one selected find at the time. The find can also be edited here.
 public class FragmentEnkeltFunn extends Fragment {
     private View view;
@@ -204,7 +203,7 @@ public class FragmentEnkeltFunn extends Fragment {
         objektLagrer.saveData(arrayList); //Saves the new list, overwriting the old list
     }
 
-    public void editFind(){
+    public void editFind(Context context){
         updateFind();
 
         User user = User.getInstance();
@@ -234,7 +233,7 @@ public class FragmentEnkeltFunn extends Fragment {
         params.put("gbnr.grunneier.Tlf" , makeStringNonNull(funn.getGrunneierTlf()));
         params.put("gbnr.grunneier.Epost" , makeStringNonNull(funn.getGrunneierEpost()));
 
-        SendToServer.postRequest(getContext(), params, "Funn/EditFunn", FragmentList.getFragmentMineFunn());
+        SendToServer.postRequest(context, params, "Funn/EditFunn", FragmentList.getFragmentMineFunn());
     }
 
     public String makeStringNonNull(String s){
