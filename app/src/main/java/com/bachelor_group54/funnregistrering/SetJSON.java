@@ -40,7 +40,6 @@ public class SetJSON extends AsyncTask<String, Void, String> {
         this.fragmentMineFunn = fragmentMineFunn;
     }
 
-    //FIXME endre denne til å passe med serveren
     @Override
     //Sends input to the server example use .execute(url, fieldName=fieldValue, field2Name=field2Value ...)
     protected String doInBackground(String... strings) {

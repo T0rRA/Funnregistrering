@@ -175,7 +175,7 @@ public class FragmentRegistrereFunn extends Fragment {
         User user = User.getInstance();
 
 
-        /*fixme uncomment nå testing er ferdig
+        /*fixme uncomment når testing er ferdig
         if(user.getUsername.equals("")){
             Toast.makeText(getContext(), "Du er ikke logget inn", Toast.LENGTH_LONG).show();
             return;

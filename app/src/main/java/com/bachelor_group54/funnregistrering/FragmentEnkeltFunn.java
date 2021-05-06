@@ -125,7 +125,7 @@ public class FragmentEnkeltFunn extends Fragment {
         setText(funn.getFunnsted(), location);
 
         EditText owner = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
-        setText(funn.getGrunneierFornavn() + funn.getGrunneierEtternavn(), owner); //TODO lagge egene felter for fornavn og etternavn
+        setText(funn.getGrunneierFornavn() + " " + funn.getGrunneierEtternavn(), owner); //TODO lagge egene felter for fornavn og etternavn
 
         EditText ownerAddress = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
         setText(funn.getGrunneierAdresse(), ownerAddress);
@@ -175,7 +175,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
     //Checks if strings are filled put or not
     public String checkString(String string) {
-        if (string == null || string.equals("") || string.equals(" ") || string.equals("null") || string.equals("nullnull")) { //If null or empty string return not filled message
+        if (string == null || string.equals("") || string.equals("null") || string.equals("nullnull")) { //If null or empty string return not filled message
             return "ikke fylt ut";
         }
         return string; //Returns the input string by default

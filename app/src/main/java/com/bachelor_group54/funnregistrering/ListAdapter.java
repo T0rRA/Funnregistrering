@@ -89,7 +89,6 @@ public class ListAdapter extends BaseAdapter{
             }
         });
 
-        /*TODO lage popup vindu som spør om man vil slette*/
         viewHolder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
