@@ -48,7 +48,6 @@ public class FragmentMineFunn extends Fragment {
         listSize = findsList.size();
     }
 
-    //TODO bruker bruker noen ganger lang tid på å hente listen, Kanskje hente listen tidligere?, Loading sirkel?
     public void getFinds(){
         startProgressBar();
         GetJSON getJSON = new GetJSON(this);

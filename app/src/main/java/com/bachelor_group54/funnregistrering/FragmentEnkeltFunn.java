@@ -175,7 +175,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
     //Checks if strings are filled put or not
     public String checkString(String string) {
-        if (string == null || string.equals("") || string.equals(" ")) { //If null or empty string return not filled message
+        if (string == null || string.equals("") || string.equals(" ") || string.equals("null") || string.equals("nullnull")) { //If null or empty string return not filled message
             return "ikke fylt ut";
         }
         return string; //Returns the input string by default
@@ -238,7 +238,7 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public String makeStringNonNull(String s){
-        return s == null ? " " : s;
+        return s == null || s.equals("") ? "null" : s;
     }
 
     //This method is used for updating the find before saving it

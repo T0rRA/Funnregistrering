@@ -170,7 +170,7 @@ public class FragmentRegistrereFunn extends Fragment {
         return funn;
     }
 
-    //TODO registrere kunn med noe info kanskje API med færre felter
+    //TODO registrere kunn med noe info kanskje API med færre felter?
     public void sentFindToBackend(){
         User user = User.getInstance();
 
@@ -209,7 +209,7 @@ public class FragmentRegistrereFunn extends Fragment {
     }
 
     public String makeStringNonNull(String s){
-        return s == null ? " " : s; //TODO endre tilbake
+        return s == null || s.equals("") ? "null" : s;
     }
 
     //Takes the latitude and longitude of the gps coordinates and sets the kommune and fylke of the find
@@ -218,7 +218,7 @@ public class FragmentRegistrereFunn extends Fragment {
         List<Address> locations;
         try{
             locations = coder.getFromLocation(lat, lng, 1); //Uses the Geocoder class to get the Address from the long and lat values.
-            if(locations== null) {
+            if(locations == null) {
                 return;
             }
             Address address = locations.get(0);
