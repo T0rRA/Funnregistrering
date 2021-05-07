@@ -153,6 +153,7 @@ public class FragmentRegistrereFunn extends Fragment {
 
         Date currentTime = Calendar.getInstance().getTime();
 
+//Makes date String FIXME lage egen metode
         String day = currentTime.getDate() + "";
         if(currentTime.getDate() < 10) {
             day = "0" + currentTime.getDate();
@@ -273,5 +274,4 @@ public class FragmentRegistrereFunn extends Fragment {
         picture = null;
     }
 }
-
 
