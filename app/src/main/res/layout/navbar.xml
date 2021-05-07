@@ -10,56 +10,6 @@
     android:showDividers="middle">
 
     <LinearLayout
-        android:id="@+id/navbar_registrere_funn"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/navbar_btn_background"
-        android:padding="4dp"
-        android:onClick="navbarRegistrereFunn">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:src="@drawable/nytt_funn_icon"/>
-
-        <TextView
-            android:textColor="#000000"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="Registrere"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/navbar_kart"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/navbar_btn_background"
-        android:padding="4dp"
-        android:onClick="navbarKart">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:src="@drawable/thick_map_icon"/>
-
-        <TextView
-            android:textColor="#000000"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="Kart"/>
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/navbar_mine_funn"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -81,6 +31,31 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="Mine funn"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/navbar_registrere_funn"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/navbar_btn_background"
+        android:padding="4dp"
+        android:onClick="navbarRegistrereFunn">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/nytt_funn_icon"/>
+
+        <TextView
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Registrere"/>
 
     </LinearLayout>
 

@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         mPager.setAdapter(pagerAdapter);
 
         //Only if you want to start on element 1 in the list, no need if starting at 0
-        mPager.setCurrentItem(0);
+        mPager.setCurrentItem(1);
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {} //Needs to be overridden
@@ -102,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
         public ScreenSlidePagerAdapter(@NonNull FragmentManager fm) {
             super(fm);
             //Adds the fragments to the slider
-            fragmentListe.add(fragmentRegistrereFunn);
             fragmentListe.add(fragmentMineFunn);
+            fragmentListe.add(fragmentRegistrereFunn);
             fragmentListe.add(fragmentMain);
             //TODO legge til resten av fragmentene
         }
