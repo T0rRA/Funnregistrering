@@ -84,9 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(firstLogin){
             toIntroPageBtn();
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putBoolean("firstLogin", false);
-            editor.apply();
         }else {
             openLoginPage();
         }
@@ -272,6 +269,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void toLoginPageBtn(View view){ //login page button
         openLoginPage();
+        SharedPreferences sharedpreferences = getSharedPreferences("preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putBoolean("firstLogin", false);
+        editor.apply();
     }
 
     public void openLoginPage(){
