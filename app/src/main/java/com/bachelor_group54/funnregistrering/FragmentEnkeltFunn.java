@@ -237,7 +237,7 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public String makeStringNonNull(String s){
-        return s == null || s.equals("") ? "null" : s;
+        return s == null || s.equals("") ? "null" : s; //Saves the data as string "null" instead of null to prevent database issues
     }
 
     //This method is used for updating the find before saving it
