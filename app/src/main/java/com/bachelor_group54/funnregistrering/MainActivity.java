@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_holder);
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); //Prevents the toolbar from sitting on top of the keyboard when typing in EditTexts
 
         fm = getSupportFragmentManager();
 
@@ -293,4 +293,3 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-
