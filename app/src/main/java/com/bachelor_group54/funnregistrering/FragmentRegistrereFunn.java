@@ -182,6 +182,7 @@ public class FragmentRegistrereFunn extends Fragment {
             return;
         }*/
 
+//The Map params contains all the key value pairs of the jsonObject that we send to the database
         Map<String,String> params = new HashMap<String, String>();
         params.put("tittel", makeStringNonNull(funn.getTittel()));
         params.put("beskrivelse", makeStringNonNull(funn.getBeskrivelse()));
@@ -274,4 +275,3 @@ public class FragmentRegistrereFunn extends Fragment {
         picture = null;
     }
 }
-
