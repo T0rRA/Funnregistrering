@@ -81,7 +81,10 @@ public class SetJSON extends AsyncTask<String, Void, String> {
         }
         catch (IOException ex) {
             if(username != null){
-                return "Kunne ikke logge inn"; //FIXME file not found exception når loggin feiler og på feil bruker (er det lurt å ha sjekk for om bruker er logget inn?)
+                return "Feil passord brukernavn kombinasjon";
+            }
+            if(fragmentRegistrereBruker != null){
+                return "Brukernavnet er opptatt";
             }
             ex.printStackTrace();
             return "io exception";

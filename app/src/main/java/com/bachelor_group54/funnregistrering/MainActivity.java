@@ -76,21 +76,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>" + getString(R.string.app_name) + "</font>")); //Changes the color of the actionbar text
     }
 
-    //TODO lage onResume som logger bruker inn igjen
-    @Override
-    protected void onStop() {
-        SharedPreferences sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
-        String username = sharedpreferences.getString("username", "");
-
-        if(!username.equals("")) {
-            SetJSON setJSON = new SetJSON();
-            //setJSON.execute("Bruker/LogOut", "brukernavn=" + username);
-            Toast.makeText(this, "Logger ut", Toast.LENGTH_LONG).show();
-        }
-
-        super.onStop();
-    }
-
     //The ScreenSlidePagerAdapter holds the fragment from the navigation bar and makes sliding between them possible.
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         ArrayList<Fragment> fragmentListe = new ArrayList<>();
