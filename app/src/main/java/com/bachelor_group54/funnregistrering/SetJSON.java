@@ -18,6 +18,7 @@ public class SetJSON extends AsyncTask<String, Void, String> {
     private Context context;
     private String username;
     private FragmentMineFunn fragmentMineFunn;
+    private FragmentRegistrereBruker fragmentRegistrereBruker;
 
     public SetJSON() {
     }
@@ -38,6 +39,11 @@ public class SetJSON extends AsyncTask<String, Void, String> {
     public SetJSON(Context context, FragmentMineFunn fragmentMineFunn) {
         this.context = context;
         this.fragmentMineFunn = fragmentMineFunn;
+    }
+
+    public SetJSON(Context context, FragmentRegistrereBruker fragmentRegistrereBruker) {
+        this.fragmentRegistrereBruker = fragmentRegistrereBruker;
+        this.context = context;
     }
 
     @Override
@@ -84,10 +90,12 @@ public class SetJSON extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
+        s = s.replace("\"", "");
         if(textView != null) {
             textView.setText(s);
-        }else if(context != null && username != null){
-            if(s.equals("true")) { //Successful log in
+        }
+        if(context != null && username != null){
+            if(s.equals("User was logged in")) { //Successful log in
                 //FIXME kanskje logIn burde returnere User object?
                 //Get user info and save it in the User object (using Singleton)
                 GetJSON getJSON = new GetJSON(new FragmentLogin());
@@ -97,8 +105,13 @@ public class SetJSON extends AsyncTask<String, Void, String> {
             }
         }
 
+        if(fragmentRegistrereBruker != null){
+            if(s.equals("Bruker er opprettet.")) { //Close create user fragment if the creation was successful
+                FragmentList.getInstance().getMainActivity().closeFragment();
+            }
+        }
+
         if(context != null){
-            s = s.replace("\n", "");
             Toast.makeText(context, s, Toast.LENGTH_LONG).show();
         }
 

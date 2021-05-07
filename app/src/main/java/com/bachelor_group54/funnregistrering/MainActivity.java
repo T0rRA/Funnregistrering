@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentList = FragmentList.getInstance();
         fragmentList.setMainActivity(this);
         fragmentList.setFragmentMineFunn(fragmentMineFunn);
+        fragmentList.setContext(this);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -252,7 +253,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveUserBtn(View view) {
         fragmentRegistrereBruker.saveUserBtn();
-        closeFragment();
     }
 
     public void loginBtn(View view) {

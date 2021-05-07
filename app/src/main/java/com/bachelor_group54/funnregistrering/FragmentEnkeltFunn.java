@@ -38,7 +38,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Objects;
 
 
 //This fragment displays one selected find at the time. The find can also be edited here.
@@ -438,7 +438,7 @@ public class FragmentEnkeltFunn extends Fragment {
         funn.setDatum(inputChecker(ageEt, "datum"));
 
         Spinner areaTypeSpinner = view.findViewById(R.id.fragment_enkelt_funn_dropdown_arealtype);
-        funn.setArealTypeWithIndex((int)areaTypeSpinner.getSelectedItemId(), getContext());
+        funn.setArealTypeWithIndex((int)areaTypeSpinner.getSelectedItemId(), FragmentList.getInstance().getContext());
 
         EditText moreInfoEt = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
         funn.setOpplysninger(inputChecker(moreInfoEt, "andre opplysninger"));

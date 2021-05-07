@@ -66,7 +66,7 @@ public class FragmentRegistrereBruker extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!charSequence.equals(passwordET.getText().toString())){
+                if(!charSequence.toString().equals(passwordET.getText().toString())){
                     confirmationPwET.setError(getString(R.string.ulike_passord));
                 }
             }
@@ -112,7 +112,7 @@ public class FragmentRegistrereBruker extends Fragment {
             objektLagrer.saveData(alist); // Saves the list*/
 
             //Registers the user on the server
-            SetJSON setJSON = new SetJSON(getContext());
+            SetJSON setJSON = new SetJSON(getContext(), this);
             setJSON.execute("Bruker/CreateUser", "Brukernavn=" + name, "Passord=" +
                     password, "Fornavn=" + name, "Etternavn=" + lastName,
                     "Adresse=" + address, "Postnr=" + postalcode, "Poststed=" /*FIXME har ikke poststed*/,

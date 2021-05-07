@@ -28,6 +28,10 @@ public class FragmentLogin extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false); //Loads the page from the XML file
+        EditText usernameEt = view.findViewById(R.id.user_name);
+        EditText passwordEt = view.findViewById(R.id.password);
+        passwordEt.addTextChangedListener(new InputValidater(getContext(), true, true, true, 1 , 100, passwordEt));
+        usernameEt.addTextChangedListener(new InputValidater(getContext(), true, false, false, 1 , 30, usernameEt));
         return view;
     }
 
