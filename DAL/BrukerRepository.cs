@@ -70,175 +70,6 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        public async Task<int> SendPwResetLink(String brukernavn)
-        {
-
-            // click change password
-            // write email address
-
-            /** generate link to change password and send
-            * link must be one-time use AND have a time limit (e.g.: must be used within 30 minutes)
-            * create a table with username (epost), tokenHash, token, expiration date
-            * create random token with rngcryptoserviceprovider, hash it and add to db (also add date)
-            * append token value to url to send to user
-           */
-            try
-            {
-                // Input e-mail address
-                Bruker enBruker = new Bruker();
-                enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
-                if (enBruker.Equals(null)) // If user does NOT exist
-                {
-                    // Error message saying this user does not exist
-                    return 2;
-                }
-                else // If user exists, send mail with a link to change password
-                {
-                    // Generate random token
-                    var rngCsp = new RNGCryptoServiceProvider();
-                    var token = new byte[8];
-                    rngCsp.GetBytes(token);
-                    byte[] hashedToken = CreateHash("", token); // 32 byte hash token
-
-                    // DateTime - where expDate is an hour after now
-                    DateTime date = DateTime.Now;
-                    DateTime expDate = date.AddHours(1);
-
-                    // Creates a string with the hashed token to be used in the link
-                    StringBuilder hT = new StringBuilder();
-                    foreach (byte b in hashedToken) hT.Append(b);
-
-                    // Add to db
-                    PwReset pwReset = new PwReset
-                    {
-                        Username = enBruker.Epost,
-                        TokenHash = hT.ToString(),
-                        BestFor = expDate,
-                        TokenBrukt = false
-                    };
-                    _db.passordReset.Add(pwReset);
-                    _db.SaveChanges();
-
-                    var smtpClient = SmtpClient();
-                    if (smtpClient == null) return 4;
-
-                    // Construct e-mail-string
-                    var epostMelding = new MailMessage()
-                    {
-                        From = new MailAddress("losfunnregistrering@outlook.com"),
-                        Subject = "Endre passord",
-                        Body = "<h2>Hei " + enBruker.Fornavn + ", </h2>"
-                        + "<br/><br/><p>"
-                        + "For å endre passordet ditt kan du trykke <a href='/passordReset?brukernavn&" + hT
-                        + "'>her.</a> <br/>"
-                        + "Hvis du ikke har bedt om å endre passord, kan du ignorere denne e-posten.<br/><br/>"
-                        + "Ha en fin dag videre!<br/><br/>"
-                        + "Med vennlig hilsen,<br/>"
-                        + "Finnerlønn-teamet.</p>",
-                        IsBodyHtml = true,
-                    };
-
-                    string mottaker = enBruker.Epost;
-                    epostMelding.To.Add(mottaker);
-                    await smtpClient.SendMailAsync(epostMelding); // sends mail
-
-                    return 1;
-                }
-            }
-            catch (Exception e)
-            {
-                return 3;
-            }
-
-        }
-
-        public async Task<bool> ChangePassword(String brukernavn, String token, String newPassword, String newPassword2)
-        {
-            /* ON PASSWORD RESET PAGE:
-            * take email and token input
-            *   get email from user info - get token from unique link
-            * check if token exists in db
-            * check date and if the link has expired
-            * take them to page to input new password
-            * mark token as used
-             */
-            try
-            {
-
-                PwReset enToken = await _db.passordReset.FirstOrDefaultAsync(t => t.TokenHash == token.ToString());
-                if (enToken == null)
-                {
-                    // token does not exist/is used
-                    return false;
-                }
-                else
-                {
-                    // token exists
-
-                    // check if token is overdue
-                    DateTime rightNow = DateTime.Now;
-                    if (DateTime.Compare(enToken.BestFor, rightNow) > 0)
-                    {
-                        // Token is not overdue
-                        // check if token is used
-                        if (enToken.TokenBrukt)
-                        {
-                            //token is used 
-                            return false;
-                        }
-                        else
-                        {
-                            // token is not used
-                            enToken.TokenBrukt = true; // set it to used
-                            Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == enToken.Username); // find user
-                            if (enBruker == null)
-                            {
-                                // user is not found
-                                return false;
-                            }
-                            if(enBruker.Brukernavn != brukernavn)
-                            {
-                                //incorrect user
-                                return false;
-                            }
-                            else
-                            {
-                                // user is found, compare the password inputs
-                                if (newPassword.Equals(newPassword2))
-                                {
-                                    // the passwords are the same, so hash and overwrite
-                                    byte[] salt = CreateSalt();
-                                    byte[] hash = CreateHash(newPassword, salt);
-                                    enBruker.Passord = hash;
-                                    enBruker.Salt = salt;
-                                    await _db.SaveChangesAsync();
-                                    return true;
-                                }
-                                else
-                                {
-                                    // the passwords are not the same, try again.
-                                    // passord-sjekk gjøres også på frontend ved input
-                                    return false;
-                                }
-
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // token is overdue
-                        enToken.TokenBrukt = true;
-                        await _db.SaveChangesAsync();
-                        return false;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
-
         public async Task<string> CreateUser(InnBruker bruker)
         {
             try
@@ -448,7 +279,7 @@ namespace FunnregistreringsAPI.DAL
             }
         }
 
-        public async Task<int> LogIn(string brukernavn, string passord)
+        public async Task<string> LogIn(string brukernavn, string passord)
         {
             try
             {
@@ -463,28 +294,30 @@ namespace FunnregistreringsAPI.DAL
                         enBruker.LoggetInn = true;
                         await _db.SaveChangesAsync();
 
-                        return 1;
+                        return "";
                     }
                     else
                     {
                         // wrong password
-                        return 2;
+                        return "Feil passord";
                     }
                 }
                 else
                 {
                     // user does not exist, try again
-                    return 3;
+                    return "Bruker finnes ikke";
                 }
             }
             catch (Exception e)
             {
-                return 4;
+                return ("Message: " + e.Message +
+                    "Inner Exception: " + e.InnerException +
+                    "Stack Trace: " + e.StackTrace);
             }
 
         }
 
-        public async Task<int> LogOut(string brukernavn)
+        public async Task<string> LogOut(string brukernavn)
         {
             try
             {
@@ -497,33 +330,19 @@ namespace FunnregistreringsAPI.DAL
                         // user is logged in, so log out
                         enBruker.LoggetInn = false;
                         await _db.SaveChangesAsync();
-                        return 1;
+                        return "";
                     }
                     // user found, but not logged in
-                    return 2;
+                    return "Bruker er ikke logget inn";
                 }
                 // user is not found
-                return 3;
+                return "Bruker finnes ikke";
             }
             catch (Exception e)
             {
-                return 4;
-            }
-        }
-
-        public async Task<bool> CheckIfUserLoggedIn(string brukernavn)
-        {
-            // Find user, check if "LoggetInn" = true/false
-            try
-            {
-                Bruker enBruker = await _db.brukere.FirstOrDefaultAsync(b => b.Brukernavn == brukernavn);
-                if (enBruker == null) { return false; } // User does not exist
-                else { if (enBruker.LoggetInn) { return true; } }
-                return false;
-            }
-            catch (Exception e)
-            {
-                return false;
+                return ("Message: " + e.Message +
+                     "Inner Exception: " + e.InnerException +
+                     "Stack Trace: " + e.StackTrace);
             }
         }
     }
