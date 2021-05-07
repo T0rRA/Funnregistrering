@@ -33,7 +33,7 @@ public class Funn implements Serializable {
         return "Tittel: " + tittel + "\n\n" +
 
                 "Grunneier \n" +
-                "GrunneierNavn: " + grunneierFornavn + grunneierEtternavn +"\n" +
+                "GrunneierNavn: " + grunneierFornavn + " " + grunneierEtternavn +"\n" +
                 "GrunneierAdresse: " + grunneierAdresse + '\n' +
                 "GrunneierPostNr: " + grunneierPostNr + '\n' +
                 "GrunneierPostSted: " + grunneierPostSted + '\n' +
