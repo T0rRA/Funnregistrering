@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private FragmentLogin fragmentLogin;
     private FragmentIntroPage fragmentIntroPage;
 
+    private boolean loginPageOpen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>" + getString(R.string.app_name) + "</font>")); //Changes the color of the actionbar text
+
+        //Opens the log in page on app start
+        openLoginPage();
+        loginPageOpen = true;
     }
 
     //The ScreenSlidePagerAdapter holds the fragment from the navigation bar and makes sliding between them possible.
@@ -108,7 +114,10 @@ public class MainActivity extends AppCompatActivity {
                 saveDialog = new TextDialog(R.layout.dialog_save, "Vil du lagre endringene du har gjordt?");
                 saveDialog.show(getSupportFragmentManager(), null);
             }
-            closeFragment();
+
+            if (!loginPageOpen) {
+                closeFragment();
+            }
             return;
         }
         if (mPager.getCurrentItem() == 0) {
@@ -244,16 +253,16 @@ public class MainActivity extends AppCompatActivity {
         fragmentLogin.logInBtn();
     }
 
-    public void forgottenPasswordBtn(View view) {
-        fragmentLogin.forgottenPassword();
-    }
-
     public void fragmentLoginRegBtn(View view) {
         fragmentRegistrereBruker = new FragmentRegistrereBruker();
         openFragment(fragmentRegistrereBruker);
     }
 
     public void toLoginPageBtn(View view){ //login page button
+        openLoginPage();
+    }
+
+    public void openLoginPage(){
         closeFragment();
         fragmentLogin = new FragmentLogin();
         openFragment(fragmentLogin);
@@ -284,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void closeFragment() {
+        loginPageOpen = false;
         fm.popBackStack();//Goes back to the slide fragments
         if(fm.getBackStackEntryCount() == 1) { //When getBackStackEntryCount() == 1, only the main view is the only one left
             mPager.setVisibility(View.VISIBLE); //Makes the main fragments visible again
