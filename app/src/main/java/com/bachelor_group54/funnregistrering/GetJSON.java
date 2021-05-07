@@ -184,6 +184,7 @@ public class GetJSON extends AsyncTask<String, Void, String> {
             textView.setText(jsonString);
         }
 
+        //On sucessfull log in initilize the user object.
         if(fragmentLogin != null){
             User user = User.getInstance();
             try {
