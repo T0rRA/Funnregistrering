@@ -82,6 +82,7 @@ public class ListAdapter extends BaseAdapter{
         viewHolder.picture.setImageBitmap(itemList.get(position).getBilde()); //Sets the image of the list item
 
         viewHolder.linearLayout = convertView.findViewById(R.id.linear_layout_mine_funn_item);
+        //On click open the find
         viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
