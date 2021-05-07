@@ -92,11 +92,15 @@ public class Funn implements Serializable {
 
     //Gets the index of the current areaType, returns -1 on error
     public int getArealTypeIndex(Context context) {
-        if(arealType == null || arealType.equals("")){return -1;}
+        if(arealType == null || arealType.equals("") || arealType.equals("null")){return -1;}
         String[] arealTypeArray = context.getResources().getStringArray(R.array.area_type_array);
         int i = 0;
-        while(!arealTypeArray[i].equals(arealType)){
-            i++;
+        try {
+            while (!arealTypeArray[i].equals(arealType)) {
+                i++;
+            }
+        } catch (ArrayIndexOutOfBoundsException e){
+            return -1;
         }
         return i;
     }
@@ -108,6 +112,10 @@ public class Funn implements Serializable {
 
     public String getArealType() {
         return arealType;
+    }
+
+    public void setArealType(String arealType) {
+        this.arealType = arealType;
     }
 
     public String getGrunneierFornavn() {

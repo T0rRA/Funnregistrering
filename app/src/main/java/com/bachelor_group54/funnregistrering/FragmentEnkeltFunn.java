@@ -517,7 +517,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
 
         /*  Grunneier:  TODO: Registrering av tillatelse*/
-        canvas.drawText(funn.getGrunneierNavn(), 1500,450, text); // Navn
+        canvas.drawText(funn.getGrunneierFornavn() + " " + funn.getGrunneierEtternavn(), 1500,450, text); // Navn
         canvas.drawText(funn.getGrunneierAdresse(), 1500,575, text); // Adresse
         canvas.drawText(funn.getGrunneierPostNr(), 1500,700, text); // Postnr.
         canvas.drawText(funn.getGrunneierPostSted(), 1900,700, text); //sted

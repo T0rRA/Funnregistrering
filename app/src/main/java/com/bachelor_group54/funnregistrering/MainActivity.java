@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
     //Buttons for the single found fragment
     //Saves the changes made to the find
     public void fragmentEnkeltFunnLagreEndring(View view) {
-        if(!fragmentEnkeltFunn.editFind(this)){return;} //If the find could not be saved don't close the fragment
+        fragmentEnkeltFunn.editFind(this); //Todo If the find could not be saved don't close the fragment
         closeFragment();
     }
 
@@ -277,6 +277,9 @@ public class MainActivity extends AppCompatActivity {
     public void toIntroPageBtn(View view){ //login page button
         fragmentIntroPage = new FragmentIntroPage();
         openFragment(fragmentIntroPage);
+    }
+
+    public void infoBtn(View view) {
     }
 
     public void openFragment(Fragment fragment) {

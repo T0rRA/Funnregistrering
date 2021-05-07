@@ -165,7 +165,6 @@ public class FragmentRegistrereFunn extends Fragment {
 
         funn.setDato(makeDate());
 
-        sentFindToBackend();
         //If there are errors in anny of the fields do not save the find
         if (title.getError() != null && description.getError() != null) {
             Toast.makeText(getContext(), getString(R.string.feil_i_innputfelter) + "tittel og beskrivelse", Toast.LENGTH_LONG).show();
@@ -188,7 +187,7 @@ public class FragmentRegistrereFunn extends Fragment {
             return null;
         }
 
-        saveFind(funn);
+        sentFindToBackend();
         return funn;
     }
 
