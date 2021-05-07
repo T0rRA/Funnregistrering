@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -77,8 +78,19 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>" + getString(R.string.app_name) + "</font>")); //Changes the color of the actionbar text
 
-        //Opens the log in page on app start
-        openLoginPage();
+        //Opens introFragment if it's the first time the user opens the app else open the log in page
+        SharedPreferences sharedpreferences = getSharedPreferences("preferences", MODE_PRIVATE);
+        boolean firstLogin = sharedpreferences.getBoolean("firstLogin", true);
+
+        if(firstLogin){
+            toIntroPageBtn();
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putBoolean("firstLogin", false);
+            editor.apply();
+        }else {
+            openLoginPage();
+        }
+
         loginPageOpen = true;
     }
 
@@ -266,12 +278,15 @@ public class MainActivity extends AppCompatActivity {
         closeFragment();
         fragmentLogin = new FragmentLogin();
         openFragment(fragmentLogin);
+        loginPageOpen = true;
     }
 
-    public void toIntroPageBtn(View view){ //login page button
+    public void toIntroPageBtn(){
         fragmentIntroPage = new FragmentIntroPage();
         openFragment(fragmentIntroPage);
     }
+
+
 
     public void infoBtn(View view) {
     }
