@@ -167,6 +167,7 @@ public class GetJSON extends AsyncTask<String, Void, String> {
         }
     }
 
+    //Method to parse strings to double, returns 0 on fail
     private double makeNumber(String s){
         try {
             return Double.parseDouble(s);
