@@ -13,7 +13,7 @@ public class LoginInfo implements Serializable {
         this.userName = userName;
     }
 
-    public String getPassword(String s) {
+    public String getPassword() {
         return password;
     }
 

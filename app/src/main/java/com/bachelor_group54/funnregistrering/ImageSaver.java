@@ -2,6 +2,9 @@ package com.bachelor_group54.funnregistrering;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,9 +13,7 @@ import java.io.IOException;
 public class ImageSaver {
 
     public static void saveImage(Bitmap bitmap, Context context, int pictureNr) {
-        String path =  context.getFilesDir().getPath(); //Gets the path to the program
-        String filename = "/Image-" + pictureNr +".jpg"; //Sets the iamge name
-        File file = new File (path + filename); // Combines the program path and the filename
+        File file = new File (getImagePath(context, pictureNr)); // Combines the program path and the filename
 
         try (FileOutputStream out = new FileOutputStream(file)) { //Opens the filoutputstream
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
@@ -30,11 +31,28 @@ public class ImageSaver {
 
     public static Bitmap loadImage(Context context, int pictureNr){
         if(pictureNr == 0){return null;} //Returns empty bitmap if the pictureNr is not set
+        return BitmapFactory.decodeFile(getImagePath(context, pictureNr));
+    }
 
-        String path = context.getFilesDir().getPath(); //Gets the path to the program
-        String filename = "/Image-" + pictureNr +".jpg"; //Sets the image name
-        String file = path + filename; // Combines the program path and the filename
+    //Makes Bitmap form Base64
+    public static Bitmap makeBitmapFormBase64(String encodedImage){
+        try {
+            byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        }catch (Exception e){
+            System.err.println("-----Bilde Feil-----\n");
+            return null;
+        }
 
-        return BitmapFactory.decodeFile(file);
+    }
+
+    //Makes Base64 string for the database people
+    public static String makeBase64FromBitmap(Bitmap picture){
+        if(picture == null){return null;}
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        picture.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }

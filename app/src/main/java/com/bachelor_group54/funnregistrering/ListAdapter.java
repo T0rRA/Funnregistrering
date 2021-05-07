@@ -78,9 +78,10 @@ public class ListAdapter extends BaseAdapter{
         viewHolder.textViewSted.setText(itemList.get(position).getKommune()); //Sets the location of the list item
 
         viewHolder.picture = convertView.findViewById(R.id.image_mine_funn_liste_item); //Gets the image View of the list item
-        viewHolder.picture.setImageBitmap(ImageSaver.loadImage(context,itemList.get(position).getBildeID())); //Sets the image of the list item
+        viewHolder.picture.setImageBitmap(itemList.get(position).getBilde()); //Sets the image of the list item
 
         viewHolder.linearLayout = convertView.findViewById(R.id.linear_layout_mine_funn_item);
+        //On click open the find
         viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,13 +89,14 @@ public class ListAdapter extends BaseAdapter{
             }
         });
 
-
-        //Creates empty elements to maintain scroll for larger lists
-        if(itemList.get(position) == null){
-            viewHolder.textViewTitel.setVisibility(View.GONE);
-            viewHolder.textViewDato.setVisibility(View.GONE);
-            viewHolder.textViewSted.setVisibility(View.INVISIBLE);
-        }
+        //On longClick open delete find dialog
+        viewHolder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                mainActivity.makeDeleteDialog(itemList.get(position));
+                return true;
+            }
+        });
 
         return convertView; //Returns the view
     }

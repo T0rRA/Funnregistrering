@@ -2,13 +2,15 @@ package com.bachelor_group54.funnregistrering;
 
 import android.content.Context;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
 //Class for holding info about each found (Contains variables with getters and setters )
 public class Funn implements Serializable {
-    private String tittel, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
+    private String tittel, grunneierFornavn, grunneierEtternavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, funnsted, kommune, fylke, gjenstand, gjenstandMerking,
             datum, arealType, beskrivelse, dato, opplysninger, gårdNr, gbnr;
 
@@ -17,7 +19,9 @@ public class Funn implements Serializable {
     private double longitude = 200, latitude = 200, funndybde = -1;
 
     //The picture int is the number that needs to be given to the ImageSaver class to load the correct image
-    private int bildeID;
+    private int bildeID, funnID;
+
+    private Bitmap bilde;
 
     private boolean funnmeldingSendt = false, funnskjemaSendt = false;
 
@@ -31,7 +35,7 @@ public class Funn implements Serializable {
         return "Tittel: " + tittel + "\n\n" +
 
                 "Grunneier \n" +
-                "GrunneierNavn: " + grunneierNavn + "\n" +
+                "GrunneierNavn: " + grunneierFornavn + " " + grunneierEtternavn +"\n" +
                 "GrunneierAdresse: " + grunneierAdresse + '\n' +
                 "GrunneierPostNr: " + grunneierPostNr + '\n' +
                 "GrunneierPostSted: " + grunneierPostSted + '\n' +
@@ -60,10 +64,10 @@ public class Funn implements Serializable {
 
     //Checks if all the fields needed for find message is filled
     public boolean isFunnmeldingKlar(){
-        if(tittel.equals("")){
+        if(tittel == null || tittel.equals("")){
             return false;
         }
-        if(bildeID == 0){
+        if(bilde == null){
             return false;
         }
         if(latitude == 200) {
@@ -74,7 +78,7 @@ public class Funn implements Serializable {
 
     //Checks if all the fields needed for the find form is filled
     public boolean isFunnskjemaKlart(){
-        String[] allTheStrings = new String[]{tittel, dato, funnsted, grunneierNavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
+        String[] allTheStrings = new String[]{tittel, dato, funnsted, grunneierFornavn, grunneierEtternavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, beskrivelse, gjenstand, gjenstandMerking,
                 datum, arealType, opplysninger, gårdNr, gbnr, kommune, fylke};
 
@@ -104,6 +108,30 @@ public class Funn implements Serializable {
 
     public String getArealType() {
         return arealType;
+    }
+
+    public String getGrunneierFornavn() {
+        return grunneierFornavn;
+    }
+
+    public void setGrunneierFornavn(String grunneierFornavn) {
+        this.grunneierFornavn = grunneierFornavn;
+    }
+
+    public String getGrunneierEtternavn() {
+        return grunneierEtternavn;
+    }
+
+    public void setGrunneierEtternavn(String grunneierEtternavn) {
+        this.grunneierEtternavn = grunneierEtternavn;
+    }
+
+    public Bitmap getBilde() {
+        return bilde;
+    }
+
+    public void setBilde(Bitmap bilde) {
+        this.bilde = bilde;
     }
 
     public String getOpplysninger() {
@@ -136,14 +164,6 @@ public class Funn implements Serializable {
 
     public void setTittel(String tittel) {
         this.tittel = tittel;
-    }
-
-    public String getGrunneierNavn() {
-        return grunneierNavn;
-    }
-
-    public void setGrunneierNavn(String grunneierNavn) {
-        this.grunneierNavn = grunneierNavn;
     }
 
     public String getGrunneierAdresse() {
@@ -296,5 +316,13 @@ public class Funn implements Serializable {
 
     public void setFunnskjemaSendt(boolean funnskjemaSendt) {
         this.funnskjemaSendt = funnskjemaSendt;
+    }
+
+    public int getFunnID() {
+        return funnID;
+    }
+
+    public void setFunnID(int funnID) {
+        this.funnID = funnID;
     }
 }

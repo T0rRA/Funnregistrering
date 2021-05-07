@@ -1,10 +1,14 @@
 package com.bachelor_group54.funnregistrering;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,18 +32,31 @@ public class FragmentLogin extends Fragment {
     }
 
     public void logInBtn() {
-        //Creates loginInfo object, reads the inputs and adds them to the object
-        LoginInfo loginInfo = new LoginInfo();
-        EditText userName = view.findViewById(R.id.user_name);
-        EditText password = view.findViewById(R.id.password);
-        loginInfo.setUserName(userName.getText().toString());
-        loginInfo.setPassword(password.getText().toString());
+        //Gets username and password for the input fields, if login is successful edit the user object
+        EditText usernameEt = view.findViewById(R.id.user_name);
+        EditText passwordEt = view.findViewById(R.id.password);
+        String username = usernameEt.getText().toString();
+        String password = passwordEt.getText().toString();
 
-        //Saves the data to a list, TODO: use the info in backend
-        ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "user"); // initializes the object saving class
-        ArrayList<Object> list = objektLagrer.loadData(); // Fills arraylist with previous login info
-        list.add(loginInfo); //Adds new the new user object to the list
-        objektLagrer.saveData(list); // Saves the list
+        //Saves the password to the user object
+        User user = User.getInstance();
+        user.setPassword(password);
 
+        //Attempts to log in
+        SetJSON setJSON = new SetJSON(getContext(), username);
+        setJSON.execute("Bruker/LogIn", "brukernavn=" + username, "passord=" + password);
+    }
+
+    public void forgottenPassword(){
+        EditText usernameEt = view.findViewById(R.id.user_name);
+        String username = usernameEt.getText().toString();
+
+        if(username.equals("")){
+            Toast.makeText(getContext(), "Skriv inn brukernavn først", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        SetJSON setJSON = new SetJSON(getContext());
+        setJSON.execute("Bruker/SendPwResetLink", "brukernavn=" + username);
     }
 }

@@ -33,6 +33,14 @@
         android:onClick="loginBtn"
         android:text="@string/login_login" />
 
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="forgottenPasswordBtn"
+        android:text="@string/glemt_passord" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
