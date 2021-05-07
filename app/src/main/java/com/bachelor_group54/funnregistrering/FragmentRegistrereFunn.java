@@ -151,9 +151,15 @@ public class FragmentRegistrereFunn extends Fragment {
         //Sets kommune and fylke for the find
         getAddressFromLocation(latitude, longitude);
 
-        Date currentTime = Calendar.getInstance().getTime();
+        funn.setDato(makeDate());
 
-//Makes date String FIXME lage egen metode
+        sentFindToBackend();
+        return funn;
+    }
+
+    //Makes date String
+    public String makeDate(){
+        Date currentTime = Calendar.getInstance().getTime();
         String day = currentTime.getDate() + "";
         if(currentTime.getDate() < 10) {
             day = "0" + currentTime.getDate();
@@ -164,11 +170,7 @@ public class FragmentRegistrereFunn extends Fragment {
             month = "0" + (currentTime.getMonth() + 1);
         }
 
-        String date = day + "-" + month + "-" + (currentTime.getYear() + 1900);
-        funn.setDato(date);
-
-        sentFindToBackend();
-        return funn;
+        return day + "-" + month + "-" + (currentTime.getYear() + 1900);
     }
 
     //TODO registrere kunn med noe info kanskje API med færre felter?

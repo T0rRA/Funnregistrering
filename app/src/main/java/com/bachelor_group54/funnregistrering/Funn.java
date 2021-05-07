@@ -65,7 +65,7 @@ public class Funn implements Serializable {
         if(tittel == null || tittel.equals("")){
             return false;
         }
-        if(bildeID == 0){ //fixme endre sjekk fra bildeID == 0 til bilde == null (Kan gi problemer med å sende funnmelding)
+        if(bilde == null){
             return false;
         }
         if(latitude == 200) {

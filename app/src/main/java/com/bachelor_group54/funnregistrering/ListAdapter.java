@@ -52,7 +52,6 @@ public class ListAdapter extends BaseAdapter{
     @Override
     //The method called by the list view when using the setAdapter method, to display the list on the screen
     public View getView(final int position, View convertView, ViewGroup parent) {
-        boolean longPress = false; //Fixme sjekk om jeg bruker denne variabelen
         //Writes message if list is empty
         if(itemList.size() < 1){
             TextView textView = new TextView(context);
