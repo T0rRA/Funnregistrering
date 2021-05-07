@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void closeFragment() {
         fm.popBackStack();//Goes back to the slide fragments
-        if(fm.getBackStackEntryCount() == 1) {
+        if(fm.getBackStackEntryCount() == 1) { //When getBackStackEntryCount() == 1, only the main view is the only one left
             mPager.setVisibility(View.VISIBLE); //Makes the main fragments visible again
         }
     }
