@@ -33,13 +33,6 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="Intro page"
-            android:layout_weight="1"
-            android:onClick="toIntroPageBtn"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
             android:layout_weight="1"
             android:onClick="showPreferencesBtn"
             android:text="Settings" />

@@ -133,10 +133,10 @@ public class MainActivity extends AppCompatActivity {
             }
             return;
         }
-        if (mPager.getCurrentItem() == 0) {
+        if (mPager.getCurrentItem() == 1) {
             finish(); //If the main page is the current page exit the app
         } else {
-            mPager.setCurrentItem(0); //Goes back to the main page
+            mPager.setCurrentItem(1); //Goes back to the main page
         }
     }
 
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         Funn funn = fragmentRegistrereFunn.registrerFunnBtn(); //Registers the find, and gets the find object back
         if(funn == null){return;} //If the find is null then the find was not registered
         ((FragmentRegistrereFunn) pagerAdapter.getItem(mPager.getCurrentItem())).clearFields(); //Clears the fields in the register new find fragment
-        mPager.setCurrentItem(1); //Goes to the found overview
+        mPager.setCurrentItem(0); //Goes to the found overview
         openEnkeltFunn(funn, fragmentMineFunn.getListSize() - 1); //Opens the find in the find list
     }
 
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Navigation bar buttons
     public void navbarRegistrereFunn(View view) {
-        mPager.setCurrentItem(0);
+        mPager.setCurrentItem(1);
     }
 
     public void navbarKart(View view) {
@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void navbarMineFunn(View view) {
-        mPager.setCurrentItem(1);
+        mPager.setCurrentItem(0);
     }
 
     public void updateMineFunnList(){
@@ -249,7 +249,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void navbarHjelp(View view) {
         mPager.setCurrentItem(2); //Går til forsiden for nå
-        Toast.makeText(this, "Har ikke hjelpside enda", Toast.LENGTH_LONG).show();
     }
 
     //User fragment buttons
