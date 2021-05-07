@@ -204,7 +204,7 @@ public class FragmentRegistrereFunn extends Fragment {
             month = "0" + (currentTime.getMonth() + 1);
         }
 
-        return day + "-" + month + "-" + (currentTime.getYear() + 1900);
+        return day + "/" + month + "/" + (currentTime.getYear() + 1900);
     }
 
     //TODO registrere kunn med noe info kanskje API med færre felter?
