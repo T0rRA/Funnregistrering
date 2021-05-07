@@ -46,8 +46,12 @@ public class FragmentLogin extends Fragment {
         User user = User.getInstance();
         user.setPassword(password);
 
+        logIn(username, password);
+    }
+
+    public void logIn(String username, String password){
         //Attempts to log in
-        SetJSON setJSON = new SetJSON(getContext(), username);
+        SetJSON setJSON = new SetJSON(FragmentList.getInstance().getContext(), username);
         setJSON.execute("Bruker/LogIn", "brukernavn=" + username, "passord=" + password);
     }
 

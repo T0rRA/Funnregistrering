@@ -103,8 +103,15 @@ public class SetJSON extends AsyncTask<String, Void, String> {
                 //Get user info and save it in the User object (using Singleton)
                 GetJSON getJSON = new GetJSON(new FragmentLogin());
                 getJSON.execute("Bruker/GetUser?brukernavn=" + username);
-                FragmentList.getInstance().getMainActivity().closeFragment(); //Closes the login fragment
                 s = "Logger inn";
+
+                SharedPreferences sharedpreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString("Username", username);
+                editor.putString("Password", User.getInstance().getPassword());
+                editor.apply();
+
+                FragmentList.getInstance().getMainActivity().closeFragment(); //Closes the login fragment
             }
         }
 

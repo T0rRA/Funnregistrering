@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             openLoginPage();
         }
 
+        //Variable that prevents the user from going back from the log in page
         loginPageOpen = true;
     }
 
@@ -275,11 +276,21 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    public void autoLogIn(){
+        SharedPreferences sharedpreferences = getSharedPreferences("User", MODE_PRIVATE);
+        String username = sharedpreferences.getString("Username", "");
+        String password = sharedpreferences.getString("Password", "");
+        if(password.equals("") || username.equals("")){return;}
+        fragmentLogin.logIn(username, password);
+        Toast.makeText(this, "Prøver å logge in bruker: " + username + " med passord: " + password, Toast.LENGTH_LONG).show();
+    }
+
     public void openLoginPage(){
         closeFragment();
         fragmentLogin = new FragmentLogin();
         openFragment(fragmentLogin);
         loginPageOpen = true;
+        autoLogIn();
     }
 
     public void toIntroPageBtn(){
