@@ -34,6 +34,11 @@
         android:onClick="loginBtn"
         android:text="@string/login_login" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar_fragment_log_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -58,7 +63,9 @@
                 android:layout_height="wrap_content"
                 android:onClick="fragmentLoginRegBtn"
                 android:text="@string/login_Reg_here" />
+
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/bottomColor"
             android:layout_width="match_parent"
@@ -70,5 +77,6 @@
             android:background="@color/colorPrimary">
 
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

@@ -113,6 +113,7 @@ public class SetJSON extends AsyncTask<String, Void, String> {
 
                 FragmentList.getInstance().getMainActivity().closeFragment(); //Closes the login fragment
             }
+            FragmentList.getInstance().getFragmentLogin().stopProgressBar();
         }
 
         if(fragmentRegistrereBruker != null){

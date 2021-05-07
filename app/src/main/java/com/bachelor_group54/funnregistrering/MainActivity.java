@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -48,12 +49,14 @@ public class MainActivity extends AppCompatActivity {
         fragmentRegistrereFunn = new FragmentRegistrereFunn();
         fragmentMain = new FragmentMain();
         fragmentMineFunn = new FragmentMineFunn();
+        fragmentLogin = new FragmentLogin();
 
         //Adding fragments and MainActivity to the fragmentList object, to access it later from other classes
         fragmentList = FragmentList.getInstance();
         fragmentList.setMainActivity(this);
         fragmentList.setFragmentMineFunn(fragmentMineFunn);
         fragmentList.setContext(this);
+        fragmentList.setFragmentLogin(fragmentLogin);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -280,14 +283,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedpreferences = getSharedPreferences("User", MODE_PRIVATE);
         String username = sharedpreferences.getString("Username", "");
         String password = sharedpreferences.getString("Password", "");
-        if(password.equals("") || username.equals("")){return;}
+        if(password.equals("") || username.equals("")){fragmentLogin.stopProgressBar(); return;}
         fragmentLogin.logIn(username, password);
-        Toast.makeText(this, "Prøver å logge in bruker: " + username + " med passord: " + password, Toast.LENGTH_LONG).show();
     }
 
     public void openLoginPage(){
         closeFragment();
-        fragmentLogin = new FragmentLogin();
         openFragment(fragmentLogin);
         loginPageOpen = true;
         autoLogIn();
