@@ -48,6 +48,7 @@ public class FragmentMineFunn extends Fragment {
         listSize = findsList.size();
     }
 
+//Gets the finds from the database and update the listView
     public void getFinds(){
         startProgressBar();
         GetJSON getJSON = new GetJSON(this);
