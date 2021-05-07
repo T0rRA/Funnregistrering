@@ -210,6 +210,7 @@ public class FragmentRegistrereFunn extends Fragment {
         SendToServer.postRequest(getContext(), params, "Funn/RegistrerFunn", FragmentList.getFragmentMineFunn());
     }
 
+    //Makes sure that the database never recives null values, but puts "null" strings instead
     public String makeStringNonNull(String s){
         return s == null || s.equals("") ? "null" : s;
     }
