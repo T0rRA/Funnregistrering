@@ -226,7 +226,7 @@ public class FragmentRegistrereFunn extends Fragment {
             }
             Address address = locations.get(0);
             funn.setKommune(address.getSubAdminArea()); //Sets the kommune
-            funn.setFylke(address.getAdminArea());
+            funn.setFylke(address.getAdminArea()); //Sets the fylke
             funn.setGrunneierPostNr(address.getPostalCode()); //FIXME kanskje ikke fylle denne automatisk
         } catch(Exception e) {
             e.printStackTrace();
