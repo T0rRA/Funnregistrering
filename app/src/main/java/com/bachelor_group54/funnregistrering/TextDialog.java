@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+//Class to create dialog boxes
 public class TextDialog extends androidx.fragment.app.DialogFragment {
     private View view;
     private int layoutId;
