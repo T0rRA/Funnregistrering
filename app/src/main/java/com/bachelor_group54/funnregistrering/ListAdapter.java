@@ -90,6 +90,7 @@ public class ListAdapter extends BaseAdapter{
             }
         });
 
+        //On longClick open delete find dialog
         viewHolder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
