@@ -263,6 +263,7 @@ public class FragmentEnkeltFunn extends Fragment {
             funn.setFunndybde(Double.parseDouble(depth.getText().toString())); //Changes the info inn the find
         }
 
+//Do not overwrite the picture if it has not been changed
         if(picture != null) {
             funn.setBilde(picture);
         }
