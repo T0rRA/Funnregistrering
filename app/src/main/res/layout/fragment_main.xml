@@ -19,11 +19,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Hjelp"
+            android:text="Innstillinger"
             android:textColor="#000"
             android:textSize="30sp" />
 
         <Button
+            android:layout_marginTop="10dp"
+            android:background="@color/buttonColor"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -31,11 +33,22 @@
             android:text="Info og regler" />
 
         <Button
+            android:layout_marginTop="10dp"
+            android:background="@color/buttonColor"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:onClick="showPreferencesBtn"
             android:text="Settings" />
+
+        <Button
+            android:background="@color/buttonColor"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="showPreferencesBtn"
+            android:layout_marginTop="10dp"
+            android:text="Om bruker" />
 
     </LinearLayout>
 

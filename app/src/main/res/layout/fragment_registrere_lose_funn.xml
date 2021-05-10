@@ -37,11 +37,11 @@
             android:orientation="horizontal">
 
             <Button
+                android:background="@color/buttonColor"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@color/colorPrimary"
                 android:onClick="bildeBtn"
                 android:text="@string/registrere_lose_funn_btn_bilde" />
 
@@ -58,11 +58,11 @@
             android:layout_height="0dp"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:background="@color/colorPrimary"
             android:onClick="gpsBtn"
             android:orientation="horizontal">
 
             <Button
+                android:background="@color/buttonColor"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -86,11 +86,11 @@
             android:hint="@string/registrere_lose_funn_et_beskrivelse" />
 
         <Button
+            android:background="@color/buttonColor"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:background="@color/colorPrimary"
             android:onClick="registrerFunnBtn"
             android:text="@string/registrere_lose_funn_btn_lagre" />
 

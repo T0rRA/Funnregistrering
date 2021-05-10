@@ -231,10 +231,6 @@ public class MainActivity extends AppCompatActivity {
         mPager.setCurrentItem(1);
     }
 
-    public void navbarKart(View view) {
-        Toast.makeText(this, "Har ikke kartside enda", Toast.LENGTH_LONG).show();
-    }
-
     public void navbarMineFunn(View view) {
         mPager.setCurrentItem(0);
     }
@@ -243,12 +239,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentMineFunn.getFinds();
     }
 
-    public void navbarProfil(View view) {
-        Toast.makeText(this, "Har ikke profilside enda", Toast.LENGTH_LONG).show();
-    }
-
-    public void navbarHjelp(View view) {
-        mPager.setCurrentItem(2); //Går til forsiden for nå
+    public void navbarSettings(View view) {
+        mPager.setCurrentItem(2);
     }
 
     //User fragment buttons
