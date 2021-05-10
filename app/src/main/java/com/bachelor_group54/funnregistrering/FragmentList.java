@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 //This class holds fragments that wil be needed many places in the program
 public class FragmentList {
     private static FragmentMineFunn fragmentMineFunn;
+    private FragmentLogin fragmentLogin;
     private MainActivity mainActivity;
     private Context context;
 
@@ -46,5 +47,13 @@ public class FragmentList {
 
     public void setContext(Context context) {
         this.context = context;
+    }
+
+    public FragmentLogin getFragmentLogin() {
+        return fragmentLogin;
+    }
+
+    public void setFragmentLogin(FragmentLogin fragmentLogin) {
+        this.fragmentLogin = fragmentLogin;
     }
 }

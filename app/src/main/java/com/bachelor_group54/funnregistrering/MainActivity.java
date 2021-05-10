@@ -8,8 +8,10 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private FragmentLogin fragmentLogin;
     private FragmentIntroPage fragmentIntroPage;
 
+    private boolean loginPageOpen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +49,14 @@ public class MainActivity extends AppCompatActivity {
         fragmentRegistrereFunn = new FragmentRegistrereFunn();
         fragmentMain = new FragmentMain();
         fragmentMineFunn = new FragmentMineFunn();
+        fragmentLogin = new FragmentLogin();
 
         //Adding fragments and MainActivity to the fragmentList object, to access it later from other classes
         fragmentList = FragmentList.getInstance();
         fragmentList.setMainActivity(this);
         fragmentList.setFragmentMineFunn(fragmentMineFunn);
         fragmentList.setContext(this);
+        fragmentList.setFragmentLogin(fragmentLogin);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -58,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         mPager.setAdapter(pagerAdapter);
 
         //Only if you want to start on element 1 in the list, no need if starting at 0
-        mPager.setCurrentItem(0);
+        mPager.setCurrentItem(1);
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {} //Needs to be overridden
@@ -74,6 +80,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>" + getString(R.string.app_name) + "</font>")); //Changes the color of the actionbar text
+
+        //Opens introFragment if it's the first time the user opens the app else open the log in page
+        SharedPreferences sharedpreferences = getSharedPreferences("preferences", MODE_PRIVATE);
+        boolean firstLogin = sharedpreferences.getBoolean("firstLogin", true);
+
+        if(firstLogin){
+            toIntroPageBtn();
+        }else {
+            openLoginPage();
+        }
+
+        //Variable that prevents the user from going back from the log in page
+        loginPageOpen = true;
     }
 
     //The ScreenSlidePagerAdapter holds the fragment from the navigation bar and makes sliding between them possible.
@@ -83,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
         public ScreenSlidePagerAdapter(@NonNull FragmentManager fm) {
             super(fm);
             //Adds the fragments to the slider
-            fragmentListe.add(fragmentRegistrereFunn);
             fragmentListe.add(fragmentMineFunn);
+            fragmentListe.add(fragmentRegistrereFunn);
             fragmentListe.add(fragmentMain);
             //TODO legge til resten av fragmentene
         }
@@ -108,13 +127,16 @@ public class MainActivity extends AppCompatActivity {
                 saveDialog = new TextDialog(R.layout.dialog_save, "Vil du lagre endringene du har gjordt?");
                 saveDialog.show(getSupportFragmentManager(), null);
             }
-            closeFragment();
+
+            if (!loginPageOpen) {
+                closeFragment();
+            }
             return;
         }
-        if (mPager.getCurrentItem() == 0) {
+        if (mPager.getCurrentItem() == 1) {
             finish(); //If the main page is the current page exit the app
         } else {
-            mPager.setCurrentItem(0); //Goes back to the main page
+            mPager.setCurrentItem(1); //Goes back to the main page
         }
     }
 
@@ -175,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         Funn funn = fragmentRegistrereFunn.registrerFunnBtn(); //Registers the find, and gets the find object back
         if(funn == null){return;} //If the find is null then the find was not registered
         ((FragmentRegistrereFunn) pagerAdapter.getItem(mPager.getCurrentItem())).clearFields(); //Clears the fields in the register new find fragment
-        mPager.setCurrentItem(1); //Goes to the found overview
+        mPager.setCurrentItem(0); //Goes to the found overview
         openEnkeltFunn(funn, fragmentMineFunn.getListSize() - 1); //Opens the find in the find list
     }
 
@@ -206,28 +228,19 @@ public class MainActivity extends AppCompatActivity {
 
     //Navigation bar buttons
     public void navbarRegistrereFunn(View view) {
-        mPager.setCurrentItem(0);
-    }
-
-    public void navbarKart(View view) {
-        Toast.makeText(this, "Har ikke kartside enda", Toast.LENGTH_LONG).show();
+        mPager.setCurrentItem(1);
     }
 
     public void navbarMineFunn(View view) {
-        mPager.setCurrentItem(1);
+        mPager.setCurrentItem(0);
     }
 
     public void updateMineFunnList(){
         fragmentMineFunn.getFinds();
     }
 
-    public void navbarProfil(View view) {
-        Toast.makeText(this, "Har ikke profilside enda", Toast.LENGTH_LONG).show();
-    }
-
-    public void navbarHjelp(View view) {
-        mPager.setCurrentItem(2); //Går til forsiden for nå
-        Toast.makeText(this, "Har ikke hjelpside enda", Toast.LENGTH_LONG).show();
+    public void navbarSettings(View view) {
+        mPager.setCurrentItem(2);
     }
 
     //User fragment buttons
@@ -244,25 +257,40 @@ public class MainActivity extends AppCompatActivity {
         fragmentLogin.logInBtn();
     }
 
-    public void forgottenPasswordBtn(View view) {
-        fragmentLogin.forgottenPassword();
-    }
-
     public void fragmentLoginRegBtn(View view) {
         fragmentRegistrereBruker = new FragmentRegistrereBruker();
         openFragment(fragmentRegistrereBruker);
     }
 
     public void toLoginPageBtn(View view){ //login page button
-        closeFragment();
-        fragmentLogin = new FragmentLogin();
-        openFragment(fragmentLogin);
+        openLoginPage();
+        SharedPreferences sharedpreferences = getSharedPreferences("preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putBoolean("firstLogin", false);
+        editor.apply();
     }
 
-    public void toIntroPageBtn(View view){ //login page button
+    public void autoLogIn(){
+        SharedPreferences sharedpreferences = getSharedPreferences("User", MODE_PRIVATE);
+        String username = sharedpreferences.getString("Username", "");
+        String password = sharedpreferences.getString("Password", "");
+        if(password.equals("") || username.equals("")){fragmentLogin.stopProgressBar(); return;}
+        fragmentLogin.logIn(username, password);
+    }
+
+    public void openLoginPage(){
+        closeFragment();
+        openFragment(fragmentLogin);
+        loginPageOpen = true;
+        autoLogIn();
+    }
+
+    public void toIntroPageBtn(){
         fragmentIntroPage = new FragmentIntroPage();
         openFragment(fragmentIntroPage);
     }
+
+
 
     public void infoBtn(View view) {
     }
@@ -284,6 +312,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void closeFragment() {
+        loginPageOpen = false;
         fm.popBackStack();//Goes back to the slide fragments
         if(fm.getBackStackEntryCount() == 1) { //When getBackStackEntryCount() == 1, only the main view is the only one left
             mPager.setVisibility(View.VISIBLE); //Makes the main fragments visible again

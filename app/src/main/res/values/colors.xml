@@ -6,4 +6,5 @@
     <color name="colorRed">#d70000</color>
     <color name="colorGreen">#008e00</color>
     <color name="colorYellow">#eeee02</color>
+    <color name="buttonColor">#FFD775</color>
 </resources>

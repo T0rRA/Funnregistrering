@@ -204,7 +204,7 @@ public class FragmentRegistrereFunn extends Fragment {
             month = "0" + (currentTime.getMonth() + 1);
         }
 
-        return day + "-" + month + "-" + (currentTime.getYear() + 1900);
+        return day + "/" + month + "/" + (currentTime.getYear() + 1900);
     }
 
     //TODO registrere kunn med noe info kanskje API med færre felter?
@@ -232,7 +232,7 @@ public class FragmentRegistrereFunn extends Fragment {
         params.put("datum" , makeStringNonNull(funn.getDatum()));
         params.put("areal_type" , makeStringNonNull(funn.getArealType()));
 
-        params.put("brukernavn" , "helge2"); //fixme uncomment user.getUsername
+        params.put("brukernavn" , user.getUsername());
 
         params.put("innGBNr.gb_nr" , makeStringNonNull(funn.getGbnr()));
         params.put("innGBNr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierFornavn()));
