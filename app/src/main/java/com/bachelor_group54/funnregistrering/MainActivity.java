@@ -206,7 +206,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentEnkeltFunn.sendFunnskjema();
     }
 
-
     //Navigation bar buttons
     public void navbarRegistrereFunn(View view) {
         mPager.setCurrentItem(0);
@@ -299,4 +298,3 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-
