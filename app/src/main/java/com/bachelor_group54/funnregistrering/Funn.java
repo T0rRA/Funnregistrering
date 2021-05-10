@@ -64,7 +64,7 @@ public class Funn implements Serializable {
 
     //Checks if all the fields needed for find message is filled
     public boolean isFunnmeldingKlar(){
-        if(tittel == null || tittel.equals("")){
+        if(tittel == null || tittel.equals("") || tittel.equals("null")){
             return false;
         }
         if(bilde == null){
@@ -83,7 +83,7 @@ public class Funn implements Serializable {
                 datum, arealType, opplysninger, gårdNr, gbnr, kommune, fylke};
 
         for (String s : allTheStrings){
-            if(s == null || s.equals("")){ //Checks if the strings are valid
+            if(s == null || s.equals("") || s.equals("null")){ //Checks if the strings are valid
                 return false;
             }
         }
@@ -92,7 +92,7 @@ public class Funn implements Serializable {
 
     //Gets the index of the current areaType, returns -1 on error
     public int getArealTypeIndex(Context context) {
-        if(arealType == null || arealType.equals("") || arealType.equals("null")){return -1;}
+        if(arealType == null || arealType.equals("") || arealType.equals("null")){return 0;}
         String[] arealTypeArray = context.getResources().getStringArray(R.array.area_type_array);
         int i = 0;
         try {
@@ -100,7 +100,7 @@ public class Funn implements Serializable {
                 i++;
             }
         } catch (ArrayIndexOutOfBoundsException e){
-            return -1;
+            return 0;
         }
         return i;
     }

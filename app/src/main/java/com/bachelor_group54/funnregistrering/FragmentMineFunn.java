@@ -1,7 +1,9 @@
 package com.bachelor_group54.funnregistrering;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,9 +52,14 @@ public class FragmentMineFunn extends Fragment {
 
 //Gets the finds from the database and update the listView
     public void getFinds(){
+        if(User.getInstance().getUsername() == null){waitForUser(); return;} //If username is null wait until it is not.
         startProgressBar();
         GetJSON getJSON = new GetJSON(this);
-        getJSON.execute("Funn/GetAllUserFunn?brukernavn=helge2&passord=helge123"/*FIXME endre til å bruke riktig brukernavn og passord eller token?*/, "funnID", "image", "funndato", "kommune", "fylke", "funndybde", "gjenstand_markert_med", "koordinat", "datum", "areal_type");
+
+        User user = User.getInstance();
+
+        System.out.println(user.getUsername() + user.getPassword() + user.getName());
+        getJSON.execute("Funn/GetAllUserFunn?brukernavn=" + user.getUsername() + "&passord=" + user.getPassword(), "funnID", "image", "funndato", "kommune", "fylke", "funndybde", "gjenstand_markert_med", "koordinat", "datum", "areal_type");
     }
 
     public void stopProgressBar(){
@@ -67,5 +74,22 @@ public class FragmentMineFunn extends Fragment {
 
     public int getListSize() {
         return listSize == 0 ? 1 : listSize;
+    }
+
+    //Waiting for the user to be saved, so we can load the finds.
+    public void waitForUser(){
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep(100); //Waits 100 milliseconds before checking again.
+                    if(User.getInstance().getUsername() == null){ //Loops until User has been sett.
+                        waitForUser();
+                    }
+                    getFinds(); //When the user is set continue running the getFinds method.
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            };
+        }).start();
     }
 }

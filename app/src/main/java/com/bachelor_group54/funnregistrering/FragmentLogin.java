@@ -1,23 +1,21 @@
 package com.bachelor_group54.funnregistrering;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
-
 public class FragmentLogin extends Fragment {
     private View view;
+    private ProgressBar progressBar;
+    private boolean progressBarRunning = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,6 +26,9 @@ public class FragmentLogin extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false); //Loads the page from the XML file
+        if(!progressBarRunning){
+            stopProgressBar();
+        }
         EditText usernameEt = view.findViewById(R.id.user_name);
         EditText passwordEt = view.findViewById(R.id.password);
         passwordEt.addTextChangedListener(new InputValidater(getContext(), true, true, true, 1 , 100, passwordEt));
@@ -42,13 +43,37 @@ public class FragmentLogin extends Fragment {
         String username = usernameEt.getText().toString();
         String password = passwordEt.getText().toString();
 
+        logIn(username, password);
+    }
+
+    public void logIn(String username, String password){
+        //Attempts to log in
+        startProgressBar();
+
         //Saves the password to the user object
         User user = User.getInstance();
         user.setPassword(password);
 
-        //Attempts to log in
-        SetJSON setJSON = new SetJSON(getContext(), username);
+        SetJSON setJSON = new SetJSON(FragmentList.getInstance().getContext(), username);
         setJSON.execute("Bruker/LogIn", "brukernavn=" + username, "passord=" + password);
+    }
+
+    public void stopProgressBar(){
+        if(view == null) {
+            progressBarRunning = false;
+        } else {
+            progressBar = view.findViewById(R.id.progress_bar_fragment_log_in);
+            progressBar.setWillNotDraw(true);
+        }
+    }
+
+    public void startProgressBar(){
+        if (view == null) {
+           progressBarRunning = true;
+        } else {
+            progressBar = view.findViewById(R.id.progress_bar_fragment_log_in);
+            progressBar.setWillNotDraw(false);
+        }
     }
 
     public void forgottenPassword(){

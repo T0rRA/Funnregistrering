@@ -497,7 +497,7 @@ public class FragmentEnkeltFunn extends Fragment {
         text.setTypeface(Typeface.create(Typeface.MONOSPACE,Typeface.NORMAL));
 
         //Setting text size (in the pdf)
-        text.setTextSize(36);
+        text.setTextSize(30);
 
         //Setting color on the text
        /*
@@ -534,11 +534,12 @@ public class FragmentEnkeltFunn extends Fragment {
 
         /*Funnet*/
         canvas.drawText(funn.getDato(),110, 1175, text); //Funndato
-        canvas.drawText(funn.getFunnsted(),425, 1175, text); // Funnsted, gård, gbnr
+        //fixme mangler funnsted i databasen så krasjer her canvas.drawText(funn.getFunnsted(),425, 1175, text); // Funnsted, gård, gbnr
+        canvas.drawText(funn.getGårdNr() + ", " + funn.getGbnr(),425, 1175, text);
         canvas.drawText(funn.getKommune(),1250, 1175, text); // Kommune
         canvas.drawText(funn.getFylke(),1900, 1175, text); // Fylke
 
-        canvas.drawText(funn.getGjenstand(),110, 1360, text); //Gjenstand
+        //fixme mangler gjenstand i databasen så krasjer her canvas.drawText(funn.getGjenstand(),110, 1360, text); //Gjenstand
         canvas.drawText(""+funn.getFunndybde(),1250, 1360, text); // Funndybde
         canvas.drawText(funn.getGjenstandMerking(),1575, 1360, text); // merket med
 
@@ -555,15 +556,23 @@ public class FragmentEnkeltFunn extends Fragment {
         //canvas.drawText(" ",1280,1650,text); // Digitalt kart
 
         /*Arealtype*/
-        //TODO legg til når droppdown i funn er fiksa
-        canvas.drawText("X",1755,1555,text); // Åker
-        canvas.drawText("X",1755,1595,text); // Beite
-        canvas.drawText("X",1755,1635,text); // Hage
 
-        canvas.drawText("X",1990,1515,text); // Skog
-        canvas.drawText("X",1990,1555,text); // Fjell
-        canvas.drawText("X",1990,1595,text); // Strand
-        canvas.drawText("X",1990,1635,text); // Vann
+        //Calculates the x and y values for the check boxes on the pdf, and crosses out the right one (based on the area type from the find)
+        int i = funn.getArealTypeIndex(FragmentList.getInstance().getContext());
+        int y  = 1515;
+        int x;
+        //If i is less that 3 the box is in the first column
+        if(i < 2){
+            //Adds 40 for each additional i, since there is 40 pixels between each box
+            y += (i + 1) * 40;
+            x  = 1755;
+        //If i is larger that 2 then the box is in the second column
+        }else {
+            y += (i - 3) * 40;
+            x = 1990;
+        }
+
+        canvas.drawText("X", x, y, text);
 
 
         //Andre opplysninger og observasjoner
@@ -608,7 +617,6 @@ public class FragmentEnkeltFunn extends Fragment {
 
         //Saves the image
         ImageSaver.saveImage(picture, getContext(), pictureID);
-
     }
 
     public int getNextPictureID() {
@@ -641,6 +649,8 @@ public class FragmentEnkeltFunn extends Fragment {
 
             ImageView imageView = view.findViewById(R.id.fragment_enkelt_funn_bilde); //Finds the ImageView
             imageView.setImageBitmap(picture); //Sets the ImageView to the picture taken from the camera app
+            funn.setBilde(picture);
+            updateStatusBtn();
         }
 
         super.onActivityResult(requestCode, resultCode, data); //Calls the super's onActivityResult (Required by Android)
@@ -679,17 +689,24 @@ public class FragmentEnkeltFunn extends Fragment {
 
 
     public void sendFunnmelding() {
+        if(!funn.isFunnmeldingKlar()){
+            Toast.makeText(FragmentList.getInstance().getContext(), "Du har ikke fylt ut det du trenger til funmelding enda", Toast.LENGTH_LONG). show();
+            return;
+        }
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), getContext(),new File(ImageSaver.getImagePath(getContext(),funn.getBildeID())));
         funn.setFunnmeldingSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        saveFind(); /*TODO endre til editFind, trenger lagring av funnmeldingSend variablen*/
+        //saveFind(); /*TODO endre til editFind, trenger lagring av funnmeldingSend variablen*/
     }
 
     public void sendFunnskjema() {
-        //TODO finne ut hvordan man lager PDF -> lagdt til metode for generering av pdf
+        if(!funn.isFunnskjemaKlart()){
+            Toast.makeText(FragmentList.getInstance().getContext(), "Du har ikke fylt ut det du trenger til funnskjema enda", Toast.LENGTH_LONG). show();
+            return;
+        }
 
         EmailIntent.sendEmail("tor.ryan.andersen@gmail.com"/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, getContext(), pdfGenerator());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        saveFind(); /*TODO endre til editFind, trenger lagring av funnskjemaSendt variablen*/
+        //saveFind(); /*TODO endre til editFind, trenger lagring av funnskjemaSendt variablen*/
     }
 
     //Returns empty string if string is invalid or the string if it is valid

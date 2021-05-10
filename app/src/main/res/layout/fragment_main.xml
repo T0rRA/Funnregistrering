@@ -19,25 +19,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Home"
+            android:text="Innstillinger"
             android:textColor="#000"
             android:textSize="30sp" />
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:onClick="nyeFunnBtn"
-            android:text="Nye funn" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:onClick="mineFunnBtn"
-            android:text="Mine funn" />
-
-        <Button
+            android:layout_marginTop="20dp"
+            android:background="@color/buttonColor"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -45,30 +33,21 @@
             android:text="Info og regler" />
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="Intro page"
-            android:layout_weight="1"
-            android:onClick="toIntroPageBtn"/>
-
-       <Button
-           android:layout_width="match_parent"
-           android:layout_height="0dp"
-           android:text="Registrer bruker"
-           android:layout_weight="1"
-           android:onClick="regUserBtn"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:onClick="toLoginPageBtn"
-            android:text="Logg inn" />
-        <Button
+            android:layout_marginTop="20dp"
+            android:background="@color/buttonColor"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:onClick="showPreferencesBtn"
             android:text="Settings" />
+
+        <Button
+            android:background="@color/buttonColor"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp"
+            android:text="Bruker" />
 
     </LinearLayout>
 

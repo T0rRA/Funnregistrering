@@ -198,17 +198,17 @@ public class GetJSON extends AsyncTask<String, Void, String> {
 
                 user.setPostalCode(fields[0]);
                 try {
-                    user.setUserID(Integer.parseInt(fields[2]));
+                    user.setUserID(Integer.parseInt(fields[1]));
                 }catch (NumberFormatException e){
                     user.setUserID(0);
                 }
 
-                user.setUsername(fields[3]);
-                user.setName(fields[7]);
-                user.setLastName(fields[8]);
-                user.setAddress(fields[9]);
-                user.setPhoneNum(fields[10]);
-                user.setEmail(fields[11]);
+                user.setUsername(fields[2]);
+                user.setName(fields[5]);
+                user.setLastName(fields[6]);
+                user.setAddress(fields[7]);
+                user.setPhoneNum(fields[8]);
+                user.setEmail(fields[9]);
 
             } catch (ArrayIndexOutOfBoundsException e){
                 System.out.println("-----------------\nArray out of bounds i GetJSON");
