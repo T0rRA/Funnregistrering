@@ -546,6 +546,8 @@ public class FragmentEnkeltFunn extends Fragment {
         canvas.drawText(" ",1280,1650,text); // Digitalt kart
 
         /*Arealtype*/
+
+        //Calculates the x and y values for the check boxes on the pdf, and crosses out the right one (based on the area type from the find)
         int i = funn.getArealTypeIndex(FragmentList.getInstance().getContext());
         int y  = 1515;
         int x;
