@@ -209,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
         openFragment(fragmentLogin);
     }
 
-
     public void openFragment(Fragment fragment) {
         mPager.setVisibility(View.GONE); //Sets the main fragments visibility to gone so that the user cannot se or interact with it
 
@@ -230,4 +229,3 @@ public class MainActivity extends AppCompatActivity {
         mPager.setVisibility(View.VISIBLE); //Makes the main fragments visible again
     }
 }
-
