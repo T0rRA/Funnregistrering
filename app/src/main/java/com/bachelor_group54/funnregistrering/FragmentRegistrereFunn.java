@@ -149,6 +149,9 @@ public class FragmentRegistrereFunn extends Fragment {
     }
 
     public Funn registrerFunnBtn() {
+        if (!funn.isTillatelseGitt()){
+            Toast.makeText(getContext(), "Du må ha tillatelse fra grunneier!", Toast.LENGTH_LONG).show();
+            return null;}
 
         funn.setBilde(picture);
 

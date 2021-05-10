@@ -291,7 +291,7 @@ public class FragmentEnkeltFunn extends Fragment {
         setText(funn.getFylke(), countyEt);
 
         CheckBox grunneierCheck = view.findViewById(R.id.checkbox_grunneier);
-        grunneierCheck.setChecked(funn.isTillatelseGitt());
+        grunneierCheck.setChecked(true);
     }
 
     //Checks if strings are filled put or not
@@ -681,10 +681,9 @@ public class FragmentEnkeltFunn extends Fragment {
         }
     }
     public void onCheckboxClickedBtn() {
-        final CheckBox checkBox = view.findViewById(R.id.checkbox_grunneier);
+        CheckBox checkBox = view.findViewById(R.id.checkbox_grunneier);
+        checkBox.setChecked(true);
 
-        funn.setTillatelseGitt(checkBox.isChecked());
-        Toast.makeText(getContext(), checkBox.isChecked()+"", Toast.LENGTH_SHORT).show();
     }
 
 
