@@ -460,7 +460,9 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText countyEt = view.findViewById(R.id.fragment_enkelt_funn_et_fylke);
         funn.setFylke(inputChecker(countyEt, "fylke"));
     }
-
+    /**
+     * @pdGenerator lager og fyller ut en funnskjema-pdf
+     * **/
     public File pdfGenerator(){
         // Creation of an object variable for the PDF document
         PdfDocument pdfDocument = new PdfDocument();
@@ -545,9 +547,12 @@ public class FragmentEnkeltFunn extends Fragment {
         canvas.drawText(funn.getDatum(),1000, 1550, text); //datum/projeksjon
 
         /*MåleMetode*/
-        canvas.drawText(" ",615,1650,text); //Håndholdt GPS
+        /*Håndholdt GPS og Digitalt kart blir ikke brukt,
+        * er beholdt for å slippe å finne koordinatene på nytt om det blir behov for dem senere.
+        * */
+       // canvas.drawText(" ",615,1650,text); //Håndholdt GPS
         canvas.drawText("X",950,1650,text); // Mobiltelefon
-        canvas.drawText(" ",1280,1650,text); // Digitalt kart
+        //canvas.drawText(" ",1280,1650,text); // Digitalt kart
 
         /*Arealtype*/
         //TODO legg til når droppdown i funn er fiksa
