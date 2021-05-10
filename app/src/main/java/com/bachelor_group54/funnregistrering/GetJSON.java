@@ -207,8 +207,8 @@ public class GetJSON extends AsyncTask<String, Void, String> {
                 user.setName(fields[5]);
                 user.setLastName(fields[6]);
                 user.setAddress(fields[7]);
-                user.setPhoneNum(fields[9]);
-                user.setEmail(fields[10]);
+                user.setPhoneNum(fields[8]);
+                user.setEmail(fields[9]);
 
             } catch (ArrayIndexOutOfBoundsException e){
                 System.out.println("-----------------\nArray out of bounds i GetJSON");

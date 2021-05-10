@@ -232,7 +232,7 @@ public class FragmentRegistrereFunn extends Fragment {
         params.put("datum" , makeStringNonNull(funn.getDatum()));
         params.put("areal_type" , makeStringNonNull(funn.getArealType()));
 
-        params.put("brukernavn" , "helge2"); //fixme uncomment user.getUsername
+        params.put("brukernavn" , user.getUsername());
 
         params.put("innGBNr.gb_nr" , makeStringNonNull(funn.getGbnr()));
         params.put("innGBNr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierFornavn()));

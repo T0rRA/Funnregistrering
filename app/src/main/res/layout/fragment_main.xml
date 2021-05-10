@@ -24,7 +24,7 @@
             android:textSize="30sp" />
 
         <Button
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@color/buttonColor"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -33,7 +33,7 @@
             android:text="Info og regler" />
 
         <Button
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@color/buttonColor"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -46,9 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:onClick="showPreferencesBtn"
-            android:layout_marginTop="10dp"
-            android:text="Om bruker" />
+            android:layout_marginTop="20dp"
+            android:text="Bruker" />
 
     </LinearLayout>
 
