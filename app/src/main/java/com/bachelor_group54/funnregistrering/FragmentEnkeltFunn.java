@@ -461,7 +461,7 @@ public class FragmentEnkeltFunn extends Fragment {
         funn.setFylke(inputChecker(countyEt, "fylke"));
     }
     /**
-     * @pdGenerator lager og fyller ut en funnskjema-pdf
+     * @pdfGenerator lager og fyller ut en funnskjema-pdf
      * **/
     public File pdfGenerator(){
         // Creation of an object variable for the PDF document
