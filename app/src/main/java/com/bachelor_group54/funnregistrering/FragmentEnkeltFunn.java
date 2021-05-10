@@ -551,9 +551,12 @@ public class FragmentEnkeltFunn extends Fragment {
         int i = funn.getArealTypeIndex(FragmentList.getInstance().getContext());
         int y  = 1515;
         int x;
+        //If i is less that 3 the box is in the first column
         if(i < 2){
+            //Adds 40 for each additional i, since there is 40 pixels between each box
             y += (i + 1) * 40;
             x  = 1755;
+        //If i is larger that 2 then the box is in the second column
         }else {
             y += (i - 3) * 40;
             x = 1990;

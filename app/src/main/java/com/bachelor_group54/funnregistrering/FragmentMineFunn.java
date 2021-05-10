@@ -52,7 +52,7 @@ public class FragmentMineFunn extends Fragment {
 
 //Gets the finds from the database and update the listView
     public void getFinds(){
-        if(User.getInstance().getUsername() == null){waitForUser(); return;}
+        if(User.getInstance().getUsername() == null){waitForUser(); return;} //If username is null wait until it is not.
         startProgressBar();
         GetJSON getJSON = new GetJSON(this);
 
@@ -81,11 +81,11 @@ public class FragmentMineFunn extends Fragment {
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    Thread.sleep(100);
-                    if(User.getInstance().getUsername() == null){
+                    Thread.sleep(100); //Waits 100 milliseconds before checking again.
+                    if(User.getInstance().getUsername() == null){ //Loops until User has been sett.
                         waitForUser();
                     }
-                    getFinds();
+                    getFinds(); //When the user is set continue running the getFinds method.
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
