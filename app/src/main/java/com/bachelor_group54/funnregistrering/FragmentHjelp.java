@@ -20,7 +20,6 @@ public class FragmentHjelp extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-//TODO FIX DROPDOWN TEXT
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,4 +30,3 @@ public class FragmentHjelp extends Fragment {
     }
 
 }
-
