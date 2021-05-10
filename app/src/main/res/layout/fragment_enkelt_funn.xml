@@ -463,14 +463,11 @@
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/fragment_enkelt_funn_et_arealtype"
+                <Spinner
+                    android:id="@+id/fragment_enkelt_funn_dropdown_arealtype"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/enkelt_funn_tom_et"
-                    android:imeOptions="actionNext"
-                    android:minWidth="70dp"
-                    android:singleLine="true" />
+                    android:minWidth="70dp"/>
 
             </LinearLayout>
 

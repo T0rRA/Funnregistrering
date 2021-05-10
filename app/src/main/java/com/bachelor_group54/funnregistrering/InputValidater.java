@@ -22,7 +22,6 @@ public class InputValidater implements TextWatcher {
         this.specialCharsAllowed = specialCharsAllowed;
         this.minLength = minLength;
         this.maxLength = maxLength;
-
         this.editText = editText;
     }
 
@@ -35,19 +34,19 @@ public class InputValidater implements TextWatcher {
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         editTextString = charSequence.toString();
         if(editTextString.equals("")){return;} //Allows the user to leave field empty
-
+//Div regex 
         String feilmelding = "";
-        if(editTextString.length() < minLength){
-            feilmelding +=  context.getString(R.string.inputvalideringMinLengde) + minLength + context.getString(R.string.tegn);
-        }else if(editTextString.length() > maxLength){
-            editText.setText(editTextString.substring(0, editTextString.length() - 1));
-            editText.setSelection(editTextString.length());
-        }else if(!normalCharsAllowed && editTextString.matches(".*[a-zæøåA-ZÆØÅ].*")){
+        if(!normalCharsAllowed && editTextString.matches(".*[a-zæøåA-ZÆØÅ].*")){
             feilmelding += context.getString(R.string.inputvalideringIkkeBokstaver);
         }else if(!numbersAllowed && editTextString.matches(".*[0-9].*")){
             feilmelding += context.getString(R.string.inputvalideringIkkeTall);
         }else if(!specialCharsAllowed && editTextString.matches(".*[^a-zøæåA-ZÆØÅ0-9\\- ].*")) {
             feilmelding += context.getString(R.string.inputvalideringIkkeSpesialtegn);
+        }else if(editTextString.length() < minLength){
+            feilmelding +=  context.getString(R.string.inputvalideringMinLengde) + minLength + context.getString(R.string.tegn);
+        }else if(editTextString.length() > maxLength){
+            editText.setText(editTextString.substring(0, editTextString.length() - 1));
+            editText.setSelection(editTextString.length());
         }
 
         if(!feilmelding.equals("")){

@@ -3,7 +3,7 @@ package com.bachelor_group54.funnregistrering;
 // Attributes, Getters and Setters
 // Using Singleton design pattern to access the user trough the program
 public class User {
-    private String username, name, lastName, address, postalCode, phoneNum, email,password;
+    private String username, name, lastName, address, postalCode, phoneNum, email, password;
     private int userID;
 
     //Singleton design pattern start

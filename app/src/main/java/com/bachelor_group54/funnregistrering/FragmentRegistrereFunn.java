@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +25,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,6 +64,7 @@ public class FragmentRegistrereFunn extends Fragment {
         return view;
     }
 
+// Sets input validation
     public void setTextWatchers() {
         EditText title = view.findViewById(R.id.nytt_funn_tittel_et);
         EditText description = view.findViewById(R.id.nytt_funn_beskrivelse_et);
@@ -138,6 +150,8 @@ public class FragmentRegistrereFunn extends Fragment {
 
     public Funn registrerFunnBtn() {
 
+        funn.setBilde(picture);
+
         EditText title = view.findViewById(R.id.nytt_funn_tittel_et); //Finds the editText containing the title
         funn.setTittel(title.getText().toString()); //Puts the title in the finds object
 
@@ -147,15 +161,10 @@ public class FragmentRegistrereFunn extends Fragment {
         //Sets latitude and longitude, NOTE default values for both are 200
         funn.setLatitude(latitude);
         funn.setLongitude(longitude);
+        //Sets kommune and fylke for the find
+        getAddressFromLocation(latitude, longitude);
 
-        Date currentTime = Calendar.getInstance().getTime();
-        //Adds zero to beginning of day and month to keep the format dd/mm/yyyy even on single digit months and days
-        String dateMonth = (currentTime.getMonth() + 1) > 9 ? "" + (currentTime.getMonth() + 1) : "0" + (currentTime.getMonth() + 1);
-        String dateDay = currentTime.getDate() > 9 ? "" + currentTime.getDate() : "0" + currentTime.getDate();
-
-        //Formats the date string and sets it on the find object
-        String date = dateDay + "/" + dateMonth + "/" + (currentTime.getYear() + 1900);
-        funn.setDato(date);
+        funn.setDato(makeDate());
 
         //If there are errors in anny of the fields do not save the find
         if (title.getError() != null && description.getError() != null) {
@@ -179,10 +188,9 @@ public class FragmentRegistrereFunn extends Fragment {
             return null;
         }
 
-        saveFind(funn);
+        sentFindToBackend();
         return funn;
     }
-
     public void onCheckboxClickediRegBtn() {
         final CheckBox checkBox = view.findViewById(R.id.checkbox_grunneier_reg);
 
@@ -190,10 +198,90 @@ public class FragmentRegistrereFunn extends Fragment {
         Toast.makeText(getContext(), checkBox.isChecked()+"", Toast.LENGTH_SHORT).show();
     }
 
-    public void saveFind(Funn funn) {
+    //Makes date String
+    public String makeDate(){
+        Date currentTime = Calendar.getInstance().getTime();
+        String day = currentTime.getDate() + "";
+        if(currentTime.getDate() < 10) {
+            day = "0" + currentTime.getDate();
+        }
+
+        String month = (currentTime.getMonth() + 1) + "";
+        if(currentTime.getMonth() < 9) {
+            month = "0" + (currentTime.getMonth() + 1);
+        }
+
+        return day + "-" + month + "-" + (currentTime.getYear() + 1900);
+    }
+
+    //TODO registrere kunn med noe info kanskje API med færre felter?
+    public void sentFindToBackend(){
+        User user = User.getInstance();
+
+
+        /*fixme uncomment når testing er ferdig
+        if(user.getUsername.equals("")){
+            Toast.makeText(getContext(), "Du er ikke logget inn", Toast.LENGTH_LONG).show();
+            return;
+        }*/
+
+//The Map params contains all the key value pairs of the jsonObject that we send to the database
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("tittel", makeStringNonNull(funn.getTittel()));
+        params.put("beskrivelse", makeStringNonNull(funn.getBeskrivelse()));
+        params.put("image" , makeStringNonNull(ImageSaver.makeBase64FromBitmap(picture)));
+        params.put("funndato" , makeStringNonNull(funn.getDato()));
+        params.put("kommune", makeStringNonNull(funn.getKommune()));
+        params.put("fylke" , makeStringNonNull(funn.getFylke()));
+        params.put("funndybde" , funn.getFunndybde()+"");
+        params.put("gjenstand_markert_med" , makeStringNonNull(funn.getGjenstandMerking()));
+        params.put("koordinat" , funn.getLatitude() + "N " + funn.getLongitude() + "W");
+        params.put("datum" , makeStringNonNull(funn.getDatum()));
+        params.put("areal_type" , makeStringNonNull(funn.getArealType()));
+
+        params.put("brukernavn" , "helge2"); //fixme uncomment user.getUsername
+
+        params.put("innGBNr.gb_nr" , makeStringNonNull(funn.getGbnr()));
+        params.put("innGBNr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierFornavn()));
+        params.put( "innGBNr.grunneier.Etternavn" , makeStringNonNull(funn.getGrunneierEtternavn()));
+        params.put("innGBNr.grunneier.Adresse" , makeStringNonNull(funn.getGrunneierAdresse()));
+        params.put("innGBNr.grunneier.Postnr" , makeStringNonNull(funn.getGrunneierPostNr()));
+        params.put("innGBNr.grunneier.Poststed" , makeStringNonNull(funn.getGrunneierPostSted()));
+        params.put("innGBNr.grunneier.Tlf" , makeStringNonNull(funn.getGrunneierTlf()));
+        params.put("innGBNr.grunneier.Epost" , makeStringNonNull(funn.getGrunneierEpost()));
+
+        SendToServer.postRequest(getContext(), params, "Funn/RegistrerFunn", FragmentList.getFragmentMineFunn());
+    }
+
+    //Makes sure that the database never recives null values, but puts "null" strings instead
+    public String makeStringNonNull(String s){
+        return s == null || s.equals("") ? "null" : s;
+    }
+
+    //Takes the latitude and longitude of the gps coordinates and sets the kommune and fylke of the find
+    public void getAddressFromLocation(double lat, double lng) {
+        Geocoder coder = new Geocoder(getContext());
+        List<Address> locations;
+        try{
+            locations = coder.getFromLocation(lat, lng, 1); //Uses the Geocoder class to get the Address from the long and lat values.
+            if(locations == null) {
+                return;
+            }
+            Address address = locations.get(0);
+            funn.setKommune(address.getSubAdminArea()); //Sets the kommune
+            funn.setFylke(address.getAdminArea()); //Sets the fylke
+            funn.setGrunneierPostNr(address.getPostalCode()); //Sets the owner postalcode FIXME kanskje ikke fylle denne automatisk
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Brukes kun til lokal lagring
+    /*
+    public void saveFind() {
         //If the a picture has been added save it
         if (picture != null) {
-            savePicture(funn);
+            savePicture();
         }
 
         ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn"); //Initialises the class that saves the finds
@@ -203,7 +291,7 @@ public class FragmentRegistrereFunn extends Fragment {
         objektLagrer.saveData(arrayList); //Saves the new list, overwriting the old list
     }
 
-    public void savePicture(Funn funn) {
+    public void savePicture() {
         //Gets the current picture ID for shared preferences (locally saved)
         SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
         int pictureID = sharedpreferences.getInt("pictureID", 0) + 1;
@@ -217,6 +305,7 @@ public class FragmentRegistrereFunn extends Fragment {
         editor.putInt("pictureID", pictureID);
         editor.apply();
     }
+    */
 
     //Resets the fields, called when registering new find so it is empty next time the user wants to register a find
     public void clearFields() {
@@ -229,6 +318,7 @@ public class FragmentRegistrereFunn extends Fragment {
         gpsTv.setText("");
         ImageView imageView = view.findViewById(R.id.preview_bilde_nytt_funn);
         imageView.setImageBitmap(null);
+        picture = null;
     }
 }
 

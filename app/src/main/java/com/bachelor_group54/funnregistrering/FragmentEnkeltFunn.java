@@ -1,5 +1,6 @@
 package com.bachelor_group54.funnregistrering;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -16,11 +18,18 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +39,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Objects;
 
 
 //This fragment displays one selected find at the time. The find can also be edited here.
@@ -61,6 +70,17 @@ public class FragmentEnkeltFunn extends Fragment {
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.funnskjema_bg);
         scalebmp =Bitmap.createScaledBitmap(bmp,2480,3508,false);
 
+
+        //Initializes dropdown for area type
+        Spinner areaType = view.findViewById(R.id.fragment_enkelt_funn_dropdown_arealtype);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.area_type_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        areaType.setAdapter(adapter);
+
         loadFunn();
         updateStatusBtn();
         setTextWatchers();
@@ -69,6 +89,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
     @Override
     public void onResume() {
+        super.onResume();
         super.onResume();
         updateStatusBtn();
     }
@@ -120,7 +141,6 @@ public class FragmentEnkeltFunn extends Fragment {
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_datum)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_arealtype)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_annet)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gbnr)
@@ -160,15 +180,15 @@ public class FragmentEnkeltFunn extends Fragment {
                     et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 4, 4, et));
                     break;
                 case 10: //Owner post place
-                case 20: //County
-                case 21: //Municipality
+                case 19: //County
+                case 20: //Municipality
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 1, 30, et));
                     break;
                 case 11: //Owner tlf
                     et.addTextChangedListener(new PhoneInputValidator(et));
                     break;
                 case 12: //Description //fixme skal denn være med?
-                case 17: //Other info
+                case 16: //Other info
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 200, et));
                     break;
                 case 13: //Item fixme vet ikke hva som skal stå i dette feltet så det må kanskje endres senere
@@ -180,12 +200,9 @@ public class FragmentEnkeltFunn extends Fragment {
                 case 15: //Datum
                     et.addTextChangedListener(new InputValidater(getContext(), false, true, true, 0, 6, et));
                     break;
-                case 16: //Area type fixme make dropdown later
-                    et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 20, et));
-                    break;
-                case 18: //Farm fixme vet ikke hva som skal stå her
-                case 19: //Gbnr fixme vet ikke hva som skal stå her
-                    et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 0, 20, et));
+                case 17: //Farm fixme vet ikke hva som skal stå her
+                case 18: //Gbnr fixme vet ikke hva som skal stå her
+                    et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 0, 8, et));
                     break;
             }
             et.addTextChangedListener(new StatusUpdater()); //Setts the textWatcher on the editText
@@ -194,7 +211,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
     public void loadFunn() {
         ImageView imageView = view.findViewById(R.id.fragment_enkelt_funn_bilde); //Finds the image view
-        imageView.setImageBitmap(ImageSaver.loadImage(getContext(), funn.getBildeID())); //Sets the image view to the finds image
+        imageView.setImageBitmap(funn.getBilde()); //Sets the image view to the finds image
 
         //TODO finne ut hvilke felter brukeren skal kunne endre selv
 
@@ -226,7 +243,7 @@ public class FragmentEnkeltFunn extends Fragment {
         setText(funn.getFunnsted(), locationEt);
 
         EditText ownerEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
-        setText(funn.getGrunneierNavn(), ownerEt);
+        setText(funn.getGrunneierFornavn() + " " + funn.getGrunneierEtternavn(), ownerEt); //TODO lagge egene felter for fornavn og etternavn
 
         EditText ownerAddressEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
         setText(funn.getGrunneierAdresse(), ownerAddressEt);
@@ -255,8 +272,8 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText ageEt = view.findViewById(R.id.fragment_enkelt_funn_et_datum);
         setText(funn.getDatum(), ageEt);
 
-        EditText areaTypeEt = view.findViewById(R.id.fragment_enkelt_funn_et_arealtype);
-        setText(funn.getArealType(), areaTypeEt);
+        Spinner areaType = view.findViewById(R.id.fragment_enkelt_funn_dropdown_arealtype);
+        areaType.setSelection(funn.getArealTypeIndex(getContext()));
 
         EditText moreInfoEt = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
         setText(funn.getOpplysninger(), moreInfoEt);
@@ -279,7 +296,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
     //Checks if strings are filled put or not
     public String checkString(String string) {
-        if (string == null || string.equals("")) { //If null or empty string return not filled message
+        if (string == null || string.equals("") || string.equals("null") || string.equals("null null")) { //If null or empty string return not filled message
             return "ikke fylt ut";
         }
         return string; //Returns the input string by default
@@ -316,6 +333,43 @@ public class FragmentEnkeltFunn extends Fragment {
         return true;
     }
 
+    public void editFind(Context context){
+        updateFind();
+
+        User user = User.getInstance();
+
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("tittel", makeStringNonNull(funn.getTittel()));
+        params.put("beskrivelse", makeStringNonNull(funn.getBeskrivelse()));
+        params.put("image" , makeStringNonNull(ImageSaver.makeBase64FromBitmap(funn.getBilde())));
+        params.put("funndato" , makeStringNonNull(funn.getDato()));
+        params.put("kommune", makeStringNonNull(funn.getKommune()));
+        params.put("fylke" , makeStringNonNull(funn.getFylke()));
+        params.put("funndybde" , funn.getFunndybde()+"");
+        params.put("gjenstand_markert_med" , makeStringNonNull(funn.getGjenstandMerking()));
+        params.put("koordinat" , funn.getLatitude() + "N " + funn.getLongitude() + "W");
+        params.put("datum" , makeStringNonNull(funn.getDatum()));
+        params.put("areal_type" , makeStringNonNull(funn.getArealType()));
+
+        params.put("BrukerUserID" , "11"); //fixme uncomment user.getUsername
+        params.put("FunnID", funn.getFunnID() + "");
+
+        params.put("gbnr.gb_nr" , makeStringNonNull(funn.getGbnr()));
+        params.put("gbnr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierFornavn()));
+        params.put( "gbnr.grunneier.Etternavn" , makeStringNonNull(funn.getGrunneierEtternavn()));
+        params.put("gbnr.grunneier.Adresse" , makeStringNonNull(funn.getGrunneierAdresse()));
+        params.put("gbnr.grunneier.Postnr.Postnr" , makeStringNonNull(funn.getGrunneierPostNr()));
+        params.put("gbnr.grunneier.Postnr.Poststed" , makeStringNonNull(funn.getGrunneierPostSted()));
+        params.put("gbnr.grunneier.Tlf" , makeStringNonNull(funn.getGrunneierTlf()));
+        params.put("gbnr.grunneier.Epost" , makeStringNonNull(funn.getGrunneierEpost()));
+
+        SendToServer.postRequest(context, params, "Funn/EditFunn", FragmentList.getFragmentMineFunn());
+    }
+
+    public String makeStringNonNull(String s){
+        return s == null || s.equals("") ? "null" : s; //Saves the data as string "null" instead of null to prevent database issues
+    }
+
     //This method is used for updating the find before saving it
     public void updateFind() {
         isFindSavable = true;
@@ -342,6 +396,11 @@ public class FragmentEnkeltFunn extends Fragment {
             } catch (NumberFormatException e) {/*Do noting*/}
         }
 
+//Do not overwrite the picture if it has not been changed
+        if(picture != null) {
+            funn.setBilde(picture);
+        }
+
         //Just the same all the way, find the text fields and updates the find
         EditText titleEt = view.findViewById(R.id.fragment_enkelt_funn_et_tittel);
         funn.setTittel(inputChecker(titleEt, "tittel"));
@@ -352,8 +411,9 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText locationEt = view.findViewById(R.id.fragment_enkelt_funn_et_sted);
         funn.setFunnsted(inputChecker(locationEt, "sted"));
 
+        //TODO lage egene felter for fornavn og etternavn
         EditText ownerEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
-        funn.setGrunneierNavn(inputChecker(ownerEt, "grunneier"));
+        funn.setGrunneierFornavn(inputChecker(ownerEt, "grunneier"));
 
         EditText ownerAddressEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
         funn.setGrunneierAdresse(inputChecker(ownerAddressEt, "grunneier adresse"));
@@ -382,8 +442,8 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText ageEt = view.findViewById(R.id.fragment_enkelt_funn_et_datum);
         funn.setDatum(inputChecker(ageEt, "datum"));
 
-        EditText areaTypeEt = view.findViewById(R.id.fragment_enkelt_funn_et_arealtype);
-        funn.setArealType(inputChecker(areaTypeEt, "arealtype"));
+        Spinner areaTypeSpinner = view.findViewById(R.id.fragment_enkelt_funn_dropdown_arealtype);
+        funn.setArealTypeWithIndex((int)areaTypeSpinner.getSelectedItemId(), FragmentList.getInstance().getContext());
 
         EditText moreInfoEt = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
         funn.setOpplysninger(inputChecker(moreInfoEt, "andre opplysninger"));
@@ -462,7 +522,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
 
         /*  Grunneier:  TODO: Registrering av tillatelse*/
-        canvas.drawText(funn.getGrunneierNavn(), 1500,450, text); // Navn
+        canvas.drawText(funn.getGrunneierFornavn() + " " + funn.getGrunneierEtternavn(), 1500,450, text); // Navn
         canvas.drawText(funn.getGrunneierAdresse(), 1500,575, text); // Adresse
         canvas.drawText(funn.getGrunneierPostNr(), 1500,700, text); // Postnr.
         canvas.drawText(funn.getGrunneierPostSted(), 1900,700, text); //sted
@@ -616,7 +676,7 @@ public class FragmentEnkeltFunn extends Fragment {
     public void sendFunnmelding() {
         EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), getContext(),new File(ImageSaver.getImagePath(getContext(),funn.getBildeID())));
         funn.setFunnmeldingSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        saveFind(); //TODO bytte ut med oppdatering av databasen
+        saveFind(); /*TODO endre til editFind, trenger lagring av funnmeldingSend variablen*/
     }
 
     public void sendFunnskjema() {
@@ -624,7 +684,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
         EmailIntent.sendEmail("tor.ryan.andersen@gmail.com"/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, getContext(), pdfGenerator());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        saveFind(); //TODO bytte ut med oppdatering av databasen
+        saveFind(); /*TODO endre til editFind, trenger lagring av funnskjemaSendt variablen*/
     }
 
     //Returns empty string if string is invalid or the string if it is valid

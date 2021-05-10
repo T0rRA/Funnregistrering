@@ -9,9 +9,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
@@ -20,28 +22,37 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private FragmentManager fm;
+    private FragmentList fragmentList;
     private FragmentRegistrereFunn fragmentRegistrereFunn;
     private FragmentRegistrereBruker fragmentRegistrereBruker;
     private FragmentMineFunn fragmentMineFunn;
     private FragmentEnkeltFunn fragmentEnkeltFunn;
+    private FragmentMain fragmentMain;
+
+    private FragmentManager fm;
     private ViewPager mPager;
     private ScreenSlidePagerAdapter pagerAdapter;
     private FragmentLogin fragmentLogin;
     private FragmentIntroPage fragmentIntroPage;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_holder);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); //Prevents the toolbar from sitting on top of the keyboard when typing in EditTexts
 
         fm = getSupportFragmentManager();
 
         //Initializing the fragments needed inn the app
         fragmentRegistrereFunn = new FragmentRegistrereFunn();
+        fragmentMain = new FragmentMain();
         fragmentMineFunn = new FragmentMineFunn();
+
+        //Adding fragments and MainActivity to the fragmentList object, to access it later from other classes
+        fragmentList = FragmentList.getInstance();
+        fragmentList.setMainActivity(this);
+        fragmentList.setFragmentMineFunn(fragmentMineFunn);
+        fragmentList.setContext(this);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -50,9 +61,21 @@ public class MainActivity extends AppCompatActivity {
 
         //Only if you want to start on element 1 in the list, no need if starting at 0
         mPager.setCurrentItem(0);
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {} //Needs to be overridden
+
+            @Override
+            //When the page is changed run the new page's onResume method to make sure it's up to date.
+            public void onPageSelected(int position) {
+                pagerAdapter.getItem(position).onResume();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {} //Needs to be overridden
+        });
 
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>" + getString(R.string.app_name) + "</font>")); //Changes the color of the actionbar text
-
     }
 
     //The ScreenSlidePagerAdapter holds the fragment from the navigation bar and makes sliding between them possible.
@@ -64,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             //Adds the fragments to the slider
             fragmentListe.add(fragmentRegistrereFunn);
             fragmentListe.add(fragmentMineFunn);
-            fragmentListe.add(new FragmentMain());
+            fragmentListe.add(fragmentMain);
             //TODO legge til resten av fragmentene
         }
 
@@ -77,18 +100,16 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             return fragmentListe.size();
         }
-
-        @Override
-        public void startUpdate(@NonNull ViewGroup container) {
-            super.startUpdate(container);
-            pagerAdapter.getItem(mPager.getCurrentItem()).onResume(); //Makes it so that we can update a fragment with its onResume method
-        }
     }
 
     @Override
     //Makes the back button work as expected
     public void onBackPressed() {
         if (mPager.getVisibility() == View.GONE) {
+            if(fragmentEnkeltFunn != null){ //Ask if the user wants to save when closing single found fragment
+                saveDialog = new TextDialog(R.layout.dialog_save, "Vil du lagre endringene du har gjordt?");
+                saveDialog.show(getSupportFragmentManager(), null);
+            }
             closeFragment();
             return;
         }
@@ -99,6 +120,40 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Yes and no buttons for the dialog box witch opens onBackPressed from fragmentEnkeltFunn
+    private TextDialog saveDialog;
+
+    public void saveDialogYes(View view) {
+        fragmentEnkeltFunnLagreEndring(view);
+        saveDialog.dismiss();
+        fragmentEnkeltFunn = null;
+    }
+
+    public void saveDialogNo(View view) {
+        saveDialog.dismiss();
+        updateMineFunnList();
+        fragmentEnkeltFunn = null;
+    }
+
+    //Methods and variables for the delete dialog box, witch opens when long pressing a item in the list on FragmentMineFunn.
+    private Funn funn;
+    private TextDialog deleteDialog;
+
+    public void makeDeleteDialog(Funn funn){
+        this.funn = funn;
+        deleteDialog = new TextDialog(R.layout.dialog_delete, "Er du siker på at du vil slette " + funn.getTittel() + " ?");
+        deleteDialog.show(getSupportFragmentManager(), null);
+    }
+
+    public void deleteDialogYes(View view) {
+        SetJSON setJSON = new SetJSON(this, fragmentMineFunn);
+        setJSON.execute("Funn/DeleteFunn", "funnID=" + funn.getFunnID());
+        deleteDialog.dismiss();
+    }
+
+    public void deleteDialogNo(View view) {
+        deleteDialog.dismiss();
+    }
 
     //Buttons for nyeFunnFragment
     public void nyeFunnBtn(View view) {
@@ -107,9 +162,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void mineFunnBtn(View view) {
         mPager.setCurrentItem(0);
-    }
-
-    public void infoBtn(View view) {
     }
 
     //Buttons for FragmentRegistrereFunn
@@ -138,9 +190,8 @@ public class MainActivity extends AppCompatActivity {
     //Buttons for the single found fragment
     //Saves the changes made to the find
     public void fragmentEnkeltFunnLagreEndring(View view) {
-        if(!fragmentEnkeltFunn.saveFind()){return;} //If the find could not be saved don't close the fragment
+        fragmentEnkeltFunn.editFind(this); //Todo If the find could not be saved don't close the fragment
         closeFragment();
-        fragmentMineFunn.makeList();
     }
 
     public void fragmentEnkeltFunnUpdatePicture(View view) {
@@ -167,7 +218,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void navbarMineFunn(View view) {
         mPager.setCurrentItem(1);
+    }
 
+    public void updateMineFunnList(){
+        fragmentMineFunn.getFinds();
     }
 
     public void navbarProfil(View view) {
@@ -193,6 +247,9 @@ public class MainActivity extends AppCompatActivity {
         fragmentLogin.logInBtn();
     }
 
+    public void forgottenPasswordBtn(View view) {
+        fragmentLogin.forgottenPassword();
+    }
     public void onCheckboxClickedBtn(View view){
         fragmentEnkeltFunn.onCheckboxClickedBtn();
     }
@@ -202,20 +259,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void fragmentLoginRegBtn(View view) {
         fragmentRegistrereBruker = new FragmentRegistrereBruker();
-
         openFragment(fragmentRegistrereBruker);
     }
 
     public void toLoginPageBtn(View view){ //login page button
-
+        closeFragment();
         fragmentLogin = new FragmentLogin();
-
         openFragment(fragmentLogin);
     }
-    public void toIntroPageBtn(View view){ //login page button
 
+    public void toIntroPageBtn(View view){ //login page button
         fragmentIntroPage = new FragmentIntroPage();
         openFragment(fragmentIntroPage);
+    }
+
+    public void infoBtn(View view) {
     }
 
     public void openFragment(Fragment fragment) {
@@ -236,7 +294,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void closeFragment() {
         fm.popBackStack();//Goes back to the slide fragments
-        mPager.setVisibility(View.VISIBLE); //Makes the main fragments visible again
+        if(fm.getBackStackEntryCount() == 1) { //When getBackStackEntryCount() == 1, only the main view is the only one left
+            mPager.setVisibility(View.VISIBLE); //Makes the main fragments visible again
+        }
     }
 }
 

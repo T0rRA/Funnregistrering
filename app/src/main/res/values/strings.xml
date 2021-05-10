@@ -41,4 +41,5 @@
     <string name="Tall_for_lite">"Tallet må være større enn "</string>
     <string name="tomt_felt">"Kunne ikke lagre på grunn av tom "</string>
     <string name="godkjenning_grunneier">Jeg har snakket med og fått godkjenning av grunneier.</string>
+    <string name="glemt_passord">glemt passord</string>
 </resources>
