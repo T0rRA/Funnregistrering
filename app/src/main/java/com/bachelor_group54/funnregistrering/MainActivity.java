@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mPager;
     private ScreenSlidePagerAdapter pagerAdapter;
     private FragmentLogin fragmentLogin;
+    private FragmentHjelp fragmentHjelp;
     private FragmentIntroPage fragmentIntroPage;
 
     private boolean loginPageOpen;
@@ -186,6 +187,11 @@ public class MainActivity extends AppCompatActivity {
         mPager.setCurrentItem(0);
     }
 
+    public void infoBtn(View view) {
+        fragmentHjelp = new FragmentHjelp();
+        openFragment(fragmentHjelp);
+    }
+
     //Buttons for FragmentRegistrereFunn
     public void bildeBtn(View view) {
         fragmentRegistrereFunn.bildeBtn();
@@ -299,8 +305,6 @@ public class MainActivity extends AppCompatActivity {
         openFragment(fragmentIntroPage);
     }
 
-    public void infoBtn(View view) {
-    }
 
     public void openFragment(Fragment fragment) {
         mPager.setVisibility(View.GONE); //Sets the main fragments visibility to gone so that the user cannot se or interact with it
@@ -312,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    public void showPreferencesBtn(View view){ //settings/preference page button. Creates an intent using the SetPreferenceActivity class and starts an activity.
+    public void showPreferencesBtn(View view) { //settings/preference page button. Creates an intent using the SetPreferenceActivity class and starts an activity.
         Intent intent = new Intent(this, SetPreferenceActivity.class);
         startActivity(intent);
     }
@@ -326,3 +330,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
