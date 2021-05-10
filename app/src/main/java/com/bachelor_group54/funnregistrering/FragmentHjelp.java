@@ -25,13 +25,10 @@ public class FragmentHjelp extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_hjelp, container, false); //Loads the page from the XML file
+        textView = view.findViewById(R.id.LinkOut);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
         return view;
     }
 
-    public void LinkBtn() {
-        textView = view.findViewById(R.id.LinkOut);
-        textView.setMovementMethod(LinkMovementMethod.getInstance());
-
-    }
 }
 

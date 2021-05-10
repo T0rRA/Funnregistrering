@@ -186,10 +186,7 @@ public class MainActivity extends AppCompatActivity {
     public void saveUserBtn(View view) {
         fragmentRegistrereBruker.saveUserBtn();
     }
-
-    public void LinkBtn(View view) {
-        fragmentHjelp.LinkBtn();
-    }
+    
 
     public void loginBtn(View view) {
         fragmentLogin.logInBtn();
