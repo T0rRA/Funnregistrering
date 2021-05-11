@@ -30,7 +30,9 @@ public class FragmentBruker extends Fragment {
         stopProgressBar();
         return view;
     }
-
+/**
+* Sets the edit text / fills out the users information
+*/
     public void updateEditTexts(){
         User user = User.getInstance();
 
