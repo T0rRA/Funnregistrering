@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="20dp">
+    android:paddingTop="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="16dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -24,7 +22,10 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/bottomColor"
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,45 +36,58 @@
                     android:id="@+id/frednings_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Fredning"
-                    android:onClick="visFredningsTXT"/>
+                    android:background="@color/buttonColor"
+                    android:text="Området rundt funnet er fredet"
+                    android:onClick="visFredningsTXT"
+                    android:layout_marginBottom="2dp"/>
 
                 <TextView
                     android:id="@+id/fredningTXT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tips_fredning"
+                    android:background="@drawable/border"
+                    android:padding="10dp"
                     />
                 <Button
                     android:id="@+id/meldeplikt_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="MeldePlikt"
-                    android:onClick="viMeldepliktTXT"/>
+                    android:background="@color/buttonColor"
+                    android:text="Du har meldeplikt "
+                    android:onClick="viMeldepliktTXT"
+                    android:layout_marginBottom="2dp"/>
 
                 <TextView
                     android:id="@+id/meldepliktTXT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/tips_meldeplikt" />
+                    android:text="@string/tips_meldeplikt"
+                    android:background="@drawable/border"
+                    android:padding="10dp"/>
 
                 <Button
                     android:id="@+id/samfunn_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Samfunn"
-                    android:onClick="visSamfunnTXT"/>
+                    android:background="@color/buttonColor"
+                    android:text="Få kontakt med detektormiljøet"
+                    android:onClick="visSamfunnTXT"
+                    android:layout_marginBottom="2dp"/>
 
                 <TextView
                     android:id="@+id/samfunnTXT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:padding="10dp"
                     android:text="@string/tips_samfunn" />
 
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:text="@string/riksantikvaren_sider"
                     />
 
@@ -86,6 +100,7 @@
                     android:textAlignment="center" />
             </LinearLayout>
         </ScrollView>
+
     </LinearLayout>
 
 
@@ -105,4 +120,4 @@
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
