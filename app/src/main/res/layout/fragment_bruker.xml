@@ -6,16 +6,19 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="40dp"
-            android:gravity="center_horizontal">
+            android:padding="40dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -158,11 +161,11 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:background="@color/buttonColor"
-                android:text="Endre bruker"
                 android:onClick="editUserBtn"
                 android:paddingHorizontal="10dp"
-                android:layout_marginTop="10dp"/>
+                android:text="Endre bruker" />
 
             <Button
                 android:id="@+id/button"
@@ -184,10 +187,10 @@
         android:id="@+id/progress_bar_fragment_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scrollView2" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
