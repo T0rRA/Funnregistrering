@@ -75,17 +75,4 @@ public class FragmentLogin extends Fragment {
             progressBar.setWillNotDraw(false);
         }
     }
-
-    public void forgottenPassword(){
-        EditText usernameEt = view.findViewById(R.id.user_name);
-        String username = usernameEt.getText().toString();
-
-        if(username.equals("")){
-            Toast.makeText(getContext(), "Skriv inn brukernavn først", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        SetJSON setJSON = new SetJSON(getContext());
-        setJSON.execute("Bruker/SendPwResetLink", "brukernavn=" + username);
-    }
 }

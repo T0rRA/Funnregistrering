@@ -265,6 +265,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logUtBtn(View view) {
+        //Resets fragment login
+        fragmentLogin = new FragmentLogin();
+
         //Setts the saved user login parameters to empty to prevent auto login
         SharedPreferences sharedpreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
