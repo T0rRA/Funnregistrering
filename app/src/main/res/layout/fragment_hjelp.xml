@@ -5,118 +5,112 @@
     android:layout_height="match_parent"
     android:paddingTop="16dp">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/ffff"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:text="Tips og ressurser"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/ffff"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/ffff">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
-            android:text="Tips og ressurser"
-            android:textAlignment="center"
-            android:textSize="26sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <ScrollView
-            android:id="@+id/scrollView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
+            <Button
+                android:id="@+id/frednings_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginBottom="2dp"
+                android:background="@color/buttonColor"
+                android:onClick="visFredningsTXT"
+                android:text="Området rundt funnet er fredet" />
 
-                <Button
-                    android:id="@+id/frednings_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/buttonColor"
-                    android:text="Området rundt funnet er fredet"
-                    android:onClick="visFredningsTXT"
-                    android:layout_marginBottom="2dp"/>
+            <TextView
+                android:id="@+id/fredningTXT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:text="@string/tips_fredning" />
 
-                <TextView
-                    android:id="@+id/fredningTXT"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tips_fredning"
-                    android:background="@drawable/border"
-                    android:padding="10dp"
-                    />
-                <Button
-                    android:id="@+id/meldeplikt_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/buttonColor"
-                    android:text="Du har meldeplikt "
-                    android:onClick="viMeldepliktTXT"
-                    android:layout_marginBottom="2dp"/>
+            <Button
+                android:id="@+id/meldeplikt_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@color/buttonColor"
+                android:onClick="viMeldepliktTXT"
+                android:text="Du har meldeplikt " />
 
-                <TextView
-                    android:id="@+id/meldepliktTXT"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tips_meldeplikt"
-                    android:background="@drawable/border"
-                    android:padding="10dp"/>
+            <TextView
+                android:id="@+id/meldepliktTXT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:text="@string/tips_meldeplikt" />
 
-                <Button
-                    android:id="@+id/samfunn_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/buttonColor"
-                    android:text="Få kontakt med detektormiljøet"
-                    android:onClick="visSamfunnTXT"
-                    android:layout_marginBottom="2dp"/>
+            <Button
+                android:id="@+id/samfunn_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@color/buttonColor"
+                android:onClick="visSamfunnTXT"
+                android:text="Få kontakt med detektormiljøet" />
 
-                <TextView
-                    android:id="@+id/samfunnTXT"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border"
-                    android:padding="10dp"
-                    android:text="@string/tips_samfunn" />
+            <TextView
+                android:id="@+id/samfunnTXT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:text="@string/tips_samfunn" />
 
 
-                <Button
-                    android:id="@+id/funnetNoe_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/buttonColor"
-                    android:text="Hva skal jeg gjøre om jeg har funnet noe?"
-                    android:onClick="visfunnetNoeTXT"
-                    android:layout_marginBottom="2dp"/>
+            <Button
+                android:id="@+id/funnetNoe_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@color/buttonColor"
+                android:onClick="visfunnetNoeTXT"
+                android:text="Hva skal jeg gjøre om jeg har funnet noe?" />
 
-                <TextView
-                    android:id="@+id/riksText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="10dp"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/riksantikvaren_sider" />
+            <TextView
+                android:id="@+id/riksText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="10dp"
+                android:text="@string/riksantikvaren_sider" />
 
-                <TextView
-                    android:id="@+id/LinkOut"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="LinkBtn"
-                    android:text="@string/Link_Messaage"
-                    android:textAlignment="center"
-                    app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-            </LinearLayout>
-        </ScrollView>
+            <TextView
+                android:id="@+id/LinkOut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="LinkBtn"
+                android:text="@string/Link_Messaage"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
+    </ScrollView>
 
-
-    </LinearLayout>
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
