@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -317,6 +319,16 @@ public class MainActivity extends AppCompatActivity {
         fragmentIntroPage = new FragmentIntroPage();
         openFragment(fragmentIntroPage);
     }
+    public void visFredningsTXT(){
+        fragmentHjelp.visFredningsTXT();
+    }
+    public void viMeldepliktTXT(){
+        fragmentHjelp.viMeldepliktTXT();
+    }
+    public void visSamfunnTXT(){
+        fragmentHjelp.visSamfunnTXT();
+    }
+
 
 
     public void openFragment(Fragment fragment) {

@@ -14,7 +14,6 @@
         android:paddingVertical="16dp">
 
         <TextView
-            android:id="@+id/user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="16dp"
@@ -32,17 +31,41 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
+                <Button
+                    android:id="@+id/frednings_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/tips_fredning" />
+                    android:text="Fredning"
+                    android:onClick="visFredningsTXT"/>
 
                 <TextView
+                    android:id="@+id/fredningTXT"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tips_fredning"
+                    />
+                <Button
+                    android:id="@+id/meldeplikt_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="MeldePlikt"
+                    android:onClick="viMeldepliktTXT"/>
+
+                <TextView
+                    android:id="@+id/meldepliktTXT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tips_meldeplikt" />
 
+                <Button
+                    android:id="@+id/samfunn_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Samfunn"
+                    android:onClick="visSamfunnTXT"/>
+
                 <TextView
+                    android:id="@+id/samfunnTXT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tips_samfunn" />
@@ -51,7 +74,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/riksantikvaren_sider" />
+                    android:text="@string/riksantikvaren_sider"
+                    />
 
                 <TextView
                     android:id="@+id/LinkOut"
