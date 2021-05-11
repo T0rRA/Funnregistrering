@@ -11,15 +11,10 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -29,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentRegistrereBruker fragmentRegistrereBruker;
     private FragmentMineFunn fragmentMineFunn;
     private FragmentEnkeltFunn fragmentEnkeltFunn;
-    private FragmentMain fragmentMain;
+    private FragmentInnstillinger fragmentInnstillinger;
 
     private FragmentManager fm;
     private ViewPager mPager;
@@ -50,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Initializing the fragments needed inn the app
         fragmentRegistrereFunn = new FragmentRegistrereFunn();
-        fragmentMain = new FragmentMain();
+        fragmentInnstillinger = new FragmentInnstillinger();
         fragmentMineFunn = new FragmentMineFunn();
         fragmentLogin = new FragmentLogin();
 
@@ -107,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             //Adds the fragments to the slider
             fragmentListe.add(fragmentMineFunn);
             fragmentListe.add(fragmentRegistrereFunn);
-            fragmentListe.add(fragmentMain);
+            fragmentListe.add(fragmentInnstillinger);
             //TODO legge til resten av fragmentene
         }
 
@@ -263,6 +258,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void loginBtn(View view) {
         fragmentLogin.logInBtn();
+    }
+
+    public void openUserBtn(View view) {
+        openFragment(new FragmentBruker());
+    }
+
+    public void logUtBtn(View view) {
+        //Setts the saved user login parameters to empty to prevent auto login
+        SharedPreferences sharedpreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("Username", "");
+        editor.putString("Password", "");
+        editor.apply();
+
+        openLoginPage();
     }
 
     public void onCheckboxClickedBtn(View view){

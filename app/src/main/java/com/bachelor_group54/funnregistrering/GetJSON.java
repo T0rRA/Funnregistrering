@@ -188,8 +188,6 @@ public class GetJSON extends AsyncTask<String, Void, String> {
         if(fragmentLogin != null){
             User user = User.getInstance();
             try {
-                //jsonString = jsonString.substring(0 , jsonString.indexOf("[")) + jsonString.substring(jsonString.indexOf("]")); //Removes the list of finds
-
                 String[] fields = jsonString.split(",");
 
                 for(int i = 0; i < fields.length; i++){
