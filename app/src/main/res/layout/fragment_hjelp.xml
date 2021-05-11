@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:paddingTop="16dp">
 
     <LinearLayout
@@ -12,6 +11,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/ffff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="16dp"
@@ -21,11 +21,11 @@
             android:textStyle="bold" />
 
         <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/bottomColor"
-            app:layout_constraintTop_toTopOf="parent"
-            >
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -84,12 +84,22 @@
                     android:text="@string/tips_samfunn" />
 
 
-                <TextView
+                <Button
+                    android:id="@+id/funnetNoe_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/buttonColor"
+                    android:text="Hva skal jeg gjøre om jeg har funnet noe?"
+                    android:onClick="visfunnetNoeTXT"
+                    android:layout_marginBottom="2dp"/>
+
+                <TextView
+                    android:id="@+id/riksText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
                     android:layout_marginTop="20dp"
-                    android:text="@string/riksantikvaren_sider"
-                    />
+                    android:text="@string/riksantikvaren_sider" />
 
                 <TextView
                     android:id="@+id/LinkOut"
@@ -97,27 +107,22 @@
                     android:layout_height="wrap_content"
                     android:onClick="LinkBtn"
                     android:text="@string/Link_Messaage"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
             </LinearLayout>
         </ScrollView>
 
+
     </LinearLayout>
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="100dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/bottomColor"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/colorPrimary"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
 
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
