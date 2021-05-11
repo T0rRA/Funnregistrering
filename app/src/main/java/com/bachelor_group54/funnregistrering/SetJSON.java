@@ -142,7 +142,5 @@ public class SetJSON extends AsyncTask<String, Void, String> {
         if(fragmentMineFunn != null){
             fragmentMineFunn.getFinds();
         }
-        System.out.println(s);
     }
 }
-
