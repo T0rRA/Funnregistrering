@@ -32,8 +32,7 @@ public class SetJSON extends AsyncTask<String, Void, String> {
         this.textView = textView;
     }
 
-    public SetJSON(Context context, String username) {
-        this.context = context;
+    public SetJSON(String username) {
         this.username = username;
     }
 
@@ -103,7 +102,8 @@ public class SetJSON extends AsyncTask<String, Void, String> {
         if(textView != null) {
             textView.setText(s);
         }
-        if(context != null && username != null){
+        if(username != null){
+            Context context = FragmentList.getInstance().getContext();
             if(s.equals("User was logged in")) { //Successful log in
                 //Get user info and save it in the User object (using Singleton)
                 GetJSON getJSON = new GetJSON(new FragmentLogin());
