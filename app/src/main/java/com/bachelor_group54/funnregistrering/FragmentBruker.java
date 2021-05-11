@@ -55,6 +55,7 @@ public class FragmentBruker extends Fragment {
         userEmailEt.setText(user.getEmail());
     }
 
+    //Updates the user, form the info filled in the editTexts
     public void updateUser(){
         User user = User.getInstance();
 
