@@ -43,8 +43,8 @@ public class FragmentBruker extends Fragment {
         EditText userAddressEt = view.findViewById(R.id.fragment_bruker_adresse);
         userAddressEt.setText(user.getAddress());
 
-        EditText userPostalCode = view.findViewById(R.id.fragment_bruker_postnr);
-        userPostalCode.setText(user.getPostalCode());
+        EditText userPostalCodeEt = view.findViewById(R.id.fragment_bruker_postnr);
+        userPostalCodeEt.setText(user.getPostalCode());
 
         EditText userTlfEt = view.findViewById(R.id.fragment_bruker_tlf);
         userTlfEt.setText(user.getPhoneNum());
