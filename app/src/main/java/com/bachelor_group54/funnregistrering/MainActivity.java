@@ -317,6 +317,19 @@ public class MainActivity extends AppCompatActivity {
         fragmentIntroPage = new FragmentIntroPage();
         openFragment(fragmentIntroPage);
     }
+    public void visFredningsTXT(){
+        fragmentHjelp.visFredningsTXT();
+    }
+    public void viMeldepliktTXT(){
+        fragmentHjelp.viMeldepliktTXT();
+    }
+    public void visSamfunnTXT(){
+        fragmentHjelp.visSamfunnTXT();
+    }
+    public void visfunnetNoeTXT(){
+        fragmentHjelp.visfunnetTXT();
+    }
+
 
 
     public void openFragment(Fragment fragment) {
