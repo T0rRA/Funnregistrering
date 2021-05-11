@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentLogin fragmentLogin;
     private FragmentHjelp fragmentHjelp;
     private FragmentIntroPage fragmentIntroPage;
+    private FragmentBruker fragmentBruker;
 
     private boolean loginPageOpen;
 
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 saveDialog.show(getSupportFragmentManager(), null);
             }
 
-            if (!loginPageOpen) {
+            if (!loginPageOpen || fm.getBackStackEntryCount() > 1) {
                 closeFragment();
             }
             return;
@@ -171,15 +172,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void deleteDialogNo(View view) {
         deleteDialog.dismiss();
-    }
-
-    //Buttons for nyeFunnFragment
-    public void nyeFunnBtn(View view) {
-        mPager.setCurrentItem(1);
-    }
-
-    public void mineFunnBtn(View view) {
-        mPager.setCurrentItem(0);
     }
 
     public void infoBtn(View view) {
@@ -254,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveUserBtn(View view) {
         fragmentRegistrereBruker.saveUserBtn();
+        fragmentLogin.stopProgressBar();
     }
 
     public void loginBtn(View view) {
@@ -261,12 +254,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openUserBtn(View view) {
-        openFragment(new FragmentBruker());
+        fragmentBruker = new FragmentBruker();
+        openFragment(fragmentBruker);
     }
 
     public void logUtBtn(View view) {
         //Resets fragment login
         fragmentLogin = new FragmentLogin();
+        FragmentList.getInstance().setFragmentLogin(fragmentLogin);
 
         //Setts the saved user login parameters to empty to prevent auto login
         SharedPreferences sharedpreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -276,6 +271,10 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
 
         openLoginPage();
+    }
+
+    public void editUserBtn(View view) {
+        fragmentBruker.editUser();
     }
 
     public void onCheckboxClickedBtn(View view){
@@ -336,9 +335,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void closeFragment() {
-        loginPageOpen = false;
         fm.popBackStack();//Goes back to the slide fragments
         if(fm.getBackStackEntryCount() == 1) { //When getBackStackEntryCount() == 1, only the main view is the only one left
+            loginPageOpen = false;
             mPager.setVisibility(View.VISIBLE); //Makes the main fragments visible again
         }
     }

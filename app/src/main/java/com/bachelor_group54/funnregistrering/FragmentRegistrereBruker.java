@@ -106,10 +106,6 @@ public class FragmentRegistrereBruker extends Fragment {
         confirmationPw = (confirmationPwET.getText().toString()); // adds the content (the password) to the user object
 
         if (password.equals(confirmationPw)) { //checks if the password and the rewritten password are the same
-            /*ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "user"); // initializes the object saving class
-            ArrayList<Object> alist = objektLagrer.loadData(); // Fills arraylist with previous user info
-            alist.add(user); //Adds new the new user object to the list
-            objektLagrer.saveData(alist); // Saves the list*/
 
             //Registers the user on the server
             SetJSON setJSON = new SetJSON(getContext(), this);

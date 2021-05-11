@@ -276,37 +276,6 @@ public class FragmentRegistrereFunn extends Fragment {
         }
     }
 
-    // Brukes kun til lokal lagring
-    /*
-    public void saveFind() {
-        //If the a picture has been added save it
-        if (picture != null) {
-            savePicture();
-        }
-
-        ObjektLagrer objektLagrer = new ObjektLagrer(getContext(), "funn"); //Initialises the class that saves the finds
-        ArrayList<Object> arrayList = objektLagrer.loadData(); //Gets the already saved ArrayList with all the previous finds
-        arrayList.add(funn); //Adds the new find to the list
-
-        objektLagrer.saveData(arrayList); //Saves the new list, overwriting the old list
-    }
-
-    public void savePicture() {
-        //Gets the current picture ID for shared preferences (locally saved)
-        SharedPreferences sharedpreferences = getContext().getSharedPreferences("pictures", getContext().MODE_PRIVATE);
-        int pictureID = sharedpreferences.getInt("pictureID", 0) + 1;
-
-        //Saves the image and saves the ID of the picture to the find
-        ImageSaver.saveImage(picture, getContext(), pictureID);
-        funn.setBildeID(pictureID);
-
-        //Updates the picture ID in shared preferences
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putInt("pictureID", pictureID);
-        editor.apply();
-    }
-    */
-
     //Resets the fields, called when registering new find so it is empty next time the user wants to register a find
     public void clearFields() {
         funn = new Funn();

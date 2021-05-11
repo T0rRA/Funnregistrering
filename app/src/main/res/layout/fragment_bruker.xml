@@ -90,6 +90,29 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Postnr: "
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/fragment_bruker_postnr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enkelt_funn_tom_et"
+                android:imeOptions="actionDone"
+                android:minWidth="70dp"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Tlf: "
                 android:textColor="#000000"
                 android:textSize="18sp" />
@@ -132,16 +155,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/buttonColor"
-            android:text="Logg ut"
-            android:onClick="logUtBtn"
+            android:text="Endre bruker"
+            android:onClick="editUserBtn"
+            android:paddingHorizontal="10dp"
             android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progress_bar_fragment_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@color/buttonColor"
+        android:onClick="logUtBtn"
+        android:text="Logg ut"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
