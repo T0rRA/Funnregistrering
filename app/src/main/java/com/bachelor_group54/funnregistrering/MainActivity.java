@@ -280,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCheckboxClickedBtn(View view){
         fragmentEnkeltFunn.onCheckboxClickedBtn();
     }
+
     public void onCheckboxClickediRegBtn(View view){
         fragmentRegistrereFunn.onCheckboxClickediRegBtn();
     }

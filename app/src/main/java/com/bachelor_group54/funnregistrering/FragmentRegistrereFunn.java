@@ -106,7 +106,7 @@ public class FragmentRegistrereFunn extends Fragment {
         } else if (network_loc != null) { //Gets location from the network if network_loc is not null, only if the GPS was not found
             latitude = network_loc.getLatitude();
             longitude = network_loc.getLongitude();
-            Toast.makeText(getContext(), "Accuracy: " + network_loc.getAccuracy(), Toast.LENGTH_LONG).show(); //TODO fjerne i ferdig program
+            //Toast.makeText(getContext(), "Accuracy: " + network_loc.getAccuracy(), Toast.LENGTH_LONG).show(); //TODO fjerne i ferdig program
         } //If nether network or gps can provide the location the default values of 0 and 0 is used instead, should be handled in the real program
 
         TextView textView = view.findViewById(R.id.gps_tv_nytt_funn); //Finds the textView on the main app screen
@@ -149,6 +149,10 @@ public class FragmentRegistrereFunn extends Fragment {
     }
 
     public Funn registrerFunnBtn() {
+        //Checks the checkboxes and returns error message if permission was not granted by the owner
+        CheckBox checkBox = view.findViewById(R.id.checkbox_grunneier_reg);
+        funn.setTillatelseGitt(checkBox.isChecked());
+        if(!funn.isTillatelseGitt()){Toast.makeText(getContext(), "Grunneier må gi tilatelse til søking", Toast.LENGTH_LONG).show(); return null;}
 
         funn.setBilde(picture);
 
@@ -195,7 +199,6 @@ public class FragmentRegistrereFunn extends Fragment {
         final CheckBox checkBox = view.findViewById(R.id.checkbox_grunneier_reg);
 
         funn.setTillatelseGitt(checkBox.isChecked());
-        Toast.makeText(getContext(), checkBox.isChecked()+"", Toast.LENGTH_SHORT).show();
     }
 
     //Makes date String
@@ -218,14 +221,7 @@ public class FragmentRegistrereFunn extends Fragment {
     public void sentFindToBackend(){
         User user = User.getInstance();
 
-
-        /*fixme uncomment når testing er ferdig
-        if(user.getUsername.equals("")){
-            Toast.makeText(getContext(), "Du er ikke logget inn", Toast.LENGTH_LONG).show();
-            return;
-        }*/
-
-//The Map params contains all the key value pairs of the jsonObject that we send to the database
+        //The Map params contains all the key value pairs of the jsonObject that we send to the database
         Map<String,String> params = new HashMap<String, String>();
         params.put("tittel", makeStringNonNull(funn.getTittel()));
         params.put("beskrivelse", makeStringNonNull(funn.getBeskrivelse()));
