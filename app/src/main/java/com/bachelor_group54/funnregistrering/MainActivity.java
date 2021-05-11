@@ -11,15 +11,10 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -29,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentRegistrereBruker fragmentRegistrereBruker;
     private FragmentMineFunn fragmentMineFunn;
     private FragmentEnkeltFunn fragmentEnkeltFunn;
-    private FragmentMain fragmentMain;
+    private FragmentInnstillinger fragmentInnstillinger;
 
     private FragmentManager fm;
     private ViewPager mPager;
@@ -37,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentLogin fragmentLogin;
     private FragmentHjelp fragmentHjelp;
     private FragmentIntroPage fragmentIntroPage;
+    private FragmentBruker fragmentBruker;
 
     private boolean loginPageOpen;
 
@@ -50,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Initializing the fragments needed inn the app
         fragmentRegistrereFunn = new FragmentRegistrereFunn();
-        fragmentMain = new FragmentMain();
+        fragmentInnstillinger = new FragmentInnstillinger();
         fragmentMineFunn = new FragmentMineFunn();
         fragmentLogin = new FragmentLogin();
 
@@ -107,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             //Adds the fragments to the slider
             fragmentListe.add(fragmentMineFunn);
             fragmentListe.add(fragmentRegistrereFunn);
-            fragmentListe.add(fragmentMain);
+            fragmentListe.add(fragmentInnstillinger);
             //TODO legge til resten av fragmentene
         }
 
@@ -131,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 saveDialog.show(getSupportFragmentManager(), null);
             }
 
-            if (!loginPageOpen) {
+            if (!loginPageOpen || fm.getBackStackEntryCount() > 1) {
                 closeFragment();
             }
             return;
@@ -176,15 +172,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void deleteDialogNo(View view) {
         deleteDialog.dismiss();
-    }
-
-    //Buttons for nyeFunnFragment
-    public void nyeFunnBtn(View view) {
-        mPager.setCurrentItem(1);
-    }
-
-    public void mineFunnBtn(View view) {
-        mPager.setCurrentItem(0);
     }
 
     public void infoBtn(View view) {
@@ -259,15 +246,41 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveUserBtn(View view) {
         fragmentRegistrereBruker.saveUserBtn();
+        fragmentLogin.stopProgressBar();
     }
 
     public void loginBtn(View view) {
         fragmentLogin.logInBtn();
     }
 
+    public void openUserBtn(View view) {
+        fragmentBruker = new FragmentBruker();
+        openFragment(fragmentBruker);
+    }
+
+    public void logUtBtn(View view) {
+        //Resets fragment login
+        fragmentLogin = new FragmentLogin();
+        FragmentList.getInstance().setFragmentLogin(fragmentLogin);
+
+        //Setts the saved user login parameters to empty to prevent auto login
+        SharedPreferences sharedpreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("Username", "");
+        editor.putString("Password", "");
+        editor.apply();
+
+        openLoginPage();
+    }
+
+    public void editUserBtn(View view) {
+        fragmentBruker.editUser();
+    }
+
     public void onCheckboxClickedBtn(View view){
         fragmentEnkeltFunn.onCheckboxClickedBtn();
     }
+
     public void onCheckboxClickediRegBtn(View view){
         fragmentRegistrereFunn.onCheckboxClickediRegBtn();
     }
@@ -323,9 +336,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void closeFragment() {
-        loginPageOpen = false;
         fm.popBackStack();//Goes back to the slide fragments
         if(fm.getBackStackEntryCount() == 1) { //When getBackStackEntryCount() == 1, only the main view is the only one left
+            loginPageOpen = false;
             mPager.setVisibility(View.VISIBLE); //Makes the main fragments visible again
         }
     }

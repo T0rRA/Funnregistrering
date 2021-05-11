@@ -54,7 +54,7 @@ public class FragmentLogin extends Fragment {
         User user = User.getInstance();
         user.setPassword(password);
 
-        SetJSON setJSON = new SetJSON(FragmentList.getInstance().getContext(), username);
+        SetJSON setJSON = new SetJSON(username);
         setJSON.execute("Bruker/LogIn", "brukernavn=" + username, "passord=" + password);
     }
 
@@ -74,18 +74,5 @@ public class FragmentLogin extends Fragment {
             progressBar = view.findViewById(R.id.progress_bar_fragment_log_in);
             progressBar.setWillNotDraw(false);
         }
-    }
-
-    public void forgottenPassword(){
-        EditText usernameEt = view.findViewById(R.id.user_name);
-        String username = usernameEt.getText().toString();
-
-        if(username.equals("")){
-            Toast.makeText(getContext(), "Skriv inn brukernavn først", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        SetJSON setJSON = new SetJSON(getContext());
-        setJSON.execute("Bruker/SendPwResetLink", "brukernavn=" + username);
     }
 }

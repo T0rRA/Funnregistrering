@@ -23,6 +23,7 @@ public class GetJSON extends AsyncTask<String, Void, String> {
     private TextView textView;
     private FragmentMineFunn fragmentMineFunn;
     private FragmentLogin fragmentLogin;
+    private ArrayList<JSONObject> jsonObjectArrayList;
 
     public GetJSON(TextView textView) {
         this.textView = textView;
@@ -43,7 +44,7 @@ public class GetJSON extends AsyncTask<String, Void, String> {
         String lineFromServer = "";
         StringBuilder stringFromServer = new StringBuilder();
 
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<>();
+        jsonObjectArrayList = new ArrayList<>();
 
         try {
             URL urlen = new URL("https://funnapi.azurewebsites.net/" + urls[0]);
@@ -188,27 +189,33 @@ public class GetJSON extends AsyncTask<String, Void, String> {
         if(fragmentLogin != null){
             User user = User.getInstance();
             try {
-                //jsonString = jsonString.substring(0 , jsonString.indexOf("[")) + jsonString.substring(jsonString.indexOf("]")); //Removes the list of finds
-
                 String[] fields = jsonString.split(",");
 
                 for(int i = 0; i < fields.length; i++){
                     fields[i] = fields[i].split(":")[1].replace("\"", "");
                 }
 
-                user.setPostalCode(fields[0]);
+                JSONObject jsonObject = null;
                 try {
-                    user.setUserID(Integer.parseInt(fields[1]));
+                    jsonObject = new JSONObject(jsonString);
+                    user.setPostalCode(((JSONObject)jsonObject.get("postnr")).get("postnr").toString());
+                    user.setPostalPlace(((JSONObject)jsonObject.get("postnr")).get("poststed").toString()); //FIXME poststed blir aldri satt i databasen, feil på deres side
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    user.setUserID(Integer.parseInt(fields[2]));
                 }catch (NumberFormatException e){
                     user.setUserID(0);
                 }
 
-                user.setUsername(fields[2]);
-                user.setName(fields[5]);
-                user.setLastName(fields[6]);
-                user.setAddress(fields[7]);
-                user.setPhoneNum(fields[8]);
-                user.setEmail(fields[9]);
+                user.setUsername(fields[3]);
+                user.setName(fields[6]);
+                user.setLastName(fields[7]);
+                user.setAddress(fields[8]);
+                user.setPhoneNum(fields[9]);
+                user.setEmail(fields[10]);
 
             } catch (ArrayIndexOutOfBoundsException e){
                 System.out.println("-----------------\nArray out of bounds i GetJSON");

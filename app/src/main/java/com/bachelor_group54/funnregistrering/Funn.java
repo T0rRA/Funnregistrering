@@ -23,7 +23,7 @@ public class Funn implements Serializable {
 
     private Bitmap bilde;
 
-    private boolean funnmeldingSendt = false, funnskjemaSendt = false, tillatelseGitt = false;
+    private boolean funnmeldingSendt = false, funnskjemaSendt = false, tillatelseGitt = true;
 
     //Returns a string that we can send as a find message
     public String getFunnmelding(){

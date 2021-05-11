@@ -19,6 +19,7 @@ public class SetJSON extends AsyncTask<String, Void, String> {
     private String username;
     private FragmentMineFunn fragmentMineFunn;
     private FragmentRegistrereBruker fragmentRegistrereBruker;
+    private FragmentBruker fragmentBruker;
 
     public SetJSON() {
     }
@@ -31,8 +32,7 @@ public class SetJSON extends AsyncTask<String, Void, String> {
         this.textView = textView;
     }
 
-    public SetJSON(Context context, String username) {
-        this.context = context;
+    public SetJSON(String username) {
         this.username = username;
     }
 
@@ -43,6 +43,11 @@ public class SetJSON extends AsyncTask<String, Void, String> {
 
     public SetJSON(Context context, FragmentRegistrereBruker fragmentRegistrereBruker) {
         this.fragmentRegistrereBruker = fragmentRegistrereBruker;
+        this.context = context;
+    }
+
+    public SetJSON(Context context, FragmentBruker fragmentBruker) {
+        this.fragmentBruker = fragmentBruker;
         this.context = context;
     }
 
@@ -97,9 +102,9 @@ public class SetJSON extends AsyncTask<String, Void, String> {
         if(textView != null) {
             textView.setText(s);
         }
-        if(context != null && username != null){
+        if(username != null){
+            Context context = FragmentList.getInstance().getContext();
             if(s.equals("User was logged in")) { //Successful log in
-                //FIXME kanskje logIn burde returnere User object?
                 //Get user info and save it in the User object (using Singleton)
                 GetJSON getJSON = new GetJSON(new FragmentLogin());
                 getJSON.execute("Bruker/GetUser?brukernavn=" + username);
@@ -122,6 +127,14 @@ public class SetJSON extends AsyncTask<String, Void, String> {
             }
         }
 
+        if(fragmentBruker != null){
+            //Get user info and save it in the User object (using Singleton)
+            GetJSON getJSON = new GetJSON(new FragmentLogin());
+            getJSON.execute("Bruker/GetUser?brukernavn=" + username);
+
+            fragmentBruker.stopProgressBar();
+        }
+
         if(context != null){
             Toast.makeText(context, s, Toast.LENGTH_LONG).show();
         }
@@ -131,4 +144,3 @@ public class SetJSON extends AsyncTask<String, Void, String> {
         }
     }
 }
-

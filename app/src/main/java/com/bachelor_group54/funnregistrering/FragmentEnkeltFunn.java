@@ -682,9 +682,7 @@ public class FragmentEnkeltFunn extends Fragment {
     }
     public void onCheckboxClickedBtn() {
         final CheckBox checkBox = view.findViewById(R.id.checkbox_grunneier);
-
-        funn.setTillatelseGitt(checkBox.isChecked());
-        Toast.makeText(getContext(), checkBox.isChecked()+"", Toast.LENGTH_SHORT).show();
+        checkBox.setChecked(true);
     }
 
 
