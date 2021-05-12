@@ -102,6 +102,7 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/fragment_bruker_postnr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -125,6 +126,7 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:inputType="phone"
                     android:id="@+id/fragment_bruker_tlf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -148,6 +150,7 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:inputType="textEmailAddress"
                     android:id="@+id/fragment_bruker_epost"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
