@@ -1,6 +1,8 @@
 package com.bachelor_group54.funnregistrering;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ public class FragmentBruker extends Fragment {
         view = inflater.inflate(R.layout.fragment_bruker, container, false); //Loads the page from the XML file
         updateEditTexts();
         stopProgressBar();
+        setInputValidation();
         return view;
     }
 /**
@@ -96,5 +99,27 @@ public class FragmentBruker extends Fragment {
     public void startProgressBar(){
         progressBar = view.findViewById(R.id.progress_bar_fragment_user);
         progressBar.setWillNotDraw(false);
+    }
+
+    //Method for setting input validation on the fields in the register user view
+    public void setInputValidation(){
+        EditText nameET = view.findViewById(R.id.fragment_bruker_fornavn); //finds the editText containing the name
+        //Sets input validation on the nameET field
+        nameET.addTextChangedListener(new InputValidater(getContext(), true, false, false, 1 , 30, nameET));
+
+        EditText lastNameET = view.findViewById(R.id.fragment_bruker_etternavn); //finds the editText containing the last name
+        lastNameET.addTextChangedListener(new InputValidater(getContext(), true, false, false, 1 , 30, lastNameET));
+
+        EditText addressET = view.findViewById(R.id.fragment_bruker_adresse); //finds the editText containing the address
+        addressET.addTextChangedListener(new InputValidater(getContext(), true, true, true, 1 , 50, addressET));
+
+        EditText postalcodeET = view.findViewById(R.id.fragment_bruker_postnr); //finds the editText containing the postal code
+        postalcodeET.addTextChangedListener(new InputValidater(getContext(), false, true, false, 4 , 4, postalcodeET));
+
+        EditText phoneNumET = view.findViewById(R.id.fragment_bruker_tlf); //finds the editText containing the phone number
+        phoneNumET.addTextChangedListener(new PhoneInputValidator(phoneNumET));
+
+        EditText emailET = view.findViewById(R.id.fragment_bruker_epost); //finds the editText containing the email
+        emailET.addTextChangedListener(new InputValidater(getContext(), true, true, true, 1 , 50, emailET));
     }
 }
