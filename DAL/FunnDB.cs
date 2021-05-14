@@ -15,9 +15,7 @@ namespace FunnregistreringsAPI.DAL
         public DbSet<Bruker> brukere { get; set; }
         public DbSet<Funn> funn { get; set; }
 
-        public DbSet<PwReset> passordReset { get; set; }
         public DbSet<Postadresse> postadresser { get; set; }
-        public DbSet<Image> Images { get; set; }
         public DbSet<Grunneier> grunneiere { get; set; }
         
         public DbSet<GBNr> GBNr { get; set; }

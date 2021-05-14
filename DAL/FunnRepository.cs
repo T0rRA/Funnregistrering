@@ -316,6 +316,8 @@ namespace FunnregistreringsAPI.DAL
                     etFunn.funndato = f.funndato;
                     etFunn.gjenstand = f.gjenstand;
                     etFunn.gbnr.gb_nr = f.gbnr.gb_nr;
+                    etFunn.gbnr.funnsted = f.gbnr.funnsted;
+                    etFunn.gbnr.gaard = f.gbnr.gaard;
                     etFunn.gbnr.grunneier.Fornavn = f.gbnr.grunneier.Fornavn;
                     etFunn.gbnr.grunneier.Etternavn = f.gbnr.grunneier.Etternavn;
                     etFunn.gbnr.grunneier.Adresse = f.gbnr.grunneier.Adresse;
