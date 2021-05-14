@@ -66,7 +66,7 @@ public class FragmentEnkeltFunn extends Fragment {
         view = inflater.inflate(R.layout.fragment_enkelt_funn, container, false); //Loads the page from the XML file
         //Add setup code here later
 
-        //Initializing and scaling of the background /TODO: Kan brukes for scaling av bildet også om det skal med
+        //Initializing and scaling of the background
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.funnskjema_bg);
         scalebmp =Bitmap.createScaledBitmap(bmp,2480,3508,false);
 
@@ -166,7 +166,7 @@ public class FragmentEnkeltFunn extends Fragment {
                 case 4: //Date
                     et.addTextChangedListener(new InputValidater(getContext(),false,true, false, 10, 10, et));
                     break;
-                case 5: //Location (Funnsted) Fixme vet ikke hva som skal i dette feltet
+                case 5: //Location (Funnsted)
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 50, et));
                     break;
                 case 6: //Owner first name
@@ -188,10 +188,10 @@ public class FragmentEnkeltFunn extends Fragment {
                 case 11: //Owner tlf
                     et.addTextChangedListener(new PhoneInputValidator(et));
                     break;
-                case 12: //Description //fixme skal denn være med?
+                case 12: //Description
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 200, et));
                     break;
-                case 13: //Item fixme vet ikke hva som skal stå i dette feltet så det må kanskje endres senere
+                case 13: //Item
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 50, et));
                     break;
                 case 14: //Item marked with
@@ -200,8 +200,8 @@ public class FragmentEnkeltFunn extends Fragment {
                 case 15: //Datum
                     et.addTextChangedListener(new InputValidater(getContext(), false, true, true, 0, 6, et));
                     break;
-                case 16: //Farm fixme vet ikke hva som skal stå her
-                case 17: //Gbnr fixme vet ikke hva som skal stå her
+                case 16: //Farm
+                case 17: //Gbnr
                     et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 0, 8, et));
                     break;
             }
@@ -212,8 +212,6 @@ public class FragmentEnkeltFunn extends Fragment {
     public void loadFunn() {
         ImageView imageView = view.findViewById(R.id.fragment_enkelt_funn_bilde); //Finds the image view
         imageView.setImageBitmap(funn.getBilde()); //Sets the image view to the finds image
-
-        //TODO finne ut hvilke felter brukeren skal kunne endre selv
 
         EditText latitudeEt = view.findViewById(R.id.fragment_enkelt_funn_et_breddegrad); //Finds the latitude textView
         //Latitude cannot be more than 90 or less than -90
@@ -243,7 +241,7 @@ public class FragmentEnkeltFunn extends Fragment {
         setText(funn.getFunnsted(), locationEt);
 
         EditText ownerEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier_fornavn);
-        setText(funn.getGrunneierFornavn(), ownerEt); //TODO lagge egene felter for fornavn og etternavn
+        setText(funn.getGrunneierFornavn(), ownerEt);
 
         EditText ownerLastNameEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier_etternavn);
         setText(funn.getGrunneierEtternavn(), ownerLastNameEt);
@@ -352,7 +350,7 @@ public class FragmentEnkeltFunn extends Fragment {
         params.put("areal_type" , makeStringNonNull(funn.getArealType()));
         params.put("gjenstand", makeStringNonNull(funn.getGjenstand()));
 
-        params.put("BrukerUserID" , "11"); //fixme uncomment user.getUsername
+        params.put("BrukerUserID" , user.getUserID() + "");
         params.put("FunnID", funn.getFunnID() + "");
 
         params.put("gbnr.gb_nr" , makeStringNonNull(funn.getGbnr()));
@@ -415,7 +413,6 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText locationEt = view.findViewById(R.id.fragment_enkelt_funn_et_sted);
         funn.setFunnsted(inputChecker(locationEt, "sted"));
 
-        //TODO lage egene felter for fornavn og etternavn
         EditText ownerEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier_fornavn);
         funn.setGrunneierFornavn(inputChecker(ownerEt, "grunneier"));
 
@@ -516,18 +513,17 @@ public class FragmentEnkeltFunn extends Fragment {
         * the paint variable  (text) is the 4th parameter.
         * */
 
-        /*  Finner:
-        *  TODO: Legg til poststed i User.java*/
+        /*  Finner:*/
         User user = User.getInstance();
         canvas.drawText(user.getName()+""+user.getLastName(), 300,450, text); // Navn
         canvas.drawText(user.getAddress(), 300,575, text); // Adresse
         canvas.drawText(user.getPostalCode(), 300,700, text); // Postnr.
-        canvas.drawText("LEGG TIL POSTSTED I USER", 700,700, text); //sted
+        canvas.drawText(user.getPostalPlace(), 700,700, text); //sted
         canvas.drawText(user.getPhoneNum(), 300,825, text); // Tlf
         canvas.drawText(user.getEmail(), 300,955, text); // epost
 
 
-        /*  Grunneier:  TODO: Registrering av tillatelse*/
+        /*  Grunneier: */
         canvas.drawText(funn.getGrunneierFornavn() + " " + funn.getGrunneierEtternavn(), 1500,450, text); // Navn
         canvas.drawText(funn.getGrunneierAdresse(), 1500,575, text); // Adresse
         canvas.drawText(funn.getGrunneierPostNr(), 1500,700, text); // Postnr.
@@ -538,12 +534,12 @@ public class FragmentEnkeltFunn extends Fragment {
 
         /*Funnet*/
         canvas.drawText(funn.getDato(),110, 1175, text); //Funndato
-        //fixme mangler funnsted i databasen så krasjer her canvas.drawText(funn.getFunnsted(),425, 1175, text); // Funnsted, gård, gbnr
+        canvas.drawText(funn.getFunnsted(),425, 1175, text); // Funnsted, gård, gbnr
         canvas.drawText(funn.getGårdNr() + ", " + funn.getGbnr(),425, 1175, text);
         canvas.drawText(funn.getKommune(),1250, 1175, text); // Kommune
         canvas.drawText(funn.getFylke(),1900, 1175, text); // Fylke
 
-        //fixme mangler gjenstand i databasen så krasjer her canvas.drawText(funn.getGjenstand(),110, 1360, text); //Gjenstand
+        canvas.drawText(funn.getGjenstand(),110, 1360, text); //Gjenstand
         canvas.drawText(""+funn.getFunndybde(),1250, 1360, text); // Funndybde
         canvas.drawText(funn.getGjenstandMerking(),1575, 1360, text); // merket med
 
@@ -587,7 +583,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
         //sets storage path
         String path = getContext().getFilesDir().getPath(); //Gets program path
-        String filename = "/funnskjema.pdf"; //Sets the pdf name TODO: add Dynamisk navn på funnskjema(?)
+        String filename = "/funnskjema.pdf"; //Sets the pdf name
         File file = new File(path+filename);
 
         //writes the pdf to the path
@@ -695,9 +691,8 @@ public class FragmentEnkeltFunn extends Fragment {
             Toast.makeText(FragmentList.getInstance().getContext(), "Du har ikke fylt ut det du trenger til funmelding enda", Toast.LENGTH_LONG). show();
             return;
         }
-        EmailIntent.sendEmail(""/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnmelding(), getContext(),new File(ImageSaver.getImagePath(getContext(),funn.getBildeID())));
-        funn.setFunnmeldingSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        //saveFind(); /*TODO endre til editFind, trenger lagring av funnmeldingSend variablen*/
+        EmailIntent.sendEmail("example@mail.no", "Funn funnet", funn.getFunnmelding(), getContext(),new File(ImageSaver.getImagePath(getContext(),funn.getBildeID())));
+        funn.setFunnmeldingSendt(true);
     }
 
     public void sendFunnskjema() {
@@ -705,9 +700,8 @@ public class FragmentEnkeltFunn extends Fragment {
             Toast.makeText(FragmentList.getInstance().getContext(), "Du har ikke fylt ut det du trenger til funnskjema enda", Toast.LENGTH_LONG). show();
             return;
         }
-        EmailIntent.sendEmail("tor.ryan.andersen@gmail.com"/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, getContext(), pdfGenerator());
-        funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
-        //saveFind(); /*TODO endre til editFind, trenger lagring av funnskjemaSendt variablen*/
+        EmailIntent.sendEmail("example@mail.no", "Funn funnet", "Info om funnet ligger i vedlagt funnskjema" , getContext(), pdfGenerator());
+        funn.setFunnskjemaSendt(true);
     }
 
     //Returns empty string if string is invalid or the string if it is valid

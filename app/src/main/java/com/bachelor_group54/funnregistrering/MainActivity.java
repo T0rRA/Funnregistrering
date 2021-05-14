@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
             fragmentListe.add(fragmentMineFunn);
             fragmentListe.add(fragmentRegistrereFunn);
             fragmentListe.add(fragmentInnstillinger);
-            //TODO legge til resten av fragmentene
         }
 
         @Override
@@ -205,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
     //Buttons for the single found fragment
     //Saves the changes made to the find
     public void fragmentEnkeltFunnLagreEndring(View view) {
-        fragmentEnkeltFunn.editFind(this); //Todo If the find could not be saved don't close the fragment
+        fragmentEnkeltFunn.editFind(this);
         closeFragment();
     }
 

@@ -60,7 +60,7 @@ public class GetJSON extends AsyncTask<String, Void, String> {
             while ((lineFromServer = bufferedReader.readLine()) != null) {
                 stringFromServer.append(lineFromServer);
             }
-            //FIXME legg til ny test for tom database
+
             if (stringFromServer.toString().equals("Databasen er tom")) {
                 return "";
             }
@@ -202,7 +202,7 @@ public class GetJSON extends AsyncTask<String, Void, String> {
                 try {
                     jsonObject = new JSONObject(jsonString);
                     user.setPostalCode(((JSONObject)jsonObject.get("postnr")).get("postnr").toString());
-                    user.setPostalPlace(((JSONObject)jsonObject.get("postnr")).get("poststed").toString()); //FIXME poststed blir aldri satt i databasen, feil på deres side
+                    user.setPostalPlace(((JSONObject)jsonObject.get("postnr")).get("poststed").toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

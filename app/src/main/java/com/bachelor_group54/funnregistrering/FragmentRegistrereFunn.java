@@ -106,7 +106,6 @@ public class FragmentRegistrereFunn extends Fragment {
         } else if (network_loc != null) { //Gets location from the network if network_loc is not null, only if the GPS was not found
             latitude = network_loc.getLatitude();
             longitude = network_loc.getLongitude();
-            //Toast.makeText(getContext(), "Accuracy: " + network_loc.getAccuracy(), Toast.LENGTH_LONG).show(); //TODO fjerne i ferdig program
         } //If nether network or gps can provide the location the default values of 0 and 0 is used instead, should be handled in the real program
 
         TextView textView = view.findViewById(R.id.gps_tv_nytt_funn); //Finds the textView on the main app screen
@@ -217,7 +216,6 @@ public class FragmentRegistrereFunn extends Fragment {
         return day + "/" + month + "/" + (currentTime.getYear() + 1900);
     }
 
-    //TODO registrere kunn med noe info kanskje API med færre felter?
     public void sentFindToBackend(){
         User user = User.getInstance();
 
@@ -266,7 +264,7 @@ public class FragmentRegistrereFunn extends Fragment {
             Address address = locations.get(0);
             funn.setKommune(address.getSubAdminArea()); //Sets the kommune
             funn.setFylke(address.getAdminArea()); //Sets the fylke
-            funn.setGrunneierPostNr(address.getPostalCode()); //Sets the owner postalcode FIXME kanskje ikke fylle denne automatisk
+            funn.setGrunneierPostNr(address.getPostalCode()); //Sets the owner postalcode
         } catch(Exception e) {
             e.printStackTrace();
         }
