@@ -515,7 +515,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
         /*  Finner:*/
         User user = User.getInstance();
-        canvas.drawText(user.getName()+""+user.getLastName(), 300,450, text); // Navn
+        canvas.drawText(user.getName() + " " + user.getLastName(), 300,450, text); // Navn
         canvas.drawText(user.getAddress(), 300,575, text); // Adresse
         canvas.drawText(user.getPostalCode(), 300,700, text); // Postnr.
         canvas.drawText(user.getPostalPlace(), 700,700, text); //sted
@@ -534,8 +534,7 @@ public class FragmentEnkeltFunn extends Fragment {
 
         /*Funnet*/
         canvas.drawText(funn.getDato(),110, 1175, text); //Funndato
-        canvas.drawText(funn.getFunnsted(),425, 1175, text); // Funnsted, gård, gbnr
-        canvas.drawText(funn.getGårdNr() + ", " + funn.getGbnr(),425, 1175, text);
+        canvas.drawText(funn.getFunnsted() + ", " + funn.getGårdNr() + ", " + funn.getGbnr(),425, 1175, text); // Funnsted, gård, gbnr
         canvas.drawText(funn.getKommune(),1250, 1175, text); // Kommune
         canvas.drawText(funn.getFylke(),1900, 1175, text); // Fylke
 
