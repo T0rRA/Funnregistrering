@@ -16,18 +16,27 @@ namespace FunnregistreringsAPI.Models
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
         public string kommune { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
+
+        //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,40}$")]
         public string tittel { get; set; }
+
+        //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]+$")]
         public string beskrivelse { get; set; }
+
+        //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
         public string fylke { get; set; }
         //[RegularExpression(@"^[0-9 ]+(cm|mm|centimeter|m|meter|millimeter|km|kilometer)$")]
         public string funndybde { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ0-9\-._ ]{2,20}$")]
         public string gjenstand_markert_med { get; set; }
-        //[RegularExpression(@"^[0-9.\- ]{2,40}$")]
+        //[RegularExpression(@"^[0-9A-Za-z.\- ]{2,40}$")]
         public string koordinat { get; set; }
         public string datum { get; set; }
         //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
         public string areal_type { get; set; }
         public InnGBNr innGBNr { get; set; }
+
+        //[RegularExpression(@"^[a-zA-ZæøåÆØÅ\-._ ]{2,20}$")]
+        public string gjenstand { get; set; }
     }
 }

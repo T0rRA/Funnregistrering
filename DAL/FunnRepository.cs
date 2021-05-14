@@ -53,6 +53,7 @@ namespace FunnregistreringsAPI.DAL
                             datum = nyttFunn.datum,
                             areal_type = nyttFunn.areal_type,
                             funndato = nyttFunn.funndato,
+                            gjenstand = nyttFunn.gjenstand,
                             BrukerUserID = realUser.UserID
                         };
 
@@ -107,7 +108,9 @@ namespace FunnregistreringsAPI.DAL
                             GBNr gb = new GBNr
                             {
                                 gb_nr = nyttFunn.innGBNr.gb_nr,
-                                grunneier = ge
+                                grunneier = ge,
+                                funnsted = nyttFunn.innGBNr.funnsted,
+                                gaard = nyttFunn.innGBNr.gaard
                             };
 
                             //create list for grunneier and add the gbnr to it
@@ -129,6 +132,8 @@ namespace FunnregistreringsAPI.DAL
                             GBNr gb = new GBNr
                             {
                                 gb_nr = nyttFunn.innGBNr.gb_nr,
+                                funnsted = nyttFunn.innGBNr.funnsted,
+                                gaard = nyttFunn.innGBNr.gaard,
                                 grunneier = checkGrunneier
                             };
                             await _db.GBNr.AddAsync(gb);
@@ -159,6 +164,7 @@ namespace FunnregistreringsAPI.DAL
                             areal_type = nyttFunn.areal_type,
                             funndato = nyttFunn.funndato,
                             BrukerUserID = realUser.UserID,
+                            gjenstand = nyttFunn.gjenstand,
                             gbnr = checkGBNr
                         };
 
@@ -308,13 +314,14 @@ namespace FunnregistreringsAPI.DAL
                     etFunn.datum = f.datum;
                     etFunn.areal_type = f.areal_type;
                     etFunn.funndato = f.funndato;
+                    etFunn.gjenstand = f.gjenstand;
                     etFunn.gbnr.gb_nr = f.gbnr.gb_nr;
                     etFunn.gbnr.grunneier.Fornavn = f.gbnr.grunneier.Fornavn;
                     etFunn.gbnr.grunneier.Etternavn = f.gbnr.grunneier.Etternavn;
                     etFunn.gbnr.grunneier.Adresse = f.gbnr.grunneier.Adresse;
                     etFunn.gbnr.grunneier.Epost = f.gbnr.grunneier.Epost;
                     etFunn.gbnr.grunneier.Tlf = f.gbnr.grunneier.Tlf;
-                    
+
                     await _db.SaveChangesAsync();
                     return "";
                 }

@@ -11,6 +11,8 @@ namespace Funnregistrering.Models
         [Key]
         public int GBNrID { get; set; }
         public string gb_nr { get; set; }
+        public string funnsted { get; set; }
+        public string gaard { get; set; }
         public virtual Grunneier grunneier { get; set; }
     }
 }
