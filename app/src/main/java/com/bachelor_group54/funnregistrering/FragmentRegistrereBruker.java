@@ -93,6 +93,9 @@ public class FragmentRegistrereBruker extends Fragment {
         EditText postalcodeET = view.findViewById(R.id.postal_code_new); //finds the editText containing the postal code
         String postalcode = postalcodeET.getText().toString(); //adds the content (the postal code) to the user object
 
+        EditText postalPlaceEt = view.findViewById(R.id.postal_place_new); //finds the editText containing the postal code
+        String postalPlace = postalPlaceEt.getText().toString(); //adds the content (the postal code) to the user object
+
         EditText phoneNumET = view.findViewById(R.id.phone_num_new); //finds the editText containing the phone number
         String phoneNumber = phoneNumET.getText().toString(); //adds the content (the phone number) to the user object
 
@@ -111,7 +114,7 @@ public class FragmentRegistrereBruker extends Fragment {
             SetJSON setJSON = new SetJSON(getContext(), this);
             setJSON.execute("Bruker/CreateUser", "Brukernavn=" + name, "Passord=" +
                     password, "Fornavn=" + name, "Etternavn=" + lastName,
-                    "Adresse=" + address, "Postnr=" + postalcode, "Poststed=" /*FIXME har ikke poststed*/,
+                    "Adresse=" + address, "Postnr=" + postalcode, "Poststed=" + postalPlace,
                     "Tlf=" + phoneNumber, "Epost=" + email);
 
         } else { //sends message if the passwords are different

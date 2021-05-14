@@ -60,7 +60,7 @@ public class GetJSON extends AsyncTask<String, Void, String> {
             while ((lineFromServer = bufferedReader.readLine()) != null) {
                 stringFromServer.append(lineFromServer);
             }
-            //FIXME legg til ny test for tom database
+
             if (stringFromServer.toString().equals("Databasen er tom")) {
                 return "";
             }
@@ -114,6 +114,7 @@ public class GetJSON extends AsyncTask<String, Void, String> {
                         }catch (ArrayIndexOutOfBoundsException ignored){}
                         find.setDatum(jsonObject.get("datum").toString());
                         find.setArealType(jsonObject.get("areal_type").toString());
+                        find.setGjenstand(jsonObject.get("gjenstand").toString());
 
                         JSONObject gbnr = null;
                         JSONObject grunneier = null;
@@ -126,6 +127,8 @@ public class GetJSON extends AsyncTask<String, Void, String> {
 
                         if(gbnr != null){
                             find.setGbnr(gbnr.get("gb_nr").toString());
+                            find.setGårdNr(gbnr.get("gaard").toString());
+                            find.setFunnsted(gbnr.get("funnsted").toString());
                         }
 
                         if(grunneier != null) {
@@ -199,7 +202,7 @@ public class GetJSON extends AsyncTask<String, Void, String> {
                 try {
                     jsonObject = new JSONObject(jsonString);
                     user.setPostalCode(((JSONObject)jsonObject.get("postnr")).get("postnr").toString());
-                    user.setPostalPlace(((JSONObject)jsonObject.get("postnr")).get("poststed").toString()); //FIXME poststed blir aldri satt i databasen, feil på deres side
+                    user.setPostalPlace(((JSONObject)jsonObject.get("postnr")).get("poststed").toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

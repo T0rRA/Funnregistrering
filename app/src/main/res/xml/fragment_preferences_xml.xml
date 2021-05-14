@@ -3,9 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!-- TODO: Legge til innhold og funksjonalitet(Når det er avgjort hva vi skal ha på denne siden) -->
-
-    <!-- TODO: INNHOLDET ER EKSEMPEL på funksjonalitet vi kan ha her -->
     <PreferenceCategory android:title="Bruker"> <!--Legger til kategorier (grønn tekst)-->
         <!-- Crates a text-button. Clicking it opens a dialog box. The dialogbox got an edit text where a new password can be entered-->
         <EditTextPreference

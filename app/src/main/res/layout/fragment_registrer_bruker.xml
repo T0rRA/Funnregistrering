@@ -45,6 +45,13 @@
             android:inputType="number" />
 
         <EditText
+            android:id="@+id/postal_place_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Poststed"
+            android:inputType="number" />
+
+        <EditText
             android:id="@+id/phone_num_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
