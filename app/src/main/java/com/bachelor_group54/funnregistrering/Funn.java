@@ -80,14 +80,14 @@ public class Funn implements Serializable {
     public boolean isFunnskjemaKlart(){
         String[] allTheStrings = new String[]{tittel, dato, funnsted, grunneierFornavn, grunneierEtternavn, grunneierAdresse, grunneierPostNr, grunneierPostSted,
             grunneierTlf, grunneierEpost, beskrivelse, gjenstand, gjenstandMerking,
-                datum, arealType, opplysninger, gårdNr, gbnr, kommune, fylke};
+                datum, arealType, gårdNr, gbnr, kommune, fylke};
 
         for (String s : allTheStrings){
             if(s == null || s.equals("") || s.equals("null")){ //Checks if the strings are valid
                 return false;
             }
         }
-        return longitude != 200 && latitude != 200 && funndybde != -1 && bildeID != 0; //Checks if the ints and doubles are valid
+        return longitude != 200 && latitude != 200 && funndybde != -1 && bilde != null; //Checks if the ints and doubles are valid
     }
 
     //Gets the index of the current areaType, returns -1 on error

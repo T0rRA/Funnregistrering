@@ -114,6 +114,7 @@ public class GetJSON extends AsyncTask<String, Void, String> {
                         }catch (ArrayIndexOutOfBoundsException ignored){}
                         find.setDatum(jsonObject.get("datum").toString());
                         find.setArealType(jsonObject.get("areal_type").toString());
+                        find.setGjenstand(jsonObject.get("gjenstand").toString());
 
                         JSONObject gbnr = null;
                         JSONObject grunneier = null;
@@ -126,6 +127,8 @@ public class GetJSON extends AsyncTask<String, Void, String> {
 
                         if(gbnr != null){
                             find.setGbnr(gbnr.get("gb_nr").toString());
+                            find.setGårdNr(gbnr.get("gaard").toString());
+                            find.setFunnsted(gbnr.get("funnsted").toString());
                         }
 
                         if(grunneier != null) {

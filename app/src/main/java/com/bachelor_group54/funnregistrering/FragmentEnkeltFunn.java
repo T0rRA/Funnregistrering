@@ -130,18 +130,17 @@ public class FragmentEnkeltFunn extends Fragment {
                 , view.findViewById(R.id.fragment_enkelt_funn_et_funndybde)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_tittel)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_dato)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_sted)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_sted) //5
                 , view.findViewById(R.id.fragment_enkelt_funn_et_grunneier_etternavn)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostSted) //10
                 , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierTlf)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_beskrivelse)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gjenstand_merke)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_datum)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_annet)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_datum) //15
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gbnr)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_kommune)
@@ -171,7 +170,7 @@ public class FragmentEnkeltFunn extends Fragment {
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 50, et));
                     break;
                 case 6: //Owner first name
-                case 21: //Owner Last name
+                case 20: //Owner Last name
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, true, 1, 75, et));
                     break;
                 case 7: //Owner address
@@ -182,15 +181,14 @@ public class FragmentEnkeltFunn extends Fragment {
                     et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 4, 4, et));
                     break;
                 case 10: //Owner post place
-                case 19: //County
-                case 20: //Municipality
+                case 18: //County
+                case 19: //Municipality
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 1, 30, et));
                     break;
                 case 11: //Owner tlf
                     et.addTextChangedListener(new PhoneInputValidator(et));
                     break;
                 case 12: //Description //fixme skal denn være med?
-                case 16: //Other info
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 200, et));
                     break;
                 case 13: //Item fixme vet ikke hva som skal stå i dette feltet så det må kanskje endres senere
@@ -202,8 +200,8 @@ public class FragmentEnkeltFunn extends Fragment {
                 case 15: //Datum
                     et.addTextChangedListener(new InputValidater(getContext(), false, true, true, 0, 6, et));
                     break;
-                case 17: //Farm fixme vet ikke hva som skal stå her
-                case 18: //Gbnr fixme vet ikke hva som skal stå her
+                case 16: //Farm fixme vet ikke hva som skal stå her
+                case 17: //Gbnr fixme vet ikke hva som skal stå her
                     et.addTextChangedListener(new InputValidater(getContext(), false, true, false, 0, 8, et));
                     break;
             }
@@ -280,9 +278,6 @@ public class FragmentEnkeltFunn extends Fragment {
         Spinner areaType = view.findViewById(R.id.fragment_enkelt_funn_dropdown_arealtype);
         areaType.setSelection(funn.getArealTypeIndex(getContext()));
 
-        EditText moreInfoEt = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
-        setText(funn.getOpplysninger(), moreInfoEt);
-
         EditText farmNrEt = view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr);
         setText(funn.getGårdNr(), farmNrEt);
 
@@ -355,11 +350,15 @@ public class FragmentEnkeltFunn extends Fragment {
         params.put("koordinat" , funn.getLatitude() + "N " + funn.getLongitude() + "W");
         params.put("datum" , makeStringNonNull(funn.getDatum()));
         params.put("areal_type" , makeStringNonNull(funn.getArealType()));
+        params.put("gjenstand", makeStringNonNull(funn.getGjenstand()));
 
         params.put("BrukerUserID" , "11"); //fixme uncomment user.getUsername
         params.put("FunnID", funn.getFunnID() + "");
 
         params.put("gbnr.gb_nr" , makeStringNonNull(funn.getGbnr()));
+        params.put("gbnr.funnsted", makeStringNonNull(funn.getFunnsted()));
+        params.put("gbnr.gaard", makeStringNonNull(funn.getGårdNr()));
+
         params.put("gbnr.grunneier.Fornavn" , makeStringNonNull(funn.getGrunneierFornavn()));
         params.put( "gbnr.grunneier.Etternavn" , makeStringNonNull(funn.getGrunneierEtternavn()));
         params.put("gbnr.grunneier.Adresse" , makeStringNonNull(funn.getGrunneierAdresse()));
@@ -452,9 +451,6 @@ public class FragmentEnkeltFunn extends Fragment {
 
         Spinner areaTypeSpinner = view.findViewById(R.id.fragment_enkelt_funn_dropdown_arealtype);
         funn.setArealTypeWithIndex((int)areaTypeSpinner.getSelectedItemId(), FragmentList.getInstance().getContext());
-
-        EditText moreInfoEt = view.findViewById(R.id.fragment_enkelt_funn_et_annet);
-        funn.setOpplysninger(inputChecker(moreInfoEt, "andre opplysninger"));
 
         EditText farmNrEt = view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr);
         funn.setGårdNr(inputChecker(farmNrEt, "gård"));
