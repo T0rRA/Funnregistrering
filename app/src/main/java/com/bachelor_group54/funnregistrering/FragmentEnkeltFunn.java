@@ -131,7 +131,7 @@ public class FragmentEnkeltFunn extends Fragment {
                 , view.findViewById(R.id.fragment_enkelt_funn_et_tittel)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_dato)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_sted)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneier)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneier_etternavn)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierEpost)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_grunneierPostNr)
@@ -145,7 +145,8 @@ public class FragmentEnkeltFunn extends Fragment {
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gårdnr)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_gbnr)
                 , view.findViewById(R.id.fragment_enkelt_funn_et_kommune)
-                , view.findViewById(R.id.fragment_enkelt_funn_et_fylke)};
+                , view.findViewById(R.id.fragment_enkelt_funn_et_fylke)
+                , view.findViewById(R.id.fragment_enkelt_funn_et_grunneier_etternavn)};
 
         for (int i = 0; i < editTexts.length; i++) {
             EditText et = editTexts[i];
@@ -169,7 +170,8 @@ public class FragmentEnkeltFunn extends Fragment {
                 case 5: //Location (Funnsted) Fixme vet ikke hva som skal i dette feltet
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, false, 0, 50, et));
                     break;
-                case 6: //Owner name
+                case 6: //Owner first name
+                case 21: //Owner Last name
                     et.addTextChangedListener(new InputValidater(getContext(), true, false, true, 1, 75, et));
                     break;
                 case 7: //Owner address
@@ -242,8 +244,11 @@ public class FragmentEnkeltFunn extends Fragment {
         EditText locationEt = view.findViewById(R.id.fragment_enkelt_funn_et_sted);
         setText(funn.getFunnsted(), locationEt);
 
-        EditText ownerEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
-        setText(funn.getGrunneierFornavn() + " " + funn.getGrunneierEtternavn(), ownerEt); //TODO lagge egene felter for fornavn og etternavn
+        EditText ownerEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier_fornavn);
+        setText(funn.getGrunneierFornavn(), ownerEt); //TODO lagge egene felter for fornavn og etternavn
+
+        EditText ownerLastNameEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier_etternavn);
+        setText(funn.getGrunneierEtternavn(), ownerLastNameEt);
 
         EditText ownerAddressEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
         setText(funn.getGrunneierAdresse(), ownerAddressEt);
@@ -412,8 +417,11 @@ public class FragmentEnkeltFunn extends Fragment {
         funn.setFunnsted(inputChecker(locationEt, "sted"));
 
         //TODO lage egene felter for fornavn og etternavn
-        EditText ownerEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier);
+        EditText ownerEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier_fornavn);
         funn.setGrunneierFornavn(inputChecker(ownerEt, "grunneier"));
+
+        EditText ownerLastNameEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneier_etternavn);
+        funn.setGrunneierEtternavn(inputChecker(ownerLastNameEt, "grunneier"));
 
         EditText ownerAddressEt = view.findViewById(R.id.fragment_enkelt_funn_et_grunneierAdresse);
         funn.setGrunneierAdresse(inputChecker(ownerAddressEt, "grunneier adresse"));
@@ -697,10 +705,6 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public void sendFunnskjema() {
-        if(!funn.isFunnskjemaKlart()){
-            Toast.makeText(FragmentList.getInstance().getContext(), "Du har ikke fylt ut det du trenger til funnskjema enda", Toast.LENGTH_LONG). show();
-            return;
-        }
 
         EmailIntent.sendEmail("tor.ryan.andersen@gmail.com"/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, getContext(), pdfGenerator());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.

@@ -39,7 +39,7 @@
             android:layout_weight="1"
             android:layout_marginTop="40dp"
             android:onClick="openUserBtn"
-            android:text="Bruker" />
+            android:text="Profil" />
 
     </LinearLayout>
 

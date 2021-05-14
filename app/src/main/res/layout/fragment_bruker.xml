@@ -168,7 +168,7 @@
                 android:background="@color/buttonColor"
                 android:onClick="editUserBtn"
                 android:paddingHorizontal="10dp"
-                android:text="Endre bruker" />
+                android:text="Endre profil" />
 
             <Button
                 android:id="@+id/button"
