@@ -102,7 +102,6 @@ public class FragmentRegistrereFunn extends Fragment {
         if (gps_loc != null) { //Gets location from the GPS if the gps_loc is not null
             latitude = gps_loc.getLatitude();
             longitude = gps_loc.getLongitude();
-            Toast.makeText(getContext(), "Accuracy: " + gps_loc.getAccuracy(), Toast.LENGTH_LONG).show();
         } else if (network_loc != null) { //Gets location from the network if network_loc is not null, only if the GPS was not found
             latitude = network_loc.getLatitude();
             longitude = network_loc.getLongitude();
@@ -264,7 +263,6 @@ public class FragmentRegistrereFunn extends Fragment {
             Address address = locations.get(0);
             funn.setKommune(address.getSubAdminArea()); //Sets the kommune
             funn.setFylke(address.getAdminArea()); //Sets the fylke
-            funn.setGrunneierPostNr(address.getPostalCode()); //Sets the owner postalcode
         } catch(Exception e) {
             e.printStackTrace();
         }
