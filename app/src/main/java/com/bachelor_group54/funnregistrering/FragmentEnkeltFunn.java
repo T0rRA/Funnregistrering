@@ -701,7 +701,10 @@ public class FragmentEnkeltFunn extends Fragment {
     }
 
     public void sendFunnskjema() {
-
+        if(!funn.isFunnskjemaKlart()){
+            Toast.makeText(FragmentList.getInstance().getContext(), "Du har ikke fylt ut det du trenger til funnskjema enda", Toast.LENGTH_LONG). show();
+            return;
+        }
         EmailIntent.sendEmail("tor.ryan.andersen@gmail.com"/*FIXME sett inn email adresse her*/, "Funn funnet", funn.getFunnskjema() /*FIXME legge til info om bruker */, getContext(), pdfGenerator());
         funn.setFunnskjemaSendt(true); //FIXME hvordan vet vi at mailen faktisk ble sendt.
         //saveFind(); /*TODO endre til editFind, trenger lagring av funnskjemaSendt variablen*/
