@@ -1,0 +1,119 @@
+@media only screen and (max-width: 600px) {
+    
+    #carouselExampleControls{
+        height: 500px;
+        width: 600px;
+        min-width: 90%;
+        margin: 0;
+        display: none;
+    }
+    
+    .carousel-item{
+        background-size: fill;
+        height: 100%;
+        width: 100%;
+        display: none;
+    }
+    
+    .active {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 780px) {
+    .firstsection p {
+        margin-left: 20%;
+        margin-right: 20%;
+    }
+}
+
+.firstsection {
+    margin-top: 5%;
+    text-align:center;
+}
+
+.secondsection{
+    margin-top: 5%;
+}
+
+.thirdsection {
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
+
+.fourthsection{
+    padding-bottom: 8%;
+    margin-bottom: 5%;
+}
+
+#navlogoleftid {
+    height: 3em;
+}
+
+#navlogoleft {
+    height: inherit;
+    padding-left: 10%;
+}
+
+#navlogorightid{
+    height: 3em;
+}
+
+#navlogoright{
+    height: inherit;
+    padding-right:5%;
+}
+
+#carouselExampleControls{
+    height: 50%;
+    width: 30%;
+    min-width: 30%;
+    margin: auto;
+}
+
+#maincontainer{
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.75));
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.carousel-item{
+    background-size: fill;
+    height: 100%;
+    width: 100%;
+}
+
+.navbar {
+    padding:10px;
+    background-image: linear-gradient(to bottom right, #FFD775, #f2dc50)!important;
+}
+
+body{
+    background-image: url(media/detektorbilde-1.png);
+    background-size: 100vw; 
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  outline: black;
+  background-size: 100%, 100%;
+
+  background-image: none;
+}
+
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 35px;
+  color: red;
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 35px;
+  color: red;
+}
