@@ -8,7 +8,7 @@ For å løse problemet utviklet gruppen en applikasjon for å forenkle utfylling
 Applikasjonen hjelper brukeren i informasjonsinnhenting, utfylling og sending av funnmeldig og funnskjema. Den bidrar til å redusere feilkilder og forenkler prosessen.
 <project-description></p>
 
-## Linker
+## Links
 
   - [Android App Repo](https://github.com/T0rRA/Funnregistrering/master "Android applikasjon Master Repo")
   - [API Repo](https://github.com/T0rRA/Funnregistrering/tree/APIMaster3 "API Master Repo")
@@ -16,20 +16,20 @@ Applikasjonen hjelper brukeren i informasjonsinnhenting, utfylling og sending av
 
 
 ## Screenshots
-  <img src="https://github.com/T0rRA/Funnregistrering/blob/main/ReadMeFiles/screens/RegistrerNyeFunn.png" alt="drawing" width="300"/>  <img src="https://github.com/T0rRA/Funnregistrering/blob/main/ReadMeFiles/screens/EnkeltFunn.png" alt="drawing" width="300"/>
-  <img src="https://github.com/T0rRA/Funnregistrering/blob/main/ReadMeFiles/screens/MineFunn.png" alt="drawing" width="300"/>
-  <img src="https://github.com/T0rRA/Funnregistrering/blob/main/ReadMeFiles/screens/LoggInn.png" alt="drawing" width="300"/>
-  <img src="https://github.com/T0rRA/Funnregistrering/blob/main/ReadMeFiles/screens/LoverOgRegler1.png" alt="drawing" width="300"/>
+  <img src="https://github.com/T0rRA/Funnregistrering/blob/main/ReadMeFiles/screens/RegistrerNyeFunn.png" alt="nytt funn screenshot " width="300"/>  <img src="https://github.com/T0rRA/Funnregistrering/blob/main/ReadMeFiles/screens/EnkeltFunn.png" alt="enkelt funn screenshot" width="300"/>
+  <img src="https://github.com/T0rRA/Funnregistrering/blob/main/ReadMeFiles/screens/MineFunn.png" alt="mine funn screenshot" width="300"/>
+  <img src="https://github.com/T0rRA/Funnregistrering/blob/main/ReadMeFiles/screens/LoggInn.png" alt="Logg inn screenshot" width="300"/>
+  <img src="https://github.com/T0rRA/Funnregistrering/blob/main/ReadMeFiles/screens/LoverOgRegler1.png" alt="LoverOgRegler screenshot" width="300"/>
 
-## Bygd med
+## Built With
 - Java
 - C#
   
-## Tec
+## Tech
 - Azure
 - Android Studios
 
-## Oppdateringer
+## Updates
 Prosjektet er et proof of concept. 
 - [ ] Ingen planlagte oppdateringer
 
@@ -49,7 +49,7 @@ Prosjektet er et proof of concept.
 
 **Tor Ryan Andersen**
 
-- [Profile](https://github.com/maplesyrup18 "Tor Ryan Andersen ")
+- [Profile](https://github.com/T0rRA "T0rRA ")
 - [Email](mailto:tor.ryan.andersen@gmail.com?subject=Hi "Hi!")
 - [LinkedIn](https://www.linkedin.com/in/tor-ryan-andersen-59b842204/ "Welcome")
 
