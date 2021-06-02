@@ -1,7 +1,7 @@
 ![GitHub Logo](https://github.com/T0rRA/Funnregistrering/blob/main/ReadMeFiles/pics/Header.jpg)
 <h1 align="center">Funnregistrering - Bachelorprosjekt<project-name></h1>
 
-<p align="left">Riksantikvaren ønsker en digital løsning for å forenkle og redusere feil i utfylling av funnskjema og funnmeldinger. Bachelorprosjektet vil hovedsakelig være en “Proof of concept” applikasjon for å vise nytten av et større mer omfattende prosjekt senere. 
+<p align="left">Riksantikvaren ønsker en digital løsning for å forenkle og redusere feil i utfylling av funnskjema og funnmeldinger. Bachelorprosjektet er hovedsakelig en “Proof of concept” applikasjon for å vise nytten av et større mer omfattende prosjekt senere. 
 
 For å løse problemet utviklet gruppen en applikasjon for å forenkle utfylling og innsending av både funnskjema og funnmelding. Applikasjonen er en android mobil applikasjon. Applikasjonen er bygd i java med en backend lagd med ASP .NET.
 
