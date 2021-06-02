@@ -10,7 +10,7 @@ Applikasjonen hjelper brukeren i informasjonsinnhenting, utfylling og sending av
 
 ## Links
 
-  - [Android App Repo](https://github.com/T0rRA/Funnregistrering/master "Android applikasjon Master Repo")
+  - [Android App Repo](https://github.com/T0rRA/Funnregistrering "Android applikasjon Master Repo")
   - [API Repo](https://github.com/T0rRA/Funnregistrering/tree/APIMaster3 "API Master Repo")
   - [Nettside](https://t0rra.github.io/Funnregistrering/ "Bachelorgruppens side om prosjektet og applikasjonen")
 
